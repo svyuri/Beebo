@@ -131,7 +131,7 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 
 	private void loadGroup() {
 		RequestParams requestParams = new RequestParams();
-		requestParams.add("access_token", GlobalContext.getInstance().getAccountBean().getAccess_token());
+		requestParams.add("access_token", GlobalContext.getInstance().getAccountBean().getAccess_token_hack());
 		loadData(WeiBoURLs.FRIENDSGROUP_INFO, requestParams);
 	}
 	

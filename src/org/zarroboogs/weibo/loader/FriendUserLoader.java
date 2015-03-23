@@ -10,9 +10,6 @@ import org.zarroboogs.weibo.dao.FriendListDao;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * User: qii Date: 13-5-12
- */
 public class FriendUserLoader extends AbstractAsyncNetRequestTaskLoader<UserListBean> {
 
     private static Lock lock = new ReentrantLock();
