@@ -276,13 +276,13 @@ public class OAuthActivity extends AbstractAppActivity {
 
         @Override
         protected DBResult doInBackground(String... params) {
-
+        	OAuthActivity activity = oAuthActivityWeakReference.get();
             String token = params[0];
             long expiresInSeconds = Long.valueOf(params[1]);
 
             try {
             	if (taskIsAuthPro) {
-            		OAuthActivity activity = oAuthActivityWeakReference.get();
+            		
             		if (activity.mAccountBean != null) {
             			return AccountDBTask.updateAccountHackToken(activity.mAccountBean, token, System.currentTimeMillis() + expiresInSeconds * 1000);
 					}
@@ -294,6 +294,10 @@ public class OAuthActivity extends AbstractAppActivity {
 	                account.setAccess_token(token);
 	                account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);
 	                account.setInfo(user);
+	                if (activity.mAccountBean == null) {
+		                activity.mAccountBean = account;
+					}
+
 	                AppLoggerUtils.e("token expires in " + Utility.calcTokenExpiresInDays(account) + " days");
 	                return AccountDBTask.addOrUpdateAccount(account, false);
 				}
