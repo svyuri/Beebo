@@ -52,11 +52,13 @@ public class OAuthActivity extends AbstractAppActivity {
     private boolean isAuthPro = false;
     
     private Toolbar mToolbar;
+    private AccountBean mAccountBean;
     
     private Intent resultIntent;
-    public static Intent oauthIntent(Activity activity,boolean isHack) {
+    public static Intent oauthIntent(Activity activity,boolean isHack, AccountBean ab) {
 		Intent intent = new Intent(activity, OAuthActivity.class);
 		intent.putExtra("isHack", isHack);
+		intent.putExtra("accoubt_bean", ab);
 		return intent;
 	}
     
@@ -65,6 +67,7 @@ public class OAuthActivity extends AbstractAppActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.oauthactivity_layout);
         this.isAuthPro = getIntent().getBooleanExtra("isHack", false);
+        this.mAccountBean = getIntent().getParcelableExtra("accoubt_bean");
         
         mToolbar = ViewUtility.findViewById(this, R.id.oauthToolbar);
         
@@ -279,6 +282,10 @@ public class OAuthActivity extends AbstractAppActivity {
 
             try {
             	if (taskIsAuthPro) {
+            		OAuthActivity activity = oAuthActivityWeakReference.get();
+            		if (activity.mAccountBean != null) {
+            			return AccountDBTask.updateAccountHackToken(activity.mAccountBean, token, System.currentTimeMillis() + expiresInSeconds * 1000);
+					}
                     AccountBean account = GlobalContext.getInstance().getAccountBean();
                     return AccountDBTask.updateAccountHackToken(account, token, System.currentTimeMillis() + expiresInSeconds * 1000);
 				}else {

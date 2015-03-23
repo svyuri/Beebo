@@ -122,7 +122,7 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
         if (ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN.equals(action)) {
 
-            showAddAccountDialog(false);
+            startOAuthActivity(false, null);
 
             AccountBean accountBean = getIntent().getParcelableExtra(REFRESH_ACTION_EXTRA);
 
@@ -144,7 +144,7 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
     	// TODO Auto-generated method stub
     	int itemId = item.getItemId();
 		if (itemId == R.id.menu_add_account) {
-			showAddAccountDialog(false);
+			startOAuthActivity(false, null);
 		} else {
 		}
     	return super.onOptionsItemSelected(item);
@@ -172,11 +172,11 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
         changeLogDialog.show();
     }
 
-    private void showAddAccountDialog(boolean isHack) {
+    private void startOAuthActivity(boolean isHack, AccountBean accountBean) {
 
         if (true) {
 
-            Intent intent = OAuthActivity.oauthIntent(this, isHack);
+            Intent intent = OAuthActivity.oauthIntent(this, isHack, accountBean);
             startActivityForResult(intent, ADD_ACCOUNT_REQUEST_CODE);
             return;
         }
@@ -284,7 +284,7 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
             String cookie = selectAccountBean.getCookie();
             
             if (TextUtils.isEmpty(selectAccountBean.getAccess_token_hack())) {
-				showAddAccountDialog(true);
+				startOAuthActivity(true, selectAccountBean);
 				return;
 			}
             
@@ -329,7 +329,7 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
             if (!Utility.isTokenValid(selectAccountBean)) {
 
-                showAddAccountDialog(false);
+                startOAuthActivity(false, selectAccountBean);
 
                 return;
             }
