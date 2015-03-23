@@ -30,12 +30,9 @@ import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.db.task.AccountDBTask;
-import org.zarroboogs.weibo.hot.bean.huatidetail.CardGroup;
-import org.zarroboogs.weibo.hot.bean.huatidetail.Cards;
-import org.zarroboogs.weibo.hot.bean.huatidetail.HotHuaTiDetailCard;
-import org.zarroboogs.weibo.hot.bean.huatidetail.Mblog;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
+import org.zarroboogs.weibo.service.SendWeiboService;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.widget.SmileyPicker;
@@ -44,7 +41,6 @@ import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
 
-import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -595,8 +591,19 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 			    if (checkDataEmpty()) {
 			        mEmptyToast.show();
 			    } else {
-			        showDialogForWeiBo();
-			        startPicCacheAndSendWeibo();
+			    	if (true) {
+			    		String charSequence = mEditText.getText().toString();
+			    		ArrayList<String> send = SendImgData.getInstance().getSendImgs();
+			    		if (send != null && send.size() > 0) {
+			    			executeTask(charSequence,send.get(0));
+						}else {
+							executeTask(charSequence,null);
+						}
+			    		
+					}else {
+				        showDialogForWeiBo();
+				        startPicCacheAndSendWeibo();
+					}
 			    }
 			} else {
 			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
@@ -624,6 +631,20 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 		
     }
 
+    protected void executeTask(String contentString, String picPath) {
+        Intent intent = new Intent(WriteWeiboWithAppSrcActivity.this, SendWeiboService.class);
+        intent.putExtra(Constants.TOKEN, mAccountBean.getAccess_token());
+        if (picPath != null) {
+            intent.putExtra("picPath", picPath);
+		}
+        intent.putExtra(Constants.ACCOUNT, mAccountBean);
+        intent.putExtra("content", contentString);
+//        intent.putExtra("geo", null);
+//        intent.putExtra("draft", statusDraftBean);
+        startService(intent);
+        finish();
+    }
+    
     private void showSmileyPicker(boolean showAnimation) {
         this.mSmileyPicker.show(this, showAnimation);
     }

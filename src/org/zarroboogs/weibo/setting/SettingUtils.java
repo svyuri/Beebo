@@ -9,9 +9,6 @@ import org.zarroboogs.weibo.support.utils.Utility;
 
 import android.content.Context;
 
-/**
- * User: qii Date: 12-11-28
- */
 public class SettingUtils {
 
     private static final String FIRSTSTART = "firststart";

@@ -35,9 +35,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-/**
- * User: qii Date: 12-8-21
- */
 @SuppressLint("NewApi")
 public class SendWeiboService extends Service {
 
