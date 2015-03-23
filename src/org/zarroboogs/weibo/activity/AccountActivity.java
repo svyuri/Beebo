@@ -288,41 +288,44 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 				return;
 			}
             
-            if (TextUtils.isEmpty(selectAccountBean.getPwd())) {
-                Builder builder = new Builder(AccountActivity.this);
-                mDoorAlertDialog = builder.create();
+            if (false) {
+                if (TextUtils.isEmpty(selectAccountBean.getPwd())) {
+                    Builder builder = new Builder(AccountActivity.this);
+                    mDoorAlertDialog = builder.create();
 
-                mDoorAlertDialog.show();
-                mDoorAlertDialog.getWindow().clearFlags(
-                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                mDoorAlertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    mDoorAlertDialog.show();
+                    mDoorAlertDialog.getWindow().clearFlags(
+                            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                    mDoorAlertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-                mDoorAlertDialog.getWindow().setContentView(R.layout.name_pwd_dialog_layout);
-                
-                final EditText username = (EditText) mDoorAlertDialog.findViewById(R.id.tellMeUser);
-                final EditText pwd = (EditText) mDoorAlertDialog.findViewById(R.id.tellMePwd);
-                Button button = (Button) mDoorAlertDialog.findViewById(R.id.upBtn);
-                
-                button.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						AccountDatabaseManager manager = new AccountDatabaseManager(getApplicationContext());
-						manager.updateAccount(AccountTable.ACCOUNT_TABLE, selectAccountBean.getUid(),
-								AccountTable.USER_NAME, username.getText().toString().trim());
-						manager.updateAccount(AccountTable.ACCOUNT_TABLE, selectAccountBean.getUid(),
-								AccountTable.USER_PWD, pwd.getText().toString().trim());
-						GlobalContext.getInstance().updateAccountBean();
-						refresh();
-						mDoorAlertDialog.hide();
-					}
-				});
-//            	Intent intent = new Intent(AccountActivity.this, BlackMagicActivity.class);
-//                startActivityForResult(intent, ADD_ACCOUNT_REQUEST_CODE);
-                
-            	return;
+                    mDoorAlertDialog.getWindow().setContentView(R.layout.name_pwd_dialog_layout);
+                    
+                    final EditText username = (EditText) mDoorAlertDialog.findViewById(R.id.tellMeUser);
+                    final EditText pwd = (EditText) mDoorAlertDialog.findViewById(R.id.tellMePwd);
+                    Button button = (Button) mDoorAlertDialog.findViewById(R.id.upBtn);
+                    
+                    button.setOnClickListener(new OnClickListener() {
+    					
+    					@Override
+    					public void onClick(View v) {
+    						// TODO Auto-generated method stub
+    						AccountDatabaseManager manager = new AccountDatabaseManager(getApplicationContext());
+    						manager.updateAccount(AccountTable.ACCOUNT_TABLE, selectAccountBean.getUid(),
+    								AccountTable.USER_NAME, username.getText().toString().trim());
+    						manager.updateAccount(AccountTable.ACCOUNT_TABLE, selectAccountBean.getUid(),
+    								AccountTable.USER_PWD, pwd.getText().toString().trim());
+    						GlobalContext.getInstance().updateAccountBean();
+    						refresh();
+    						mDoorAlertDialog.hide();
+    					}
+    				});
+//                	Intent intent = new Intent(AccountActivity.this, BlackMagicActivity.class);
+//                    startActivityForResult(intent, ADD_ACCOUNT_REQUEST_CODE);
+                    
+                	return;
+    			}
 			}
+
 
             if (!Utility.isTokenValid(selectAccountBean)) {
 
