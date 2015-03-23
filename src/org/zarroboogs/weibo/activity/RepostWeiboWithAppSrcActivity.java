@@ -23,10 +23,12 @@ import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
+import org.zarroboogs.weibo.dao.RepostNewMsgDao;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
 import org.zarroboogs.weibo.service.SendCommentService;
+import org.zarroboogs.weibo.service.SendRepostService;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.widget.SmileyPicker;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
@@ -491,8 +493,14 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 				return;
 			}
 			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-			    showDialogForWeiBo();
-			    repostWeibo();
+				
+				if (true) {
+					send();
+				}else {
+				    showDialogForWeiBo();
+				    repostWeibo();
+				}
+
 			} else {
 			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
 			}
@@ -513,6 +521,30 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 		} else {
 		}
 
+    }
+    
+    protected void send() {
+//            boolean comment = menuEnableComment.isChecked();
+//            boolean oriComment = (menuEnableOriComment != null && menuEnableOriComment.isChecked());
+//            String is_comment = "";
+//            if (comment && oriComment) {
+//                is_comment = RepostNewMsgDao.ENABLE_COMMENT_ALL;
+//            } else if (comment) {
+//                is_comment = RepostNewMsgDao.ENABLE_COMMENT;
+//            } else if (oriComment) {
+//                is_comment = RepostNewMsgDao.ENABLE_ORI_COMMENT;
+//            }
+
+        	String is_comment = mComments.isChecked() ? "1": "0";
+            Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, SendRepostService.class);
+            intent.putExtra("oriMsg", msg);
+            String charSequence = mEditText.getText().toString();
+            intent.putExtra("content",charSequence);
+            intent.putExtra("is_comment", is_comment);
+            intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+            intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+            startService(intent);
+            finish();
     }
 
     @Override
