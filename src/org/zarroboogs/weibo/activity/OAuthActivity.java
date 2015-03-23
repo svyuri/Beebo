@@ -53,6 +53,7 @@ public class OAuthActivity extends AbstractAppActivity {
     
     private Toolbar mToolbar;
     
+    private Intent resultIntent;
     public static Intent oauthIntent(Activity activity,boolean isHack) {
 		Intent intent = new Intent(activity, OAuthActivity.class);
 		intent.putExtra("isHack", isHack);
@@ -111,15 +112,20 @@ public class OAuthActivity extends AbstractAppActivity {
 
 
     public void refresh() {
-//        webView.clearView();
-//        webView.loadUrl("about:blank");
+        webView.clearView();
+        webView.loadUrl("about:blank");
+        webView.stopLoading();
+//        webView.clearCache(true);
 //        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
 //
 //        Animation rotation = AnimationUtils.loadAnimation(this, R.anim.refresh);
 //        iv.startAnimation(rotation);
 
-        webView.loadUrl(getWeiboOAuthUrl());
+        String url = getWeiboOAuthUrl();
+        webView.loadUrl(url);
+        
+        Log.d("refreshURL ", "" + url);
     }
 
     private String getWeiboOAuthUrl() {
@@ -160,6 +166,8 @@ public class OAuthActivity extends AbstractAppActivity {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
         	mprogressbar.setVisibility(View.VISIBLE);
 
+        	Log.d("refreshURL onPageStarted", "" + url);
+        	
         	if (isAuthPro) {
                 if (url.startsWith(WeiboOAuthConstances.HACK_DIRECT_URL)) {
 
@@ -197,25 +205,35 @@ public class OAuthActivity extends AbstractAppActivity {
     }
 
     private void handleRedirectUrl(WebView view, String url) {
-        Bundle values = Utility.parseUrl(url);
-
+    	if (resultIntent == null) {
+            Bundle values = Utility.parseUrl(url);
+            resultIntent = new Intent();
+            resultIntent.putExtras(values);
+		}
+    	
+    	Bundle values = Utility.parseUrl(url);
         String error = values.getString("error");
         String error_code = values.getString("error_code");
 
-        Intent intent = new Intent();
-        intent.putExtras(values);
 
         if (error == null && error_code == null) {
-
             String access_token = values.getString("access_token");
             String expires_time = values.getString("expires_in");
-            setResult(RESULT_OK, intent);
             new OAuthTask(this, isAuthPro).execute(access_token, expires_time);
-        } else {
-            Toast.makeText(OAuthActivity.this, getString(R.string.you_cancel_login), Toast.LENGTH_SHORT).show();
-            finish();
         }
 
+//
+//    	Bundle values = Utility.parseUrl(url);
+//
+//        String error = values.getString("error");
+//        String error_code = values.getString("error_code");
+//        if (error == null && error_code == null) {
+//
+//        } else {
+//            Toast.makeText(OAuthActivity.this, getString(R.string.you_cancel_login), Toast.LENGTH_SHORT).show();
+//            finish();
+//        }
+        
     }
 
     @Override
@@ -236,9 +254,9 @@ public class OAuthActivity extends AbstractAppActivity {
         private ProgressFragment progressFragment = ProgressFragment.newInstance();
 
         private WeakReference<OAuthActivity> oAuthActivityWeakReference;
-        private boolean isAuthPro;
+        private boolean taskIsAuthPro;
         private OAuthTask(OAuthActivity activity, boolean isAuthPro) {
-        	this.isAuthPro = isAuthPro;
+        	this.taskIsAuthPro = isAuthPro;
             oAuthActivityWeakReference = new WeakReference<OAuthActivity>(activity);
         }
 
@@ -260,7 +278,7 @@ public class OAuthActivity extends AbstractAppActivity {
             long expiresInSeconds = Long.valueOf(params[1]);
 
             try {
-            	if (isAuthPro) {
+            	if (taskIsAuthPro) {
                     AccountBean account = GlobalContext.getInstance().getAccountBean();
                     return AccountDBTask.updateAccountHackToken(account, token, System.currentTimeMillis() + expiresInSeconds * 1000);
 				}else {
@@ -317,7 +335,17 @@ public class OAuthActivity extends AbstractAppActivity {
                     Toast.makeText(activity, activity.getString(R.string.update_account_success), Toast.LENGTH_SHORT).show();
                     break;
             }
-            activity.finish();
+
+            if (taskIsAuthPro) {
+            	activity.setResult(RESULT_OK, activity.resultIntent);
+              activity.finish();
+			}
+            
+            if (!taskIsAuthPro) {
+            	activity.isAuthPro = true;
+    			activity.refresh();
+    			activity.getSupportActionBar().setTitle("进阶授权");
+    		}
 
         }
     }
