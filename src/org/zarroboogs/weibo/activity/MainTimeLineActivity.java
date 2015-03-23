@@ -88,9 +88,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
 		super.onCreate(savedInstanceState);
 
-		BeeboAuthUtils beeboAuthUtils = new BeeboAuthUtils();
-		Log.d("BeeboAuthUtils", "" + beeboAuthUtils.getAppKey());
-		
 		if (!Constants.isBeeboPlus) {
 			UmengUpdateAgent.update(this);
 		}
@@ -106,7 +103,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 			mAccountBean = GlobalContext.getInstance().getAccountBean();
 		}
 
-		if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getPwd())) {
+		if (mAccountBean != null) {
 			GlobalContext.getInstance().setGroup(null);
 			GlobalContext.getInstance().setAccountBean(mAccountBean);
 			SettingUtils.setDefaultAccountId(mAccountBean.getUid());
