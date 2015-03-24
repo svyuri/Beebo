@@ -1,10 +1,6 @@
 
 package org.zarroboogs.weibo;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-
 import lib.org.zarroboogs.weibo.login.httpclient.AssertLoader;
 
 import org.zarroboogs.devutils.DevLog;
@@ -17,7 +13,6 @@ import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 
 import com.umeng.analytics.MobclickAgent;
 
-import android.R.string;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -28,13 +23,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.CookieManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-@SuppressLint("SetJavaScriptEnabled")
+@SuppressLint({ "SetJavaScriptEnabled", "JavascriptInterface" })
 public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboClientListener {
 
     private WebView mWebView;
@@ -113,10 +109,22 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
 
     }
 
+    class JSInterface{
+    	
+    	public JSInterface() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+
+		@JavascriptInterface
+    	public void saveAccountInfo(String uname, String upassword){
+    		DevLog.printLog("saveAccountInfo ", "uname: " + uname + "  password:" + upassword );
+    	}
+    }
     public void initData() {
         mWeiboWebViewClient = new WeiboWebViewClient();
         mWebView.setWebViewClient(mWeiboWebViewClient);
-        
+        mWebView.addJavascriptInterface(new JSInterface(), "JSINTERFACE");
         mWebView.setWebChromeClient(new WebChromeClient() {
 
             @Override
@@ -130,8 +138,8 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
                 if (newProgress == 100) {
                     if (!TextUtils.isEmpty(view.getUrl()) && view.getUrl().equalsIgnoreCase("about:blank")) {
                     	mWebView.loadUrl("javascript:fillAccount()");
-                    	
-//                    	mWebView.loadUrl("javascript:doAutoLogIn()");
+                    	mWebView.loadUrl("javascript:saveAccountInfoJS()");
+                    	mWebView.loadUrl("javascript:doAutoLogIn()");
                     }
 
                 }
