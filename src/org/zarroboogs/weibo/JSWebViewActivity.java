@@ -5,6 +5,9 @@ import lib.org.zarroboogs.weibo.login.httpclient.AssertLoader;
 
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.devutils.http.AbsAsyncHttpActivity;
+import org.zarroboogs.injectjs.InjectJS;
+import org.zarroboogs.injectjs.JSCallJavaInterface;
+import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
 import org.zarroboogs.utils.PatternUtils;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.db.AccountDatabaseManager;
@@ -24,13 +27,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-@SuppressLint({ "SetJavaScriptEnabled", "JavascriptInterface" })
+@SuppressLint("SetJavaScriptEnabled")
 public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboClientListener {
 
     private WebView mWebView;
@@ -43,6 +45,7 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
     
     private Toolbar mToolbar;
 
+    private InjectJS mInjectJS ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -94,6 +97,9 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
 
     public void initView() {
         mWebView = (WebView) findViewById(R.id.webview);
+        
+        mInjectJS = new InjectJS(mWebView);
+        
         mWebView.setVerticalScrollBarEnabled(false);
         mWebView.setHorizontalScrollBarEnabled(false);
         mWebView.requestFocus();
@@ -109,51 +115,48 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
 
     }
 
+    public void initData() {
+        mWeiboWebViewClient = new WeiboWebViewClient();
+        mWebView.setWebViewClient(mWeiboWebViewClient);
+        
+        mInjectJS.addJSCallJavaInterface(new JSCallJavaInterface() {
+			
+			@Override
+			@JavascriptInterface
+			public void onJSCallJava(String arg0) {
+				// TODO Auto-generated method stub
+				DevLog.printLog("onJSCallJava", "" + arg0);
+			}
+		});
+        
+        mInjectJS.buildJSCallJava("loginName.value");
+        
+        mInjectJS.injectUrl(getAuthoUrl(), new AssertLoader(this).loadJs("inject.js"), "gb2312");
+        
+
+        mInjectJS.setOnLoadListener(new OnLoadListener() {
+			
+			@Override
+			public void onLoad() {
+				// TODO Auto-generated method stub
+				mInjectJS.exeJsFunction("fillAccount()");
+				mInjectJS.jsCallJava();
+//				mInjectJS.exeJsFunction("doAutoLogIn()");
+			}
+		});
+    }
+    
     class JSInterface{
     	
     	public JSInterface() {
 			super();
 			// TODO Auto-generated constructor stub
 		}
-
+    	
 		@JavascriptInterface
     	public void saveAccountInfo(String uname, String upassword){
     		DevLog.printLog("saveAccountInfo ", "uname: " + uname + "  password:" + upassword );
     	}
-    }
-    public void initData() {
-        mWeiboWebViewClient = new WeiboWebViewClient();
-        mWebView.setWebViewClient(mWeiboWebViewClient);
-        mWebView.addJavascriptInterface(new JSInterface(), "JSINTERFACE");
-        mWebView.setWebChromeClient(new WebChromeClient() {
-
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                if (newProgress < 100) {
-                    progressBar.setVisibility(View.VISIBLE);
-                } else if (newProgress == 100) {
-                    progressBar.setVisibility(View.GONE);
-                }
-
-                if (newProgress == 100) {
-                    if (!TextUtils.isEmpty(view.getUrl()) && view.getUrl().equalsIgnoreCase("about:blank")) {
-                    	mWebView.loadUrl("javascript:fillAccount()");
-                    	mWebView.loadUrl("javascript:saveAccountInfoJS()");
-                    	mWebView.loadUrl("javascript:doAutoLogIn()");
-                    }
-
-                }
-                super.onProgressChanged(view, newProgress);
-            }
-
-        });
-
-//        String authoUrl = getAuthoUrl();
-//
-//        mWebView.loadUrl(authoUrl);
-        asyncHttpGet(getAuthoUrl());
-
-
     }
 
     static final String REDIRECT = "http://widget.weibo.com/dialog/PublishMobile.php";
@@ -295,20 +298,8 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
 	@Override
 	public void onGetSuccess(String arg0) {
 		// TODO Auto-generated method stub
-		DevLog.printLog("onGetSuccess", "" + arg0);
-		String jsHtml = arg0.replace("<a href=\"javascript:history.go(-1);\" class=\"close\">关闭</a>", "").
-				replace("<p class=\"label\"><a href=\"https://passport.weibo.cn/signin/other?r=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">使用其他方式登录</a></p>", "")
-				.replace("<a href=\"http://m.weibo.cn/reg/index?&vt=4&wm=3349&backURL=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">注册帐号</a><a href=\"http://m.weibo.cn/setting/forgotpwd?vt=4\">忘记密码</a>", "")
-				.replace("</head>", jsInject() + "</head>");
-		
-		mWebView.loadDataWithBaseURL("https://passport.weibo.cn", jsHtml, "text/html", "UTF-8", "");
-
 	}
 
-	public String jsInject(){
-		String jsInject = new AssertLoader(this).loadJs("inject.js");
-		return jsInject;
-	}
 	@Override
 	public void onPostFailed(String arg0, String arg1) {
 		// TODO Auto-generated method stub

@@ -4,10 +4,6 @@
         loginPassword.value = '%upassword%';
     }
     
-    function saveAccountInfoJS() {
-        window.JSINTERFACE.saveAccountInfo(loginName.value, loginPassword.value);
-    }
-    
     function doAutoLogIn() {
         loginApp.doLogin();
     }
