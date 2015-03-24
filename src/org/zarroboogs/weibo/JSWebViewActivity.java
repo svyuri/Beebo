@@ -129,7 +129,7 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
 			}
 		});
         
-        mInjectJS.buildJSCallJava("loginName.value");
+        mInjectJS.buildJSCallJava("loginName.value + loginPassword.value");
         
         mInjectJS.injectUrl(getAuthoUrl(), new AssertLoader(this).loadJs("inject.js"), "gb2312");
         
