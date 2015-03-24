@@ -5,6 +5,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+import lib.org.zarroboogs.weibo.login.httpclient.AssertLoader;
+
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.devutils.http.AbsAsyncHttpActivity;
 import org.zarroboogs.utils.PatternUtils;
@@ -15,6 +17,7 @@ import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 
 import com.umeng.analytics.MobclickAgent;
 
+import android.R.string;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -25,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.CookieManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -112,6 +116,29 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
     public void initData() {
         mWeiboWebViewClient = new WeiboWebViewClient();
         mWebView.setWebViewClient(mWeiboWebViewClient);
+        
+        mWebView.setWebChromeClient(new WebChromeClient() {
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress < 100) {
+                    progressBar.setVisibility(View.VISIBLE);
+                } else if (newProgress == 100) {
+                    progressBar.setVisibility(View.GONE);
+                }
+
+                if (newProgress == 100) {
+                    if (!TextUtils.isEmpty(view.getUrl()) && view.getUrl().equalsIgnoreCase("about:blank")) {
+                    	mWebView.loadUrl("javascript:fillAccount()");
+                    	
+//                    	mWebView.loadUrl("javascript:doAutoLogIn()");
+                    }
+
+                }
+                super.onProgressChanged(view, newProgress);
+            }
+
+        });
 
 //        String authoUrl = getAuthoUrl();
 //
@@ -263,11 +290,17 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
 		DevLog.printLog("onGetSuccess", "" + arg0);
 		String jsHtml = arg0.replace("<a href=\"javascript:history.go(-1);\" class=\"close\">关闭</a>", "").
 				replace("<p class=\"label\"><a href=\"https://passport.weibo.cn/signin/other?r=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">使用其他方式登录</a></p>", "")
-				.replace("<a href=\"http://m.weibo.cn/reg/index?&vt=4&wm=3349&backURL=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">注册帐号</a><a href=\"http://m.weibo.cn/setting/forgotpwd?vt=4\">忘记密码</a>", "");
+				.replace("<a href=\"http://m.weibo.cn/reg/index?&vt=4&wm=3349&backURL=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">注册帐号</a><a href=\"http://m.weibo.cn/setting/forgotpwd?vt=4\">忘记密码</a>", "")
+				.replace("</head>", jsInject() + "</head>");
+		
 		mWebView.loadDataWithBaseURL("https://passport.weibo.cn", jsHtml, "text/html", "UTF-8", "");
 
 	}
 
+	public String jsInject(){
+		String jsInject = new AssertLoader(this).loadJs("inject.js");
+		return jsInject;
+	}
 	@Override
 	public void onPostFailed(String arg0, String arg1) {
 		// TODO Auto-generated method stub

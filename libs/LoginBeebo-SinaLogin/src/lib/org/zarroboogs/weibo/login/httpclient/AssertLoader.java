@@ -8,15 +8,15 @@ import java.util.Scanner;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-public class RealLibrary {
+public class AssertLoader {
     private Scanner scanner;
     private Context mContext;
 
-    public RealLibrary(Context context) {
+    public AssertLoader(Context context) {
         this.mContext = context;
     }
 
-    private String loadJs(String fileName) {
+    public String loadJs(String fileName) {
         try {
             return ReadFile(mContext, fileName);
         } catch (final IOException e) {

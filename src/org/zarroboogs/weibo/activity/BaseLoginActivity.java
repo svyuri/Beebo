@@ -6,13 +6,10 @@ import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import lib.org.zarroboogs.weibo.login.httpclient.RealLibrary;
+import lib.org.zarroboogs.weibo.login.httpclient.AssertLoader;
 import lib.org.zarroboogs.weibo.login.httpclient.SinaLoginHelper;
 import lib.org.zarroboogs.weibo.login.httpclient.UploadHelper;
 import lib.org.zarroboogs.weibo.login.httpclient.UploadHelper.OnUpFilesListener;
@@ -403,7 +400,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     }
 
     private void encodePassword(String password, PreLoginResult preLonginBean) {
-        RealLibrary realLibrary = new RealLibrary(getApplicationContext());
+        AssertLoader realLibrary = new AssertLoader(getApplicationContext());
         String js = realLibrary.getRsaJs();
 
         String pwd = "\"" + password + "\"";
