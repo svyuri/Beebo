@@ -79,6 +79,7 @@
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -325,8 +326,8 @@
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" >
         </activity>
-        <activity android:name="org.zarroboogs.weibo.WebViewActivity" >
-        </activity>
+        <activity android:name="org.zarroboogs.weibo.WebViewActivity" />
+        <activity android:name="org.zarroboogs.weibo.JSWebViewActivity" />
         <activity
             android:name="org.zarroboogs.weibo.selectphoto.ImgFileListActivity"
             android:label="@string/app_name" >

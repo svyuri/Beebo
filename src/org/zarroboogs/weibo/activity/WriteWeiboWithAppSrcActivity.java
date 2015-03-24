@@ -23,6 +23,7 @@ import org.zarroboogs.utils.WeiBaNetUtils;
 import org.zarroboogs.utils.SendBitmapWorkerTask.OnCacheDoneListener;
 import org.zarroboogs.weibo.ChangeWeibaAdapter;
 import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.JSWebViewActivity;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -477,7 +478,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         hideDialogForWeiBo();
         Intent intent = new Intent();
         intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
-        intent.setClass(WriteWeiboWithAppSrcActivity.this, WebViewActivity.class);
+        intent.setClass(WriteWeiboWithAppSrcActivity.this, JSWebViewActivity.class);
         startActivity(intent);
     }
 
