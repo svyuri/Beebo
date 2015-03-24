@@ -14,9 +14,11 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
@@ -34,6 +36,8 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
     private WeiboWebViewClient mWeiboWebViewClient;
 
     private AccountBean mAccountBean;
+    
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,21 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview_layout);
 
+        mToolbar = (Toolbar) findViewById(R.id.webAuthToolbar);
+        
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mWebView.stopLoading();
+				finish();
+			}
+		});
+        
+        
         mAccountBean = (AccountBean) getIntent().getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
         if (mAccountBean == null) {
             mAccountBean = GlobalContext.getInstance().getAccountBean();
@@ -95,10 +114,11 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
 
         mWebView.loadUrl(authoUrl);
 
+
     }
 
     static final String REDIRECT = "http://widget.weibo.com/dialog/PublishMobile.php";
-    static String url = "http://widget.weibo.com/dialog/LoginMobile.php?language=zh_cn&callback=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic";
+    static String url = "http://widget.weibo.com/dialog/LoginMobile.php?language=zh_cn&callback=http://widget.weibo.com/dialog/PublishMobile.php?button=public";
     public static String URL_OAUTH2_ACCESS_AUTHORIZE = url;// "https://api.weibo.com/oauth2/authorize";
 
     public String getAuthoUrl() {

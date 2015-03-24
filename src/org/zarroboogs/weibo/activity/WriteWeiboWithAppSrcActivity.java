@@ -572,16 +572,13 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 		} else if (id == R.id.scrollView1) {
 			mEditText.performClick();
 		} else if (id == R.id.appSrcBtn) {
-			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-			    mDrawerLayout.openDrawer(Gravity.START);
-			    /*
-			     * if (isKeyBoardShowed) { imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,
-			     * InputMethodManager.HIDE_NOT_ALWAYS); }
-			     */
-			    // menu.toggle();
-			} else {
-			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-			}
+			startWebLogin();
+			
+//			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
+//			    mDrawerLayout.openDrawer(Gravity.START);
+//			} else {
+//			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
+//			}
 		} else if (id == R.id.sendWeiBoBtn) {
 			if (isMoreThan140()) {
 				Toast.makeText(getApplicationContext(), R.string.weibo_text_large_error, Toast.LENGTH_SHORT).show();
