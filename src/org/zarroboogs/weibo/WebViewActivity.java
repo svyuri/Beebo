@@ -118,7 +118,7 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
     }
 
     static final String REDIRECT = "http://widget.weibo.com/dialog/PublishMobile.php";
-    static String url = "http://widget.weibo.com/dialog/LoginMobile.php?language=zh_cn&callback=http://widget.weibo.com/dialog/PublishMobile.php?button=public";
+    static String url = "https://passport.weibo.cn/signin/login?entry=mweibo&r=http://widget.weibo.com/dialog/PublishMobile.php?button=public";
     public static String URL_OAUTH2_ACCESS_AUTHORIZE = url;// "https://api.weibo.com/oauth2/authorize";
 
     public String getAuthoUrl() {
@@ -166,6 +166,7 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
         String cookie = cookieManager.getCookie(url);
         String pubCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/PublishMobile.php");
         String longInCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/LoginMobile.php");
+
         Log.d("Weibo-CookieStr", cookie + " \r\n\r\n PubCookie:" + pubCookie + "  \r\n\r\r LogInCookie:" + longInCookie);
 
 //         setWeiboCookie(CookieStr);
