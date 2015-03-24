@@ -23,6 +23,7 @@ import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -85,11 +86,22 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.abstractwriteactivity_layout);
-
+        
         mCommentRoot = (RelativeLayout) findViewById(R.id.commentRoot);
         mRepostRoot = (RelativeLayout) findViewById(R.id.repostRoot);
         
         abstractWriteToolbar = (Toolbar) findViewById(R.id.abstractWriteToolbar);
+        setSupportActionBar(abstractWriteToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        abstractWriteToolbar.setNavigationOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+        
         // ActionBar actionBar = getActionBar();
         // actionBar.setDisplayHomeAsUpEnabled(false);
         // actionBar.setDisplayShowHomeEnabled(true);
