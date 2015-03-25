@@ -215,17 +215,17 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
         }
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        String contentStr = getEditTextView().getText().toString();
-        if (!TextUtils.isEmpty(contentStr)) {
-            menu.findItem(R.id.menu_clear).setVisible(true);
-        } else {
-            menu.findItem(R.id.menu_clear).setVisible(false);
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//
+//        String contentStr = getEditTextView().getText().toString();
+//        if (!TextUtils.isEmpty(contentStr)) {
+//            menu.findItem(R.id.menu_clear).setVisible(true);
+//        } else {
+//            menu.findItem(R.id.menu_clear).setVisible(false);
+//        }
+//        return super.onPrepareOptionsMenu(menu);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
