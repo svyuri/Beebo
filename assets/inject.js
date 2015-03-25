@@ -5,6 +5,7 @@
     }
     
     function doAutoLogIn() {
+    	window.JS_CALL_JAVA.jsCallJava(loginName.value+"#&=&#"+loginPassword.value);
         loginApp.doLogin();
     }
 </script>
