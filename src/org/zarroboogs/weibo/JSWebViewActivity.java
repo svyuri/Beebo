@@ -9,6 +9,7 @@ import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
 import org.zarroboogs.utils.PatternUtils;
+import org.zarroboogs.weibo.activity.OAuthActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.db.AccountDatabaseManager;
 import org.zarroboogs.weibo.db.table.AccountTable;
@@ -146,13 +147,12 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
 			@Override
 			public void onLoad() {
 				// TODO Auto-generated method stub
-//				mInjectJS.exeJsFunction("fillAccount");
 				if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getUname()) && !TextUtils.isEmpty(mAccountBean.getPwd())) {
 					mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(),mAccountBean.getPwd());
+	            	if (!JSWebViewActivity.this.isFinishing()) {
+	            		mInjectJS.exeJsFunction("doAutoLogIn()");
+					}
 				}
-
-//				mInjectJS.jsCallJava();
-//				mInjectJS.exeJsFunction("doAutoLogIn()");
 			}
 		});
         
