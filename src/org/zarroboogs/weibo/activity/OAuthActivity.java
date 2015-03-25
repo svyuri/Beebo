@@ -1,6 +1,10 @@
 
 package org.zarroboogs.weibo.activity;
 
+import org.zarroboogs.devutils.DevLog;
+import org.zarroboogs.injectjs.InjectJS;
+import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
+import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.WeiboOAuthConstances;
@@ -10,6 +14,8 @@ import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.dao.OAuthDao;
+import org.zarroboogs.weibo.db.AccountDatabaseManager;
+import org.zarroboogs.weibo.db.table.AccountTable;
 import org.zarroboogs.weibo.db.task.AccountDBTask;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
@@ -27,11 +33,10 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -41,6 +46,8 @@ import android.widget.Toast;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
+
+import lib.org.zarroboogs.weibo.login.httpclient.AssertLoader;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class OAuthActivity extends AbstractAppActivity {
@@ -53,8 +60,13 @@ public class OAuthActivity extends AbstractAppActivity {
     
     private Toolbar mToolbar;
     private AccountBean mAccountBean;
-    
+    private InjectJS mInjectJS ;
     private Intent resultIntent;
+    
+    private String uName = "";
+    private String uPassword = "";
+    	
+    
     public static Intent oauthIntent(Activity activity,boolean isHack, AccountBean ab) {
 		Intent intent = new Intent(activity, OAuthActivity.class);
 		intent.putExtra("isHack", isHack);
@@ -90,6 +102,8 @@ public class OAuthActivity extends AbstractAppActivity {
 		}
         
         webView = (WebView) findViewById(R.id.webView);
+        mInjectJS = new InjectJS(webView);
+        
         webView.setWebViewClient(new WeiboWebViewClient());
 
         mprogressbar = (ProgressBar) findViewById(R.id.oauthProgress);
@@ -100,7 +114,6 @@ public class OAuthActivity extends AbstractAppActivity {
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
 
-        CookieSyncManager.createInstance(this);
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
 
@@ -128,7 +141,7 @@ public class OAuthActivity extends AbstractAppActivity {
         String url = getWeiboOAuthUrl();
         webView.loadUrl(url);
         
-        Log.d("refreshURL ", "" + url);
+        DevLog.printLog("OAUTH_ACTIVITY-refresh:", ""+ url);
     }
 
     private String getWeiboOAuthUrl() {
@@ -156,21 +169,73 @@ public class OAuthActivity extends AbstractAppActivity {
         
         return WeiboOAuthConstances.URL_OAUTH2_ACCESS_AUTHORIZE + "?" + Utility.encodeUrl(parameters);
     }
+    
+    class JSCallBack extends JSCallJavaInterface{
+
+		@Override
+		public void onJSCallJava(String... arg0) {
+			// TODO Auto-generated method stub
+			DevLog.printLog("onJSCallJava Uname", "" + arg0[0]);
+			DevLog.printLog("onJSCallJava Upassword", "" + arg0[1]);
+			uName = arg0[0].trim();
+			uPassword = arg0[1].trim();
+			
+			updateUNamePassword(uName, uPassword);
+
+		}
+
+    }
+    
+	private void updateUNamePassword(String name , String password) {
+		if (mAccountBean != null ) {
+			DevLog.printLog("onJSCallJava U update Account: ", "+++++++++++++++++++++++ name :" + name + " pwd:" + password);
+			AccountDatabaseManager manager = new AccountDatabaseManager(getApplicationContext());
+			manager.updateAccount(AccountTable.ACCOUNT_TABLE, mAccountBean.getUid(),
+					AccountTable.USER_NAME, name);
+			manager.updateAccount(AccountTable.ACCOUNT_TABLE, mAccountBean.getUid(),
+					AccountTable.USER_PWD, password);
+		}
+	}
 
     private class WeiboWebViewClient extends WebViewClient {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
+
+            DevLog.printLog("OAUTH_ACTIVITY-shouldOverrideUrlLoading:", ""+ url);
+            if (url.startsWith("https://passport.weibo.cn/signin/login")) {
+
+
+            	mInjectJS.addJSCallJavaInterface(new JSCallBack(), "loginName.value","loginPassword.value");
+            	mInjectJS.setOnLoadListener(new OnLoadListener() {
+					
+					@Override
+					public void onLoad() {
+						// TODO Auto-generated method stub
+						if (mAccountBean != null) {
+							mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(),mAccountBean.getPwd());
+			            	if (isAuthPro && !OAuthActivity.this.isFinishing()) {
+			            		mInjectJS.exeJsFunction("doAutoLogIn()");
+							}
+						}
+					}
+				});
+                //<a href="javascript:;" class="btn btnRed" id = "loginAction">登录</a>
+                //<a href="javascript:doAutoLogIn();" class="btn btnRed" id="loginAction">登录</a>
+                mInjectJS.replaceDocument("<a href=\"javascript:;\" class=\"btn btnRed\" id = \"loginAction\">登录</a>", 
+                		"<a href=\"javascript:doAutoLogIn();\" class=\"btn btnRed\" id = \"loginAction\">登录</a>");
+            	mInjectJS.injectUrl(url, new AssertLoader(getApplicationContext()).loadJs("inject.js"), "gb2312");
+			
+			}else {
+	            view.loadUrl(url);
+			}
             return true;
         }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
         	mprogressbar.setVisibility(View.VISIBLE);
-
-        	Log.d("refreshURL onPageStarted", "" + url);
-        	
+        	DevLog.printLog("OAUTH_ACTIVITY-onPageStarted:", ""+ url);
         	if (isAuthPro) {
                 if (url.startsWith(WeiboOAuthConstances.HACK_DIRECT_URL)) {
 
@@ -201,11 +266,14 @@ public class OAuthActivity extends AbstractAppActivity {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            DevLog.printLog("OAUTH_ACTIVITY-onPageFinished:", ""+ url);
+            
             if (!url.equals("about:blank")) {
             }
             mprogressbar.setVisibility(View.GONE);
         }
     }
+
 
     private void handleRedirectUrl(WebView view, String url) {
     	if (resultIntent == null) {
@@ -294,6 +362,9 @@ public class OAuthActivity extends AbstractAppActivity {
 	                account.setAccess_token(token);
 	                account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);
 	                account.setInfo(user);
+	                account.setUname(activity.uName);
+	                account.setPwd(activity.uPassword);
+	                
 	                if (activity.mAccountBean == null) {
 		                activity.mAccountBean = account;
 					}
@@ -357,6 +428,8 @@ public class OAuthActivity extends AbstractAppActivity {
     			activity.refresh();
     			activity.getSupportActionBar().setTitle("进阶授权");
     		}
+            
+            activity.updateUNamePassword(activity.uName, activity.uPassword);
 
         }
     }
