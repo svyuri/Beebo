@@ -129,15 +129,7 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
         mWeiboWebViewClient = new WeiboWebViewClient();
         mWebView.setWebViewClient(mWeiboWebViewClient);
         
-        mInjectJS.addJSCallJavaInterface(new JSCallJavaInterface() {
-			
-			@Override
-			public void onJSCallJava(String... arg0) {
-				// TODO Auto-generated method stub
-				DevLog.printLog("onJSCallJava Uname", "" + arg0[0]);
-				DevLog.printLog("onJSCallJava Upassword", "" + arg0[1]);
-			}
-		}, "loginName.value","loginPassword.value");
+        mInjectJS.addJSCallJavaInterface(new JSCallBack(), "loginName.value","loginPassword.value");
         
         mInjectJS.injectUrl(getAuthoUrl(), new AssertLoader(this).loadJs("inject.js"), "gb2312");
         
@@ -147,7 +139,8 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
 			@Override
 			public void onLoad() {
 				// TODO Auto-generated method stub
-				mInjectJS.exeJsFunction("fillAccount()");
+//				mInjectJS.exeJsFunction("fillAccount");
+				mInjectJS.exeJsFunctionWithParam("fillAccount", "uName","uPassword");
 				mInjectJS.jsCallJava();
 //				mInjectJS.exeJsFunction("doAutoLogIn()");
 			}
