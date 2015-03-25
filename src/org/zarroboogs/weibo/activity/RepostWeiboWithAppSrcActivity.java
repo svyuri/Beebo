@@ -211,12 +211,10 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 
                 RequestResultBean sendResultBean = getRequestResultParser().parse(responseBody, RequestResultBean.class);
                 LogTool.D(TAG + "onSuccess " + sendResultBean.getMsg());
-                if (sendResultBean.getMsg().equals("未登录")) {
-                    startAutoPreLogin(mAccountBean.getUname(), mAccountBean.getPwd());
+                if (sendResultBean.getMsg().equals("未登录") || sendResultBean.getMsg().equals("抱歉！登录失败，请稍候再试")) {
+                	startWebLogin();
                     hideDialogForWeiBo();
-                }else if (sendResultBean.getMsg().equals("抱歉！登录失败，请稍候再试")) {
-					startWebLogin();
-				}
+                }
 
                 if (sendResultBean.getCode().equals("100000")) {
                     hideDialogForWeiBo();

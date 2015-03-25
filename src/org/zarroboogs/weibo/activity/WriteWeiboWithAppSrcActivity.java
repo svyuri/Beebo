@@ -251,12 +251,9 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
                 LogTool.D(TAG + "onSuccess " + sendResultBean.getMsg());
                 
                 
-                if (sendResultBean.getMsg().equals("未登录")) {
-                    startAutoPreLogin(mAccountBean.getUname(), mAccountBean.getPwd());
-                    
-                }else if (sendResultBean.getMsg().equals("抱歉！登录失败，请稍候再试")) {
-					startWebLogin();
-				}
+                if (sendResultBean.getMsg().equals("未登录") || sendResultBean.getMsg().equals("抱歉！登录失败，请稍候再试")) {
+                	startWebLogin();
+                }
                 if (sendResultBean.getCode().equals("100000")) {
                     onSendFinished(true);
                 }
@@ -537,7 +534,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         }
         WaterMark mark = new WaterMark(mAccountBean.getUsernick(), url);
 
-        executeSendWeibo(mAccountBean.getUname(), mAccountBean.getPwd(), mark, getWeiba().getCode(), text,
+        executeSendWeibo( mark, getWeiba().getCode(), text,
                 sendImgData.getReSizeImgs());
     }
 
@@ -573,13 +570,12 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 		} else if (id == R.id.scrollView1) {
 			mEditText.performClick();
 		} else if (id == R.id.appSrcBtn) {
-			startWebLogin();
 			
-//			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-//			    mDrawerLayout.openDrawer(Gravity.START);
-//			} else {
-//			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-//			}
+			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
+			    mDrawerLayout.openDrawer(Gravity.START);
+			} else {
+			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
+			}
 		} else if (id == R.id.sendWeiBoBtn) {
 			if (isMoreThan140()) {
 				Toast.makeText(getApplicationContext(), R.string.weibo_text_large_error, Toast.LENGTH_SHORT).show();
@@ -589,7 +585,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 			    if (checkDataEmpty()) {
 			        mEmptyToast.show();
 			    } else {
-			    	if (true) {
+			    	if (false) {
 			    		String charSequence = mEditText.getText().toString();
 			    		ArrayList<String> send = SendImgData.getInstance().getSendImgs();
 			    		if (send != null && send.size() > 0) {

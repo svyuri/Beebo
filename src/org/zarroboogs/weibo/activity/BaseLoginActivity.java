@@ -65,16 +65,8 @@ import com.loopj.android.http.ResponseHandlerInterface;
 public class BaseLoginActivity extends SharedPreferenceActivity {
     private static final String TAG = "Beebo_Login: ";
     private SinaLoginHelper mSinaLoginHelper;
-    private PreLoginResult mPreLoginResult;
-
-    private JsEvaluator mJsEvaluator;
-    private String rsaPwd;
 
     private RequestResultParser mRequestResultParser;
-
-    private String mUserName;
-    private String mPassword;
-    private String mDoor = null;
 
     private WaterMark mWaterMark;
     private String mWeibaCode;
@@ -86,8 +78,6 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mJsEvaluator = new JsEvaluator(getApplicationContext());
-
         mSinaLoginHelper = new SinaLoginHelper();
 
         mRequestResultParser = new RequestResultParser();
@@ -117,18 +107,12 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         return mRequestResultParser;
     }
 
-    public void executeSendWeibo(String uname, String upwd, WaterMark mark, final String weiboCode, final String text,
+    public void executeSendWeibo(WaterMark mark, final String weiboCode, final String text,
             List<String> pics) {
-        this.mUserName = uname;
-        this.mPassword = upwd;
-
         this.mWaterMark = mark;
         this.mWeibaCode = weiboCode;
         this.mWeiboText = text;
         this.mPics = pics;
-        LogTool.D("sendWeibo   start" + " name:" + uname + "   password:" + upwd + "  weiba:" + weiboCode);
-
-        // doPreLogin(this.mUserName, this.mPassword);
         dosend(mark, weiboCode, text, pics);
 
     }
@@ -152,7 +136,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                 @Override
                 public void onUpLoadFailed() {
                     // TODO Auto-generated method stub
-                    startAutoPreLogin(mUserName, mPassword);
+                    startWebLogin();
                     LogTool.D(TAG + " UploadPic:  [onUpLoadFailed] doPreLogin");
                 }
             }, getCookieIfHave());
@@ -180,39 +164,10 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
 					}
 	            	break;
 	            }
-                case Constaces.MSG_ENCODE_PWD: {
-                    encodePassword(mPassword, mPreLoginResult);
-                    break;
-                }
-                case Constaces.MSG_SHOW_DOOR: {
-                    showDoorDialog();
-                    break;
-                }
-
-                case Constaces.MSG_ENCODE_PWD_DONW: {
-
-                    if (mPreLoginResult.getShowpin() == 1) {
-                        LogTool.D(TAG + "   需要验证码");
-                        showDoorDialog();
-                    } else {
-                        LogTool.D(TAG + "   不不需要验证码");
-                        doAutoAfterPreLogin(mPreLoginResult, null);
-                    }
-
-                    break;
-                }
                 case Constaces.MSG_AFTER_LOGIN_DONE: {
                     doLogin();
                     break;
                 }
-                case Constaces.MSG_LONGIN_SUCCESS: {
-                    // sendWeibo("");
-                    // dosend(mWaterMark, mWeibaCode, mWeiboText, mPics);
-                    // sendWeiboWidthPids("ZwpYj", "Test: " + SystemClock.uptimeMillis() + "",
-                    // null);
-                    break;
-                }
-
                 default:
                     break;
             }
@@ -342,194 +297,6 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         this.mLoginHandler = rhi;
     }
 
-    private void hideDoorDialog() {
-        mDoorAlertDialog.hide();
-    }
-
-    private void showDoorDialog() {
-
-        mDoorAlertDialog.show();
-        mDoorAlertDialog.getWindow().clearFlags(
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        mDoorAlertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
-        mDoorAlertDialog.getWindow().setContentView(R.layout.door_img_dialog_layout);
-
-        executeDoor(mPreLoginResult, (ImageView) mDoorAlertDialog.findViewById(R.id.doorImageView));
-
-        final EditText doorEdittext = (EditText) mDoorAlertDialog.findViewById(R.id.doorEditText);
-        Button checkButton = (Button) mDoorAlertDialog.findViewById(R.id.doorCheckBtn);
-        checkButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                showDialogForWeiBo();
-                doAutoAfterPreLogin(mPreLoginResult, doorEdittext.getText().toString().trim());
-                hideDoorDialog();
-            }
-        });
-    }
-
-    private void executeDoor(PreLoginResult preLoginResult, final ImageView iv) {
-        DoorImageAsyncTask doorImageAsyncTask = new DoorImageAsyncTask();
-        doorImageAsyncTask.setOnDoorOpenListener(new OnDoorOpenListener() {
-
-            @Override
-            public void onDoorOpen(android.graphics.Bitmap result) {
-                // TODO Auto-generated method stub
-                iv.setImageBitmap(result);
-            }
-        });
-        doorImageAsyncTask.execute(preLoginResult.getPcid());
-    }
-
-    private String encodeAccount(String account) {
-        String encodedString;
-        try {
-            encodedString = new String(Base64.encodeBase64(URLEncoder.encode(account, "UTF-8").getBytes()));
-            String userName = encodedString.replace('+', '-').replace('/', '_');
-            
-            Log.d("rsaUserName=", "" + userName);
-            
-            return userName;
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void encodePassword(String password, PreLoginResult preLonginBean) {
-        AssertLoader realLibrary = new AssertLoader(getApplicationContext());
-        String js = realLibrary.getRsaJs();
-
-        String pwd = "\"" + password + "\"";
-        String servertime = "\"" + preLonginBean.getServertime() + "\"";
-        String nonce = "\"" + preLonginBean.getNonce() + "\"";
-        String pubkey = "\"" + preLonginBean.getPubkey() + "\"";
-        String call = " var rsaPassWord = getRsaPassWord(" + pwd + ", " + servertime + ", " + nonce + ", " + pubkey
-                + "); rsaPassWord; ";
-        String jsMethod = "getRsaPassWord(" + pwd + ", " + servertime + ", " + nonce + ", " + pubkey + ")";
-
-        mHandler.sendEmptyMessageDelayed(Constaces.MSG_ENCODE_PWD_ERROR, 5 * 1000);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            mJsEvaluator.evaluate("file:///android_asset/ssologin.html", jsMethod, new JsCallback() {
-
-                @Override
-                public void onResult(String value) {
-                    // TODO Auto-generated method stub
-                	mHandler.removeMessages(Constaces.MSG_ENCODE_PWD_ERROR);
-                	
-                    Log.d("mJsEvaluator", "[" + value + "]");
-                    Message msg = new Message();
-                    rsaPwd = value.replace("\"", "");
-                    Log.d("rsaPwd=", "" + rsaPwd);
-                    msg.what = Constaces.MSG_ENCODE_PWD_DONW;
-                    mHandler.sendMessage(msg);
-                }
-            });
-        } else {
-            mJsEvaluator.evaluate(js + call, new JsCallback() {
-
-                @Override
-                public void onResult(String value) {
-                	mHandler.removeMessages(Constaces.MSG_ENCODE_PWD_ERROR);
-                	
-                    // TODO Auto-generated method stub
-                    Message msg = new Message();
-                    rsaPwd = value;
-                    msg.what = Constaces.MSG_ENCODE_PWD_DONW;
-                    mHandler.sendMessage(msg);
-
-                }
-            });
-        }
-    }
-
-    /**
-     * 登陆的第一步，主要获取PreLoginResult中的一些参数 下一步是根据参数获取加密之后的密码 之后是afterPrelogin
-     * @param uname
-     * @param upwd
-     */
-    public void startAutoPreLogin(String uname, String upwd) {
-        this.mUserName = uname;
-        this.mPassword = upwd;
-
-        long time = new Date().getTime();
-        String encodeName = mSinaLoginHelper.encodeAccount(mUserName);
-        String url = mSinaLoginHelper.buildPreLoginUrl(encodeName, Constaces.SSOLOGIN_JS, time + "");
-        getAsyncHttpClient().get(getApplicationContext(), url, mSinaLoginHelper.preloginHeaders(), null,
-                new AsyncHttpResponseHandler() {
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        LogTool.D(TAG + " PreLogin:  [Success] " + new String(responseBody));
-                        mPreLoginResult = mSinaLoginHelper.buildPreLoginResult(new String(responseBody));
-                        mHandler.sendEmptyMessage(Constaces.MSG_ENCODE_PWD);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        LogTool.D(TAG + " PreLogin:  [Failure] " + error.getLocalizedMessage());
-                    }
-                });
-    }
-
-    private void doAutoAfterPreLogin(PreLoginResult preLoginResult, String door) {
-        HttpEntity httpEntity = mSinaLoginHelper.afterPreLoginEntity(encodeAccount(mUserName), rsaPwd, door, preLoginResult);
-        getAsyncHttpClient().post(getApplicationContext(), Constaces.LOGIN_FIRST_URL, mSinaLoginHelper.afterPreLoginHeaders(),
-                httpEntity, "application/x-www-form-urlencoded", new AsyncHttpResponseHandler() {
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-                        String response = null;
-                        String result = null;
-                        try {
-                            response = new String(responseBody, "GBK");
-                            result = URLDecoder.decode(response, "GBK");
-                            result = URLDecoder.decode(response, "GBK");
-
-                            String[] s = result.split("\n\t\t");
-                            for (String string : s) {
-                                LogTool.D(TAG + " 网络正常返回，结果是: " + string);
-                            }
-
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
-                        mRequestResultParser = new RequestResultParser(response);
-
-                        LogTool.D(TAG + " 网络正常返回，ReplaceLocation：  " + mRequestResultParser.getLocationReplace());
-
-                        if (mRequestResultParser.isLogin()) {
-                            LogTool.D(TAG + " 网络正常返回，并成功登陆");
-                            mHandler.sendEmptyMessage(Constaces.MSG_AFTER_LOGIN_DONE);
-                        } else {
-                            if (mRequestResultParser.getErrorReason().contains("验证码")) {
-                                LogTool.D(TAG + " 网络正常返回，登陆失败，需要验证码！");
-                                hideDialogForWeiBo();
-                                showDoorDialog();
-                            } else {
-                                hideDialogForWeiBo();
-                                startWebLogin();
-                                if (mRequestResultParser.getErrorReason().equals("抱歉！登录失败，请稍候再试")) {
-                					
-                				}
-                                LogTool.D(TAG + " 网络正常返回，登陆失败，原因是：" + mRequestResultParser.getErrorReason());
-                            }
-                            Toast.makeText(getApplicationContext(), mRequestResultParser.getErrorReason(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        LogTool.D(TAG + " AfterPreLogin:  [onFailure] " + error.getLocalizedMessage());
-                        startWebLogin();
-
-                    }
-                });
-    };
 
     public void startWebLogin() {
         Intent intent = new Intent();
