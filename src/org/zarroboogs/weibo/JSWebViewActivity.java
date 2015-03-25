@@ -146,7 +146,10 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
 			public void onLoad() {
 				// TODO Auto-generated method stub
 //				mInjectJS.exeJsFunction("fillAccount");
-//				mInjectJS.exeJsFunctionWithParam("fillAccount", "uName","uPassword");
+				if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getUname()) && !TextUtils.isEmpty(mAccountBean.getPwd())) {
+					mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(),mAccountBean.getPwd());
+				}
+
 //				mInjectJS.jsCallJava();
 //				mInjectJS.exeJsFunction("doAutoLogIn()");
 			}
