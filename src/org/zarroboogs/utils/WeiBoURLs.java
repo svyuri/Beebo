@@ -219,11 +219,14 @@ public class WeiBoURLs {
     }
     // 神最右
     public static String hotWeiboZuiyou(String gsid, int page){
-    	String url = "http://api.weibo.cn/2/cardlist?"
-    			+ "gsid=" + gsid
-    			+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051393010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.3__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=10&containerid=102803_ctg1_6399_-_ctg1_6399&fid=102803_ctg1_6399_-_ctg1_6399&lfid=2305090002_1573&"
-    			+ "page=" + page;
-    	return url;
+    	String a = "http://api.weibo.cn/2/cardlist?uicode=10000011&lcardid=2305090002_1573_183727&c=android&i=8764dac&s=033439fa&ua=smartisan-SM701__weibo__5.1.2__android__android4.4.2&wm=5311_5000&fid=102803_ctg1_6399_-_ctg1_6399&uid=2294141594&v_f=2&v_p=17&from=1051295010&gsid=_2A254FidpDeTxGeRM4lYQ9C_JwjiIHXVb-UkhrDV6PUJbrdAKLUn3kW178zSOKWgqawL4xt7K0HzYnWBx0g..&imsi=460020364311738&lang=zh_CN&lfid=2305090002_1573&page=1&skin=default&count=10&oldwm=5311_5000&containerid=102803_ctg1_6399_-_ctg1_6399&luicode=10000011";
+    	return a;
+
+//    	String url = "http://api.weibo.cn/2/cardlist?"
+//    			+ "gsid=" + "_2A254FidpDeTxGeRM4lYQ9C_JwjiIHXVb-UkhrDV6PUJbrdAKLUn3kW178zSOKWgqawL4xt7K0HzYnWBx0g.."
+//    			+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051393010&c=android&v_p=18&skin=default&v_f=1&s=a57eef07&uicode=10000011&luicode=10000011&count=10&containerid=102803_ctg1_6399_-_ctg1_6399&fid=102803_ctg1_6399_-_ctg1_6399&lfid=2305090002_1573&"
+//    			+ "page=" + page;
+//    	return url;
     }
     public static String hotWeiboYestoday(String gsid, int page){
     	
