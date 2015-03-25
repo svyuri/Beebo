@@ -52,7 +52,7 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview_layout);
 
-        setEnCode("gb2312");
+        setEnCode("utf-8");
         
         mToolbar = (Toolbar) findViewById(R.id.webAuthToolbar);
         
@@ -128,16 +128,32 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
     public void initData() {
         mWeiboWebViewClient = new WeiboWebViewClient();
         mWebView.setWebViewClient(mWeiboWebViewClient);
+//        mWebView.loadUrl(getAuthoUrl());
         
+        if (true) {
+
         mInjectJS.addJSCallJavaInterface(new JSCallBack(), "loginName.value","loginPassword.value");
         //<a href="javascript:;" class="btn btnRed" id = "loginAction">登录</a>
         //<a href="javascript:doAutoLogIn();" class="btn btnRed" id="loginAction">登录</a>
         mInjectJS.replaceDocument("<a href=\"javascript:;\" class=\"btn btnRed\" id = \"loginAction\">登录</a>", 
         		"<a href=\"javascript:doAutoLogIn();\" class=\"btn btnRed\" id = \"loginAction\">登录</a>");
         mInjectJS.removeDocument("<a href=\"javascript:history.go(-1);\" class=\"close\">关闭</a>");
-        mInjectJS.removeDocument("使用其他方式登录");
-        mInjectJS.removeDocument("<a href=\"http://m.weibo.cn/reg/index?&vt=4&wm=3349&backURL=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">注册帐号</a><a href=\"http://m.weibo.cn/setting/forgotpwd?vt=4\">忘记密码</a>");
-        mInjectJS.injectUrl(getAuthoUrl(), new AssertLoader(this).loadJs("inject.js"), "gb2312");
+        
+        
+        mInjectJS.removeDocument("&lt;&lt;返回继续浏览");
+        mInjectJS.removeDocument("忘记密码?");
+        mInjectJS.removeDocument("<a href=\"#\" onclick=\"return false;\" class=\"cur\">移动版</a><span class=\"M_line\">|</span><a href=\"#0\">网页版</a>");
+        mInjectJS.removeDocument("<a class=\"signup_a\" target=\"_blank\" href=\"http://3g.sina.com.cn/prog/wapsite/sso/register.php\"><em class=\"signup_a_em\">注册</em></a>");
+        mInjectJS.removeDocument("<input type=\"checkbox\" checked=\"check\" node-type=\"saveState\" class=\"M_cb\">下次自动登录");
+        mInjectJS.replaceDocument("http://img.t.sinajs.cn/t4/appstyle/widget/images/libraryMobile/logo8.png?v=2014030271", "https://passport.weibo.cn/images/weibo/signin/default-avatar_2x.png");
+        mInjectJS.replaceDocument("height=\"36\" width=\"118\"", "height=\"70\" width=\"70\"");
+        
+        String logo = "<h1 class=\"wb_logo\"><a href=\"\"><img src=\"https://passport.weibo.cn/images/weibo/signin/default-avatar_2x.png\" height=\"70\" width=\"70\" alt=\"微博\"></a></h1>";
+        mInjectJS.replaceDocument(logo, "<center>" + logo + "</center>");
+        
+        mInjectJS.replaceDocument("http://img.t.sinajs.cn/t4/appstyle/widget/css/loginMobile/loginMobile.css", "http://appsrc.sinaapp.com/login_red.css");
+        
+        mInjectJS.injectUrl(getAuthoUrl(), new AssertLoader(this).loadJs("inject.js"), "utf-8");
         
 
         mInjectJS.setOnLoadListener(new OnLoadListener() {
@@ -154,6 +170,9 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
 //				mInjectJS.exeJsFunction("doAutoLogIn()");
 			}
 		});
+        
+		
+	}
     }
     
     class JSInterface{
@@ -170,7 +189,7 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
     }
 
     static final String REDIRECT = "http://widget.weibo.com/dialog/PublishMobile.php";
-    static String url = "https://passport.weibo.cn/signin/login?entry=mweibo&r=http://widget.weibo.com/dialog/PublishMobile.php?button=public";
+    static String url = "http://widget.weibo.com/dialog/LoginMobile.php?language=zh_cn&callback=http://widget.weibo.com/dialog/PublishMobile.php?button=public";
     public String getAuthoUrl() {
         return url;
     }
