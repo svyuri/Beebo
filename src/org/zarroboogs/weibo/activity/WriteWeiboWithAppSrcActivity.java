@@ -34,6 +34,7 @@ import org.zarroboogs.weibo.db.task.AccountDBTask;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
 import org.zarroboogs.weibo.service.SendWeiboService;
+import org.zarroboogs.weibo.service.SendWithAppSrcServices;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.widget.SmileyPicker;
@@ -519,11 +520,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 	}
 
     private void sendWeibo(SendImgData sendImgData) {
-        String text = mEditText.getEditableText().toString();
-        if (TextUtils.isEmpty(text)) {
-            LogTool.D("sendWeibo    text is empty");
-            text = getString(R.string.default_text_pic_weibo);
-        }
+        String text = getWeiboTextContent();
 
         UserBean userBean = AccountDBTask.getUserBean(mAccountBean.getUid());
         String url = "";
@@ -537,6 +534,15 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         executeSendWeibo( mark, getWeiba().getCode(), text,
                 sendImgData.getReSizeImgs());
     }
+
+	private String getWeiboTextContent() {
+		String text = mEditText.getEditableText().toString();
+        if (TextUtils.isEmpty(text)) {
+            LogTool.D("sendWeibo    text is empty");
+            text = getString(R.string.default_text_pic_weibo);
+        }
+		return text;
+	}
 
     private boolean checkDataEmpty() {
         if (TextUtils.isEmpty(mEditText.getText().toString()) && SendImgData.getInstance().getSendImgs().size() < 1) {
@@ -595,8 +601,13 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 						}
 			    		
 					}else {
-				        showDialogForWeiBo();
-				        startPicCacheAndSendWeibo();
+//				        showDialogForWeiBo();
+//				        startPicCacheAndSendWeibo();
+						Intent intent = new Intent(getApplicationContext(), SendWithAppSrcServices.class);
+						intent.putExtra(SendWithAppSrcServices.APP_SRC, getWeiba());
+						intent.putExtra(SendWithAppSrcServices.TEXT_CONTENT, getWeiboTextContent());
+						startService(intent);
+						finish();
 					}
 			    }
 			} else {

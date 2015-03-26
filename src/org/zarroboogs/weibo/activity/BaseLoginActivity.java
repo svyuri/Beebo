@@ -3,26 +3,18 @@ package org.zarroboogs.weibo.activity;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import lib.org.zarroboogs.weibo.login.httpclient.AssertLoader;
 import lib.org.zarroboogs.weibo.login.httpclient.SinaLoginHelper;
 import lib.org.zarroboogs.weibo.login.httpclient.UploadHelper;
 import lib.org.zarroboogs.weibo.login.httpclient.UploadHelper.OnUpFilesListener;
 import lib.org.zarroboogs.weibo.login.httpclient.WaterMark;
-import lib.org.zarroboogs.weibo.login.javabean.DoorImageAsyncTask;
-import lib.org.zarroboogs.weibo.login.javabean.PreLoginResult;
 import lib.org.zarroboogs.weibo.login.javabean.RequestResultParser;
 import lib.org.zarroboogs.weibo.login.javabean.SendResultBean;
-import lib.org.zarroboogs.weibo.login.javabean.DoorImageAsyncTask.OnDoorOpenListener;
 import lib.org.zarroboogs.weibo.login.utils.Constaces;
 import lib.org.zarroboogs.weibo.login.utils.LogTool;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -36,27 +28,15 @@ import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.evgenii.jsevaluator.JsEvaluator;
-import com.evgenii.jsevaluator.interfaces.JsCallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -68,12 +48,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
 
     private RequestResultParser mRequestResultParser;
 
-    private WaterMark mWaterMark;
-    private String mWeibaCode;
-    private String mWeiboText;
-    private List<String> mPics;
     private ProgressDialog mDialog;
-    private AlertDialog mDoorAlertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +62,6 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         mDialog.setCancelable(false);
 
         Builder builder = new Builder(BaseLoginActivity.this);
-        mDoorAlertDialog = builder.create();
 
     }
 
@@ -109,10 +83,6 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
 
     public void executeSendWeibo(WaterMark mark, final String weiboCode, final String text,
             List<String> pics) {
-        this.mWaterMark = mark;
-        this.mWeibaCode = weiboCode;
-        this.mWeiboText = text;
-        this.mPics = pics;
         dosend(mark, weiboCode, text, pics);
 
     }

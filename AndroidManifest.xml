@@ -277,6 +277,9 @@
             android:theme="@android:style/Theme.Holo.DialogWhenLarge" />
 
         <!-- service -->
+        <service android:name="org.zarroboogs.weibo.service.SendWithAppSrcServices" />
+        
+        
         <service android:name="org.zarroboogs.weibo.service.FetchNewMsgService" />
         <service android:name="org.zarroboogs.weibo.service.SendWeiboService" />
         <service android:name="org.zarroboogs.weibo.service.SendRepostService" />
