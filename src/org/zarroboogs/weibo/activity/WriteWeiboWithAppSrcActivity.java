@@ -39,6 +39,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -482,6 +483,8 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 		
     }
 
+    Handler mHandler = new Handler();
+    
     protected void executeTask(String contentString, String picPath) {
         Intent intent = new Intent(WriteWeiboWithAppSrcActivity.this, SendWeiboService.class);
         intent.putExtra(Constants.TOKEN, mAccountBean.getAccess_token());

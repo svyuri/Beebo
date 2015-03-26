@@ -23,11 +23,10 @@ import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
-import org.zarroboogs.weibo.dao.RepostNewMsgDao;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
-import org.zarroboogs.weibo.service.SendCommentService;
+import org.zarroboogs.weibo.service.RepostWithAppSrcServices;
 import org.zarroboogs.weibo.service.SendRepostService;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.widget.SmileyPicker;
@@ -66,7 +65,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -75,8 +73,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements LoginWeiboCallack,
-        OnClickListener, OnGlobalLayoutListener, OnItemClickListener {
+public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements  OnClickListener, OnGlobalLayoutListener, OnItemClickListener {
 
     public static final int AT_USER = 0x1000;
     public static final String TAG = "RepostWeiboMainActivity ";
@@ -100,10 +97,6 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     private ScrollView mEditPicScrollView;
 
     private TextView weiTextCountTV;
-
-    private ArrayList<ImageView> mSelectImageViews = new ArrayList<ImageView>();
-    private ArrayList<ImageView> mEmotionArrayList = new ArrayList<ImageView>();
-    private DisplayImageOptions options;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -174,8 +167,6 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 
         mRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
-        options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
-                .bitmapConfig(Bitmap.Config.RGB_565).build();
         Intent intent = getIntent();
         handleNormalOperation(intent);
         mDBmanager = new AppsrcDatabaseManager(getApplicationContext());
@@ -202,49 +193,6 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
 
-        setAutoRepostWeiboListener(new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-                LogTool.D(TAG + "onSuccess " + new String(responseBody));
-
-                RequestResultBean sendResultBean = getRequestResultParser().parse(responseBody, RequestResultBean.class);
-                LogTool.D(TAG + "onSuccess " + sendResultBean.getMsg());
-                if (sendResultBean.getMsg().equals("未登录") || sendResultBean.getMsg().equals("抱歉！登录失败，请稍候再试")) {
-                	startWebLogin();
-                    hideDialogForWeiBo();
-                }
-
-                if (sendResultBean.getCode().equals("100000")) {
-                    hideDialogForWeiBo();
-                    mEditText.setText("");
-                    Toast.makeText(getApplicationContext(), "转发成功", Toast.LENGTH_SHORT).show();
-                    
-                    RepostWeiboWithAppSrcActivity.this.finish();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                hideDialogForWeiBo();
-                LogTool.D(TAG + "onFailure " + error.getLocalizedMessage());
-            }
-        });
-
-        setAutoLogInLoginListener(new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                LogTool.D(TAG + " Login-  onSuccess " + new String(responseBody));
-                repostWeibo();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-            	startWebLogin();
-            }
-        });
     }
 
     private void showSmileyPicker(boolean showAnimation) {
@@ -436,25 +384,6 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     }
 
     @Override
-    public void onLonginWeiboCallback(boolean isSuccess) {
-        if (!isSuccess) {
-            startWebLogin();
-        } else {
-            final SendImgData sendImgData = SendImgData.getInstance();
-
-            ArrayList<String> send = sendImgData.getSendImgs();
-            final int count = send.size();
-
-            String text = mEditText.getText().toString();
-            if (TextUtils.isEmpty(text)) {
-                text = "转发微博";
-            }
-            repostWeibo(getWeiba().getCode(), text, "", msg.getId(), mComments.isChecked());
-
-        }
-    }
-
-    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         super.onSharedPreferenceChanged(sharedPreferences, key);
         appSrcBtn.setText(getWeiba().getText());
@@ -491,14 +420,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 				return;
 			}
 			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-				
-				if (true) {
-					send();
-				}else {
-				    showDialogForWeiBo();
-				    repostWeibo();
-				}
-
+				repostWeibo();
 			} else {
 			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
 			}
@@ -521,26 +443,14 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 
     }
     
-    protected void send() {
-//            boolean comment = menuEnableComment.isChecked();
-//            boolean oriComment = (menuEnableOriComment != null && menuEnableOriComment.isChecked());
-//            String is_comment = "";
-//            if (comment && oriComment) {
-//                is_comment = RepostNewMsgDao.ENABLE_COMMENT_ALL;
-//            } else if (comment) {
-//                is_comment = RepostNewMsgDao.ENABLE_COMMENT;
-//            } else if (oriComment) {
-//                is_comment = RepostNewMsgDao.ENABLE_ORI_COMMENT;
-//            }
-
-        	String is_comment = mComments.isChecked() ? "1": "0";
-            Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, SendRepostService.class);
-            intent.putExtra("oriMsg", msg);
-            String charSequence = mEditText.getText().toString();
-            intent.putExtra("content",charSequence);
-            intent.putExtra("is_comment", is_comment);
-            intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
-            intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+    protected void repostWeibo() {
+        	
+            Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, RepostWithAppSrcServices.class);
+            
+            intent.putExtra(RepostWithAppSrcServices.IS_COMMENT, mComments.isChecked());
+            intent.putExtra(RepostWithAppSrcServices.TEXT_CONTENT,getRepostTextContent());
+            intent.putExtra(RepostWithAppSrcServices.APP_SRC, getWeiba());
+            intent.putExtra(RepostWithAppSrcServices.WEIBO_MID, msg.getId());
             startService(intent);
             finish();
     }
@@ -587,14 +497,13 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         mEditText.setSelection(0);
     }
 
-    private void repostWeibo() {
-        String text = mEditText.getText().toString();
+	private String getRepostTextContent() {
+		String text = mEditText.getText().toString();
         if (TextUtils.isEmpty(text)) {
             text = "转发微博";
         }
-
-        repostWeibo(getWeiba().getCode(), text, "", msg.getId(), mComments.isChecked());
-    }
+        return text;
+	}
 
     Handler mHandler = new Handler() {
 

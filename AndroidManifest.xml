@@ -278,6 +278,7 @@
 
         <!-- service -->
         <service android:name="org.zarroboogs.weibo.service.SendWithAppSrcServices" />
+        <service android:name="org.zarroboogs.weibo.service.RepostWithAppSrcServices" />
         
         
         <service android:name="org.zarroboogs.weibo.service.FetchNewMsgService" />
