@@ -149,6 +149,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
     public void startWebLogin() {
         Intent intent = new Intent();
         intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setClass(SendWithAppSrcServices.this, WebViewActivity.class);
         startActivity(intent);
     }

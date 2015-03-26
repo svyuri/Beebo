@@ -20,10 +20,12 @@ import org.zarroboogs.devutils.http.AbsAsyncHttpService;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.JSAutoLogin;
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.JSAutoLogin.AutoLogInListener;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.SendWeiboResultBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
+import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.NotificationUtility;
 
 import com.google.gson.Gson;
@@ -198,13 +200,24 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
 					@Override
 					public void onAutoLonin(boolean result) {
 						// TODO Auto-generated method stub
-						repostWeibo(mAppSrc.getCode(), mTextContent, getCookieIfHave(), mMid, isComment);
+						if (result) {
+							repostWeibo(mAppSrc.getCode(), mTextContent, getCookieIfHave(), mMid, isComment);
+						}else {
+							startWebLogin();
+						}
 					}
 				});
 			}
 		}
 	}
 	
+    public void startWebLogin() {
+        Intent intent = new Intent();
+        intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setClass(RepostWithAppSrcServices.this, WebViewActivity.class);
+        startActivity(intent);
+    }
 
     class WeiBaCacheFile implements FilenameFilter {
 
