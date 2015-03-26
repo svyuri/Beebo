@@ -11,6 +11,7 @@ import lib.org.zarroboogs.weibo.login.utils.Constaces;
 import lib.org.zarroboogs.weibo.login.utils.LogTool;
 
 import org.apache.http.HttpEntity;
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.devutils.http.AbsAsyncHttpService;
 import org.zarroboogs.utils.SendBitmapWorkerTask;
 import org.zarroboogs.utils.SendBitmapWorkerTask.OnCacheDoneListener;
@@ -18,12 +19,15 @@ import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
+import org.zarroboogs.weibo.bean.SendWeiboResultBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.db.task.AccountDBTask;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
+
+import com.google.gson.Gson;
 
 import android.content.Intent;
 import android.os.IBinder;
@@ -60,6 +64,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 		// TODO Auto-generated method stub
 		mAppSrc = (WeiboWeiba) intent.getExtras().getSerializable(APP_SRC);
 		mTextContent = intent.getExtras().getString(TEXT_CONTENT);
+		startPicCacheAndSendWeibo();
 		return super.onStartCommand(intent, flags, startId);
 	}
 	
@@ -175,7 +180,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 	@Override
 	public void onGetFailed(String arg0, String arg1) {
 		// TODO Auto-generated method stub
-		
+		DevLog.printLog(TAG, arg0);
 	}
 
 	@Override
@@ -193,7 +198,13 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 	@Override
 	public void onPostSuccess(String arg0) {
 		// TODO Auto-generated method stub
-		
+		SendWeiboResultBean sb = new Gson().fromJson(arg0, SendWeiboResultBean.class);
+		if (sb.isSuccess()) {
+			this.stopSelf();
+			DevLog.printLog(TAG, "发送成功！");
+		}else {
+			DevLog.printLog(TAG, sb.getCode() + "    " + sb.getMsg());
+		}
 	}
 
 	@Override
