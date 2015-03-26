@@ -16,6 +16,8 @@ import org.zarroboogs.devutils.http.AbsAsyncHttpService;
 import org.zarroboogs.utils.SendBitmapWorkerTask;
 import org.zarroboogs.utils.SendBitmapWorkerTask.OnCacheDoneListener;
 import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.JSAutoLogin;
+import org.zarroboogs.weibo.JSAutoLogin.AutoLogInListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -40,6 +42,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 	private WeiboWeiba mAppSrc = null;
 	private String mTextContent;
     private SinaLoginHelper mSinaLoginHelper;
+    private JSAutoLogin mJsAutoLogin;
     
 	private String TAG = "SendWithAppSrcServices";
 	public static final String APP_SRC = "mAppSrc";
@@ -57,6 +60,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 		super.onCreate();
 		mSinaLoginHelper = new SinaLoginHelper();
 		mAccountBean = GlobalContext.getInstance().getAccountBean();
+		mJsAutoLogin = new JSAutoLogin(getApplicationContext(), mAccountBean);
 	}
 	
 	@Override
@@ -204,6 +208,17 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 			DevLog.printLog(TAG, "发送成功！");
 		}else {
 			DevLog.printLog(TAG, sb.getCode() + "    " + sb.getMsg());
+			if (sb.getMsg().equals("未登录")) {
+				mJsAutoLogin.exejs();
+				mJsAutoLogin.setAutoLogInListener(new AutoLogInListener() {
+					
+					@Override
+					public void onAutoLonin(boolean result) {
+						// TODO Auto-generated method stub
+						startPicCacheAndSendWeibo();
+					}
+				});
+			}
 		}
 	}
 
