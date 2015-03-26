@@ -143,7 +143,7 @@ public class UserInfoActivity extends AbstractAppActivity {
             finish();
         }
 
-        
+        disPlayHomeAsUp(R.id.userInfoToolBar);
     }
 
     @Override

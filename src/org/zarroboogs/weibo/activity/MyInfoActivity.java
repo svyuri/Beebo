@@ -1,11 +1,10 @@
 
 package org.zarroboogs.weibo.activity;
 
+import org.zarroboogs.weibo.R;
+
 import com.umeng.analytics.MobclickAgent;
 
-/**
- * User: qii Date: 12-8-15
- */
 public class MyInfoActivity extends UserInfoActivity {
     @Override
     protected void onResume() {
@@ -13,6 +12,7 @@ public class MyInfoActivity extends UserInfoActivity {
         super.onResume();
         MobclickAgent.onPageStart(this.getClass().getName());
         MobclickAgent.onResume(this);
+        disPlayHomeAsUp(R.id.userInfoToolBar);
     }
 
     @Override

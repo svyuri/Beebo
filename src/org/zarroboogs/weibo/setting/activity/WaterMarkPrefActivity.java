@@ -30,6 +30,7 @@ public class WaterMarkPrefActivity extends AbstractAppActivity {
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().replace(R.id.content_frame, new WaterMarkFragment()).commit();
         }
+        disPlayHomeAsUp(R.id.waterMarkToolbar);
     }
 
     @Override

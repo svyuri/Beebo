@@ -20,6 +20,8 @@ public class HotHuaTiActivity extends TranslucentStatusBarActivity {
          mToolbar = (Toolbar) findViewById(R.id.hotWeiboToolbar);
          
          buildContent();
+         
+         disPlayHomeAsUp(mToolbar);
     }
 
     private void buildContent() {

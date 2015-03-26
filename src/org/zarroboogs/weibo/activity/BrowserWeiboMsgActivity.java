@@ -120,6 +120,7 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
 
         }
 
+        disPlayHomeAsUp(mToolbar);
     }
 
     @Override

@@ -21,9 +21,6 @@ public class UserTimeLineActivity extends AbstractAppActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // getActionBar().setDisplayHomeAsUpEnabled(true);
-        // getActionBar().setDisplayShowTitleEnabled(true);
-        // getActionBar().setDisplayShowHomeEnabled(false);
 
         setContentView(R.layout.setting_activity_layout);
         mToolBar = (Toolbar) findViewById(R.id.settingToolBar);
@@ -31,7 +28,6 @@ public class UserTimeLineActivity extends AbstractAppActivity {
         String token = getIntent().getStringExtra(Constants.TOKEN);
         UserBean bean = getIntent().getParcelableExtra("user");
 
-        // getActionBar().setTitle(bean.getScreen_name());
         mToolBar.setTitle(bean.getScreen_name());
 
         if (getSupportFragmentManager().findFragmentByTag(StatusesByIdTimeLineFragment.class.getName()) == null) {
@@ -42,6 +38,7 @@ public class UserTimeLineActivity extends AbstractAppActivity {
                     .commit();
         }
 
+        disPlayHomeAsUp(mToolBar);
     }
 
     @Override

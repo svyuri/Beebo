@@ -14,9 +14,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-/**
- * User: Jiang Qi Date: 12-8-16
- */
 public class FanListActivity extends AbstractAppActivity {
 
     private String token;
@@ -55,6 +52,7 @@ public class FanListActivity extends AbstractAppActivity {
                     .commit();
         }
 
+        disPlayHomeAsUp(mFanToolbar);
     }
 
     @Override

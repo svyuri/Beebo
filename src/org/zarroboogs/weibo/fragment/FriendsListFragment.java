@@ -15,9 +15,6 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.AdapterView;
 
-/**
- * User: Jiang Qi Date: 12-8-16
- */
 public class FriendsListFragment extends AbstractFriendsFanListFragment {
 
     public static FriendsListFragment newInstance(UserBean userBean) {

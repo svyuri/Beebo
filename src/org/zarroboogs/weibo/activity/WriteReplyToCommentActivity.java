@@ -45,8 +45,6 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // getActionBar().setTitle(getString(R.string.reply_to_comment));
-        // getActionBar().setSubtitle(getCurrentAccountBean().getUsernick());
 
         if (savedInstanceState == null) {
 
@@ -65,18 +63,15 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
             }
         }
 
-//        getToolbar().inflateMenu(R.menu.actionbar_menu_commentnewactivity);
-//
-//        getToolbar().getMenu().findItem(R.id.menu_enable_ori_comment).setVisible(false);
-//        getToolbar().getMenu().findItem(R.id.menu_enable_repost).setVisible(true);
-        enableRepost = (CheckBox) findViewById(R.id.repostCheckBox);//getToolbar().getMenu().findItem(R.id.menu_enable_repost);
+        enableRepost = (CheckBox) findViewById(R.id.repostCheckBox);
         enableRepost.setChecked(savedEnableRepost);
         
         mRepostRoot.setVisibility(View.VISIBLE);
         mCommentRoot.setVisibility(View.GONE);
         
-        getToolbar().setTitle(R.string.reply);
-
+        disPlayHomeAsUp(getToolbar());
+        
+        getSupportActionBar().setTitle("回复");
     }
     
     @Override

@@ -26,10 +26,6 @@ public class FriendListActivity extends AbstractAppActivity {
         setContentView(R.layout.setting_activity_layout);
         mToolBar = (Toolbar) findViewById(R.id.settingToolBar);
 
-        // getActionBar().setDisplayHomeAsUpEnabled(true);
-        // getActionBar().setTitle(getString(R.string.following_list));
-        // getActionBar().setIcon(R.drawable.ic_ab_friendship);
-        mToolBar.setLogo(R.drawable.ic_ab_friendship);
         mToolBar.setTitle(R.string.following_list);
         bean = (UserBean) getIntent().getParcelableExtra("user");
         if (getSupportFragmentManager().findFragmentByTag(FriendsListFragment.class.getName()) == null) {
@@ -38,6 +34,7 @@ public class FriendListActivity extends AbstractAppActivity {
                     .commit();
         }
 
+        disPlayHomeAsUp(R.id.settingToolBar);
     }
 
     @Override

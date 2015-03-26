@@ -44,6 +44,7 @@ public class FilterActivity extends AbstractAppActivity {
 
         initLayout();
 
+        disPlayHomeAsUp(R.id.viewPagerToolBar);
     }
 
     @Override

@@ -5,11 +5,13 @@ import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.AbstractAppActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.setting.fragment.SettingsFragment;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import com.umeng.analytics.MobclickAgent;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 public class SettingActivity extends AbstractAppActivity {
@@ -121,20 +123,18 @@ public class SettingActivity extends AbstractAppActivity {
     public static final String UPLOAD_BIG_PIC = "weibo_upload_big_pic";
 
     // upload big picture end
-
+    private Toolbar mToolbar ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_activity_layout);
-        // getActionBar().setDisplayShowHomeEnabled(false);
-        // getActionBar().setDisplayShowTitleEnabled(true);
-        // getActionBar().setDisplayHomeAsUpEnabled(true);
-        // getActionBar().setTitle(getString(R.string.setting));
+        mToolbar = ViewUtility.findViewById(this, R.id.settingToolBar);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
         }
+        disPlayHomeAsUp(mToolbar);
     }
 
     @Override

@@ -26,6 +26,7 @@ public class AboutActivity extends AbstractAppActivity {
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().replace(R.id.content_frame, new AboutFragment()).commit();
         }
+        disPlayHomeAsUp(R.id.settingToolBar);
     }
 
     @Override

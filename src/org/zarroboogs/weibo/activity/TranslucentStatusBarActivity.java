@@ -5,6 +5,7 @@ import lib.org.zarroboogs.weibo.login.utils.LogTool;
 
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.setting.SettingUtils;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -17,11 +18,14 @@ import android.os.Bundle;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 
 public class TranslucentStatusBarActivity extends ActionBarActivity {
 
@@ -65,6 +69,25 @@ public class TranslucentStatusBarActivity extends ActionBarActivity {
 		}
 
     }
+    
+    public void disPlayHomeAsUp(int toobrID){
+    	Toolbar toolbar = ViewUtility.findViewById(this, toobrID);
+    	disPlayHomeAsUp(toolbar);
+    }
+	public void disPlayHomeAsUp(Toolbar toolbar) {
+		if (toolbar != null) {
+			setSupportActionBar(toolbar);
+	        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	        toolbar.setNavigationOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					finish();
+				}
+			});
+		}
+	}
 
 	public static boolean isMeiZu() {
 		return "Meizu".equalsIgnoreCase(android.os.Build.MANUFACTURER);

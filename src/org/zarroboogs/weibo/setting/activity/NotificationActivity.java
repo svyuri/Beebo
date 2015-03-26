@@ -17,14 +17,14 @@ public class NotificationActivity extends AbstractAppActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_activity_layout);
-        // getActionBar().setDisplayShowHomeEnabled(false);
-        // getActionBar().setDisplayShowTitleEnabled(true);
-        // getActionBar().setDisplayHomeAsUpEnabled(true);
-        // getActionBar().setTitle(getString(R.string.notification));
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().replace(R.id.content_frame, new NotificationFragment()).commit();
         }
+        
+        disPlayHomeAsUp(R.id.settingToolBar);
+        
+        getSupportActionBar().setTitle("消息通知");
     }
 
     @Override

@@ -3,6 +3,9 @@ package org.zarroboogs.weibo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
 
@@ -12,6 +15,7 @@ import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.asyncdrawable.TimeLineBitmapDownloader;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
@@ -50,6 +54,25 @@ public class AbstractAppActivity extends WeiboDataProviderActivity {
         GlobalContext.getInstance().setActivity(this);
 
     }
+
+    public void disPlayHomeAsUp(int toobrID){
+    	Toolbar toolbar = ViewUtility.findViewById(this, toobrID);
+    	disPlayHomeAsUp(toolbar);
+    }
+	public void disPlayHomeAsUp(Toolbar toolbar) {
+		if (toolbar != null) {
+			setSupportActionBar(toolbar);
+	        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	        toolbar.setNavigationOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					finish();
+				}
+			});
+		}
+	}
 
     public AsyncHttpClient getAsyncHttpClient() {
         if (mAsyncHttoClient == null) {

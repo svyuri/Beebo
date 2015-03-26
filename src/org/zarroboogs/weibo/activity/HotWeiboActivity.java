@@ -21,6 +21,7 @@ public class HotWeiboActivity extends TranslucentStatusBarActivity {
          mToolbar = (Toolbar) findViewById(R.id.hotWeiboToolbar);
          
          buildContent();
+         disPlayHomeAsUp(mToolbar);
     }
 
     private void buildContent() {

@@ -23,6 +23,8 @@ public class HotModelActivity extends TranslucentStatusBarActivity {
     	 mToolbar.setTitle("车模热图");
     	 
          buildContent();
+         
+         disPlayHomeAsUp(mToolbar);
     }
 
     private void buildContent() {
