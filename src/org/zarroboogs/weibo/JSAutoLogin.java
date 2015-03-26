@@ -12,9 +12,11 @@ import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
 import org.zarroboogs.utils.PatternUtils;
 import org.zarroboogs.utils.http.HeaderList;
 import org.zarroboogs.weibo.bean.AccountBean;
+import org.zarroboogs.weibo.bean.CheckUserPasswordBean;
 import org.zarroboogs.weibo.db.AccountDatabaseManager;
 import org.zarroboogs.weibo.db.table.AccountTable;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
 import android.annotation.SuppressLint;
@@ -46,6 +48,12 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
 	
 	public void setAutoLogInListener(AutoLogInListener l){
 		this.mListener = l;
+	}
+	
+	
+	private CheckUserNamePasswordListener cNamePasswordListener;
+	public static interface CheckUserNamePasswordListener{
+		public void onChecked(String msg);
 	}
 	
 	public JSAutoLogin(Context context,AccountBean ab) {
@@ -85,7 +93,9 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
     	
     }
     
-    public void checkUserPassword(String uname, String password){
+    public void checkUserPassword(String uname, String password , CheckUserNamePasswordListener listener){
+    	this.cNamePasswordListener = listener;
+    	
     	RequestParams mParams = new RequestParams();
     	mParams.put("username", uname);
     	mParams.put("password", password);
@@ -228,6 +238,10 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
 	public void onPostSuccess(String arg0) {
 		// TODO Auto-generated method stub
 		DevLog.printLog("JSAutoLogin onPostSuccess", arg0);
+		CheckUserPasswordBean cb = new Gson().fromJson(arg0, CheckUserPasswordBean.class);
+		if (this.cNamePasswordListener != null) {
+			cNamePasswordListener.onChecked(cb.getMsg());
+		}
 	}
 
 	@Override

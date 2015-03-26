@@ -20,6 +20,7 @@ import org.zarroboogs.utils.SendBitmapWorkerTask.OnCacheDoneListener;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.JSAutoLogin;
 import org.zarroboogs.weibo.JSAutoLogin.AutoLogInListener;
+import org.zarroboogs.weibo.JSAutoLogin.CheckUserNamePasswordListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -215,14 +216,23 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 		}else {
 			DevLog.printLog(TAG, sb.getCode() + "    " + sb.getMsg());
 			if (sb.getMsg().equals("未登录")) {
-				mJsAutoLogin.checkUserPassword("86118@163.com", "6asd556566123");
-				mJsAutoLogin.exejs();
-				mJsAutoLogin.setAutoLogInListener(new AutoLogInListener() {
+				mJsAutoLogin.checkUserPassword(mAccountBean.getUname(), mAccountBean.getPwd(), new CheckUserNamePasswordListener() {
 					
 					@Override
-					public void onAutoLonin(boolean result) {
+					public void onChecked(String msg) {
 						// TODO Auto-generated method stub
-						startPicCacheAndSendWeibo();
+						DevLog.printLog("JSAutoLogin onChecked", msg);
+						if (TextUtils.isEmpty(msg)) {
+							mJsAutoLogin.exejs();
+							mJsAutoLogin.setAutoLogInListener(new AutoLogInListener() {
+								
+								@Override
+								public void onAutoLonin(boolean result) {
+									// TODO Auto-generated method stub
+									startPicCacheAndSendWeibo();
+								}
+							});
+						}
 					}
 				});
 			}
