@@ -215,6 +215,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 		}else {
 			DevLog.printLog(TAG, sb.getCode() + "    " + sb.getMsg());
 			if (sb.getMsg().equals("未登录")) {
+				mJsAutoLogin.checkUserPassword("86118@163.com", "6asd556566123");
 				mJsAutoLogin.exejs();
 				mJsAutoLogin.setAutoLogInListener(new AutoLogInListener() {
 					

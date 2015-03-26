@@ -1,15 +1,21 @@
 package org.zarroboogs.weibo;
 
 import lib.org.zarroboogs.weibo.login.httpclient.AssertLoader;
+import lib.org.zarroboogs.weibo.login.utils.Constaces;
 
+import org.apache.http.Header;
 import org.zarroboogs.devutils.DevLog;
+import org.zarroboogs.devutils.http.AbsAsyncHttpClient;
 import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
 import org.zarroboogs.utils.PatternUtils;
+import org.zarroboogs.utils.http.HeaderList;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.db.AccountDatabaseManager;
 import org.zarroboogs.weibo.db.table.AccountTable;
+
+import com.loopj.android.http.RequestParams;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -23,7 +29,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class JSAutoLogin {
+public class JSAutoLogin extends AbsAsyncHttpClient {
 
 	private Context mContext;
 	private WebView mWebView;
@@ -43,6 +49,8 @@ public class JSAutoLogin {
 	}
 	
 	public JSAutoLogin(Context context,AccountBean ab) {
+		super(context);
+		
 		this.mContext = context;
 		this.mAccountBean = ab;
 		
@@ -77,6 +85,30 @@ public class JSAutoLogin {
     	
     }
     
+    public void checkUserPassword(String uname, String password){
+    	RequestParams mParams = new RequestParams();
+    	mParams.put("username", uname);
+    	mParams.put("password", password);
+    	mParams.put("savestate", "1");
+    	mParams.put("ec", "0");
+    	mParams.put("entry", "mweibo");
+    	asyncHttpPost("https://passport.weibo.cn/sso/login", sendWeiboHeaders(), mParams, "application/x-www-form-urlencoded");
+    }
+    
+    public Header[] sendWeiboHeaders() {
+    	HeaderList headerList = new HeaderList();
+    	headerList.addAccept("*/*");
+        headerList.addAcceptEncoding("gzip,deflate,sdch");
+        headerList.addAcceptLanguage("zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+        headerList.addHost("passport.weibo.cn");
+        headerList.addOrigin("https://passport.weibo.cn");
+        headerList.addReferer("https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic");
+        headerList.addUserAgent(Constaces.User_Agent);
+        headerList.addHeader("Content-Type", "application/x-www-form-urlencoded");
+        return headerList.build();
+    }
+    
+    
     public void exejs(){
         mInjectJS.addJSCallJavaInterface(new JSCallBack(), "loginName.value","loginPassword.value");
         mInjectJS.replaceDocument("<a href=\"javascript:;\" class=\"btn btnRed\" id = \"loginAction\">登录</a>", 
@@ -93,7 +125,7 @@ public class JSAutoLogin {
 			public void onLoad() {
 				// TODO Auto-generated method stub
 				if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getUname()) && !TextUtils.isEmpty(mAccountBean.getPwd())) {
-					mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(),mAccountBean.getPwd());
+					mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(),mAccountBean.getPwd() + "456");
 	            	if (!isExecuted) {
 	            		mInjectJS.exeJsFunction("doAutoLogIn()");
 	            		isExecuted = true;
@@ -107,6 +139,7 @@ public class JSAutoLogin {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        	DevLog.printLog("JSAutoLogin shouldOverrideUrlLoading", url);
             view.loadUrl(url);
             return super.shouldOverrideUrlLoading(view, url);
         }
@@ -119,6 +152,8 @@ public class JSAutoLogin {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
+        	DevLog.printLog("JSAutoLogin onPageStarted", url);
+        	
             if (url.startsWith(REDIRECT)) {
                 view.stopLoading();
 
@@ -170,4 +205,34 @@ public class JSAutoLogin {
         }
 
     }
+
+	@Override
+	public void onGetFailed(String arg0, String arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onGetSuccess(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPostFailed(String arg0, String arg1) {
+		// TODO Auto-generated method stub
+		DevLog.printLog("JSAutoLogin onPostFailed", arg0 + arg1);
+	}
+
+	@Override
+	public void onPostSuccess(String arg0) {
+		// TODO Auto-generated method stub
+		DevLog.printLog("JSAutoLogin onPostSuccess", arg0);
+	}
+
+	@Override
+	public void onRequestStart() {
+		// TODO Auto-generated method stub
+		
+	}
 }
