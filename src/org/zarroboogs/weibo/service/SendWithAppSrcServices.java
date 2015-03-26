@@ -1,5 +1,7 @@
 package org.zarroboogs.weibo.service;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,7 @@ import com.google.gson.Gson;
 import android.content.Intent;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class SendWithAppSrcServices extends AbsAsyncHttpService {
 
@@ -204,6 +207,9 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 		// TODO Auto-generated method stub
 		SendWeiboResultBean sb = new Gson().fromJson(arg0, SendWeiboResultBean.class);
 		if (sb.isSuccess()) {
+			
+			deleteSendFile();
+			
 			this.stopSelf();
 			DevLog.printLog(TAG, "发送成功！");
 		}else {
@@ -219,6 +225,30 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 					}
 				});
 			}
+		}
+	}
+	
+
+    class WeiBaCacheFile implements FilenameFilter {
+
+        @Override
+        public boolean accept(File dir, String filename) {
+            // TODO Auto-generated method stub
+            return filename.startsWith("WEI-");
+        }
+
+    }
+    
+	public void deleteSendFile() {
+		SendImgData sid = SendImgData.getInstance();
+		sid.clearSendImgs();
+		sid.clearReSizeImgs();
+
+		File[] cacheFiles = getExternalCacheDir().listFiles(
+				new WeiBaCacheFile());
+		for (File file : cacheFiles) {
+			Log.d("LIST_CAXCHE", " " + file.getName());
+			file.delete();
 		}
 	}
 

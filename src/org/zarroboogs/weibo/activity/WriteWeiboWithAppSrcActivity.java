@@ -1,36 +1,21 @@
 
 package org.zarroboogs.weibo.activity;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.org.zarroboogs.weibo.login.httpclient.WaterMark;
-import lib.org.zarroboogs.weibo.login.javabean.RequestResultBean;
 import lib.org.zarroboogs.weibo.login.utils.LogTool;
 
-import org.apache.http.Header;
 import org.zarroboogs.util.net.LoginWeiboAsyncTask.LoginWeiboCallack;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.utils.SendBitmapWorkerTask;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
-import org.zarroboogs.utils.SendBitmapWorkerTask.OnCacheDoneListener;
 import org.zarroboogs.weibo.ChangeWeibaAdapter;
 import org.zarroboogs.weibo.GlobalContext;
-import org.zarroboogs.weibo.JSWebViewActivity;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
-import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
-import org.zarroboogs.weibo.db.task.AccountDBTask;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
 import org.zarroboogs.weibo.service.SendWeiboService;
@@ -43,8 +28,6 @@ import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.umeng.analytics.MobclickAgent;
@@ -54,7 +37,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -67,14 +49,12 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -82,7 +62,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements LoginWeiboCallack, OnClickListener,
-        OnGlobalLayoutListener, OnItemClickListener, OnSharedPreferenceChangeListener {
+         OnItemClickListener, OnSharedPreferenceChangeListener {
 
     public static final int AT_USER = 0x1000;
 
@@ -103,31 +83,22 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
     private Button appSrcBtn;
 
-    AccountBean mAccountBean;
+    private AccountBean mAccountBean;
 
     private boolean isKeyBoardShowed = false;
     private ScrollView mEditPicScrollView;
 
     private TextView weiTextCountTV;
 
-    ArrayList<ImageView> mEmotionArrayList = new ArrayList<ImageView>();
-
-    Toast mEmptyToast;
-    private ImageLoader mImageLoader = ImageLoader.getInstance();
-    DisplayImageOptions options;
-
-    PullToRefreshListView listView;
-    ChangeWeibaAdapter listAdapter;
-    List<WeiboWeiba> listdata = new ArrayList<WeiboWeiba>();
-    AppsrcDatabaseManager mDBmanager = null;// new
-                                            // AppsrcDatabaseManager(getApplicationContext());
+    private Toast mEmptyToast;
+    private PullToRefreshListView listView;
+    private ChangeWeibaAdapter listAdapter;
+    private AppsrcDatabaseManager mDBmanager = null;
     private String atContent = "";
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
-
-    private SendImgData sendImgData;
 
     private GridView mNinePicGridView;
     private NinePicGriViewAdapter mNinePicAdapter;
@@ -211,11 +182,6 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
             mEditText.setSelection(mEditText.getEditableText().toString().length());
         }
 
-        mRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
-
-        options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
-                .bitmapConfig(Bitmap.Config.RGB_565).build();
-
         mDBmanager = new AppsrcDatabaseManager(getApplicationContext());
 
         listAdapter = new ChangeWeibaAdapter(this);
@@ -241,49 +207,9 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
 
-        setAutoSendWeiboListener(new AsyncHttpResponseHandler() {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                LogTool.D(TAG + "onSuccess " + new String(responseBody));
-
-                RequestResultBean sendResultBean = getRequestResultParser().parse(responseBody, RequestResultBean.class);
-                
-                LogTool.D(TAG + "onSuccess " + sendResultBean.getMsg());
-                
-                
-                if (sendResultBean.getMsg().equals("未登录") || sendResultBean.getMsg().equals("抱歉！登录失败，请稍候再试")) {
-                	startWebLogin();
-                }
-                if (sendResultBean.getCode().equals("100000")) {
-                    onSendFinished(true);
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-//            	startWebLogin();
-                onSendFinished(false);
-            }
-        });
-
-        setAutoLogInLoginListener(new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                sendWeibo(sendImgData);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-            	startWebLogin();
-            }
-        });
     }
     
-    String test = "";
-
     protected void fetchAppSrc() {
 		fetchWeiBa(new OnFetchAppSrcListener() {
 
@@ -310,31 +236,6 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 			}
 		});
     }
-
-	private String readStringFromAssert(String filename) {
-		InputStream json = null;
-		try {
-			json = getAssets().open(filename);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		InputStreamReader read = new InputStreamReader(json);// 考虑到编码格式
-		BufferedReader bufferedReader = new BufferedReader(read);
-		StringBuffer sb = new StringBuffer();
-		String lineTxt = "";
-		try {
-			while ((lineTxt = bufferedReader.readLine()) != null) {
-				sb.append(lineTxt);
-			}
-			read.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return sb.toString();
-	}
 
     class MyDrawerToggle extends ActionBarDrawerToggle {
 
@@ -432,7 +333,6 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-        mRootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
         ImageLoader.getInstance().stop();
         getAppSrcSharedPreference().unregisterOnSharedPreferenceChangeListener(this);
         
@@ -472,68 +372,14 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         }
     }
 
-    public void startWebLogin() {
-        hideDialogForWeiBo();
-        Intent intent = new Intent();
-        intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
-        intent.setClass(WriteWeiboWithAppSrcActivity.this, JSWebViewActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public void onLonginWeiboCallback(boolean isSuccess) {
         if (!isSuccess) {
             startWebLogin();
-        } else {
-            startPicCacheAndSendWeibo();
         }
     }
 
-	private void startPicCacheAndSendWeibo() {
-		sendImgData = SendImgData.getInstance();
-		sendImgData.clearReSizeImgs();
 
-		ArrayList<String> send = sendImgData.getSendImgs();
-		final int count = send.size();
-
-		if (count > 0) {
-		    for (int i = 0; i < send.size(); i++) {
-		        SendBitmapWorkerTask sendBitmapWorkerTask = new SendBitmapWorkerTask(getApplicationContext(),
-		                new OnCacheDoneListener() {
-		                    @Override
-		                    public void onCacheDone(String newFile) {
-		                        // TODO Auto-generated method stub
-		                        Log.d(LOGIN_TAG, "has create new File : " + newFile);
-		                        sendImgData.addReSizeImg(newFile);
-		                        if (sendImgData.getReSizeImgs().size() == count) {
-		                        	Log.d(LOGIN_TAG, "Create File Finished start send Weibo ");
-		                            sendWeibo(sendImgData);
-		                        }
-		                    }
-		                });
-		        sendBitmapWorkerTask.execute(send.get(i));
-		    }
-		} else {
-
-		    sendWeibo(sendImgData);
-		}
-	}
-
-    private void sendWeibo(SendImgData sendImgData) {
-        String text = getWeiboTextContent();
-
-        UserBean userBean = AccountDBTask.getUserBean(mAccountBean.getUid());
-        String url = "";
-        if (!TextUtils.isEmpty(userBean.getDomain())) {
-            url = "weibo.com/" + userBean.getDomain();
-        } else {
-            url = "weibo.com/u/" + mAccountBean.getUid();
-        }
-        WaterMark mark = new WaterMark(mAccountBean.getUsernick(), url);
-
-        executeSendWeibo( mark, getWeiba().getCode(), text,
-                sendImgData.getReSizeImgs());
-    }
 
 	private String getWeiboTextContent() {
 		String text = mEditText.getEditableText().toString();
@@ -676,57 +522,6 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
             }
         }
 
-    }
-
-    @Override
-    public void onGlobalLayout() {
-        // TODO Auto-generated method stub
-
-        // Rect r = new Rect();
-        // mEmotionRelativeLayout.getWindowVisibleDisplayFrame(r);
-        //
-        // int heightDiff = mEmotionRelativeLayout.getRootView().getHeight() - (r.bottom - r.top);
-        // if (heightDiff > 100) {
-        // // if more than 100 pixels, its probably a keyboard...
-        // Log.d("WEIBO_INPUT", "++++++++");
-        // mEmotionRelativeLayout.setVisibility(View.GONE);
-        // isKeyBoardShowed = true;
-        // } else {
-        // Log.d("WEIBO_INPUT", "---------");
-        // isKeyBoardShowed = false;
-        // }
-
-    }
-
-    class WeiBaCacheFile implements FilenameFilter {
-
-        @Override
-        public boolean accept(File dir, String filename) {
-            // TODO Auto-generated method stub
-            return filename.startsWith("WEI-");
-        }
-
-    }
-
-    public void onSendFinished(boolean isSuccess) {
-        // TODO Auto-generated method stub
-        hideDialogForWeiBo();
-        if (isSuccess) {
-            Toast.makeText(getApplicationContext(), R.string.send_wei_success, Toast.LENGTH_SHORT).show();
-            mEditText.setText("");
-            SendImgData sid = SendImgData.getInstance();
-            sid.clearSendImgs();
-            sid.clearReSizeImgs();
-
-            File[] cacheFiles = getExternalCacheDir().listFiles(new WeiBaCacheFile());
-            for (File file : cacheFiles) {
-                Log.d("LIST_CAXCHE", " " + file.getName());
-                file.delete();
-            }
-            this.finish();
-        } else {
-            Toast.makeText(getApplicationContext(), R.string.send_wei_failed, Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
