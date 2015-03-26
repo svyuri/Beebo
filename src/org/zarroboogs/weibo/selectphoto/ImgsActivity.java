@@ -70,6 +70,7 @@ public class ImgsActivity extends TranslucentStatusBarActivity {
         mMenuItem = mToolbar.getMenu().findItem(R.id.select_done);
         
         updateCount(mMenuItem);
+//        disPlayHomeAsUp(mToolbar);
     }
 
     @Override

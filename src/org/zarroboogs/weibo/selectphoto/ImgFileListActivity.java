@@ -52,6 +52,7 @@ public class ImgFileListActivity extends TranslucentStatusBarActivity implements
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
 
+        disPlayHomeAsUp(R.id.mainTimeLineToolBar);
     }
 
     @Override

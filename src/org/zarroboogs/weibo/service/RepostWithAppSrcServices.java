@@ -19,18 +19,20 @@ import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.devutils.http.AbsAsyncHttpService;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.JSAutoLogin;
+import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.JSAutoLogin.AutoLogInListener;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.SendWeiboResultBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
-import org.zarroboogs.weibo.selectphoto.SendImgData;
+import org.zarroboogs.weibo.support.utils.NotificationUtility;
 
 import com.google.gson.Gson;
 
+import android.app.Notification;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
-import android.util.Log;
 
 public class RepostWithAppSrcServices extends AbsAsyncHttpService {
 
@@ -160,6 +162,22 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	private Handler handler = new Handler();
+    private void showSuccessfulNotification() {
+        Notification.Builder builder = new Notification.Builder(RepostWithAppSrcServices.this)
+                .setTicker(getString(R.string.send_successfully))
+                .setContentTitle(getString(R.string.send_successfully)).setOnlyAlertOnce(true).setAutoCancel(true)
+                .setSmallIcon(R.drawable.send_successfully).setOngoing(false);
+        Notification notification = builder.getNotification();
+        NotificationUtility.show(notification, R.string.send_successfully);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                NotificationUtility.cancel(R.string.send_successfully);
+            }
+        }, 3000);
+    }
 
 	@Override
 	public void onPostSuccess(String arg0) {
@@ -167,7 +185,7 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
 		SendWeiboResultBean sb = new Gson().fromJson(arg0, SendWeiboResultBean.class);
 		if (sb.isSuccess()) {
 			
-			deleteSendFile();
+			showSuccessfulNotification();
 			
 			this.stopSelf();
 			DevLog.printLog(TAG, "发送成功！");
@@ -198,18 +216,6 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
 
     }
     
-	public void deleteSendFile() {
-		SendImgData sid = SendImgData.getInstance();
-		sid.clearSendImgs();
-		sid.clearReSizeImgs();
-
-		File[] cacheFiles = getExternalCacheDir().listFiles(
-				new WeiBaCacheFile());
-		for (File file : cacheFiles) {
-			Log.d("LIST_CAXCHE", " " + file.getName());
-			file.delete();
-		}
-	}
 
 	@Override
 	public void onRequestStart() {

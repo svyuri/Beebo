@@ -135,7 +135,7 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
 			public void onLoad() {
 				// TODO Auto-generated method stub
 				if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getUname()) && !TextUtils.isEmpty(mAccountBean.getPwd())) {
-					mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(),mAccountBean.getPwd() + "456");
+					mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(),mAccountBean.getPwd());
 	            	if (!isExecuted) {
 	            		mInjectJS.exeJsFunction("doAutoLogIn()");
 	            		isExecuted = true;

@@ -31,10 +31,13 @@ import org.zarroboogs.weibo.db.task.AccountDBTask;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
+import org.zarroboogs.weibo.support.utils.NotificationUtility;
 
 import com.google.gson.Gson;
 
+import android.app.Notification;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
@@ -203,6 +206,23 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 		
 	}
 
+	private Handler handler = new Handler();
+	
+    private void showSuccessfulNotification() {
+        Notification.Builder builder = new Notification.Builder(SendWithAppSrcServices.this)
+                .setTicker(getString(R.string.send_successfully))
+                .setContentTitle(getString(R.string.send_successfully)).setOnlyAlertOnce(true).setAutoCancel(true)
+                .setSmallIcon(R.drawable.send_successfully).setOngoing(false);
+        Notification notification = builder.getNotification();
+        NotificationUtility.show(notification, R.string.send_successfully);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                NotificationUtility.cancel(R.string.send_successfully);
+            }
+        }, 3000);
+    }
+    
 	@Override
 	public void onPostSuccess(String arg0) {
 		// TODO Auto-generated method stub
@@ -210,6 +230,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 		if (sb.isSuccess()) {
 			
 			deleteSendFile();
+			showSuccessfulNotification();
 			
 			this.stopSelf();
 			DevLog.printLog(TAG, "发送成功！");
@@ -221,8 +242,9 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 					@Override
 					public void onChecked(String msg) {
 						// TODO Auto-generated method stub
-						DevLog.printLog("JSAutoLogin onChecked", msg);
+						DevLog.printLog("JSAutoLogin onChecked", msg.trim());
 						if (TextUtils.isEmpty(msg)) {
+							DevLog.printLog("JSAutoLogin onChecked", "startLogin");
 							mJsAutoLogin.exejs();
 							mJsAutoLogin.setAutoLogInListener(new AutoLogInListener() {
 								
