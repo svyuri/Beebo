@@ -56,11 +56,12 @@ public class UploadHelper {
     }
 
     public void uploadFiles(String waterMark, List<String> files, OnUpFilesListener listener, String cookie) {
-        this.mNeedToUpload = files;
+        this.mNeedToUpload.addAll(files);
         this.mOnUpFilesListener = listener;
         mHasUploadFlag = 0;
         this.mWaterMark = waterMark;
         this.mCookie = cookie;
+        LogTool.D("uploadFile handleMessage" + " Need Upload File :  " + files.size());
         mHandler.sendEmptyMessage(MSG_UPLOAD);
     }
 
@@ -68,16 +69,20 @@ public class UploadHelper {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_UPLOAD: {
+                	LogTool.D("uploadFile handleMessage" + " MSG_UPLOAD");
+                	
                     uploadFile(mWaterMark, mNeedToUpload.get(mHasUploadFlag), mCookie);
                     break;
                 }
                 case MSG_UPLOAD_DONE: {
+                	LogTool.D("uploadFile handleMessage" + " MSG_UPLOAD_DONE");
                     if (mOnUpFilesListener != null) {
                         mOnUpFilesListener.onUpSuccess(mPids);
                     }
                     break;
                 }
                 case MSG_UPLOAD_FAILED: {
+                	LogTool.D("uploadFile handleMessage" + " MSG_UPLOAD_FAILED");
                     if (mOnUpFilesListener != null) {
                         mOnUpFilesListener.onUpLoadFailed();
                     }

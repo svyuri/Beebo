@@ -80,10 +80,10 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 	}
 	
 	private void startPicCacheAndSendWeibo() {
-		sendImgData.clearReSizeImgs();
 		ArrayList<String> send = sendImgData.getSendImgs();
 		final int count = send.size();
 
+		DevLog.printLog("startPicCacheAndSendWeibo ", "SEND_COUNT: " + count);
 		if (count > 0) {
 		    for (int i = 0; i < send.size(); i++) {
 		        SendBitmapWorkerTask sendBitmapWorkerTask = new SendBitmapWorkerTask(getApplicationContext(),
@@ -120,13 +120,9 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
         }
         WaterMark mark = new WaterMark(mAccountBean.getUsernick(), url);
 
-        executeSendWeibo( mark, mAppSrc.getCode(), text, sendImgData.getReSizeImgs());
+        dosend( mark, mAppSrc.getCode(), text, sendImgData.getReSizeImgs());
     }
     
-    public void executeSendWeibo(WaterMark mark, final String weiboCode, final String text,
-            List<String> pics) {
-        dosend(mark, weiboCode, text, pics);
-    }
 
     private void dosend(WaterMark mark, final String weiboCode, final String text, List<String> pics) {
         if (pics == null || pics.isEmpty()) {
@@ -137,6 +133,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 
                 @Override
                 public void onUpSuccess(String pids) {
+                	DevLog.printLog("UploadHelper onUpSuccess ", "" + pids);
                     sendWeiboWidthPids(weiboCode, text, pids);
                 }
 
@@ -229,6 +226,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 		SendWeiboResultBean sb = new Gson().fromJson(arg0, SendWeiboResultBean.class);
 		if (sb.isSuccess()) {
 			
+			sendImgData.clearReSizeImgs();
 			deleteSendFile();
 			showSuccessfulNotification();
 			
