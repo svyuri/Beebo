@@ -71,8 +71,8 @@ public class SharedPreferenceActivity extends AbstractAppActivity implements OnS
 
     public WeiboWeiba getWeiba() {
         WeiboWeiba weiba = new WeiboWeiba();
-        weiba.setText(mCookieSP.getString(KEY_NAME, "Smartisan T1"));
-        weiba.setCode(mCookieSP.getString(KEY_CODE, "1GEU4g"));
+        weiba.setText(mCookieSP.getString(KEY_NAME, "iBeebo"));
+        weiba.setCode(mCookieSP.getString(KEY_CODE, "507Tbr"));
         return weiba;
     }
 }
