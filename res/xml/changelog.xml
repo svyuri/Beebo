@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-	<release version="v2.4.3" versioncode="30">
-	    <change>修正切换尾巴崩溃</change>
+	<release version="v3.0.0" versioncode="31">
+	    <change>这是测试版本，你可别给我搞砸了~</change>
+	    <change>不要发布或者分享给别人~</change>
+	    <change>否则你的菊花不保</change>
     </release>
 </changelog>
