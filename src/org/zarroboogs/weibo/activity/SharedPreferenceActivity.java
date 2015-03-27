@@ -1,22 +1,24 @@
 
 package org.zarroboogs.weibo.activity;
 
+import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 
+import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.view.WindowManager;
 
+@TargetApi(Build.VERSION_CODES.KITKAT)
 public class SharedPreferenceActivity extends AbstractAppActivity implements OnSharedPreferenceChangeListener {
     private SharedPreferences mCookieSP = null;
     private String mCookie = "";
     private static final String KEY_COOKIE = "cookie";
-    private static final String KEY_NAME = "appname";
-    private static final String KEY_CODE = "code";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,16 +65,16 @@ public class SharedPreferenceActivity extends AbstractAppActivity implements OnS
 
     public void saveWeiba(WeiboWeiba weiba) {
         Editor mEditor = mCookieSP.edit();
-        mEditor.putString(KEY_NAME, weiba.getText());
-        mEditor.putString(KEY_CODE, weiba.getCode());
+        mEditor.putString(Constants.KEY_NAME, weiba.getText());
+        mEditor.putString(Constants.KEY_CODE, weiba.getCode());
         mEditor.commit();
 
     }
 
     public WeiboWeiba getWeiba() {
         WeiboWeiba weiba = new WeiboWeiba();
-        weiba.setText(mCookieSP.getString(KEY_NAME, "iBeebo"));
-        weiba.setCode(mCookieSP.getString(KEY_CODE, "507Tbr"));
+        weiba.setText(mCookieSP.getString(Constants.KEY_NAME, "iBeebo"));
+        weiba.setCode(mCookieSP.getString(Constants.KEY_CODE, "507Tbr"));
         return weiba;
     }
 }

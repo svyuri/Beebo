@@ -12,7 +12,11 @@ public final class Constants {
     public static final String BEAN = "bean";
 
     public static final String TOKEN = "token";
-
+    
+    public static final String KEY_NAME = "appname";
+    public static final String KEY_CODE = "code";
+    
+    
     public static final boolean isBeeboPlus = false;
     public static class Extra {
         public static final String KEY = "LIST_COURSES";

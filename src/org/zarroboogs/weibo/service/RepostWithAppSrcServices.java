@@ -17,6 +17,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.devutils.http.AbsAsyncHttpService;
+import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.JSAutoLogin;
 import org.zarroboogs.weibo.R;
@@ -32,6 +33,7 @@ import com.google.gson.Gson;
 
 import android.app.Notification;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
@@ -180,7 +182,11 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
             }
         }, 3000);
     }
-
+    public void clearAppsrc(){
+        SharedPreferences appsrcPreferences  = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        appsrcPreferences.edit().remove(Constants.KEY_NAME).remove(Constants.KEY_CODE).commit();
+    }
+    
 	@Override
 	public void onPostSuccess(String arg0) {
 		// TODO Auto-generated method stub
@@ -188,7 +194,7 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
 		if (sb.isSuccess()) {
 			
 			showSuccessfulNotification();
-			
+			clearAppsrc();
 			this.stopSelf();
 			DevLog.printLog(TAG, "发送成功！");
 		}else {

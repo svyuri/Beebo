@@ -15,6 +15,7 @@ import lib.org.zarroboogs.weibo.login.utils.LogTool;
 import org.apache.http.HttpEntity;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.devutils.http.AbsAsyncHttpService;
+import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.SendBitmapWorkerTask;
 import org.zarroboogs.utils.SendBitmapWorkerTask.OnCacheDoneListener;
 import org.zarroboogs.weibo.GlobalContext;
@@ -37,6 +38,7 @@ import com.google.gson.Gson;
 
 import android.app.Notification;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
@@ -186,6 +188,11 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
         }
     }
     
+    public void clearAppsrc(){
+        SharedPreferences appsrcPreferences  = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        appsrcPreferences.edit().remove(Constants.KEY_NAME).remove(Constants.KEY_CODE).commit();
+    }
+    
 	@Override
 	public void onGetFailed(String arg0, String arg1) {
 		// TODO Auto-generated method stub
@@ -232,6 +239,9 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 			showSuccessfulNotification();
 			
 			this.stopSelf();
+			
+			clearAppsrc();
+			
 			DevLog.printLog(TAG, "发送成功！");
 		}else {
 			DevLog.printLog(TAG, sb.getCode() + "    " + sb.getMsg());
