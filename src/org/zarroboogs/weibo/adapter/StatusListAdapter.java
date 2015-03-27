@@ -14,6 +14,7 @@ import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.hack.like.LikeBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
+import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.widget.AutoScrollListView;
@@ -161,6 +162,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 				final String gsid = GlobalContext.getInstance().getAccountBean().getGsid();
 				if (TextUtils.isEmpty(gsid)) {
 					Intent intent = new Intent(getActivity(), GSIDWebViewActivity.class);
+					intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA	, GlobalContext.getInstance().getAccountBean());
 					getActivity().startActivity(intent);
 					return;
 				}

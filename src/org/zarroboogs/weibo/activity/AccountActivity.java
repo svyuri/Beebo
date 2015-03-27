@@ -291,6 +291,7 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
             
 			if (TextUtils.isEmpty(selectAccountBean.getGsid())) {
 				Intent intent = new Intent(AccountActivity.this, GSIDWebViewActivity.class);
+				intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, selectAccountBean);
 				startActivity(intent);
 				return;
 			}
