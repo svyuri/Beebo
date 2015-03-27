@@ -5,6 +5,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
 import org.zarroboogs.utils.Constants;
+import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.auth.BeeboAuthUtils;
@@ -87,6 +88,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+		WeiBoURLs.buildUA();
 
 		if (!Constants.isBeeboPlus) {
 			UmengUpdateAgent.update(this);

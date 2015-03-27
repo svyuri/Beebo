@@ -1,6 +1,10 @@
 
 package org.zarroboogs.utils;
 
+import org.zarroboogs.devutils.DevLog;
+
+import android.os.Build;
+
 public class WeiBoURLs {
 	
 	public static final String GSID = "http://appsrc.sinaapp.com/gsid.txt";
@@ -144,6 +148,32 @@ public class WeiBoURLs {
     // show heart
     public static final String SHOW_HEART = URL_SINA_WEIBO + "attitudes/show.json";
     
+    public static String buildUA() {
+		String str = "%s-%s__weibo__5.1.2__android__android%s";
+		String result = String.format(str, new Object[]{Build.MANUFACTURER, Build.MODEL, Build.VERSION.RELEASE});
+		DevLog.printLog("buildUA", "" + result);
+		return result;
+	}
+    
+    public static String like(String gsid, String id) {
+		String url = "http://api.weibo.cn/2/like/set_like?sourcetype=feed&uicode=10000001&fromlog=100012294141594&featurecode=10000001&c=android&i=8764dac&s=033439fa&"
+				+ "id=" + id
+				+ "&ua=" + buildUA()
+				+ "&wm=5311_5000&ext=rid%3A0_0_2598665452757778956&v_f=2&from=1051295010&"
+				+ "gsid=" + gsid
+				+ "&lang=zh_CN&skin=default&type=0&oldwm=5311_5000";
+		return url;
+	}
+    
+    public static String unLike(String gsid, String id){
+    	String url = "http://api.weibo.cn/2/like/cancel_like?sourcetype=feed&uicode=10000001&fromlog=100012294141594&featurecode=10000001&c=android&i=8764dac&s=033439fa&"
+    			+ "id=" + id
+    			+ "&ua=" + buildUA()
+    			+ "&wm=5311_5000&ext=rid%3A0_0_2598665452757778956&v_f=2&from=1051295010&"
+    			+ "gsid=" + gsid
+    			+ "&lang=zh_CN&skin=default&type=0&oldwm=5311_5000";
+    	return url;
+    }
     
     public static String hotWeiboMeiTu(String gsid, int page) {
 		String url = "http://api.weibo.cn/2/cardlist?"
