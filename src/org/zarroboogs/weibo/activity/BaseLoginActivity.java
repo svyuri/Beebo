@@ -15,6 +15,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
+import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
@@ -100,7 +101,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
             mFetchAppSrcListener.onStart();
         }
 
-        String url = "http://appsrc.sinaapp.com/appsrc_v2_0.txt";//"http://appsrc.sinaapp.com/";
+        String url = Constants.APPSRC;
         Header[] srcHeaders = new Header[] {
                 new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"),
                 new BasicHeader("Accept-Encoding", "gzip,deflate,sdch"),

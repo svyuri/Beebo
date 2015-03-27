@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
+import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.ChangeWeibaAdapter;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
@@ -93,8 +94,7 @@ public class ChangeWeibaActivity extends SharedPreferenceActivity implements OnI
 
     private void fetchWeiBa() {
         showDialogForWeiBo();
-//        String url = "http://appsrc.sinaapp.com/";
-        String url = "http://appsrc.sinaapp.com/appsrc_v2_0.txt";//"http://appsrc.sinaapp.com/";
+        String url = Constants.APPSRC;
         // Header[] loginHeaders = {
         // new BasicHeader("Cache-Control", "max-age=0"),
         // new BasicHeader("Accept",

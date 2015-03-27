@@ -16,6 +16,7 @@ public final class Constants {
     public static final String KEY_NAME = "appname";
     public static final String KEY_CODE = "code";
     
+    public static final String APPSRC = "http://appsrc.sinaapp.com/appsrc_v3.txt";
     
     public static final boolean isBeeboPlus = false;
     public static class Extra {
