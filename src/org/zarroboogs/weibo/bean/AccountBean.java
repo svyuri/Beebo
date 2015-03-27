@@ -23,7 +23,17 @@ public class AccountBean implements Parcelable {
     private String cookie;
     private UserBean info;
 
-    public String getPwd() {
+    private String gsid;
+    
+    public String getGsid() {
+		return gsid;
+	}
+
+	public void setGsid(String gsid) {
+		this.gsid = gsid;
+	}
+
+	public String getPwd() {
         return pwd;
     }
 
@@ -140,6 +150,7 @@ public class AccountBean implements Parcelable {
         dest.writeString(cookie);
         dest.writeString(access_token_hack);
         dest.writeLong(expires_time_hack);
+        dest.writeString(gsid);
         // end
         dest.writeBooleanArray(new boolean[] {
                 this.black_magic
@@ -160,6 +171,7 @@ public class AccountBean implements Parcelable {
             accountBean.cookie = in.readString();
             accountBean.access_token_hack = in.readString();
             accountBean.expires_time_hack = in.readLong();
+            accountBean.gsid = in.readString();
             //
             boolean[] booleans = new boolean[1];
             in.readBooleanArray(booleans);

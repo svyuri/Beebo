@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.db;
 
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.db.table.AccountTable;
 import org.zarroboogs.weibo.db.table.AtUsersTable;
@@ -31,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "weibo.db";
 
-    private static final int DATABASE_VERSION = 38;
+    private static final int DATABASE_VERSION = 40;
 
     static final String CREATE_ACCOUNT_TABLE_SQL = "create table " + AccountTable.ACCOUNT_TABLE + "(" +
             AccountTable.UID + " integer primary key autoincrement,"
@@ -43,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             AccountTable.ACCESS_TOKEN_HACK + " text," +
             AccountTable.ACCESS_TOKEN_HACK_EXPIRES_TIME + " text," +
             AccountTable.OAUTH_TOKEN_SECRET + " text," +
+            AccountTable.GSID + " text," +
             AccountTable.BLACK_MAGIC + " boolean," +
             AccountTable.NAVIGATION_POSITION + " integer,"
             + AccountTable.INFOJSON + " text" + ");";
@@ -246,6 +248,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         
         if (oldVersion <= 37) {
+        	deleteAllTable(db);
+            onCreate(db);
+		}
+        if (oldVersion <= 38) {
+        	deleteAllTable(db);
+            onCreate(db);
+		}
+    	DevLog.printLog("ACCOUNT_onUpgrade", "old: " + oldVersion + "   new: " + newVersion );
+        if (oldVersion <= 39) {
         	deleteAllTable(db);
             onCreate(db);
 		}

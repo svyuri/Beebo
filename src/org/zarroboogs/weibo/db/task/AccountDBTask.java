@@ -51,6 +51,20 @@ public class AccountDBTask {
         return OAuthActivity.DBResult.update_successfully;
     }
     
+    
+    public static OAuthActivity.DBResult updateGSID(AccountBean account, String gsid) {
+
+        ContentValues cv = new ContentValues();
+        cv.put(AccountTable.GSID, gsid);
+        
+        String[] args = {
+                account.getUid()
+        };
+        getWsd().update(AccountTable.ACCOUNT_TABLE, cv, AccountTable.UID + "=?", args);
+        return OAuthActivity.DBResult.update_successfully;
+    }
+    
+    
     public static OAuthActivity.DBResult addOrUpdateAccount(AccountBean account, boolean blackMagic) {
 
         ContentValues cv = new ContentValues();
@@ -66,7 +80,8 @@ public class AccountDBTask {
         cv.put(AccountTable.ACCESS_TOKEN_HACK, account.getAccess_token_hack());
         // toaken_time 
         cv.put(AccountTable.ACCESS_TOKEN_HACK_EXPIRES_TIME, account.getExpires_time_hack());
-        
+        // gsid
+        cv.put(AccountTable.GSID, account.getGsid());
 
         String json = new Gson().toJson(account.getInfo());
         cv.put(AccountTable.INFOJSON, json);
@@ -143,6 +158,11 @@ public class AccountDBTask {
             int access_token_hack_index = c.getColumnIndex(AccountTable.ACCESS_TOKEN_HACK);
             account.setAccess_token_hack(c.getString(access_token_hack_index));
 
+            // gsid
+            int gsid = c.getColumnIndex(AccountTable.GSID);
+            account.setGsid(c.getString(gsid));
+            
+            
             int colid = c.getColumnIndex(AccountTable.OAUTH_TOKEN);
             account.setAccess_token(c.getString(colid));
 
@@ -212,6 +232,9 @@ public class AccountDBTask {
             colid = c.getColumnIndex(AccountTable.ACCESS_TOKEN_HACK);
             account.setAccess_token_hack(c.getString(colid));
 
+            colid = c.getColumnIndex(AccountTable.GSID);
+            account.setGsid(c.getString(colid));
+            
             colid = c.getColumnIndex(AccountTable.OAUTH_TOKEN_EXPIRES_TIME);
             account.setExpires_time(Long.valueOf(c.getString(colid)));
 
