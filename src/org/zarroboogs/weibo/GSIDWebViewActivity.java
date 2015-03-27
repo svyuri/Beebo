@@ -252,6 +252,8 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
         if (uid.equals(mAccountBean.getUid())) {
             manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, pubCookie);
             manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.GSID, gsid);
+            GlobalContext.getInstance().updateAccountBean();
+            
             finish();
         } else if (!TextUtils.isEmpty(uid)) {
             Toast.makeText(getApplicationContext(), "请登录昵称是[" + mAccountBean.getUsernick() + "]的微博！", Toast.LENGTH_LONG)

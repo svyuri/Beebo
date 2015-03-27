@@ -247,6 +247,7 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
         Log.d("Weibo-Cookie", "after for : " + uid);
         if (uid.equals(mAccountBean.getUid())) {
             manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, pubCookie);
+            GlobalContext.getInstance().updateAccountBean();
             finish();
         } else if (!TextUtils.isEmpty(uid)) {
             Toast.makeText(getApplicationContext(), "请登录昵称是[" + mAccountBean.getUsernick() + "]的微博！", Toast.LENGTH_LONG)

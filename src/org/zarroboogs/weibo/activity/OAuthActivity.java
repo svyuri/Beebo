@@ -194,6 +194,7 @@ public class OAuthActivity extends AbstractAppActivity {
 			manager.updateAccount(AccountTable.ACCOUNT_TABLE, mAccountBean.getUid(),
 					AccountTable.USER_PWD, password);
 		}
+        GlobalContext.getInstance().updateAccountBean();
 	}
 
     private class WeiboWebViewClient extends WebViewClient {

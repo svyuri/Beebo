@@ -1,11 +1,14 @@
 
 package org.zarroboogs.weibo.adapter;
 
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.util.net.HttpUtility;
 import org.zarroboogs.util.net.HttpUtility.HttpMethod;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.WeiBoURLs;
+import org.zarroboogs.utils.crashmanager.CrashManagerConstants;
+import org.zarroboogs.utils.file.FileManager;
 import org.zarroboogs.weibo.GSIDWebViewActivity;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
@@ -37,6 +40,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -175,6 +185,10 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 						try {
 							//String likeresult = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, WeiBoURLs.GIVE_HEART, map);
 							String likeresult = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, WeiBoURLs.like(gsid, msg.getId()), map);
+							
+							saveLikeLog(likeresult);
+							DevLog.printLog("Like_doInBackground", "" + likeresult);
+							
 							LikeBean likeBean = new Gson().fromJson(likeresult, LikeBean.class);
 							if (!TextUtils.isEmpty(likeBean.getAttitude())) {
 								return true;
@@ -187,6 +201,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 							return false;
 						}
 					}
+
 					protected void onPostExecute(Boolean result) {
 						if (result) {
 							Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
@@ -199,6 +214,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 			}
 		});
 
+        
         UserBean user = msg.getUser();
         if (user != null) {
             holder.username.setVisibility(View.VISIBLE);
@@ -450,6 +466,28 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
         }
     }
 
+	private void saveLikeLog(String likeresult) {
+		final Date now = new Date();
+		final Writer result = new StringWriter();
+		try {
+		    String logDir = FileManager.getLogDir();
+
+		    String filename = "LOG";
+		    String path = logDir + File.separator + filename + "_crash.txt";
+
+		    BufferedWriter write = new BufferedWriter(new FileWriter(path));
+		    write.write(likeresult);
+		    write.write("Date: " + now + "\n");
+		    write.write("\n");
+		    write.write(result.toString());
+		    write.flush();
+		    write.close();
+		} catch (Exception another) {
+		} finally {
+		}
+	}
+	
+	
     public void addNewData(List<MessageBean> newValue) {
 
         if (newValue == null || newValue.size() == 0) {
