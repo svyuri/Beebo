@@ -14,6 +14,8 @@ public class AppsrcDatabaseHelper extends SQLiteOpenHelper {
     public static String CODE = "code";
     public static String TEXT = "text";
     private static AppsrcDatabaseHelper mHelper;
+    
+    private static final int DB_VERSION = 4;
 
     public synchronized static AppsrcDatabaseHelper getInstance(Context context) {
         if (mHelper == null) {
@@ -23,7 +25,7 @@ public class AppsrcDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public AppsrcDatabaseHelper(Context context) {
-        super(context, "appsrc.db", null, 3);
+        super(context, "appsrc.db", null, DB_VERSION);
     }
 
     @Override
@@ -37,11 +39,14 @@ public class AppsrcDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        // 删除原来的数据表
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_APPSRC);
+    	if (oldVersion <= 3) {
+            // 删除原来的数据表
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_APPSRC);
 
-        // 重新创建
-        onCreate(db);
+            // 重新创建
+            onCreate(db);
+		}
+
     }
 
 }
