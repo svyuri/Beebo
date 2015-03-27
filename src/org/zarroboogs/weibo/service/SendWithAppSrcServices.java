@@ -232,7 +232,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
     
     private void showSendingNotification(){
             Notification.Builder builder = new Notification.Builder(this)
-                    .setTicker(getString(R.string.send_photo))
+                    .setTicker(getString(R.string.sending))
                     .setContentTitle(getString(R.string.wait_server_response))
                     .setNumber(100).setProgress(100, 100, false)
                     .setOnlyAlertOnce(true).setOngoing(true).setSmallIcon(R.drawable.upload_white);
