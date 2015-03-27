@@ -244,6 +244,11 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
         }
 
         Log.d("Weibo-Cookie", "after for : " + uid);
+        if (mAccountBean == null) {
+        	Toast.makeText(getApplicationContext(), "登陆遇上一次不一致！", Toast.LENGTH_LONG)
+            .show();
+			return;
+		}
         if (uid.equals(mAccountBean.getUid())) {
             manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, pubCookie);
             manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.GSID, gsid);
