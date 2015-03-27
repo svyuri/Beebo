@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -80,31 +81,31 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
             addGalleryViewActionBar(mPhotoViewAdapter);
         }
         
-        mToolbar.inflateMenu(R.menu.select_image_action_menu);
+        disPlayHomeAsUp(mToolbar);
         
-        mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			
-			@Override
-			public boolean onMenuItemClick(MenuItem arg0) {
-				// TODO Auto-generated method stub
-//				if (arg0.getItemId() == R.id.change_image) {
-//					
-//				}else 
-				if(arg0.getItemId() == R.id.delete_image){
-					if (mNinePics != null && !mNinePics.isEmpty()) {
-						SendImgData.getInstance().removeSendImg(mNinePics.remove(mViewPager.getCurrentItem()));
-							mPhotoViewAdapter.setNinePics(mNinePics);
-							mPhotoViewAdapter.notifyDataSetChanged();
-					}
-					if (mNinePics != null && mNinePics.isEmpty()) {
-						mToolbar.setTitle(getResources().getString(R.string.pref_pic_category_title) + "-0");
-					}
-				}
-				return false;
-			}
-		});
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	// TODO Auto-generated method stub
+		if(item.getItemId() == R.id.delete_image){
+			if (mNinePics != null && !mNinePics.isEmpty()) {
+				SendImgData.getInstance().removeSendImg(mNinePics.remove(mViewPager.getCurrentItem()));
+					mPhotoViewAdapter.setNinePics(mNinePics);
+					mPhotoViewAdapter.notifyDataSetChanged();
+			}
+			if (mNinePics != null && mNinePics.isEmpty()) {
+				mToolbar.setTitle(getResources().getString(R.string.pref_pic_category_title) + "-0");
+			}
+		}
+    	return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	// TODO Auto-generated method stub
+    	getMenuInflater().inflate(R.menu.select_image_action_menu, menu);
+    	return super.onCreateOptionsMenu(menu);
+    }
     @Override
     protected void onResume() {
         // TODO Auto-generated method stub

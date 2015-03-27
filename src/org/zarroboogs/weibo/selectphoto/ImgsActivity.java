@@ -54,23 +54,9 @@ public class ImgsActivity extends TranslucentStatusBarActivity {
         hashImage = new HashMap<Integer, ImageView>();
         util = new SelectImgUtil(this);
         
-        mToolbar.inflateMenu(R.menu.imgs_activity_menu);
-        mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			
-			@Override
-			public boolean onMenuItemClick(MenuItem arg0) {
-				// TODO Auto-generated method stub
-				if (arg0.getItemId() == R.id.select_done) {
-		            setResult(RESULT_OK);
-		            finish();
-				}
-				return false;
-			}
-		});
-        mMenuItem = mToolbar.getMenu().findItem(R.id.select_done);
         
-        updateCount(mMenuItem);
-//        disPlayHomeAsUp(mToolbar);
+        disPlayHomeAsUp(mToolbar);
+        
     }
 
     @Override
@@ -97,9 +83,15 @@ public class ImgsActivity extends TranslucentStatusBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case android.R.id.home:{
                 finish();
                 break;
+            }
+            case R.id.select_done:{
+	            setResult(RESULT_OK);
+	            finish();
+            	break;
+            }
 
             default:
                 break;
@@ -110,7 +102,9 @@ public class ImgsActivity extends TranslucentStatusBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // TODO Auto-generated method stub
-        getMenuInflater().inflate(R.menu.imgs_action_bars, menu);
+        getMenuInflater().inflate(R.menu.imgs_activity_menu, menu);
+        mMenuItem = menu.findItem(R.id.select_done);
+        updateCount(mMenuItem);
         return super.onCreateOptionsMenu(menu);
     }
 
