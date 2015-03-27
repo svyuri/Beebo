@@ -85,6 +85,8 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
     public void repostWeibo(String app_src, String content, String cookie, String mid, boolean isComment) {
     	cookie = getCookieIfHave();
 		
+    	showSendingNotification();
+    	
         List<Header> headerList = new ArrayList<Header>();
 	        headerList.add(new BasicHeader("Accept", "*/*"));
 	        headerList.add(new BasicHeader("Accept-Encoding", "gzip, deflate"));
@@ -182,6 +184,19 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
             }
         }, 3000);
     }
+    
+    private void showSendingNotification(){
+        Notification.Builder builder = new Notification.Builder(this)
+                .setTicker(getString(R.string.repost))
+                .setContentTitle(getString(R.string.wait_server_response))
+                .setNumber(100).setProgress(100, 100, false)
+                .setOnlyAlertOnce(true).setOngoing(true).setSmallIcon(R.drawable.upload_white);
+
+        Notification notification = builder.getNotification();
+
+    NotificationUtility.show(notification, R.string.sending);
+}
+    
     public void clearAppsrc(){
         SharedPreferences appsrcPreferences  = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         appsrcPreferences.edit().remove(Constants.KEY_NAME).remove(Constants.KEY_CODE).commit();

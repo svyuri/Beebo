@@ -108,6 +108,8 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 	}
 	
     private void sendWeibo(SendImgData sendImgData, String text) {
+    	showSendingNotification();
+    	
         if (TextUtils.isEmpty(text)) {
             LogTool.D("sendWeibo    text is empty");
             text = getString(R.string.default_text_pic_weibo);
@@ -226,6 +228,18 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
                 NotificationUtility.cancel(R.string.send_successfully);
             }
         }, 3000);
+    }
+    
+    private void showSendingNotification(){
+            Notification.Builder builder = new Notification.Builder(this)
+                    .setTicker(getString(R.string.send_photo))
+                    .setContentTitle(getString(R.string.wait_server_response))
+                    .setNumber(100).setProgress(100, 100, false)
+                    .setOnlyAlertOnce(true).setOngoing(true).setSmallIcon(R.drawable.upload_white);
+
+            Notification notification = builder.getNotification();
+
+        NotificationUtility.show(notification, R.string.sending);
     }
     
 	@Override
