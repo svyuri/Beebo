@@ -11,6 +11,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -70,10 +71,15 @@ public class AtUserFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        mToolbar.inflateMenu(R.menu.actionbar_menu_atuserfragment);
-        showSearchMenu(mToolbar.getMenu());
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    	// TODO Auto-generated method stub
+    	inflater.inflate(R.menu.actionbar_menu_atuserfragment, menu);
+    	showSearchMenu(menu);
+    	super.onCreateOptionsMenu(menu, inflater);
+    }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

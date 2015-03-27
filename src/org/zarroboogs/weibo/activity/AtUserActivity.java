@@ -37,6 +37,8 @@ public class AtUserActivity extends AbstractAppActivity {
             getFragmentManager().beginTransaction()
                     .replace(R.id.at_content_frame, new AtUserFragment(token, mAtUserToolBar)).commit();
         }
+        
+        disPlayHomeAsUp(mAtUserToolBar);
     }
 
     @Override
