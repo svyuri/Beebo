@@ -194,7 +194,7 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
 
         Notification notification = builder.getNotification();
 
-    NotificationUtility.show(notification, R.string.sending);
+    NotificationUtility.show(notification, R.string.repost);
 }
     
     public void clearAppsrc(){
@@ -208,11 +208,15 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
 		SendWeiboResultBean sb = new Gson().fromJson(arg0, SendWeiboResultBean.class);
 		if (sb.isSuccess()) {
 			
+			NotificationUtility.cancel(R.string.repost);
+			
 			showSuccessfulNotification();
 			clearAppsrc();
 			this.stopSelf();
 			DevLog.printLog(TAG, "发送成功！");
 		}else {
+			NotificationUtility.cancel(R.string.repost);
+			
 			DevLog.printLog(TAG, sb.getCode() + "    " + sb.getMsg());
 			if (sb.getMsg().equals("未登录")) {
 				mJsAutoLogin.exejs();

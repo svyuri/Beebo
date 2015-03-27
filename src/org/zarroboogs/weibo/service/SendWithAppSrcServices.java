@@ -216,6 +216,8 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 	private Handler handler = new Handler();
 	
     private void showSuccessfulNotification() {
+    	NotificationUtility.cancel(R.string.sending);
+    	
         Notification.Builder builder = new Notification.Builder(SendWithAppSrcServices.this)
                 .setTicker(getString(R.string.send_successfully))
                 .setContentTitle(getString(R.string.send_successfully)).setOnlyAlertOnce(true).setAutoCancel(true)
@@ -258,6 +260,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 			
 			DevLog.printLog(TAG, "发送成功！");
 		}else {
+			NotificationUtility.cancel(R.string.sending);
 			DevLog.printLog(TAG, sb.getCode() + "    " + sb.getMsg());
 			if (sb.getMsg().equals("未登录")) {
 				mJsAutoLogin.checkUserPassword(mAccountBean.getUname(), mAccountBean.getPwd(), new CheckUserNamePasswordListener() {
