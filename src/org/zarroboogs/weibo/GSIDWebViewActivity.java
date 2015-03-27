@@ -218,21 +218,25 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
 //         setWeiboCookie(CookieStr);
         String uid = "";
         String uname = "";
+        
+        String gsid = "";
+        
         AccountDatabaseManager manager = new AccountDatabaseManager(getApplicationContext());
         if (true) {
             String[] cookies = cookie.split("; ");
             for (String string : cookies) {
-                // Log.d("Weibo-Cookie", "" + Uri.decode(Uri.decode(string)));
                 String oneLine = Uri.decode(Uri.decode(string));
+                
+                if (oneLine.contains("SUB=")) {
+					DevLog.printLog("GSID", "" + oneLine);
+					gsid = oneLine.split("SUB=")[1];
+				}
+                
                 String uidtmp = PatternUtils.macthUID(oneLine);
                 if (!TextUtils.isEmpty(uidtmp)) {
                     uid = uidtmp;
                 }
                 uname = PatternUtils.macthUname(oneLine);
-                // Log.d("Weibo-Cookie", "" + uid);
-                // Log.d("Weibo-Cookie", "" + uname);
-                // Log.d("Weibo-Cookie", "in db : uid = " + mAccountBean.getUid());
-
                 if (!TextUtils.isEmpty(uname)) {
                     manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.USER_NAME, uname);
                 }
@@ -241,7 +245,8 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
 
         Log.d("Weibo-Cookie", "after for : " + uid);
         if (uid.equals(mAccountBean.getUid())) {
-            manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, cookie);
+            manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, pubCookie);
+            manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.GSID, gsid);
             finish();
         } else if (!TextUtils.isEmpty(uid)) {
             Toast.makeText(getApplicationContext(), "请登录昵称是[" + mAccountBean.getUsernick() + "]的微博！", Toast.LENGTH_LONG)

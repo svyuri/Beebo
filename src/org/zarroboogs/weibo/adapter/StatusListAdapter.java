@@ -6,17 +6,21 @@ import org.zarroboogs.util.net.HttpUtility.HttpMethod;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.WeiBoURLs;
+import org.zarroboogs.weibo.GSIDWebViewActivity;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.activity.WriteCommentActivity;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
+import org.zarroboogs.weibo.bean.hack.like.LikeBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.widget.AutoScrollListView;
 import org.zarroboogs.weibo.widget.TopTipsView;
 import org.zarroboogs.weibo.widget.VelocityListView;
+
+import com.google.gson.Gson;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -154,17 +158,26 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				final String gsid = GlobalContext.getInstance().getAccountBean().getGsid();
+				if (TextUtils.isEmpty(gsid)) {
+					Intent intent = new Intent(getActivity(), GSIDWebViewActivity.class);
+					getActivity().startActivity(intent);
+					return;
+				}
 				new AsyncTask<Void, Void, Boolean>() {
 
 					@Override
 					protected Boolean doInBackground(Void... params) {
 						// TODO Auto-generated method stub
 				        Map<String, String> map = new HashMap<String, String>();
-				        map.put("access_token", GlobalContext.getInstance().getAccessToken());
-				        map.put("id", msg.getId());
-				        map.put("attitude", "heart");
 						try {
-							String likeresult = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, WeiBoURLs.GIVE_HEART, map);
+							//String likeresult = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, WeiBoURLs.GIVE_HEART, map);
+							String likeresult = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, WeiBoURLs.like(gsid, msg.getId()), map);
+							LikeBean likeBean = new Gson().fromJson(likeresult, LikeBean.class);
+							if (!TextUtils.isEmpty(likeBean.getAttitude())) {
+								return true;
+							}
+							
 							return true;
 						} catch (WeiboException e) {
 							// TODO Auto-generated catch block

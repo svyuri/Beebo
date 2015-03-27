@@ -176,11 +176,20 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
                 Log.d("Weibo-CookieStr", cookie + " \r\n\r\n PubCookie:" + pubCookie + "  \r\n\r\r LogInCookie:" + longInCookie);
                 String uid = "";
                 String uname = "";
+                
+                String gsid = "";
+                
                 AccountDatabaseManager manager = new AccountDatabaseManager(mContext);
                 if (true) {
                     String[] cookies = cookie.split("; ");
                     for (String string : cookies) {
                         String oneLine = Uri.decode(Uri.decode(string));
+                        
+                        if (oneLine.contains("SUB=")) {
+        					DevLog.printLog("GSID", "" + oneLine);
+        					gsid = oneLine.split("SUB=")[1];
+        				}
+                        
                         String uidtmp = PatternUtils.macthUID(oneLine);
                         if (!TextUtils.isEmpty(uidtmp)) {
                             uid = uidtmp;
@@ -188,6 +197,7 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
                         uname = PatternUtils.macthUname(oneLine);
                         if (!TextUtils.isEmpty(uname)) {
                             manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.USER_NAME, uname);
+                            manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.GSID, gsid);
                         }
                     }
                 }

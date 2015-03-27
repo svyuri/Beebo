@@ -33,7 +33,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.CookieManager;
