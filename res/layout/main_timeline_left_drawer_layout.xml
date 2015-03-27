@@ -65,6 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/coverBlureImage"
             android:layout_toLeftOf="@id/hotHuatiIb"
+            android:visibility="gone"
             android:src="@drawable/hot_model_gray"
             android:text="@string/setting"
             tools:ignore="RtlHardcoded" />
