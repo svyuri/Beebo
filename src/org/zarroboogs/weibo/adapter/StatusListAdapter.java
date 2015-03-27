@@ -1,6 +1,8 @@
 
 package org.zarroboogs.weibo.adapter;
 
+import org.apache.http.Header;
+import org.apache.http.message.BasicHeader;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.util.net.HttpUtility;
 import org.zarroboogs.util.net.HttpUtility.HttpMethod;
@@ -25,6 +27,9 @@ import org.zarroboogs.weibo.widget.TopTipsView;
 import org.zarroboogs.weibo.widget.VelocityListView;
 
 import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -66,6 +71,8 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
     private LongSparseArray<Integer> oriMsgWidths = new LongSparseArray<Integer>();
 
     private TopTipsView topTipBar;
+    
+    private AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
 
     public StatusListAdapter(Fragment fragment, List<MessageBean> bean, ListView listView, boolean showOriStatus) {
         this(fragment, bean, listView, showOriStatus, false);
@@ -127,6 +134,43 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
         });
     }
 
+    public void like(String gsid, String id){
+    	RequestParams params = new RequestParams();
+    	Header[] headers = new Header[]{
+    		new BasicHeader("Accept-Encoding", "gzip,deflate"),
+    		new BasicHeader("Host", "api.weibo.cn"),
+    		new BasicHeader("Connection", "Keep-Alive"),
+    	};
+    	mAsyncHttpClient.get(getActivity(), WeiBoURLs.like(gsid, id), headers, params, new AsyncHttpResponseHandler() {
+			
+			@Override
+			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+				// TODO Auto-generated method stub
+				String result = new String(arg2);
+				
+				if (result.startsWith("<html>")) {
+					Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				
+				saveLikeLog(result);
+				DevLog.printLog("Like_doInBackground", "" + result);
+				LikeBean likeBean = new Gson().fromJson(result, LikeBean.class);
+				
+				if (likeBean != null && !TextUtils.isEmpty(likeBean.getAttitude())) {
+					Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
+				}else {
+					Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
+				}
+			}
+			
+			@Override
+			public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
+			}
+		});
+    }
     @Override
     protected void bindViewData(final ViewHolder holder, int position) {
 
@@ -176,43 +220,11 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 					getActivity().startActivity(intent);
 					return;
 				}
-				new AsyncTask<Void, Void, Boolean>() {
-
-					@Override
-					protected Boolean doInBackground(Void... params) {
-						// TODO Auto-generated method stub
-				        Map<String, String> map = new HashMap<String, String>();
-						try {
-							//String likeresult = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, WeiBoURLs.GIVE_HEART, map);
-							String likeresult = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, WeiBoURLs.like(gsid, msg.getId()), map);
-							
-							saveLikeLog(likeresult);
-							DevLog.printLog("Like_doInBackground", "" + likeresult);
-							
-							LikeBean likeBean = new Gson().fromJson(likeresult, LikeBean.class);
-							if (!TextUtils.isEmpty(likeBean.getAttitude())) {
-								return true;
-							}
-							
-							return true;
-						} catch (WeiboException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							return false;
-						}
-					}
-
-					protected void onPostExecute(Boolean result) {
-						if (result) {
-							Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
-						}else {
-							Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
-						}
-						
-					};
-				}.execute();
+				
+				like(gsid, msg.getId());
 			}
 		});
+        
 
         
         UserBean user = msg.getUser();
