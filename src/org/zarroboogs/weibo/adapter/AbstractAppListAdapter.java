@@ -403,6 +403,9 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         holder.addComment = ViewUtility.findViewById(convertView, R.id.addComment);
         holder.deleteComment = ViewUtility.findViewById(convertView, R.id.deleteComment);
         holder.giveHeart = ViewUtility.findViewById(convertView, R.id.giveHeart);
+        
+        holder.popupMenuIb = ViewUtility.findViewById(convertView, R.id.popupMenuIb);
+        
         return holder;
     }
 
@@ -886,6 +889,8 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         ImageButton addComment;
         ImageButton deleteComment;
         ImageButton giveHeart;
+        
+        ImageButton popupMenuIb;
     }
 
     public void removeItem(final int postion) {

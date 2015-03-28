@@ -13,6 +13,7 @@ import org.zarroboogs.utils.crashmanager.CrashManagerConstants;
 import org.zarroboogs.utils.file.FileManager;
 import org.zarroboogs.weibo.GSIDWebViewActivity;
 import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.activity.WriteCommentActivity;
 import org.zarroboogs.weibo.bean.MessageBean;
@@ -35,6 +36,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.util.LongSparseArray;
 import android.view.View;
@@ -141,7 +143,10 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
     		new BasicHeader("Host", "api.weibo.cn"),
     		new BasicHeader("Connection", "Keep-Alive"),
     	};
-    	mAsyncHttpClient.get(getActivity(), WeiBoURLs.like(gsid, id), headers, params, new AsyncHttpResponseHandler() {
+    	String url = WeiBoURLs.like(gsid, id);
+    	DevLog.printLog("Like_doInBackground", "" + url);
+    	
+    	mAsyncHttpClient.get(getActivity(), url, headers, params, new AsyncHttpResponseHandler() {
 			
 			@Override
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
@@ -222,6 +227,17 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 				}
 				
 				like(gsid, msg.getId());
+			}
+		});
+        
+        holder.popupMenuIb.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				PopupMenu popupMenu = new PopupMenu(getActivity(), holder.popupMenuIb);
+				popupMenu.inflate(R.menu.actionbar_menu_browserweibomsgactivity);
+				popupMenu.show();
 			}
 		});
         

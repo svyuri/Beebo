@@ -24,6 +24,16 @@
             android:paddingRight="10dp"
             android:paddingTop="10dp" >
 
+            <ImageButton
+                android:id="@+id/popupMenuIb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/button_background_selector"
+                android:focusable="false"
+                android:src="@drawable/ic_more_vert_grey600_36dp"
+                tools:ignore="RtlHardcoded,ContentDescription,ObsoleteLayoutParam" />
+
             <org.zarroboogs.weibo.widget.TimeLineAvatarImageView
                 android:id="@+id/avatar"
                 android:layout_width="@dimen/timeline_avatar_width"
@@ -44,19 +54,56 @@
                 android:background="@drawable/divider"
                 android:visibility="visible" />
 
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/count_layout"
+                android:layout_toRightOf="@id/avatar"
+                android:clickable="true"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/username"
+                android:textColor="@color/timeline_item_text_color_light"
+                android:textStyle="bold"
+                tools:ignore="RtlHardcoded" />
+
+            <org.zarroboogs.weibo.widget.TimeTextView
+                android:id="@+id/time"
+                android:text="123456"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/username"
+                android:layout_toRightOf="@id/avatar"
+                android:textColor="?android:textColorTertiary"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/time"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/time"
+                android:textColor="?android:textColorTertiary"
+                tools:ignore="RtlHardcoded" />
+
             <LinearLayout
+                android:layout_alignBottom="@id/time"
+              	android:layout_toRightOf="@id/source"
                 android:id="@+id/count_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:visibility="gone" >
+                android:visibility="visible"
+                tools:ignore="RtlHardcoded" >
 
                 <ImageView
                     android:id="@+id/timeline_gps_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/timeline_gps_dark"
-                    android:visibility="gone" />
+                    android:visibility="visible"
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/timeline_pic_iv"
@@ -64,7 +111,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:src="@drawable/timeline_pic_dark"
-                    android:visibility="gone" />
+                    android:visibility="visible"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/repost_count"
@@ -86,35 +134,6 @@
                     android:fontFamily="monospace"
                     android:textColor="?android:textColorTertiary" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/count_layout"
-                android:layout_toRightOf="@id/avatar"
-                android:clickable="true"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="@color/timeline_item_text_color_light"
-                android:textStyle="bold" />
-
-            <org.zarroboogs.weibo.widget.TimeTextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/username"
-                android:layout_toRightOf="@id/avatar"
-                android:textColor="?android:textColorTertiary" />
-
-            <TextView
-                android:id="@+id/source"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/time"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/time"
-                android:textColor="?android:textColorTertiary" />
 
             <TextView
                 android:id="@+id/weibo_text_content"
