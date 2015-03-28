@@ -111,11 +111,6 @@ public class HotHuaTiFragmentFilm extends BaseHotHuaTiFragment {
         adapter.notifyDataSetChanged();
         listView.setHeaderDividersEnabled(false);
 
-		if (TextUtils.isEmpty(getGsid())) {
-			loadGsid();
-		}else {
-			loadData(WeiBoURLs.hotHuaTiFilm(getGsid(), mPage));
-		}
 		
 //		pullToRefreshListView.setRefreshing();
 		
@@ -321,6 +316,16 @@ public class HotHuaTiFragmentFilm extends BaseHotHuaTiFragment {
 	void onGsidLoadFailed(String errorStr) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	void onPageSelected() {
+		// TODO Auto-generated method stub
+		if (TextUtils.isEmpty(getGsid())) {
+			loadGsid();
+		}else {
+			loadData(WeiBoURLs.hotHuaTiFilm(getGsid(), mPage));
+		}
 	}
 
 }

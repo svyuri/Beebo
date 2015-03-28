@@ -60,7 +60,7 @@ public class HotHuaTiViewPagerFragment extends BaseStateFragment implements Main
         super.onViewCreated(view, savedInstanceState);
         viewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         viewPager.setOffscreenPageLimit(2);
-        viewPager.setOnPageChangeListener(onPageChangeListener);
+//        viewPager.setOnPageChangeListener(onPageChangeListener);
         
         List<String> titleList = new ArrayList<String>();
         titleList.add("1小时热榜");
@@ -75,12 +75,15 @@ public class HotHuaTiViewPagerFragment extends BaseStateFragment implements Main
         
         viewPager.setAdapter(adapter);
         mSlidingTabLayout.setViewPager(viewPager);
+        
+        mSlidingTabLayout.setOnPageChangeListener(onPageChangeListener);
     }
 
     ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
-            ((LeftMenuFragment) ((MainTimeLineActivity) getActivity()).getLeftMenuFragment()).mentionsTabIndex = position;
+        	BaseHotHuaTiFragment bs = (BaseHotHuaTiFragment) ((HotHuaTiViewPagerAdapter)viewPager.getAdapter()).getItem(position);
+        	bs.onPageSelected();
         }
 
         @Override
@@ -88,16 +91,8 @@ public class HotHuaTiViewPagerFragment extends BaseStateFragment implements Main
             super.onPageScrollStateChanged(state);
             switch (state) {
                 case ViewPager.SCROLL_STATE_SETTLING:
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            LongClickableLinkMovementMethod.getInstance().setLongClickable(true);
-
-                        }
-                    }, ViewConfiguration.getLongPressTimeout());
                     break;
                 default:
-                    LongClickableLinkMovementMethod.getInstance().setLongClickable(false);
                     break;
             }
         }

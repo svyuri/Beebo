@@ -70,11 +70,6 @@ public class HotModelDetailFragment extends BaseHotHuaTiFragment {
 				
 			}
 		});
-		if (TextUtils.isEmpty(getGsid())) {
-			loadGsid();
-		}else {
-			loadData(WeiBoURLs.hotModelDetail(getGsid(), mPage, extparam));
-		}
 		
 		return swipeFrameLayout;
 	}
@@ -113,6 +108,16 @@ public class HotModelDetailFragment extends BaseHotHuaTiFragment {
 	void onGsidLoadFailed(String errorStr) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	void onPageSelected() {
+		// TODO Auto-generated method stub
+		if (TextUtils.isEmpty(getGsid())) {
+			loadGsid();
+		}else {
+			loadData(WeiBoURLs.hotModelDetail(getGsid(), mPage, extparam));
+		}
 	}
 
 

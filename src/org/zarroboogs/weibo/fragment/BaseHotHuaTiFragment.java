@@ -18,6 +18,8 @@ public abstract class BaseHotHuaTiFragment extends BaseLoadDataFragment {
 	abstract void onGsidLoadSuccess(String gsid);
 
 	abstract void onGsidLoadFailed(String errorStr);
+	
+	abstract void onPageSelected();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
