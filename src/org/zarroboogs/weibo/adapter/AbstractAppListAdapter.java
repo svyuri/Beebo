@@ -398,11 +398,6 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         holder.timeline_pic = ViewUtility.findViewById(convertView, R.id.timeline_pic_iv);
         holder.replyIV = ViewUtility.findViewById(convertView, R.id.replyIV);
         holder.source = ViewUtility.findViewById(convertView, R.id.source);
-        holder.repostBtn = ViewUtility.findViewById(convertView, R.id.repostButton);
-        holder.commentBtn = ViewUtility.findViewById(convertView, R.id.commentButton);
-        holder.addComment = ViewUtility.findViewById(convertView, R.id.addComment);
-        holder.deleteComment = ViewUtility.findViewById(convertView, R.id.deleteComment);
-        holder.giveHeart = ViewUtility.findViewById(convertView, R.id.giveHeart);
         
         holder.popupMenuIb = ViewUtility.findViewById(convertView, R.id.popupMenuIb);
         
@@ -883,12 +878,6 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         ImageView timeline_pic;
 
         ImageView replyIV;
-
-        ImageButton repostBtn;
-        ImageButton commentBtn;
-        ImageButton addComment;
-        ImageButton deleteComment;
-        ImageButton giveHeart;
         
         ImageButton popupMenuIb;
     }

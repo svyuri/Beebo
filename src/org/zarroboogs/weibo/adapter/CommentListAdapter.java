@@ -34,9 +34,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-/**
- * User: qii Date: 12-9-8
- */
 public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
 
     private Map<ViewHolder, Drawable> bg = new WeakHashMap<ViewHolder, Drawable>();
@@ -141,37 +138,8 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
         holder.repost_content.setVisibility(View.GONE);
         holder.repost_content_pic.setVisibility(View.GONE);
 
-        // hide repost adn comment btn
-        holder.repostBtn.setVisibility(View.GONE);
-        holder.commentBtn.setVisibility(View.GONE);
-        holder.addComment.setVisibility(View.VISIBLE);
-        holder.deleteComment.setVisibility(View.VISIBLE);
         
-        holder.addComment.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-                Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
-                intent.putExtra("msg", comment);
-                getActivity().startActivity(intent);
-			}
-		});
         
-        holder.deleteComment.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-//				int position = listView.getCheckedItemPosition() - listView.getHeaderViewsCount();
-                RemoveDialog dialog = new RemoveDialog(position);
-                dialog.setTargetFragment(fragment, 0);
-                dialog.show(fragment.getFragmentManager(), "");
-				
-			}
-		});
-
         CommentBean reply = comment.getReply_comment();
         if (holder.replyIV != null) {
             holder.replyIV.setVisibility(View.GONE);

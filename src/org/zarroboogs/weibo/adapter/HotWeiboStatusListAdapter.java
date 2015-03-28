@@ -129,60 +129,6 @@ public class HotWeiboStatusListAdapter extends AbstractAppListAdapter<MessageBea
         }
 
         final MessageBean msg = bean.get(position);
-        holder.repostBtn.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RepostWeiboWithAppSrcActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
-                intent.putExtra("msg", msg);
-                getActivity().startActivity(intent);
-            }
-        });
-        holder.commentBtn.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), WriteCommentActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
-                intent.putExtra("msg", msg);
-                getActivity().startActivity(intent);
-            }
-        });
-        holder.giveHeart.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				new AsyncTask<Void, Void, Boolean>() {
-
-					@Override
-					protected Boolean doInBackground(Void... params) {
-						// TODO Auto-generated method stub
-				        Map<String, String> map = new HashMap<String, String>();
-				        map.put("access_token", GlobalContext.getInstance().getAccessToken());
-				        map.put("id", msg.getId());
-				        map.put("attitude", "heart");
-						try {
-							String likeresult = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, WeiBoURLs.GIVE_HEART, map);
-							return true;
-						} catch (WeiboException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							return false;
-						}
-					}
-					protected void onPostExecute(Boolean result) {
-						if (result) {
-							Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
-						}else {
-							Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
-						}
-						
-					};
-				}.execute();
-			}
-		});
 
         UserBean user = msg.getUser();
         if (user != null) {

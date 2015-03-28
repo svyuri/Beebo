@@ -14,6 +14,7 @@
         android:background="@drawable/bg_tacos"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
+        android:paddingBottom="8dp"
         android:paddingTop="2dp" >
 
         <RelativeLayout
@@ -235,59 +236,6 @@
                 </GridLayout>
             </RelativeLayout>
         </RelativeLayout>
-
-        <ImageButton
-            android:id="@+id/commentButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/contentMain"
-            android:background="@drawable/button_background_selector"
-            android:focusable="false"
-            android:src="@drawable/ic_speaker_notes_grey600_24dp"
-            tools:ignore="RtlHardcoded" />
-
-        <ImageButton
-            android:id="@+id/repostButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/contentMain"
-            android:layout_toLeftOf="@id/commentButton"
-            android:background="@drawable/button_background_selector"
-            android:focusable="false"
-            android:src="@drawable/ic_launch_grey600_24dp" />
-
-        <ImageButton
-            android:id="@+id/addComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/contentMain"
-            android:background="@drawable/button_background_selector"
-            android:focusable="false"
-            android:src="@drawable/reply_to_comment_dark"
-            android:visibility="gone" />
-
-        <ImageButton
-            android:id="@+id/deleteComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/contentMain"
-            android:layout_toLeftOf="@id/addComment"
-            android:background="@drawable/button_background_selector"
-            android:focusable="false"
-            android:src="@drawable/accountactivity_remove_dark"
-            android:visibility="gone" />
-
-        <ImageButton
-            android:id="@+id/giveHeart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/contentMain"
-            android:layout_toLeftOf="@id/repostButton"
-            android:background="@drawable/button_background_selector"
-            android:focusable="false"
-            android:src="@drawable/give_heart_dark" />
     </RelativeLayout>
 
 </RelativeLayout>
