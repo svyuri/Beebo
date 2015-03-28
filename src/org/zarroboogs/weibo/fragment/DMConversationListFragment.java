@@ -216,14 +216,10 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.actionbar_menu_dmconversationlistfragment, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-		if (itemId == R.id.menu_clear) {
-		}
         return super.onOptionsItemSelected(item);
     }
 

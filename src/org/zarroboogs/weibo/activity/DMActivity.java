@@ -22,20 +22,18 @@ public class DMActivity extends AbstractAppActivity {
 
         setContentView(R.layout.dm_activity_layout);
         mToolBar = (Toolbar) findViewById(R.id.settingToolBar);
-
-        // getActionBar().setDisplayShowHomeEnabled(false);
-        // getActionBar().setDisplayShowTitleEnabled(true);
-        // getActionBar().setDisplayHomeAsUpEnabled(true);
-
         UserBean bean = (UserBean) getIntent().getParcelableExtra("user");
 
-        mToolBar.setTitle(bean.getScreen_name());
+        mToolBar.setTitle("私信对话");
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.content_frame, DMConversationListFragment.newInstance(bean),
                             DMConversationListFragment.class.getName()).commit();
         }
+        
+        disPlayHomeAsUp(mToolBar);
+        
     }
 
     @Override
