@@ -60,37 +60,6 @@ public class UserInfoActivity extends AbstractAppActivity {
 
     private Toolbar mUserInfoToolbar;
 
-    public String getToken() {
-        if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getAccessTokenHack();
-        }
-        return token;
-    }
-
-    public UserBean getUser() {
-        return bean;
-    }
-
-    public void setUser(UserBean bean) {
-        this.bean = bean;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Utility.cancelTasks(followOrUnfollowTask, modifyGroupMemberTask);
-    }
-    
-    
-    
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,9 +112,45 @@ public class UserInfoActivity extends AbstractAppActivity {
             finish();
         }
 
+        mUserInfoToolbar.setTitle("个人信息");
+        
         disPlayHomeAsUp(R.id.userInfoToolBar);
+        
+        
+    }
+    
+    public Toolbar getToolbar(){
+    	return mUserInfoToolbar;
     }
 
+    public String getToken() {
+        if (TextUtils.isEmpty(token)) {
+            token = GlobalContext.getInstance().getAccessTokenHack();
+        }
+        return token;
+    }
+
+    public UserBean getUser() {
+        return bean;
+    }
+
+    public void setUser(UserBean bean) {
+        this.bean = bean;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getName());
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Utility.cancelTasks(followOrUnfollowTask, modifyGroupMemberTask);
+    }
+    
     @Override
     protected void onResume() {
         // TODO Auto-generated method stub
@@ -163,20 +168,6 @@ public class UserInfoActivity extends AbstractAppActivity {
     }
 
     private void fetchUserInfoFromServer() {
-        // getActionBar().setDisplayHomeAsUpEnabled(true);
-        // getActionBar().setDisplayShowHomeEnabled(false);
-
-        String title = bean.getScreen_name();
-        if (TextUtils.isEmpty(title)) {
-            title = bean.getDomain();
-        }
-        if (TextUtils.isEmpty(title)) {
-            title = bean.getId();
-        }
-
-        // getActionBar().setTitle(title);
-
-        mUserInfoToolbar.setTitle(title);
 
         CommonProgressDialogFragment dialog = CommonProgressDialogFragment
                 .newInstance(getString(R.string.fetching_user_info));

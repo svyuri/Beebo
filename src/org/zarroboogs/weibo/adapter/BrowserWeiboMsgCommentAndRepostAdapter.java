@@ -326,8 +326,8 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
     private ViewHolder buildHolder(View convertView) {
         ViewHolder holder = new ViewHolder();
         holder.username = ViewUtility.findViewById(convertView, R.id.username);
-        TextPaint tp = holder.username.getPaint();
-        tp.setFakeBoldText(true);
+//        TextPaint tp = holder.username.getPaint();
+//        tp.setFakeBoldText(true);
         holder.weiboTextContent = ViewUtility.findViewById(convertView, R.id.weibo_text_content);
         holder.time = ViewUtility.findViewById(convertView, R.id.time);
         holder.avatar = (TimeLineAvatarImageView) convertView.findViewById(R.id.avatar);
