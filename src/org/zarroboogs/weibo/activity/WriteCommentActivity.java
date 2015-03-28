@@ -70,7 +70,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
             }
         }
 
-        getSupportActionBar().setTitle(R.string.comments);
+        getSupportActionBar().setTitle(R.string.comments_weibo);
 
         enableCommentOri = (CheckBox) findViewById(R.id.commentCheckBox);
         enableRepost = (CheckBox) findViewById(R.id.repostCheckBox);

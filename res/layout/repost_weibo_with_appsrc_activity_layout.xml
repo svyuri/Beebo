@@ -15,7 +15,7 @@
         android:minHeight="48dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="@string/repost" />
+        app:title="@string/repost_weibo" />
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/writeWeiboDrawerL"

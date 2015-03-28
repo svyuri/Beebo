@@ -25,7 +25,7 @@
     <string name="weibo_home_page">微博首页</string>
     <string name="weibo_myprofile_page">个人主页</string>
     <string name="weibo_change_account">切换帐号</string>
-    <string name="weibo_detail">正文</string>
+    <string name="weibo_detail">微博正文</string>
     <string name="weibo_weibo">微博</string>
 
     <!-- Account -->
@@ -138,11 +138,13 @@
     <!-- main category -->
     <string name="mentions">与我相关</string>
     <string name="comments">评论</string>
+    <string name="comments_weibo">评论微博</string>
     <string name="discover">探索</string>
     <string name="private_message">微博私信</string>
     <string name="favourite_weibo">我的收藏</string>
     <string name="me">个人</string>
     <string name="repost">转发</string>
+    <string name="repost_weibo">转发微博</string>
     <string name="mail">私信</string>
     <string name="info">资料</string>
 
