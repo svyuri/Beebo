@@ -15,9 +15,6 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.AdapterView;
 
-/**
- * User: Jiang Qi Date: 12-8-16
- */
 public class FanListFragment extends AbstractFriendsFanListFragment {
 
     public static FanListFragment newInstance(UserBean userBean) {
@@ -87,7 +84,7 @@ public class FanListFragment extends AbstractFriendsFanListFragment {
 
     @Override
     protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateNewUserLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         String cursor = String.valueOf(0);
         return new FanUserLoader(getActivity(), token, getCurrentUser().getId(), cursor);
     }
@@ -99,7 +96,7 @@ public class FanListFragment extends AbstractFriendsFanListFragment {
             return null;
         }
 
-        String token = GlobalContext.getInstance().getAccessToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         String cursor = String.valueOf(bean.getNext_cursor());
 
         return new FanUserLoader(getActivity(), token, getCurrentUser().getId(), cursor);

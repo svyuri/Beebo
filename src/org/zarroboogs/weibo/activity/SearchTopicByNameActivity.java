@@ -30,13 +30,12 @@ public class SearchTopicByNameActivity extends AbstractAppActivity {
             int index = d.indexOf("#");
             q = d.substring(index + 1, d.length() - 1);
         }
-        // getActionBar().setDisplayHomeAsUpEnabled(true);
-        // getActionBar().setDisplayShowHomeEnabled(false);
-        // getActionBar().setTitle("#" + q + "#");
-        mSearchTopicToolbar.setTitle("#" + q + "#");
+        mSearchTopicToolbar.setTitle("话题浏览");
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content, new SearchTopicByNameFragment(q)).commit();
         }
+        
+        disPlayHomeAsUp(mSearchTopicToolbar);
 
     }
 

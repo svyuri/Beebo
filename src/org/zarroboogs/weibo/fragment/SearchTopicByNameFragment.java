@@ -26,9 +26,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-/**
- * User: qii Date: 12-9-26
- */
 @SuppressLint("ValidFragment")
 public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultListBean> {
 
@@ -115,7 +112,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.actionbar_menu_searchtopicbynamefragment, menu);
+//        inflater.inflate(R.menu.actionbar_menu_searchtopicbynamefragment, menu);
     }
 
     @Override
