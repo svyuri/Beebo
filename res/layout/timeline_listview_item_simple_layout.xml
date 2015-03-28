@@ -3,7 +3,7 @@
     android:id="@+id/listview_root"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/listview_item_background_selector_light_simple"
+    android:background="@drawable/button_background_selector"
     android:clickable="true" >
 
     <org.zarroboogs.weibo.widget.TimeLineAvatarImageView

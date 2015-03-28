@@ -8,7 +8,6 @@ import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.auth.BeeboAuthUtils;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.CommentListBean;
 import org.zarroboogs.weibo.bean.MessageListBean;

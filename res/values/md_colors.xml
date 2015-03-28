@@ -5,7 +5,11 @@
     <color name="accent">#ff4081</color>
     <color name="accent_pressed">#f50057</color>
     <color name="ripple">#ff80ab</color>
-
+    
+    <color name="host_background">#FFf2f2f2</color>
+    
+    
+    
     <!-- 光标的颜色 -->
     <color name="textcursordrawable">#FF202020</color>
     <color name="none_color">#00000000</color>
@@ -22,7 +26,6 @@
     <color name="listview_checked_color_holo_light">#66ffffff</color>
     <color name="progress_horizontal_progress">#0099CC</color>
     <color name="ics_blue_semi">#66FFFFFF</color>
-    <color name="host_background">#FFE2E2E2</color>
 
     <!-- TopTipBar error color -->
     <color name="top_tip_bar_error">#7FFF4444</color>
