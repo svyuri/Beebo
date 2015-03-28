@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.activity;
 
+import org.zarroboogs.devutils.AssertLoader;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
@@ -46,7 +47,6 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-import lib.org.zarroboogs.weibo.login.httpclient.AssertLoader;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class OAuthActivity extends AbstractAppActivity {

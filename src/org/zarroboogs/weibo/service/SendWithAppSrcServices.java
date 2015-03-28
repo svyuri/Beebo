@@ -5,16 +5,14 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.org.zarroboogs.weibo.login.httpclient.SinaLoginHelper;
-import lib.org.zarroboogs.weibo.login.httpclient.UploadHelper;
-import lib.org.zarroboogs.weibo.login.httpclient.WaterMark;
-import lib.org.zarroboogs.weibo.login.httpclient.UploadHelper.OnUpFilesListener;
-import lib.org.zarroboogs.weibo.login.utils.Constaces;
-import lib.org.zarroboogs.weibo.login.utils.LogTool;
-
 import org.apache.http.HttpEntity;
+import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.devutils.http.AbsAsyncHttpService;
+import org.zarroboogs.util.net.SinaLoginHelper;
+import org.zarroboogs.util.net.UploadHelper;
+import org.zarroboogs.util.net.UploadHelper.OnUpFilesListener;
+import org.zarroboogs.util.net.WaterMark;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.SendBitmapWorkerTask;
 import org.zarroboogs.utils.SendBitmapWorkerTask.OnCacheDoneListener;
@@ -111,7 +109,6 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
     	showSendingNotification();
     	
         if (TextUtils.isEmpty(text)) {
-            LogTool.D("sendWeibo    text is empty");
             text = getString(R.string.default_text_pic_weibo);
         }
 
@@ -164,7 +161,6 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
      */
     protected void sendWeiboWidthPids(String weiboCode, String text, String pids) {
     	String cookie = getCookieIfHave();
-		LogTool.D(TAG  + "sendWeiboWidthPids Cookie:     " + cookie);
         HttpEntity sendEntity = mSinaLoginHelper.sendWeiboEntity(weiboCode, text, cookie, pids);
         asyncHttpPost(Constaces.ADDBLOGURL, mSinaLoginHelper.sendWeiboHeaders(weiboCode, cookie), sendEntity, "application/x-www-form-urlencoded");
 

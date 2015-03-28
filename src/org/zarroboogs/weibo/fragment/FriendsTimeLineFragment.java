@@ -70,8 +70,6 @@ import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import lib.org.zarroboogs.weibo.login.utils.LogTool;
-
 public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean> implements
         GlobalContext.MyProfileInfoChangeListener, MainTimeLineActivity.ScrollableListFragment {
 
@@ -463,8 +461,6 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
         final List<GroupBean> finalList = list;
 
         currentGroupId = FriendsTimeLineDBTask.getRecentGroupId(GlobalContext.getInstance().getCurrentAccountId());
-
-        LogTool.D("RecentGroupID Friend-asyncUpdateRecentGroupId : " + currentGroupId);
 
     }
 

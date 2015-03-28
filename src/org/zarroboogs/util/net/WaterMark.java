@@ -1,5 +1,5 @@
 
-package lib.org.zarroboogs.weibo.login.httpclient;
+package org.zarroboogs.util.net;
 
 public class WaterMark {
     public static enum POS {

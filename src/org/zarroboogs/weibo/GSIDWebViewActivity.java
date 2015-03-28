@@ -1,7 +1,6 @@
 package org.zarroboogs.weibo;
 
-import lib.org.zarroboogs.weibo.login.httpclient.AssertLoader;
-
+import org.zarroboogs.devutils.AssertLoader;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.devutils.http.AbsAsyncHttpActivity;
 import org.zarroboogs.injectjs.InjectJS;

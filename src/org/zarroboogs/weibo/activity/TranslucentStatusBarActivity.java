@@ -1,8 +1,6 @@
 
 package org.zarroboogs.weibo.activity;
 
-import lib.org.zarroboogs.weibo.login.utils.LogTool;
-
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
@@ -53,7 +51,6 @@ public class TranslucentStatusBarActivity extends ActionBarActivity {
 			if (!(isMeiZu() || isHuaWei())) {
 				if (!hasMenuKey && !hasBackKey) {
 					// Do whatever you need to do, this device has a navigation bar
-					LogTool.D("getNavigationBarHeight_:" + height + "有虚拟按键");
 					if (SettingUtils.isNaviGationBarIm()) {
 						tintManager.setNavigationBarTintEnabled(true);
 						tintManager.setNavigationBarTintResource(R.color.md_actionbar_bg_color);
@@ -62,7 +59,6 @@ public class TranslucentStatusBarActivity extends ActionBarActivity {
 						tintManager.setNavigationBarTintResource(R.color.black);
 					}
 				} else {
-					LogTool.D("getNavigationBarHeight_:" + height + "没有虚拟按键");
 					tintManager.setNavigationBarTintEnabled(false);
 				}
 			}

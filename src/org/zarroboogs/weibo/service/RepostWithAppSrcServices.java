@@ -6,15 +6,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.org.zarroboogs.weibo.login.httpclient.SinaLoginHelper;
-import lib.org.zarroboogs.weibo.login.utils.Constaces;
-import lib.org.zarroboogs.weibo.login.utils.LogTool;
-
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
+import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.devutils.http.AbsAsyncHttpService;
 import org.zarroboogs.utils.Constants;
@@ -45,7 +42,6 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
 	private String mTextContent;
     private String mMid;
     private boolean isComment = false;
-	private SinaLoginHelper mSinaLoginHelper;
     private JSAutoLogin mJsAutoLogin;
     
 	private String TAG = "SendWithAppSrcServices";
@@ -64,7 +60,6 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-		mSinaLoginHelper = new SinaLoginHelper();
 		mAccountBean = GlobalContext.getInstance().getAccountBean();
 		mJsAutoLogin = new JSAutoLogin(getApplicationContext(), mAccountBean);
 	}
@@ -109,7 +104,6 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
         headerList.toArray(repostHeaders);
 
         List<NameValuePair> nvs = new ArrayList<NameValuePair>();
-	        LogTool.D("RepostWeiboMainActivity : repost-content: " + content);
 	        nvs.add(new BasicNameValuePair("content", content));
 	        nvs.add(new BasicNameValuePair("visible", "0"));
 	        nvs.add(new BasicNameValuePair("refer", ""));

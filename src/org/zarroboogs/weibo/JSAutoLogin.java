@@ -1,16 +1,15 @@
 package org.zarroboogs.weibo;
 
-import lib.org.zarroboogs.weibo.login.httpclient.AssertLoader;
-import lib.org.zarroboogs.weibo.login.utils.Constaces;
-
 import org.apache.http.Header;
+import org.zarroboogs.devutils.AssertLoader;
+import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.devutils.http.AbsAsyncHttpClient;
+import org.zarroboogs.devutils.http.request.HeaderList;
 import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
 import org.zarroboogs.utils.PatternUtils;
-import org.zarroboogs.utils.http.HeaderList;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.CheckUserPasswordBean;
 import org.zarroboogs.weibo.db.AccountDatabaseManager;

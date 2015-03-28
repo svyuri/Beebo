@@ -1,5 +1,5 @@
 
-package lib.org.zarroboogs.weibo.login.httpclient;
+package org.zarroboogs.util.net;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -7,14 +7,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import lib.org.zarroboogs.weibo.login.javabean.PreLoginResult;
-import lib.org.zarroboogs.weibo.login.utils.Constaces;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
-import org.apache.http.util.TextUtils;
-import org.zarroboogs.utils.http.HeaderList;
-import org.zarroboogs.utils.http.HttpEntryList;
+import org.zarroboogs.devutils.Constaces;
+import org.zarroboogs.devutils.http.request.HeaderList;
+import org.zarroboogs.devutils.http.request.HttpEntryList;
+
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 

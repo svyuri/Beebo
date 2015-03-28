@@ -1,19 +1,18 @@
 
-package lib.org.zarroboogs.weibo.login.httpclient;
+package org.zarroboogs.util.net;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import lib.org.zarroboogs.weibo.login.javabean.UploadPicResult;
-import lib.org.zarroboogs.weibo.login.utils.Constaces;
-import lib.org.zarroboogs.weibo.login.utils.LogTool;
-import lib.org.zarroboogs.weibo.login.utils.PatternUtils;
 
 import org.apache.http.Header;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.message.BasicHeader;
-import org.zarroboogs.utils.http.HeaderList;
+import org.zarroboogs.devutils.Constaces;
+import org.zarroboogs.devutils.http.request.HeaderList;
+import org.zarroboogs.utils.PatternUtils;
 
 import android.content.Context;
 import android.os.Handler;
@@ -61,7 +60,6 @@ public class UploadHelper {
         mHasUploadFlag = 0;
         this.mWaterMark = waterMark;
         this.mCookie = cookie;
-        LogTool.D("uploadFile handleMessage" + " Need Upload File :  " + files.size());
         mHandler.sendEmptyMessage(MSG_UPLOAD);
     }
 
@@ -69,20 +67,16 @@ public class UploadHelper {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_UPLOAD: {
-                	LogTool.D("uploadFile handleMessage" + " MSG_UPLOAD");
-                	
                     uploadFile(mWaterMark, mNeedToUpload.get(mHasUploadFlag), mCookie);
                     break;
                 }
                 case MSG_UPLOAD_DONE: {
-                	LogTool.D("uploadFile handleMessage" + " MSG_UPLOAD_DONE");
                     if (mOnUpFilesListener != null) {
                         mOnUpFilesListener.onUpSuccess(mPids);
                     }
                     break;
                 }
                 case MSG_UPLOAD_FAILED: {
-                	LogTool.D("uploadFile handleMessage" + " MSG_UPLOAD_FAILED");
                     if (mOnUpFilesListener != null) {
                         mOnUpFilesListener.onUpLoadFailed();
                     }
@@ -137,7 +131,6 @@ public class UploadHelper {
                                 return;
                             }
                             Log.d("uploadFile   pid: ", ur.getPid());
-                            LogTool.D("uploadFile onSuccess" + " " + result);
                             mHasUploadFlag++;
                             mPids += ur.getPid() + ",";
                             if (mHasUploadFlag < mNeedToUpload.size()) {
@@ -153,7 +146,6 @@ public class UploadHelper {
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        LogTool.D("uploadFile onFailure" + " statusCode:" + statusCode + "   " + error.getLocalizedMessage());
                         mHandler.sendEmptyMessage(MSG_UPLOAD_FAILED);
                     }
                 });

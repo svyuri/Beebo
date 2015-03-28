@@ -27,11 +27,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import lib.org.zarroboogs.weibo.login.utils.LogTool;
-
-/**
- * User: qii Date: 13-1-7
- */
 public class FriendsTimeLineDBTask {
 
     /**
@@ -218,7 +213,6 @@ public class FriendsTimeLineDBTask {
         Gson gson = new Gson();
         while (c.moveToNext()) {
             String id = c.getString(c.getColumnIndex(HomeTable.RECENT_GROUP_ID));
-            LogTool.D("RecentGroupID getRecentGroupId : " + id);
             if (!TextUtils.isEmpty(id)) {
                 return id;
             }
@@ -232,7 +226,6 @@ public class FriendsTimeLineDBTask {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-            	LogTool.D("RecentGroupID asyncUpdateRecentGroupId : " + groupId);
                 FriendsTimeLineDBTask.updateRecentGroupId(GlobalContext.getInstance().getCurrentAccountId(), groupId);
             }
         };

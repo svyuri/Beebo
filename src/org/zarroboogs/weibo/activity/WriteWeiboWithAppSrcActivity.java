@@ -4,8 +4,6 @@ package org.zarroboogs.weibo.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.org.zarroboogs.weibo.login.utils.LogTool;
-
 import org.zarroboogs.util.net.LoginWeiboAsyncTask.LoginWeiboCallack;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.Utility;
@@ -385,7 +383,6 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 	private String getWeiboTextContent() {
 		String text = mEditText.getEditableText().toString();
         if (TextUtils.isEmpty(text)) {
-            LogTool.D("sendWeibo    text is empty");
             text = getString(R.string.default_text_pic_weibo);
         }
 		return text;

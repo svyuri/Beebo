@@ -3,7 +3,6 @@ package org.zarroboogs.weibo.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.org.zarroboogs.weibo.login.utils.LogTool;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +36,6 @@ public class FriendsTimeLineListNavAdapter extends BaseAdapter {
 		this.valueArray = valueArray;
 
 		mSelectId = getRecentNavIndex(FriendsTimeLineDBTask.getRecentGroupId(GlobalContext.getInstance().getCurrentAccountId()));
-		LogTool.D("RecentGroupID FriendsTimeLineListNavAdapter : " + mSelectId);
 	}
 
 	private int getRecentNavIndex(String currentGroupId) {

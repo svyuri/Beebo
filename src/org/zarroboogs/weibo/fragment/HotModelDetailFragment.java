@@ -4,8 +4,6 @@ package org.zarroboogs.weibo.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.org.zarroboogs.weibo.login.utils.LogTool;
-
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.adapter.HotModelDetailAdapter;
@@ -41,7 +39,6 @@ public class HotModelDetailFragment extends BaseHotHuaTiFragment {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		extparam = getArguments().getString("extparam");
-		LogTool.D("extparam: " + extparam);
 	}
 
 	@Override

@@ -6,11 +6,6 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.org.zarroboogs.weibo.login.javabean.DoorImageAsyncTask;
-import lib.org.zarroboogs.weibo.login.javabean.RequestResultBean;
-import lib.org.zarroboogs.weibo.login.javabean.DoorImageAsyncTask.OnDoorOpenListener;
-import lib.org.zarroboogs.weibo.login.utils.LogTool;
-
 import org.apache.http.Header;
 import org.zarroboogs.util.net.LoginWeiboAsyncTask.LoginWeiboCallack;
 import org.zarroboogs.utils.Constants;
@@ -511,19 +506,6 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
             super.handleMessage(msg);
-
-            if (msg.what == 1002) {
-                DoorImageAsyncTask doorImageAsyncTask = new DoorImageAsyncTask();
-                doorImageAsyncTask.setOnDoorOpenListener(new OnDoorOpenListener() {
-
-                    @Override
-                    public void onDoorOpen(android.graphics.Bitmap result) {
-                        // TODO Auto-generated method stub
-                        // mDoorImg.setImageBitmap(result);
-                    }
-                });
-                doorImageAsyncTask.execute("");
-            }
         }
     };
 

@@ -1,20 +1,14 @@
 
 package org.zarroboogs.weibo.activity;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import lib.org.zarroboogs.weibo.login.javabean.RequestResultParser;
-import lib.org.zarroboogs.weibo.login.utils.Constaces;
-import lib.org.zarroboogs.weibo.login.utils.LogTool;
 
 import org.apache.http.Header;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
+import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
