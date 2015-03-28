@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.weibo.GlobalContext;
@@ -31,6 +32,7 @@ import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -79,16 +81,18 @@ public class HotWeiboFragmentYestoday extends BaseHotWeiboFragment {
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
-
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+	}
+	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
-		if (TextUtils.isEmpty(getGsid())) {
-			loadGsid();
-		}else {
-			loadData(WeiBoURLs.hotWeiboYestoday(getGsid(), mPage));
-		}
+		
+
 		
         getListView().setOnItemClickListener(new OnItemClickListener() {
 
@@ -379,6 +383,17 @@ public class HotWeiboFragmentYestoday extends BaseHotWeiboFragment {
 	void onGsidLoadFailed(String errorStr) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	void onPageSelected() {
+		// TODO Auto-generated method stub
+		if (TextUtils.isEmpty(getGsid())) {
+			loadGsid();
+		}else {
+			loadData(WeiBoURLs.hotWeiboYestoday(getGsid(), mPage));
+		}
+		DevLog.printLog("HotWeiboFragmentYestoday", "onViewCreated");
 	}
 
 

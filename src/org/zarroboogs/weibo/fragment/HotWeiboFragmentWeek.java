@@ -85,12 +85,6 @@ public class HotWeiboFragmentWeek extends BaseHotWeiboFragment {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
 		
-		if (TextUtils.isEmpty(getGsid())) {
-			loadGsid();
-		}else {
-			loadData(WeiBoURLs.hotWeiboUrl(getGsid(), mPage));
-		}
-		
         getListView().setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -345,6 +339,16 @@ public class HotWeiboFragmentWeek extends BaseHotWeiboFragment {
 	void onGsidLoadFailed(String errorStr) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	void onPageSelected() {
+		// TODO Auto-generated method stub
+		if (TextUtils.isEmpty(getGsid())) {
+			loadGsid();
+		}else {
+			loadData(WeiBoURLs.hotWeiboUrl(getGsid(), mPage));
+		}
 	}
 
 

@@ -67,6 +67,7 @@ public abstract class BaseHotWeiboFragment extends AbsBaseTimeLineFragment<Messa
 	
 	abstract void onGsidLoadFailed(String errorStr);
 	
+	abstract void onPageSelected();
 	
 	protected void loadData(String url) {
 		

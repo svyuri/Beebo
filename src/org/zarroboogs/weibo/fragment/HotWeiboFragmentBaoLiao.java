@@ -85,12 +85,6 @@ public class HotWeiboFragmentBaoLiao extends BaseHotWeiboFragment {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
 
-		if (TextUtils.isEmpty(getGsid())) {
-			loadGsid();
-		}else {
-			loadData(WeiBoURLs.hotWeiboBaoLiao(getGsid(), mPage));
-		}
-		
 		
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 
@@ -341,5 +335,13 @@ public class HotWeiboFragmentBaoLiao extends BaseHotWeiboFragment {
 		
 	}
 
-
+	@Override
+	void onPageSelected() {
+		// TODO Auto-generated method stub
+		if (TextUtils.isEmpty(getGsid())) {
+			loadGsid();
+		}else {
+			loadData(WeiBoURLs.hotWeiboBaoLiao(getGsid(), mPage));
+		}
+	}
 }

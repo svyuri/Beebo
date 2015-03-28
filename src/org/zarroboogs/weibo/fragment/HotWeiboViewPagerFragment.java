@@ -4,6 +4,7 @@ package org.zarroboogs.weibo.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.adapter.HotHuaTiViewPagerAdapter;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,8 +67,7 @@ public class HotWeiboViewPagerFragment extends BaseStateFragment implements Main
         super.onViewCreated(view, savedInstanceState);
         viewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         viewPager.setOffscreenPageLimit(2);
-        viewPager.setOnPageChangeListener(onPageChangeListener);
-        
+//        viewPager.setOnPageChangeListener(onPageChangeListener);
         List<String> titleList = new ArrayList<String>();
         titleList.add("当前");
         titleList.add("昨天");
@@ -85,29 +86,31 @@ public class HotWeiboViewPagerFragment extends BaseStateFragment implements Main
         
         viewPager.setAdapter(adapter);
         mSlidingTabLayout.setViewPager(viewPager);
+        
+        mSlidingTabLayout.setOnPageChangeListener(onPageChangeListener);
     }
 
     ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
-            ((LeftMenuFragment) ((MainTimeLineActivity) getActivity()).getLeftMenuFragment()).mentionsTabIndex = position;
+        	super.onPageSelected(position);
+        	DevLog.printLog("SimpleOnPageChangeListener onPageSelected", "" + position);
+        	BaseHotWeiboFragment hotWeiboFragment = (BaseHotWeiboFragment) ((HotHuaTiViewPagerAdapter)viewPager.getAdapter()).getItem(position);
+        	hotWeiboFragment.onPageSelected();
         }
 
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        	super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+        	DevLog.printLog("SimpleOnPageChangeListener onPageScrolled", "" + position + "  " + positionOffset);
+        };
         @Override
         public void onPageScrollStateChanged(int state) {
             super.onPageScrollStateChanged(state);
+            DevLog.printLog("SimpleOnPageChangeListener onPageScrollStateChanged", "" + state);
             switch (state) {
                 case ViewPager.SCROLL_STATE_SETTLING:
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            LongClickableLinkMovementMethod.getInstance().setLongClickable(true);
-
-                        }
-                    }, ViewConfiguration.getLongPressTimeout());
                     break;
                 default:
-                    LongClickableLinkMovementMethod.getInstance().setLongClickable(false);
                     break;
             }
         }
