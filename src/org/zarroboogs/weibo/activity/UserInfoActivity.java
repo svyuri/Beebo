@@ -188,7 +188,7 @@ public class UserInfoActivity extends AbstractAppActivity {
         // if you open this activity with user id, must set title with nickname
         // again
         // getActionBar().setTitle(bean.getScreen_name());
-        mUserInfoToolbar.setTitle(bean.getScreen_name());
+//        mUserInfoToolbar.setTitle(bean.getScreen_name());
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
