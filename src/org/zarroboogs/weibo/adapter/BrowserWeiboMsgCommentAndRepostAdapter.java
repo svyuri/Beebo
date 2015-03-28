@@ -31,6 +31,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
+import android.text.Html;
 import android.text.Layout;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -205,6 +206,8 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
 
         holder.time.setTime(comment.getMills());
 
+        holder.comment_source.setText(Html.fromHtml(comment.getSource()).toString());
+        
         holder.reply.setVisibility(View.VISIBLE);
         holder.reply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -292,6 +295,8 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
             holder.weiboTextContent.setText(msg.getListViewSpannableString());
         }
 
+        holder.comment_source.setText(Html.fromHtml(msg.getSource()).toString());
+        
         holder.avatar.checkVerified(user);
 
         holder.time.setTime(msg.getMills());
@@ -328,6 +333,8 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
         holder.avatar = (TimeLineAvatarImageView) convertView.findViewById(R.id.avatar);
         holder.listview_root = ViewUtility.findViewById(convertView, R.id.listview_root);
         holder.reply = ViewUtility.findViewById(convertView, R.id.replyIV);
+        holder.comment_source = ViewUtility.findViewById(convertView, R.id.comment_source);
+        
         return holder;
     }
 
@@ -362,6 +369,7 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
 
         if (Utility.sp2px(prefFontSizeSp - 3) != currentWidgetTextSizePx) {
             holder.time.setTextSize(prefFontSizeSp - 3);
+            holder.comment_source.setTextSize(prefFontSizeSp -3);
 
         }
 
@@ -505,6 +513,8 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
         TimeLineAvatarImageView avatar;
 
         ImageView reply;
+        
+        TextView comment_source;
     }
 
     protected void buildAvatar(TimeLineAvatarImageView view, int position, final UserBean user) {

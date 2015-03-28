@@ -137,8 +137,8 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
         holder.weiboTextContent.setText(comment.getListViewSpannableString());
 
         holder.time.setTime(comment.getMills());
-        if (holder.source != null) {
-            holder.source.setText(comment.getSourceString());
+        if (holder.comment_source != null) {
+            holder.comment_source.setText(comment.getSourceString());
         }
 
         holder.repost_content.setVisibility(View.GONE);

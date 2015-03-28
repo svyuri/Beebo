@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/button_background_selector"
-    android:descendantFocusability="blocksDescendants"
-    android:clickable="true" >
+    android:clickable="true"
+    android:descendantFocusability="blocksDescendants" >
 
     <org.zarroboogs.weibo.widget.TimeLineAvatarImageView
         android:id="@+id/avatar"
@@ -38,6 +38,17 @@
         android:layout_below="@id/username"
         android:text="刚刚"
         android:textColor="?android:textColorTertiary" />
+
+    <TextView
+        android:id="@+id/comment_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/username"
+        android:layout_toRightOf="@id/time"
+        android:text="iPhone 6 Plus"
+        android:textColor="?android:textColorTertiary"
+        tools:ignore="RtlHardcoded" />
 
     <TextView
         android:id="@+id/weibo_text_content"
