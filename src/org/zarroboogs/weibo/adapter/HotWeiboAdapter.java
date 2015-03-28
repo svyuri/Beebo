@@ -4,10 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.zarroboogs.utils.Constants;
+import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
+import org.zarroboogs.weibo.activity.WriteCommentActivity;
+import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.MessageBean;
-import org.zarroboogs.weibo.hot.hean.HotMblogBean;
+import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
+import org.zarroboogs.weibo.ui.task.FavAsyncTask;
 import org.zarroboogs.weibo.widget.TimeLineAvatarImageView;
 import org.zarroboogs.weibo.widget.TimeLineImageView;
 import org.zarroboogs.weibo.widget.TimeTextView;
@@ -16,19 +22,27 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.text.TextPaint;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class HotWeiboAdapter extends BaseAdapter {
 
@@ -38,9 +52,14 @@ public class HotWeiboAdapter extends BaseAdapter {
 	private DisplayImageOptions options;
 	private List<MessageBean> list = new ArrayList<MessageBean>();
 
+	private Context mContext;
+	private FavAsyncTask favTask = null;
+	
 	public HotWeiboAdapter(Context context) {
 		super();
 		// TODO Auto-generated constructor stub
+		this.mContext = context;
+		
 		mInflater = LayoutInflater.from(context);
 		options = new DisplayImageOptions.Builder().cacheInMemory(true)
 				.cacheOnDisk(true).considerExifParams(true)
@@ -99,6 +118,61 @@ public class HotWeiboAdapter extends BaseAdapter {
 		loadContentPic(holder, blog, m, content_pic);
 		mImageLoader.displayImage(blog.getUser().getAvatar_large(), holder.avatar);
 		
+		final ViewHolder tmpHolder = holder; 
+		final MessageBean msg = list.get(position);
+        holder.popupMenuIb.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				PopupMenu popupMenu = new PopupMenu(mContext, tmpHolder.popupMenuIb);
+				popupMenu.inflate(R.menu.time_line_popmenu);
+				popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					
+					@Override
+					public boolean onMenuItemClick(MenuItem arg0) {
+						// TODO Auto-generated method stub
+						int id = arg0.getItemId();
+						switch (id) {
+						case R.id.menu_repost:{
+							Intent intent = new Intent(mContext, RepostWeiboWithAppSrcActivity.class);
+			                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			                intent.putExtra("msg", msg);
+			                mContext.startActivity(intent);
+							break;
+						}
+						case R.id.menu_comment:{
+							Intent intent = new Intent(mContext, WriteCommentActivity.class);
+			                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			                intent.putExtra("msg", msg);
+			                mContext.startActivity(intent);
+							break;
+						}
+						
+						case R.id.menu_fav:{
+							if (Utility.isTaskStopped(favTask)) {
+							    favTask = new FavAsyncTask(GlobalContext.getInstance().getAccessToken(), msg.getId());
+							    favTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+							}
+							break;
+						}
+						
+						case R.id.menu_copy:{
+							ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+							cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", msg.getText()));
+							Toast.makeText(mContext, mContext.getResources().getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
+							break;
+						}
+
+						default:
+							break;
+						}
+						return false;
+					}
+				});
+				popupMenu.show();
+			}
+		});
 		
 		return convertView;
 	}
@@ -162,10 +236,12 @@ public class HotWeiboAdapter extends BaseAdapter {
         ImageView replyIV;
 
         ImageButton commentBtn;
+        
+        ImageButton popupMenuIb;
     }
 
     private ViewHolder buildHolder(View convertView) {
-        ViewHolder holder = new ViewHolder();
+        final ViewHolder holder = new ViewHolder();
         holder.username = ViewUtility.findViewById(convertView, R.id.username);
         TextPaint tp = holder.username.getPaint();
         if (tp != null) {
@@ -193,6 +269,9 @@ public class HotWeiboAdapter extends BaseAdapter {
         holder.replyIV = ViewUtility.findViewById(convertView, R.id.replyIV);
         holder.source = ViewUtility.findViewById(convertView, R.id.source);
         holder.commentBtn = ViewUtility.findViewById(convertView, R.id.commentButton);
+        
+        holder.popupMenuIb = ViewUtility.findViewById(convertView, R.id.popupMenuIb);
+        
         return holder;
     }
 

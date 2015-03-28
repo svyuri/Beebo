@@ -1,41 +1,43 @@
 
 package org.zarroboogs.weibo.adapter;
 
-import org.zarroboogs.util.net.HttpUtility;
-import org.zarroboogs.util.net.HttpUtility.HttpMethod;
-import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.activity.WriteCommentActivity;
+import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import org.zarroboogs.weibo.support.utils.Utility;
+import org.zarroboogs.weibo.ui.task.FavAsyncTask;
 import org.zarroboogs.weibo.widget.AutoScrollListView;
 import org.zarroboogs.weibo.widget.TopTipsView;
 import org.zarroboogs.weibo.widget.VelocityListView;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.text.TextUtils;
 import android.util.LongSparseArray;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 import java.util.WeakHashMap;
 
 public class HotWeiboStatusListAdapter extends AbstractAppListAdapter<MessageBean> {
@@ -52,6 +54,8 @@ public class HotWeiboStatusListAdapter extends AbstractAppListAdapter<MessageBea
 
     private TopTipsView topTipBar;
 
+	private FavAsyncTask favTask = null;
+	
     public HotWeiboStatusListAdapter(Fragment fragment, List<MessageBean> bean, ListView listView, boolean showOriStatus) {
         this(fragment, bean, listView, showOriStatus, false);
     }
@@ -336,6 +340,61 @@ public class HotWeiboStatusListAdapter extends AbstractAppListAdapter<MessageBea
                 interruptPicDownload(holder.repost_content_pic_multi);
             }
         }
+        
+        
+        holder.popupMenuIb.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				PopupMenu popupMenu = new PopupMenu(getActivity(), holder.popupMenuIb);
+				popupMenu.inflate(R.menu.time_line_popmenu);
+				popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					
+					@Override
+					public boolean onMenuItemClick(MenuItem arg0) {
+						// TODO Auto-generated method stub
+						int id = arg0.getItemId();
+						switch (id) {
+						case R.id.menu_repost:{
+							Intent intent = new Intent(getActivity(), RepostWeiboWithAppSrcActivity.class);
+			                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			                intent.putExtra("msg", msg);
+			                getActivity().startActivity(intent);
+							break;
+						}
+						case R.id.menu_comment:{
+							Intent intent = new Intent(getActivity(), WriteCommentActivity.class);
+			                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			                intent.putExtra("msg", msg);
+			                getActivity().startActivity(intent);
+							break;
+						}
+						
+						case R.id.menu_fav:{
+							if (Utility.isTaskStopped(favTask)) {
+							    favTask = new FavAsyncTask(GlobalContext.getInstance().getAccessToken(), msg.getId());
+							    favTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+							}
+							break;
+						}
+						
+						case R.id.menu_copy:{
+							ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+							cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", msg.getText()));
+							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
+							break;
+						}
+
+						default:
+							break;
+						}
+						return false;
+					}
+				});
+				popupMenu.show();
+			}
+		});
     }
 
     private void buildRepostContent(MessageBean msg, final MessageBean repost_msg, ViewHolder holder, int position) {
