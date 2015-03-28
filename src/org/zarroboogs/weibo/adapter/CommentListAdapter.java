@@ -17,17 +17,23 @@ import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.widget.AutoScrollListView;
 import org.zarroboogs.weibo.widget.TopTipsView;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
@@ -140,9 +146,9 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
 
         
         
-        CommentBean reply = comment.getReply_comment();
-        if (holder.replyIV != null) {
-            holder.replyIV.setVisibility(View.GONE);
+        final CommentBean reply = comment.getReply_comment();
+        if (holder.cmmentsReply != null) {
+            holder.cmmentsReply.setVisibility(View.GONE);
         }
         if (reply != null && showOriStatus) {
             if (holder.repost_layout != null) {
@@ -163,16 +169,40 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
                     holder.repost_layout.setVisibility(View.GONE);
                 }
                 holder.repost_flag.setVisibility(View.GONE);
-                if (holder.replyIV != null) {
-                    holder.replyIV.setVisibility(View.VISIBLE);
-                    holder.replyIV.setOnClickListener(new View.OnClickListener() {
+                if (holder.cmmentsReply != null) {
+                    holder.cmmentsReply.setVisibility(View.VISIBLE);
+                    holder.cmmentsReply.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-                            intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
-                            intent.putExtra("msg", comment);
-                            getActivity().startActivity(intent);
+                            PopupMenu popupMenu = new PopupMenu(getActivity(), holder.cmmentsReply);
+                            popupMenu.inflate(R.menu.comments_popmenu);
+                            popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+								
+								@Override
+								public boolean onMenuItemClick(MenuItem arg0) {
+									// TODO Auto-generated method stub
+									int id = arg0.getItemId();
+									switch (id) {
+									case R.id.reply_comment:{
+										replyComment(reply);
+										break;
+									}
+									case R.id.menu_copy:{
+										ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+										cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", reply.getText()));
+										Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
+										break;
+									}
+
+									default:
+										break;
+									}
+									return false;
+								}
+							});
+                            popupMenu.show();
                         }
+
                     });
                 }
             }
@@ -180,6 +210,13 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
         }
 
     }
+    
+	private void replyComment(final CommentBean comment) {
+		Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
+        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+        intent.putExtra("msg", comment);
+        getActivity().startActivity(intent);
+	}
 
     protected void buildOriWeiboContent(final MessageBean oriWeibo, ViewHolder holder, int position) {
 

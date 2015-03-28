@@ -344,10 +344,6 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
     }
 
     private View initSimpleLayout(ViewGroup parent) {
-//        View convertView;
-//        convertView = inflater.inflate(R.layout.timeline_listview_item_simple_layout, parent, false);
-//
-//        return convertView;
     	return initNormalLayout(parent);
     }
 
@@ -396,7 +392,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         holder.comment_count = ViewUtility.findViewById(convertView, R.id.comment_count);
         holder.timeline_gps = ViewUtility.findViewById(convertView, R.id.timeline_gps_iv);
         holder.timeline_pic = ViewUtility.findViewById(convertView, R.id.timeline_pic_iv);
-        holder.replyIV = ViewUtility.findViewById(convertView, R.id.replyIV);
+        holder.cmmentsReply = ViewUtility.findViewById(convertView, R.id.replyIV);
         holder.source = ViewUtility.findViewById(convertView, R.id.source);
         
         holder.popupMenuIb = ViewUtility.findViewById(convertView, R.id.popupMenuIb);
@@ -877,7 +873,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
 
         ImageView timeline_pic;
 
-        ImageView replyIV;
+        ImageButton cmmentsReply;
         
         ImageButton popupMenuIb;
     }

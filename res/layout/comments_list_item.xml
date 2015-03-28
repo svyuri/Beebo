@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/listview_root"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/button_background_selector"
+    android:descendantFocusability="blocksDescendants"
     android:clickable="true" >
 
     <org.zarroboogs.weibo.widget.TimeLineAvatarImageView
@@ -14,46 +16,51 @@
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="-5dp"
         android:layout_marginRight="3dp"
-        android:layout_marginTop="-3dp"
+        android:layout_marginTop="3dp"
         android:clickable="true" />
-
-    <org.zarroboogs.weibo.widget.TimeTextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/username"
-        android:layout_alignParentRight="true" />
-
-    <ImageView
-        android:id="@+id/replyIV"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignRight="@id/time"
-        android:layout_below="@id/time"
-        android:src="@drawable/reply_to_comment_dark"
-        android:visibility="gone" />
 
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/time"
+        android:layout_alignTop="@id/avatar"
         android:layout_toRightOf="@id/avatar"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textColor="@color/timeline_item_text_color_light"
-        android:textStyle="bold" />
+        android:text="UserName"
+        android:textColor="@color/timeline_item_text_color_light" />
+
+    <org.zarroboogs.weibo.widget.TimeTextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/username"
+        android:layout_below="@id/username"
+        android:text="刚刚"
+        android:textColor="?android:textColorTertiary" />
 
     <TextView
         android:id="@+id/weibo_text_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/username"
-        android:layout_toLeftOf="@id/replyIV"
+        android:layout_below="@id/time"
         android:layout_toRightOf="@id/avatar"
         android:lineSpacingMultiplier="1.2"
+        android:text="微博内容"
         android:textColor="@color/timeline_item_text_color_light"
         android:textSize="15sp" />
+
+    <ImageButton
+        android:id="@+id/replyIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/username"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/button_background_selector"
+        android:src="@drawable/ic_more_vert_grey600_18dp"
+        android:visibility="visible"
+        tools:ignore="RtlHardcoded,ContentDescription" />
 
     <org.zarroboogs.weibo.widget.TimeLineImageView
         android:id="@+id/content_pic"

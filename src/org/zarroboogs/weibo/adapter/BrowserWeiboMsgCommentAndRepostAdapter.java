@@ -23,9 +23,14 @@ import org.zarroboogs.weibo.widget.TimeLineAvatarImageView;
 import org.zarroboogs.weibo.widget.TimeTextView;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.text.Layout;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -33,6 +38,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +49,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Map;
@@ -156,7 +163,7 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
         }
     }
 
-    private void bindCommentData(ViewHolder holder, int position) {
+    private void bindCommentData(final ViewHolder holder, int position) {
         Drawable drawable = bg.get(holder);
         if (drawable != null) {
             holder.listview_root.setBackgroundDrawable(drawable);
@@ -202,14 +209,45 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
         holder.reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
-                intent.putExtra("msg", comment);
-                getActivity().startActivity(intent);
+
+                PopupMenu popupMenu = new PopupMenu(getActivity(), holder.reply);
+                popupMenu.inflate(R.menu.comments_popmenu);
+                popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					
+					@Override
+					public boolean onMenuItemClick(MenuItem arg0) {
+						// TODO Auto-generated method stub
+						int id = arg0.getItemId();
+						switch (id) {
+						case R.id.reply_comment:{
+							replyComment(comment);
+							break;
+						}
+						case R.id.menu_copy:{
+							ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+							cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", comment.getText()));
+							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
+							break;
+						}
+
+						default:
+							break;
+						}
+						return false;
+					}
+				});
+                popupMenu.show();
             }
         });
     }
 
+	private void replyComment(final CommentBean comment) {
+		Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
+        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+        intent.putExtra("msg", comment);
+        getActivity().startActivity(intent);
+	}
+	
     private void bindRepostData(ViewHolder holder, int position) {
         Drawable drawable = bg.get(holder);
         if (drawable != null) {
@@ -263,7 +301,7 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
 
     private View initSimpleLayout(ViewGroup parent) {
         View convertView;
-        convertView = inflater.inflate(R.layout.timeline_listview_item_simple_layout, parent, false);
+        convertView = inflater.inflate(R.layout.comments_list_item, parent, false);
 
         return convertView;
     }
