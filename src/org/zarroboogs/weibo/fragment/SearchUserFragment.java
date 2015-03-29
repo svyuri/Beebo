@@ -16,18 +16,17 @@ import org.zarroboogs.weibo.loader.SearchUserLoader;
 
 import java.util.List;
 
-/**
- * User: qii Date: 12-11-10
- */
 public class SearchUserFragment extends AbstractUserListFragment {
 
     private int page = 1;
-
+    private String searchKey = "";
     public SearchUserFragment() {
         super();
     }
 
-    public void search() {
+    public void search(String searchKey) {
+    	this.searchKey = searchKey;
+    	
         pullToRefreshListView.setRefreshing();
         loadNewMsg();
     }
@@ -73,7 +72,7 @@ public class SearchUserFragment extends AbstractUserListFragment {
     @Override
     protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateNewUserLoader(int id, Bundle args) {
         String token = GlobalContext.getInstance().getAccessTokenHack();
-        String word = ((SearchMainParentFragment) getParentFragment()).getSearchWord();
+        String word = searchKey;
         page = 1;
         return new SearchUserLoader(getActivity(), token, word, String.valueOf(page));
     }
@@ -81,7 +80,7 @@ public class SearchUserFragment extends AbstractUserListFragment {
     @Override
     protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateOldUserLoader(int id, Bundle args) {
         String token = GlobalContext.getInstance().getAccessTokenHack();
-        String word = ((SearchMainParentFragment) getParentFragment()).getSearchWord();
+        String word = searchKey;
         return new SearchUserLoader(getActivity(), token, word, String.valueOf(page + 1));
     }
 

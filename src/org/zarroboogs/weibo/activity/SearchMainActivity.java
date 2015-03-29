@@ -1,14 +1,12 @@
-
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.adapter.SearchSuggestionProvider;
 import org.zarroboogs.weibo.fragment.SearchStatusFragment;
 import org.zarroboogs.weibo.fragment.SearchUserFragment;
-import org.zarroboogs.weibo.fragment.base.AbsTimeLineFragment;
-import org.zarroboogs.weibo.support.lib.AppFragmentPagerAdapter;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.AlertDialog;
@@ -19,8 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.SearchRecentSuggestions;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -28,159 +25,146 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.SearchView;
+import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SearchMainActivity extends SharedPreferenceActivity {
 	private static final String KEY_SEARCH = "search_key";
-	public enum SearchWhat{
-		user,
-		status
+
+	private String q;
+
+	public enum SearchWhat {
+		user, status
 	}
-	
+
 	private Toolbar mToolbar;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.search_main_activity_layout);
-        mToolbar = ViewUtility.findViewById(this, R.id.searchToolbar);
-        
-        SearchWhat sw = getSearchWhat();
-        if (sw == SearchWhat.status) {
-            mToolbar.setTitle("搜索微博");
-		}else {
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.search_main_activity_layout);
+		mToolbar = ViewUtility.findViewById(this, R.id.searchToolbar);
+
+		changeTitle();
+
+		handleIntent(getIntent());
+
+		buildContent();
+		disPlayHomeAsUp(R.id.searchToolbar);
+		
+	}
+
+	private void changeTitle() {
+		SearchWhat sw = getSearchWhat();
+		if (sw == SearchWhat.status) {
+			mToolbar.setTitle("搜索微博");
+			
+		} else {
 			mToolbar.setTitle("搜索用户");
 		}
-
-        
-        buildViewPager();
-        buildActionBarAndViewPagerTitles();
-
-        handleIntent(getIntent());
-        
-        buildContent();
-        disPlayHomeAsUp(R.id.searchToolbar);
-        
-        
-        
-    }
+	}
 
 	private SearchWhat getSearchWhat() {
 		String title = getSPs().getString(KEY_SEARCH, SearchWhat.status.toString());
-        SearchWhat sw = Enum.valueOf(SearchWhat.class, title);
+		SearchWhat sw = Enum.valueOf(SearchWhat.class, title);
 		return sw;
 	}
-	
-	private SearchWhat changeSearchWhat(SearchWhat sw){
+
+	private SearchWhat changeSearchWhat(SearchWhat sw) {
 		getSPs().edit().putString(KEY_SEARCH, sw.toString()).commit();
 		return sw;
 	}
 
-    private void buildContent() {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                if (getSupportFragmentManager().findFragmentByTag(SearchStatusFragment.class.getName()) == null) {
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.searchContent, new SearchStatusFragment(),SearchStatusFragment.class.getName())
-                            .commitAllowingStateLoss();
-                    getSupportFragmentManager().executePendingTransactions();
-                }
-            }
-        });
-    }
-    
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-    }
+	private void buildContent() {
+		new Handler(Looper.getMainLooper()).post(new Runnable() {
+			@Override
+			public void run() {
+				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-    @Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
-    }
+				if (getSupportFragmentManager().findFragmentByTag(SearchStatusFragment.class.getName()) == null) {
+					ft.add(R.id.searchContent, getSearchUserFragment(), SearchUserFragment.class.getName());
+					ft.hide(getSearchUserFragment());
+				}
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        setIntent(intent);
-        handleIntent(intent);
-    }
+				if (getSupportFragmentManager().findFragmentByTag(SearchStatusFragment.class.getName()) == null) {
+					ft.add(R.id.searchContent, getSearchStatusFragment(), SearchStatusFragment.class.getName());
+					ft.hide(getSearchStatusFragment());
+				}
 
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this, SearchSuggestionProvider.AUTHORITY,
-                    SearchSuggestionProvider.MODE);
-            suggestions.saveRecentQuery(query, null);
-            search(query);
-        }
-    }
+				SearchWhat sw = getSearchWhat();
+				if (sw == SearchWhat.status) {
+					ft.show(getSearchUserFragment());
+					
+				} else {
+					ft.show(getSearchStatusFragment());
+				}
+				
+				ft.commitAllowingStateLoss();
+				getSupportFragmentManager().executePendingTransactions();
+				
 
-    private void buildViewPager() {
-//        mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        SearchTabPagerAdapter adapter = new SearchTabPagerAdapter(getSupportFragmentManager());
-//        mViewPager.setOffscreenPageLimit(2);
-//        mViewPager.setAdapter(adapter);
-//        mViewPager.setOnPageChangeListener(onPageChangeListener);
-    }
+			}
+		});
+	}
 
-    private void buildActionBarAndViewPagerTitles() {
+	public SearchUserFragment getSearchUserFragment() {
+		SearchUserFragment fragment = ((SearchUserFragment) getSupportFragmentManager().findFragmentByTag(SearchUserFragment.class.getName()));
+		if (fragment == null) {
+			fragment = new SearchUserFragment();
+		}
+		return fragment;
+	}
 
-//        actionBar.setTitle(getString(R.string.search));
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//
-//        actionBar.addTab(actionBar.newTab().setText(getString(R.string.status)).setTabListener(tabListener));
-//
-//        actionBar.addTab(actionBar.newTab().setText(getString(R.string.user)).setTabListener(tabListener));
+	private SearchStatusFragment getSearchStatusFragment() {
+		SearchStatusFragment fragment = ((SearchStatusFragment) getSupportFragmentManager().findFragmentByTag(SearchStatusFragment.class.getName()));
+		if (fragment == null) {
+			fragment = new SearchStatusFragment();
+		}
 
-    }
+		return fragment;
+	}
 
-//    ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-//
-//        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-//
-//            if (mViewPager.getCurrentItem() != tab.getPosition()) {
-//                mViewPager.setCurrentItem(tab.getPosition());
-//            }
-//
-//        }
-//
-//        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-//
-//        }
-//
-//        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-//
-//        }
-//    };
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		MobclickAgent.onPageStart(this.getClass().getName());
+		MobclickAgent.onResume(this);
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar_menu_searchmainactivity, menu);
-//        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-//        searchView.setIconifiedByDefault(false);
-//        searchView.setSubmitButtonEnabled(false);
-//        searchView.requestFocus();
-        return super.onCreateOptionsMenu(menu);
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MobclickAgent.onPageEnd(this.getClass().getName());
+		MobclickAgent.onPause(this);
+	}
 
-    }
-    
-    @Override
+	@Override
+	protected void onNewIntent(Intent intent) {
+		setIntent(intent);
+		handleIntent(intent);
+	}
+
+	private void handleIntent(Intent intent) {
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			String query = intent.getStringExtra(SearchManager.QUERY);
+			SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this, SearchSuggestionProvider.AUTHORITY, SearchSuggestionProvider.MODE);
+			suggestions.saveRecentQuery(query, null);
+			search(query);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.actionbar_menu_searchmainactivity, menu);
+		return super.onCreateOptionsMenu(menu);
+
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		switch (id) {
@@ -190,25 +174,41 @@ public class SearchMainActivity extends SharedPreferenceActivity {
 			LayoutInflater lif = LayoutInflater.from(this);
 			View view = lif.inflate(R.layout.door_img_dialog_layout, null);
 			TextView tvTextView = ViewUtility.findViewById(view, R.id.doorTitle);
-			
-	        SearchWhat sw = getSearchWhat();
-	        if (sw == SearchWhat.status) {
-	        	tvTextView.setText("搜索微博");
-			}else {
+			final MaterialEditText me = ViewUtility.findViewById(view, R.id.doorEditText);
+			Button mButton = ViewUtility.findViewById(view, R.id.doorCheckBtn);
+			SearchWhat sw = getSearchWhat();
+			if (sw == SearchWhat.status) {
+				tvTextView.setText("搜索微博");
+			} else {
 				tvTextView.setText("搜索用户");
 			}
-	        
+
 			builder.setView(view);
-			builder.create().show();
+			final AlertDialog alertDialog = builder.create();
+			alertDialog.show();
+
+			mButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					search(me.getText().toString().trim());
+					alertDialog.cancel();
+				}
+			});
 			break;
 		}
-		case R.id.searchWeibo:{
+		case R.id.searchWeibo: {
 			changeSearchWhat(SearchWhat.status);
+			changeFragment();
+			changeTitle();
 			break;
 		}
-		
-		case R.id.searchUser:{
+
+		case R.id.searchUser: {
 			changeSearchWhat(SearchWhat.user);
+			changeFragment();
+			changeTitle();
 			break;
 		}
 
@@ -218,89 +218,50 @@ public class SearchMainActivity extends SharedPreferenceActivity {
 
 		return true;
 	}
-    
 
-    public String getSearchWord() {
-        return this.q;
-    }
+	private void changeFragment() {
+		SearchWhat sw = getSearchWhat();
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		if (sw == SearchWhat.status) {
+			ft.show(getSearchUserFragment());
+			ft.hide(getSearchStatusFragment());
+		} else {
+			ft.show(getSearchStatusFragment());
+			ft.hide(getSearchUserFragment());
+		}
+		ft.commit();
+	}
 
-    private String q;
+	public String getSearchWord() {
+		return this.q;
+	}
 
-    private void search(final String q) {
-//        if (!TextUtils.isEmpty(q)) {
-//            this.q = q;
-//            switch (mViewPager.getCurrentItem()) {
-//                case 0:
-//                    ((SearchStatusFragment) getSearchStatusFragment()).search();
-//                    break;
-//                case 1:
-//                    ((SearchUserFragment) getSearchUserFragment()).search();
-//                    break;
-//            }
-//        }
-    }
+	private void search(final String q) {
+		if (!TextUtils.isEmpty(q)) {
+			this.q = q;
 
-    private void showInputMethod(View view) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			SearchWhat sw = getSearchWhat();
+			if (sw == SearchWhat.status) {
+				((SearchStatusFragment) getSearchStatusFragment()).search(getSearchWord());
+			} else {
+				((SearchUserFragment) getSearchUserFragment()).search(getSearchWord());
+			}
+		}
+	}
 
-        if (imm != null) {
-            imm.showSoftInput(view, 0);
-        }
-    }
+	private void showInputMethod(View view) {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
+		if (imm != null) {
+			imm.showSoftInput(view, 0);
+		}
+	}
 
+	ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
+		@Override
+		public void onPageSelected(int position) {
+			// getActionBar().setSelectedNavigationItem(position);
+		}
+	};
 
-    private Fragment getSearchUserFragment() {
-        return getSupportFragmentManager().findFragmentByTag(SearchUserFragment.class.getName());
-    }
-
-    private AbsTimeLineFragment getSearchStatusFragment() {
-        return (AbsTimeLineFragment) getSupportFragmentManager().findFragmentByTag(SearchStatusFragment.class.getName());
-    }
-
-    ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
-        @Override
-        public void onPageSelected(int position) {
-            // getActionBar().setSelectedNavigationItem(position);
-        }
-    };
-
-    private class SearchTabPagerAdapter extends AppFragmentPagerAdapter {
-
-        List<Fragment> list = new ArrayList<Fragment>();
-
-        public SearchTabPagerAdapter(FragmentManager fm) {
-            super(fm);
-            if (getSearchStatusFragment() == null) {
-                list.add(new SearchStatusFragment());
-            } else {
-                list.add(getSearchStatusFragment());
-            }
-
-            if (getSearchUserFragment() == null) {
-                list.add(new SearchUserFragment());
-            } else {
-                list.add(getSearchUserFragment());
-            }
-
-        }
-
-        public Fragment getItem(int position) {
-            return list.get(position);
-        }
-
-        @Override
-        protected String getTag(int position) {
-            List<String> tagList = new ArrayList<String>();
-            tagList.add(SearchStatusFragment.class.getName());
-            tagList.add(SearchUserFragment.class.getName());
-            return tagList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-    }
 }

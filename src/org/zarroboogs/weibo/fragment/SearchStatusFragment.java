@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBean> {
 
     private int page = 1;
+    private String searchKey = "";
 
     private SearchStatusListBean bean = new SearchStatusListBean();
 
@@ -29,7 +30,8 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
 
     }
 
-    public void search() {
+    public void search(String searchKey) {
+    	this.searchKey = searchKey;
         mPullToRefreshListView.setRefreshing();
         loadNewMsg();
     }
@@ -73,7 +75,7 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
     @Override
     protected Loader<AsyncTaskLoaderResult<SearchStatusListBean>> onCreateNewMsgLoader(int id, Bundle args) {
         String token = GlobalContext.getInstance().getAccessTokenHack();
-        String word = ((SearchMainParentFragment) getParentFragment()).getSearchWord();
+        String word = searchKey;
         page = 1;
         return new SearchStatusLoader(getActivity(), token, word, String.valueOf(page));
     }
@@ -81,7 +83,7 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
     @Override
     protected Loader<AsyncTaskLoaderResult<SearchStatusListBean>> onCreateOldMsgLoader(int id, Bundle args) {
         String token = GlobalContext.getInstance().getAccessTokenHack();
-        String word = ((SearchMainParentFragment) getParentFragment()).getSearchWord();
+        String word = searchKey;
         return new SearchStatusLoader(getActivity(), token, word, String.valueOf(page + 1));
     }
 

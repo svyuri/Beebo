@@ -209,10 +209,10 @@ public class SearchMainParentFragment extends BaseStateFragment implements MainT
             suggestions.saveRecentQuery(this.q, null);
             switch (viewPager.getCurrentItem()) {
                 case 0:
-                    ((SearchStatusFragment) getSearchWeiboFragment()).search();
+                    ((SearchStatusFragment) getSearchWeiboFragment()).search(getSearchWord());
                     break;
                 case 1:
-                    ((SearchUserFragment) getSearchUserFragment()).search();
+                    ((SearchUserFragment) getSearchUserFragment()).search(getSearchWord());
                     break;
             }
         }
