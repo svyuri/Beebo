@@ -205,40 +205,17 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
     private void initFragments() {
         Fragment friend = getFriendsTimeLineFragment();
-        Fragment comments = getCommentsTimeLineFragment();
-
         Fragment fav = getFavFragment();
-        Fragment myself = getMyProfileFragment();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (!friend.isAdded()) {
             fragmentTransaction.add(R.id.menu_right_fl, friend, FriendsTimeLineFragment.class.getName());
             fragmentTransaction.hide(friend);
         }
-        if (!comments.isAdded()) {
-            fragmentTransaction.add(R.id.menu_right_fl, comments, CommentsTimeLineFragment.class.getName());
-            fragmentTransaction.hide(comments);
-
-        }
-
+        
         if (!fav.isAdded()) {
             fragmentTransaction.add(R.id.menu_right_fl, fav, MyFavListFragment.class.getName());
             fragmentTransaction.hide(fav);
-        }
-
-        if (!myself.isAdded()) {
-            fragmentTransaction.add(R.id.menu_right_fl, myself, UserInfoFragment.class.getName());
-            fragmentTransaction.hide(myself);
-        }
-
-        if (GlobalContext.getInstance().getAccountBean().isBlack_magic()) {
-            Fragment dm = getDMFragment();
-
-            if (!dm.isAdded()) {
-                fragmentTransaction.add(R.id.menu_right_fl, dm, DMUserListFragment.class.getName());
-                fragmentTransaction.hide(dm);
-
-            }
         }
 
         if (!fragmentTransaction.isEmpty()) {
@@ -471,39 +448,11 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     }
 
 
-    public CommentsTimeLineFragment getCommentsTimeLineFragment() {
-        CommentsTimeLineFragment fragment = ((CommentsTimeLineFragment) getSupportFragmentManager().findFragmentByTag(
-                CommentsTimeLineFragment.class.getName()));
-        if (fragment == null) {
-            fragment = CommentsTimeLineFragment.newInstance();
-        }
-        return fragment;
-    }
-
-    public DMUserListFragment getDMFragment() {
-        DMUserListFragment fragment = ((DMUserListFragment) getSupportFragmentManager().findFragmentByTag(
-                DMUserListFragment.class.getName()));
-        if (fragment == null) {
-            fragment = DMUserListFragment.newInstance();
-        }
-        return fragment;
-    }
-
     public MyFavListFragment getFavFragment() {
         MyFavListFragment fragment = ((MyFavListFragment) getSupportFragmentManager().findFragmentByTag(
                 MyFavListFragment.class.getName()));
         if (fragment == null) {
             fragment = MyFavListFragment.newInstance();
-        }
-        return fragment;
-    }
-
-    public UserInfoFragment getMyProfileFragment() {
-        UserInfoFragment fragment = ((UserInfoFragment) getSupportFragmentManager().findFragmentByTag(
-                UserInfoFragment.class.getName()));
-        if (fragment == null) {
-            fragment = UserInfoFragment.newInstance(mToolbar, GlobalContext.getInstance().getAccountBean().getInfo(), GlobalContext
-                    .getInstance().getAccessTokenHack());
         }
         return fragment;
     }
