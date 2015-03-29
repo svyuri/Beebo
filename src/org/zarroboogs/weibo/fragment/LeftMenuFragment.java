@@ -27,8 +27,6 @@ import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.BlurImageView;
 
-import com.crashlytics.android.internal.r;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -85,8 +83,6 @@ public class LeftMenuFragment extends BaseStateFragment {
 
     public static final int FAV_INDEX = 4;
 
-    public static final int SEARCH_INDEX = 5;
-
     public static final int PROFILE_INDEX = 6;
 
     public static final int LOGOUT_INDEX = 7;
@@ -137,7 +133,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         rightFragments.append(HOME_INDEX, ((MainTimeLineActivity) getActivity()).getFriendsTimeLineFragment());
         rightFragments.append(MENTIONS_INDEX, ((MainTimeLineActivity) getActivity()).getAtMeTimeLineFragment());
         rightFragments.append(COMMENTS_INDEX, ((MainTimeLineActivity) getActivity()).getCommentsTimeLineFragment());
-        rightFragments.append(SEARCH_INDEX, ((MainTimeLineActivity) getActivity()).getSearchFragment());
         rightFragments.append(DM_INDEX, ((MainTimeLineActivity) getActivity()).getDMFragment());
         rightFragments.append(FAV_INDEX, ((MainTimeLineActivity) getActivity()).getFavFragment());
         rightFragments.append(PROFILE_INDEX, ((MainTimeLineActivity) getActivity()).getMyProfileFragment());
@@ -176,12 +171,6 @@ public class LeftMenuFragment extends BaseStateFragment {
                 break;
             case COMMENTS_INDEX:
                 showCommentPage(true);
-                break;
-            case SEARCH_INDEX:
-            	Intent searchIntent = new Intent(getActivity(), SearchMainActivity.class);
-            	startActivity(searchIntent);
-            	
-//                showSearchPage(true);
                 break;
             case DM_INDEX:
                 showDMPage(true);
@@ -273,7 +262,6 @@ public class LeftMenuFragment extends BaseStateFragment {
 
         ft.hide(rightFragments.get(MENTIONS_INDEX));
         ft.hide(rightFragments.get(COMMENTS_INDEX));
-        ft.hide(rightFragments.get(SEARCH_INDEX));
         ft.hide(rightFragments.get(DM_INDEX));
         ft.hide(rightFragments.get(FAV_INDEX));
         ft.hide(rightFragments.get(PROFILE_INDEX));
@@ -322,7 +310,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.hide(rightFragments.get(HOME_INDEX));
         ft.hide(rightFragments.get(COMMENTS_INDEX));
-        ft.hide(rightFragments.get(SEARCH_INDEX));
         ft.hide(rightFragments.get(DM_INDEX));
         ft.hide(rightFragments.get(FAV_INDEX));
         ft.hide(rightFragments.get(PROFILE_INDEX));
@@ -392,7 +379,6 @@ public class LeftMenuFragment extends BaseStateFragment {
 
         ft.hide(rightFragments.get(HOME_INDEX));
         ft.hide(rightFragments.get(MENTIONS_INDEX));
-        ft.hide(rightFragments.get(SEARCH_INDEX));
         ft.hide(rightFragments.get(DM_INDEX));
         ft.hide(rightFragments.get(FAV_INDEX));
         ft.hide(rightFragments.get(PROFILE_INDEX));
@@ -415,65 +401,7 @@ public class LeftMenuFragment extends BaseStateFragment {
         ((CommentsTimeLineFragment) fragment).buildActionBarAndViewPagerTitles(commentsTabIndex);
     }
 
-    private boolean showSearchPage(boolean reset) {
-        // getActivity().getActionBar().setDisplayShowTitleEnabled(true);
-        if (currentIndex == SEARCH_INDEX && !reset) {
-            // ((MainTimeLineActivity) getActivity()).getSlidingMenu().showContent();
-            return true;
-        }
-        // getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 
-        currentIndex = SEARCH_INDEX;
-        if (Utility.isDevicePort() && !reset) {
-            BroadcastReceiver receiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
-                    if (currentIndex == SEARCH_INDEX) {
-                        mToolbar.setTitle(R.string.search);
-                        showSearchPageImp();
-                    }
-
-                }
-            };
-            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver,
-                    new IntentFilter(AppEventAction.SLIDING_MENU_CLOSED_BROADCAST));
-        } else {
-            showSearchPageImp();
-
-        }
-
-        // ((MainTimeLineActivity) getActivity()).getSlidingMenu().showContent();
-
-        return false;
-    }
-
-    private void showSearchPageImp() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-
-        ft.hide(rightFragments.get(HOME_INDEX));
-        ft.hide(rightFragments.get(MENTIONS_INDEX));
-        ft.hide(rightFragments.get(COMMENTS_INDEX));
-        ft.hide(rightFragments.get(DM_INDEX));
-        ft.hide(rightFragments.get(FAV_INDEX));
-        ft.hide(rightFragments.get(PROFILE_INDEX));
-
-        Fragment fragment = rightFragments.get(SEARCH_INDEX);
-
-        if (firstStart) {
-            int navPosition = GlobalContext.getInstance().getAccountBean().getNavigationPosition() / 10;
-            if (navPosition == SEARCH_INDEX) {
-                searchTabIndex = GlobalContext.getInstance().getAccountBean().getNavigationPosition() % 10;
-            }
-        }
-        fragment.getArguments().putInt("searchTabIndex", searchTabIndex);
-
-        ft.show(fragment);
-        ft.commit();
-
-        ((SearchMainParentFragment) fragment).showSearchMenu();
-
-    }
 
     private boolean showDMPage(boolean reset) {
         // getActivity().getActionBar().setDisplayShowTitleEnabled(true);
@@ -514,7 +442,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         ft.hide(rightFragments.get(HOME_INDEX));
         ft.hide(rightFragments.get(MENTIONS_INDEX));
         ft.hide(rightFragments.get(COMMENTS_INDEX));
-        ft.hide(rightFragments.get(SEARCH_INDEX));
         ft.hide(rightFragments.get(FAV_INDEX));
         ft.hide(rightFragments.get(PROFILE_INDEX));
 
@@ -568,7 +495,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         ft.hide(rightFragments.get(HOME_INDEX));
         ft.hide(rightFragments.get(MENTIONS_INDEX));
         ft.hide(rightFragments.get(COMMENTS_INDEX));
-        ft.hide(rightFragments.get(SEARCH_INDEX));
         ft.hide(rightFragments.get(DM_INDEX));
         ft.hide(rightFragments.get(PROFILE_INDEX));
 
@@ -620,7 +546,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         ft.hide(rightFragments.get(HOME_INDEX));
         ft.hide(rightFragments.get(MENTIONS_INDEX));
         ft.hide(rightFragments.get(COMMENTS_INDEX));
-        ft.hide(rightFragments.get(SEARCH_INDEX));
         ft.hide(rightFragments.get(DM_INDEX));
         ft.hide(rightFragments.get(FAV_INDEX));
 
@@ -739,8 +664,8 @@ public class LeftMenuFragment extends BaseStateFragment {
 				showCommentPage(false);
 				drawButtonsBackground(COMMENTS_INDEX);
 			} else if (id == R.id.btn_search) {
-				showSearchPage(false);
-				drawButtonsBackground(SEARCH_INDEX);
+				Intent intent = new Intent(getActivity(), SearchMainActivity.class);
+				startActivity(intent);
 			} else if (id == R.id.btn_location) {
 				startActivity(new Intent(getActivity(), NearbyTimeLineActivity.class));
 			} else if (id == R.id.btn_favourite) {
@@ -781,50 +706,24 @@ public class LeftMenuFragment extends BaseStateFragment {
     	layout.dm.setTextColor(getResources().getColor(R.color.draw_text_color));
 		layout.fav.setTextColor(getResources().getColor(R.color.draw_text_color));
 		layout.search.setTextColor(getResources().getColor(R.color.draw_text_color));
-		
-//		layout.home.setBackgroundResource(R.drawable.btn_drawer_menu);
-//		layout.mention.setBackgroundResource(R.drawable.btn_drawer_menu);
-//		layout.comment.setBackgroundResource(R.drawable.btn_drawer_menu);
-//		layout.search.setBackgroundResource(R.drawable.btn_drawer_menu);
-//		layout.location.setBackgroundResource(R.color.transparent);
-//		layout.setting.setBackgroundResource(R.color.transparent);
-//		layout.dm.setBackgroundResource(R.drawable.btn_drawer_menu);
-//		layout.fav.setBackgroundResource(R.drawable.btn_drawer_menu);
-//		layout.logout.setBackgroundResource(R.color.transparent);
         switch (position) {
             case HOME_INDEX:
-//                layout.home.setBackgroundResource(R.color.ics_blue_semi);
             	layout.homeButton.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
                 break;
             case MENTIONS_INDEX:
-//                layout.mention.setBackgroundResource(R.color.ics_blue_semi);
             	layout.mentionButton.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
                 break;
             case COMMENTS_INDEX:
-//                layout.comment.setBackgroundResource(R.color.ics_blue_semi);
             	layout.commentButton.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
                 break;
-            case SEARCH_INDEX:
-//                layout.search.setBackgroundResource(R.color.ics_blue_semi);
-            	layout.search.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
-                break;
             case DM_INDEX:
-//                layout.dm.setBackgroundResource(R.color.ics_blue_semi);
             	layout.dm.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
                 break;
             case FAV_INDEX:
-//                layout.fav.setBackgroundResource(R.color.ics_blue_semi);
             	layout.fav.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
                 break;
-        // case 5:
-        // layout.location.setBackgroundResource(R.color.ics_blue_semi);
-        // break;
         }
     }
-
-    // private SlidingMenu getSlidingMenu() {
-    // return ((MainTimeLineActivity) getActivity()).getSlidingMenu();
-    // }
 
     private void setTitle(int res) {
         ((MainTimeLineActivity) getActivity()).setTitle(res);

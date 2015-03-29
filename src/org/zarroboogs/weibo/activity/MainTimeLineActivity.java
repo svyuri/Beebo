@@ -22,7 +22,6 @@ import org.zarroboogs.weibo.fragment.LeftMenuFragment;
 import org.zarroboogs.weibo.fragment.AtMeTimeLineFragment;
 import org.zarroboogs.weibo.fragment.MyFavListFragment;
 import org.zarroboogs.weibo.fragment.RightMenuFragment;
-import org.zarroboogs.weibo.fragment.SearchMainParentFragment;
 import org.zarroboogs.weibo.fragment.UserInfoFragment;
 import org.zarroboogs.weibo.othercomponent.AppNewMsgAlarm;
 import org.zarroboogs.weibo.othercomponent.ConnectionChangeReceiver;
@@ -239,14 +238,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         }
 
         if (GlobalContext.getInstance().getAccountBean().isBlack_magic()) {
-            Fragment search = getSearchFragment();
             Fragment dm = getDMFragment();
-
-            if (!search.isAdded()) {
-                fragmentTransaction.add(R.id.menu_right_fl, search, SearchMainParentFragment.class.getName());
-                fragmentTransaction.hide(search);
-
-            }
 
             if (!dm.isAdded()) {
                 fragmentTransaction.add(R.id.menu_right_fl, dm, DMUserListFragment.class.getName());
@@ -498,15 +490,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
                 CommentsTimeLineFragment.class.getName()));
         if (fragment == null) {
             fragment = CommentsTimeLineFragment.newInstance();
-        }
-        return fragment;
-    }
-
-    public SearchMainParentFragment getSearchFragment() {
-        SearchMainParentFragment fragment = ((SearchMainParentFragment) getSupportFragmentManager().findFragmentByTag(
-                SearchMainParentFragment.class.getName()));
-        if (fragment == null) {
-            fragment = SearchMainParentFragment.newInstance();
         }
         return fragment;
     }
