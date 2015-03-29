@@ -16,7 +16,7 @@ import android.view.WindowManager;
 
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class SharedPreferenceActivity extends AbstractAppActivity implements OnSharedPreferenceChangeListener {
-    private SharedPreferences mCookieSP = null;
+    private SharedPreferences mSharedPreferences = null;
     private String mCookie = "";
     private static final String KEY_COOKIE = "cookie";
 
@@ -31,23 +31,23 @@ public class SharedPreferenceActivity extends AbstractAppActivity implements OnS
         }
 
         super.onCreate(savedInstanceState);
-        mCookieSP = getSharedPreferences(getPackageName(), MODE_PRIVATE);
-        mCookie = mCookieSP.getString(KEY_COOKIE, "");
-        mCookieSP.registerOnSharedPreferenceChangeListener(this);
+        mSharedPreferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        mCookie = mSharedPreferences.getString(KEY_COOKIE, "");
+        mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-        mCookieSP.unregisterOnSharedPreferenceChangeListener(this);
+        mSharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         // TODO Auto-generated method stub
         if (KEY_COOKIE.equals(key)) {
-            mCookie = mCookieSP.getString(KEY_COOKIE, "");
+            mCookie = mSharedPreferences.getString(KEY_COOKIE, "");
         }
     }
 
@@ -59,12 +59,12 @@ public class SharedPreferenceActivity extends AbstractAppActivity implements OnS
     // mCookieSP.edit().putString(KEY_COOKIE, cookie).commit();
     // }
 
-    public SharedPreferences getAppSrcSharedPreference() {
-        return mCookieSP;
+    public SharedPreferences getSPs() {
+        return mSharedPreferences;
     }
 
     public void saveWeiba(WeiboWeiba weiba) {
-        Editor mEditor = mCookieSP.edit();
+        Editor mEditor = mSharedPreferences.edit();
         mEditor.putString(Constants.KEY_NAME, weiba.getText());
         mEditor.putString(Constants.KEY_CODE, weiba.getCode());
         mEditor.commit();
@@ -73,8 +73,8 @@ public class SharedPreferenceActivity extends AbstractAppActivity implements OnS
 
     public WeiboWeiba getWeiba() {
         WeiboWeiba weiba = new WeiboWeiba();
-        weiba.setText(mCookieSP.getString(Constants.KEY_NAME, "iBeebo"));
-        weiba.setCode(mCookieSP.getString(Constants.KEY_CODE, "507Tbr"));
+        weiba.setText(mSharedPreferences.getString(Constants.KEY_NAME, "iBeebo"));
+        weiba.setCode(mSharedPreferences.getString(Constants.KEY_CODE, "507Tbr"));
         return weiba;
     }
 }

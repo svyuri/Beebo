@@ -104,7 +104,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getAppSrcSharedPreference().registerOnSharedPreferenceChangeListener(this);
+        getSPs().registerOnSharedPreferenceChangeListener(this);
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         setContentView(R.layout.write_weibo_with_appsrc_activity_layout);
         // drawerLayout
@@ -333,7 +333,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         // TODO Auto-generated method stub
         super.onDestroy();
         ImageLoader.getInstance().stop();
-        getAppSrcSharedPreference().unregisterOnSharedPreferenceChangeListener(this);
+        getSPs().unregisterOnSharedPreferenceChangeListener(this);
         
         SendImgData.getInstance().clearSendImgs();
         SendImgData.getInstance().clearReSizeImgs();

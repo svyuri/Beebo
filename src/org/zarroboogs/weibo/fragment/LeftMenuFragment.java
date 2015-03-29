@@ -12,6 +12,7 @@ import org.zarroboogs.weibo.activity.HotWeiboActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.activity.MyInfoActivity;
 import org.zarroboogs.weibo.activity.NearbyTimeLineActivity;
+import org.zarroboogs.weibo.activity.SearchMainActivity;
 import org.zarroboogs.weibo.bean.TimeLinePosition;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.db.task.CommentToMeTimeLineDBTask;
@@ -177,7 +178,10 @@ public class LeftMenuFragment extends BaseStateFragment {
                 showCommentPage(true);
                 break;
             case SEARCH_INDEX:
-                showSearchPage(true);
+            	Intent searchIntent = new Intent(getActivity(), SearchMainActivity.class);
+            	startActivity(searchIntent);
+            	
+//                showSearchPage(true);
                 break;
             case DM_INDEX:
                 showDMPage(true);
