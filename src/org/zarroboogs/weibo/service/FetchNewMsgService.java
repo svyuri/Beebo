@@ -30,9 +30,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * User: Jiang Qi Date: 12-7-31
- */
 public class FetchNewMsgService extends IntentService {
 
     // close service between 1 clock and 8 clock

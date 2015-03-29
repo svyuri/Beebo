@@ -83,6 +83,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
     private Button mScrollTopBtn;
     
+    private static MenuItem notifcationMenu;
 
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -154,6 +155,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             public void run() {
             	toolbar.getMenu().clear();
             	toolbar.inflateMenu(menuRes);
+            	notifcationMenu = toolbar.getMenu().findItem(R.id.notify_menu);
             }
         }, 200);
     }
@@ -174,6 +176,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 					break;
 				}
 				case R.id.notify_menu:{
+					notify.sendEmptyMessage(NOTIFY_STOP);
 					Intent intent = new Intent(MainTimeLineActivity.this, NotifyActivity.class);
 					startActivity(intent);
 					
@@ -549,6 +552,10 @@ public class MainTimeLineActivity extends AbstractAppActivity {
                 int unreadCount = (mentionsWeibo != null ? mentionsWeibo.getSize() : 0)
                         + (mentionsComment != null ? mentionsComment.getSize() : 0)
                         + (commentsToMe != null ? commentsToMe.getSize() : 0);
+                if (!inNotify) {
+                    notify.sendEmptyMessage(NOTIFY_ON);
+				}
+
                 String tip = String.format(context.getString(R.string.you_have_new_unread_count),
                         String.valueOf(unreadCount));
                 Toast.makeText(MainTimeLineActivity.this, tip, Toast.LENGTH_LONG).show();
@@ -557,6 +564,41 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         }
     }
 
+    private static final int NOTIFY_ON = 0x1000;
+    private static final int NOTIFY_OFF = 0x1001;
+    private static final int NOTIFY_STOP = 0x2000;
+    private static boolean inNotify = false;
+    
+    private static Handler notify = new Handler(){
+    	public void handleMessage(android.os.Message msg) {
+    		super.handleMessage(msg);
+    		switch (msg.what) {
+			case NOTIFY_ON:{
+				inNotify = true;
+				notifcationMenu.setIcon(R.drawable.ic_notifications_on_white_24dp);
+				this.sendEmptyMessageDelayed(NOTIFY_OFF, 1000);
+				break;
+			}
+			case NOTIFY_OFF:{
+				inNotify = true;
+				notifcationMenu.setIcon(R.drawable.ic_notifications_none_white_24dp);
+				this.sendEmptyMessageDelayed(NOTIFY_ON, 1000);
+				break;
+			}
+			case NOTIFY_STOP:{
+				inNotify = false;
+				notify.removeMessages(NOTIFY_ON);
+				notify.removeMessages(NOTIFY_OFF);
+				notifcationMenu.setIcon(R.drawable.ic_notifications_none_white_24dp);
+				break;
+			}
+
+			default:
+				break;
+			}
+    	};
+    };
+    
     public static interface ScrollableListFragment {
 
         public void scrollToTop();

@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public class AppNewMsgAlarm {
 
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 	
     private static final int REQUEST_CODE = 195;
 

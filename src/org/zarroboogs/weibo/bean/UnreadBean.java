@@ -6,9 +6,6 @@ import android.os.Parcelable;
 
 import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
 
-/**
- * User: qii Date: 12-9-26
- */
 public class UnreadBean implements Parcelable {
     private int status;
     private int follower;

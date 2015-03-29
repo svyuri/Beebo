@@ -42,9 +42,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * User: qii Date: 14-3-8
- */
 @SuppressLint("NewApi")
 public class BigTextNotificationService extends NotificationServiceHelper {
 
