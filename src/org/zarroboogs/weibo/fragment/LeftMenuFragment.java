@@ -12,7 +12,6 @@ import org.zarroboogs.weibo.activity.HotWeiboActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.activity.MyInfoActivity;
 import org.zarroboogs.weibo.activity.NearbyTimeLineActivity;
-import org.zarroboogs.weibo.activity.SearchMainActivity;
 import org.zarroboogs.weibo.bean.TimeLinePosition;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.db.task.CommentToMeTimeLineDBTask;
@@ -75,8 +74,6 @@ public class LeftMenuFragment extends BaseStateFragment {
 
     public static final int HOME_INDEX = 0;
 
-    public static final int MENTIONS_INDEX = 1;
-
     public static final int COMMENTS_INDEX = 2;
 
     public static final int DM_INDEX = 3;
@@ -131,7 +128,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         }
 
         rightFragments.append(HOME_INDEX, ((MainTimeLineActivity) getActivity()).getFriendsTimeLineFragment());
-        rightFragments.append(MENTIONS_INDEX, ((MainTimeLineActivity) getActivity()).getAtMeTimeLineFragment());
         rightFragments.append(COMMENTS_INDEX, ((MainTimeLineActivity) getActivity()).getCommentsTimeLineFragment());
         rightFragments.append(DM_INDEX, ((MainTimeLineActivity) getActivity()).getDMFragment());
         rightFragments.append(FAV_INDEX, ((MainTimeLineActivity) getActivity()).getFavFragment());
@@ -166,9 +162,6 @@ public class LeftMenuFragment extends BaseStateFragment {
             case HOME_INDEX:
                 showHomePage(true);
                 break;
-            case MENTIONS_INDEX:
-                showMentionPage(true);
-                break;
             case COMMENTS_INDEX:
                 showCommentPage(true);
                 break;
@@ -183,8 +176,6 @@ public class LeftMenuFragment extends BaseStateFragment {
                 break;
         }
         drawButtonsBackground(position);
-
-        buildUnreadCount();
 
         firstStart = false;
     }
@@ -207,12 +198,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         if (hashSet != null) {
             commentsToMeUnreadCount = hashSet.size();
         }
-    }
-
-    private void buildUnreadCount() {
-        setMentionWeiboUnreadCount(mentionsWeiboUnreadCount);
-        setMentionCommentUnreadCount(mentionsCommentUnreadCount);
-        setCommentUnreadCount(commentsToMeUnreadCount);
     }
 
     private void showAccountSwitchPage() {
@@ -260,7 +245,6 @@ public class LeftMenuFragment extends BaseStateFragment {
     private void showHomePageImp() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
 
-        ft.hide(rightFragments.get(MENTIONS_INDEX));
         ft.hide(rightFragments.get(COMMENTS_INDEX));
         ft.hide(rightFragments.get(DM_INDEX));
         ft.hide(rightFragments.get(FAV_INDEX));
@@ -277,60 +261,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         fragment.buildActionBarNav();
     }
 
-    private boolean showMentionPage(boolean reset) {
-        if (currentIndex == MENTIONS_INDEX && !reset) {
-            // ((MainTimeLineActivity) getActivity()).getSlidingMenu().showContent();
-            return true;
-        }
-
-        // getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
-        currentIndex = MENTIONS_INDEX;
-
-        if (Utility.isDevicePort() && !reset) {
-            BroadcastReceiver receiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
-                    if (currentIndex == MENTIONS_INDEX) {
-                        mToolbar.setTitle(R.string.mentions);
-                        showMentionPageImp();
-                    }
-                }
-            };
-            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver,
-                    new IntentFilter(AppEventAction.SLIDING_MENU_CLOSED_BROADCAST));
-        } else {
-            showMentionPageImp();
-        }
-        // ((MainTimeLineActivity) getActivity()).getSlidingMenu().showContent();
-
-        return false;
-    }
-
-    private void showMentionPageImp() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.hide(rightFragments.get(HOME_INDEX));
-        ft.hide(rightFragments.get(COMMENTS_INDEX));
-        ft.hide(rightFragments.get(DM_INDEX));
-        ft.hide(rightFragments.get(FAV_INDEX));
-        ft.hide(rightFragments.get(PROFILE_INDEX));
-
-        Fragment m = rightFragments.get(MENTIONS_INDEX);
-
-        if (firstStart) {
-            int navPosition = GlobalContext.getInstance().getAccountBean().getNavigationPosition() / 10;
-            if (navPosition == MENTIONS_INDEX) {
-                mentionsTabIndex = GlobalContext.getInstance().getAccountBean().getNavigationPosition() % 10;
-            }
-        }
-        m.getArguments().putInt("mentionsTabIndex", mentionsTabIndex);
-
-        ft.show(m);
-        ft.commit();
-
-//        ViewUtility.findViewById(getActivity(), R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
-        mToolbar.getMenu().clear();
-    }
 
     public int getCurrentIndex() {
         return currentIndex;
@@ -377,7 +307,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
 
         ft.hide(rightFragments.get(HOME_INDEX));
-        ft.hide(rightFragments.get(MENTIONS_INDEX));
         ft.hide(rightFragments.get(DM_INDEX));
         ft.hide(rightFragments.get(FAV_INDEX));
         ft.hide(rightFragments.get(PROFILE_INDEX));
@@ -435,7 +364,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
 
         ft.hide(rightFragments.get(HOME_INDEX));
-        ft.hide(rightFragments.get(MENTIONS_INDEX));
         ft.hide(rightFragments.get(COMMENTS_INDEX));
         ft.hide(rightFragments.get(FAV_INDEX));
         ft.hide(rightFragments.get(PROFILE_INDEX));
@@ -486,7 +414,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
 
         ft.hide(rightFragments.get(HOME_INDEX));
-        ft.hide(rightFragments.get(MENTIONS_INDEX));
         ft.hide(rightFragments.get(COMMENTS_INDEX));
         ft.hide(rightFragments.get(DM_INDEX));
         ft.hide(rightFragments.get(PROFILE_INDEX));
@@ -537,7 +464,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
 
         ft.hide(rightFragments.get(HOME_INDEX));
-        ft.hide(rightFragments.get(MENTIONS_INDEX));
         ft.hide(rightFragments.get(COMMENTS_INDEX));
         ft.hide(rightFragments.get(DM_INDEX));
         ft.hide(rightFragments.get(FAV_INDEX));
@@ -573,13 +499,11 @@ public class LeftMenuFragment extends BaseStateFragment {
         layout.nickname = (TextView) view.findViewById(R.id.nickname);
 
         layout.home = (LinearLayout) view.findViewById(R.id.btn_home);
-        layout.mention = (LinearLayout) view.findViewById(R.id.btn_mention);
         layout.comment = (LinearLayout) view.findViewById(R.id.btn_comment);
         // layot.location = (Button) view.findViewById(R.id.btn_location);
         layout.dm = (Button) view.findViewById(R.id.btn_dm);
         layout.fav = (Button) view.findViewById(R.id.btn_favourite);
         layout.homeCount = (TextView) view.findViewById(R.id.tv_home_count);
-        layout.mentionCount = (TextView) view.findViewById(R.id.tv_mention_count);
         layout.commentCount = (TextView) view.findViewById(R.id.tv_comment_count);
         
         layout.leftDrawerSettingBtn = (ImageButton) view.findViewById(R.id.leftDrawerSettingBtn);
@@ -588,7 +512,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         layout.hotModel = ViewUtility.findViewById(view, R.id.hotModeIb);
         
         layout.homeButton = (Button) view.findViewById(R.id.homeButton);
-        layout.mentionButton = (Button) view.findViewById(R.id.mentionButton);
         layout.commentButton = (Button) view.findViewById(R.id.commentButton);
         
         layout.mHotWeibo = ViewUtility.findViewById(view, R.id.btnHotWeibo);
@@ -621,7 +544,6 @@ public class LeftMenuFragment extends BaseStateFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         layout.home.setOnClickListener(onClickListener);
-        layout.mention.setOnClickListener(onClickListener);
         layout.comment.setOnClickListener(onClickListener);
         // layout.location.setOnClickListener(onClickListener);
         layout.dm.setOnClickListener(onClickListener);
@@ -647,9 +569,6 @@ public class LeftMenuFragment extends BaseStateFragment {
 			if (id == R.id.btn_home) {
 				showHomePage(false);
 				drawButtonsBackground(HOME_INDEX);
-			} else if (id == R.id.btn_mention) {
-				showMentionPage(false);
-				drawButtonsBackground(MENTIONS_INDEX);
 			} else if (id == R.id.btn_comment) {
 				showCommentPage(false);
 				drawButtonsBackground(COMMENTS_INDEX);
@@ -688,16 +607,12 @@ public class LeftMenuFragment extends BaseStateFragment {
 
     private void drawButtonsBackground(int position) {
     	layout.homeButton.setTextColor(getResources().getColor(R.color.draw_text_color));
-    	layout.mentionButton.setTextColor(getResources().getColor(R.color.draw_text_color));
     	
     	layout.dm.setTextColor(getResources().getColor(R.color.draw_text_color));
 		layout.fav.setTextColor(getResources().getColor(R.color.draw_text_color));
         switch (position) {
             case HOME_INDEX:
             	layout.homeButton.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
-                break;
-            case MENTIONS_INDEX:
-            	layout.mentionButton.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
                 break;
             case COMMENTS_INDEX:
             	layout.commentButton.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
@@ -728,39 +643,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         }
     }
 
-    public void setMentionWeiboUnreadCount(int count) {
-        this.mentionsWeiboUnreadCount = count;
-        int totalCount = this.mentionsWeiboUnreadCount + this.mentionsCommentUnreadCount;
-        if (totalCount > 0) {
-            layout.mentionCount.setVisibility(View.VISIBLE);
-            layout.mentionCount.setText(String.valueOf(totalCount));
-        } else {
-            layout.mentionCount.setVisibility(View.GONE);
-        }
-    }
-
-    public void setMentionCommentUnreadCount(int count) {
-        this.mentionsCommentUnreadCount = count;
-        int totalCount = this.mentionsWeiboUnreadCount + this.mentionsCommentUnreadCount;
-        if (totalCount > 0) {
-            layout.mentionCount.setVisibility(View.VISIBLE);
-            layout.mentionCount.setText(String.valueOf(totalCount));
-        } else {
-            layout.mentionCount.setVisibility(View.GONE);
-        }
-    }
-
-    public void setCommentUnreadCount(int count) {
-        this.commentsToMeUnreadCount = count;
-        if (this.commentsToMeUnreadCount > 0) {
-            layout.commentCount.setVisibility(View.VISIBLE);
-            layout.commentCount.setText(String.valueOf(this.commentsToMeUnreadCount));
-        } else {
-            layout.commentCount.setVisibility(View.GONE);
-        }
-    }
-
-
 	private class LeftDrawerViewHolder {
 
 		ImageView avatar;
@@ -771,17 +653,11 @@ public class LeftMenuFragment extends BaseStateFragment {
 
 		Button homeButton;
 
-		LinearLayout mention;
-
-		Button mentionButton;
-
 		LinearLayout comment;
 
 		Button commentButton;
 
 		TextView homeCount;
-
-		TextView mentionCount;
 
 		TextView commentCount;
 

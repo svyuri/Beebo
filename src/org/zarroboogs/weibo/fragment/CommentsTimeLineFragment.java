@@ -105,13 +105,6 @@ public class CommentsTimeLineFragment extends BaseStateFragment implements MainT
         if (unreadTabIndex == null) {
             return;
         }
-        switch (unreadTabIndex) {
-            case COMMENT_TO_ME:
-                ((MainTimeLineActivity) getActivity()).getLeftMenuFragment().switchCategory(LeftMenuFragment.MENTIONS_INDEX);
-                viewPager.setCurrentItem(2);
-                intent.putExtra(BundleArgsConstants.OPEN_NAVIGATION_INDEX_EXTRA, UnreadTabIndex.NONE);
-                break;
-        }
 
     }
 

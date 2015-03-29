@@ -32,32 +32,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/btn_mention"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_drawer_menu"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/mentionButton"
-            style="@style/drawerMenuButton"
-            android:clickable="false"
-            android:drawableLeft="@drawable/ic_assignment_grey600_24dp"
-            android:text="@string/mentions"
-            tools:ignore="RtlHardcoded" />
-
-        <TextView
-            android:id="@+id/tv_mention_count"
-            style="@style/drawerMessageCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:freezesText="false"
-            android:text="0"
-            android:visibility="gone" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/btn_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

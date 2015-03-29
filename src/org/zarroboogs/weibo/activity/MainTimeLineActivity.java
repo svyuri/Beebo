@@ -543,22 +543,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         }
     }
 
-    public void setMentionsWeiboCount(int count) {
-        LeftMenuFragment fragment = getLeftMenuFragment();
-        fragment.setMentionWeiboUnreadCount(count);
-    }
-
-    public void setMentionsCommentCount(int count) {
-        LeftMenuFragment fragment = getLeftMenuFragment();
-        fragment.setMentionCommentUnreadCount(count);
-    }
-
-    public void setCommentsToMeCount(int count) {
-
-        LeftMenuFragment fragment = getLeftMenuFragment();
-        fragment.setCommentUnreadCount(count);
-    }
-
     public static interface ScrollableListFragment {
 
         public void scrollToTop();
