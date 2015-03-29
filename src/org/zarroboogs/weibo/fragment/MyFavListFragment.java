@@ -6,6 +6,8 @@ import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
+import org.zarroboogs.weibo.activity.NotifyActivity;
+import org.zarroboogs.weibo.activity.SearchMainActivity;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
@@ -23,6 +25,8 @@ import org.zarroboogs.weibo.support.utils.Utility;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -43,6 +47,8 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
 
     private AccountBean account;
 
+    private Toolbar mToolbar;
+    
     @Override
     public FavListBean getDataList() {
         return bean;
@@ -70,6 +76,42 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
     // super.onCreateOptionsMenu(menu, inflater);
     // inflater.inflate(R.menu.actionbar_menu_myfavlistfragment, menu);
     // }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+    	// TODO Auto-generated method stub
+    	super.onViewCreated(view, savedInstanceState);
+        mToolbar = (Toolbar) getActivity().findViewById(R.id.mainTimeLineToolBar);
+        
+    }
+    public void showMenuOnToolBar(int menu){
+    	showMenuOnToolBar(mToolbar, menu);
+    	
+    	mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem arg0) {
+				// TODO Auto-generated method stub
+				int id = arg0.getItemId();
+				switch (id) {
+				case R.id.search_menu:{
+					Intent intent = new Intent(getActivity(), SearchMainActivity.class);
+					startActivity(intent);
+					break;
+				}
+				case R.id.notify_menu:{
+					Intent intent = new Intent(getActivity(), NotifyActivity.class);
+					startActivity(intent);
+					
+					break;
+				}
+
+				default:
+					break;
+				}
+				return false;
+			}
+		});
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

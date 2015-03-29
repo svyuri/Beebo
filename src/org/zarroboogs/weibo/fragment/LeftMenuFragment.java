@@ -188,8 +188,6 @@ public class LeftMenuFragment extends BaseStateFragment {
 
 		fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
 
-		mToolbar.getMenu().clear();
-
 		fragment.buildActionBarNav();
 	}
 
@@ -236,14 +234,13 @@ public class LeftMenuFragment extends BaseStateFragment {
 
 		ft.hide(rightFragments.get(HOME_INDEX));
 
-		Fragment fragment = rightFragments.get(FAV_INDEX);
+		MyFavListFragment fragment = (MyFavListFragment) rightFragments.get(FAV_INDEX);
 
 		ft.show(fragment);
 		ft.commit();
-		// ViewUtility.findViewById(getActivity(),
-		// R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
-		mToolbar.getMenu().clear();
 
+		fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
+		
 		((MyFavListFragment) fragment).buildActionBarAndViewPagerTitles();
 	}
 
