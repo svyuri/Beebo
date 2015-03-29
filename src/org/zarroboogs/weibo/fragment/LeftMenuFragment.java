@@ -255,10 +255,10 @@ public class LeftMenuFragment extends BaseStateFragment {
 		FriendsTimeLineFragment fragment = (FriendsTimeLineFragment) rightFragments.get(HOME_INDEX);
 		ft.show(fragment);
 		ft.commit();
-
-		fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
-
-		fragment.buildActionBarNav();
+//
+//		fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
+//
+//		fragment.buildActionBarNav();
 	}
 
 	private FragmentTransaction hideFragmentExp(int key){
@@ -327,9 +327,9 @@ public class LeftMenuFragment extends BaseStateFragment {
 		ft.show(fragment);
 		ft.commit();
 
-		fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
-
-		((MyFavListFragment) fragment).buildActionBarAndViewPagerTitles();
+//		fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
+//
+//		((MyFavListFragment) fragment).buildActionBarAndViewPagerTitles();
 	}
 
 	private void readUnreadCountFromDB() {

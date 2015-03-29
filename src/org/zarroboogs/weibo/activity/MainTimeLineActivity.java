@@ -40,6 +40,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -47,9 +49,11 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -141,9 +145,54 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         mDrawerLayout.closeDrawer(Gravity.END);
     }
 
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+    
+    public void showMenuOnToolBar(final Toolbar toolbar, final int menuRes) {
+        mHandler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+            	toolbar.getMenu().clear();
+            	toolbar.inflateMenu(menuRes);
+            }
+        }, 200);
+    }
+    
+    public void showMenuOnToolBar(int menu){
+    	showMenuOnToolBar(mToolbar, menu);
+    	
+    	mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem arg0) {
+				// TODO Auto-generated method stub
+				int id = arg0.getItemId();
+				switch (id) {
+				case R.id.search_menu:{
+					Intent intent = new Intent(MainTimeLineActivity.this, SearchMainActivity.class);
+					startActivity(intent);
+					break;
+				}
+				case R.id.notify_menu:{
+					Intent intent = new Intent(MainTimeLineActivity.this, NotifyActivity.class);
+					startActivity(intent);
+					
+					break;
+				}
+
+				default:
+					break;
+				}
+				return false;
+			}
+		});
+    }
+    
     private void buildInterface(Bundle savedInstanceState) {
         
         mToolbar = (Toolbar) findViewById(R.id.mainTimeLineToolBar);
+        
+        showMenuOnToolBar(R.menu.main_time_line_menu);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
         mDrawerToggle = new MyDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
