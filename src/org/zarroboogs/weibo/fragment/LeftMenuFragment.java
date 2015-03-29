@@ -329,8 +329,6 @@ public class LeftMenuFragment extends BaseStateFragment {
 
         ViewUtility.findViewById(getActivity(), R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
         mToolbar.getMenu().clear();
-
-        ((AtMeTimeLineFragment) m).buildActionBarAndViewPagerTitles(mentionsTabIndex);
     }
 
     public int getCurrentIndex() {
