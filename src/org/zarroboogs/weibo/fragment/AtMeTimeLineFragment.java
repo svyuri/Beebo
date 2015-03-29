@@ -29,11 +29,13 @@ import android.view.ViewGroup;
 public class AtMeTimeLineFragment extends ViewPagerFragment {
 
 
-	public static final int AT_ME_WEIBO = 0;
-	public static final int AT_ME_COMMENT = 1;
+	public static final int COMMENT_TO_ME = 0;
+	
+	public static final int AT_ME_WEIBO = 1;
+	public static final int AT_ME_COMMENT = 2;
 
-	public static final int COMMENT_TO_ME = 2;
-	public static final int COMMENT_BY_ME = 3;
+
+//	public static final int COMMENT_BY_ME = 3;
 
     public static AtMeTimeLineFragment newInstance() {
         AtMeTimeLineFragment fragment = new AtMeTimeLineFragment();
@@ -56,8 +58,8 @@ public class AtMeTimeLineFragment extends ViewPagerFragment {
 				getActivity().getResources().getString(R.string.all_people_send_to_me), getCommentsToMeTimeLineFragment()));
 		
 		
-		sparseArray.append(AtMeTimeLineFragment.COMMENT_BY_ME,new ChildPage(
-				getActivity().getResources().getString(R.string.my_comment), getCommentsByMeTimeLineFragment()));
+//		sparseArray.append(AtMeTimeLineFragment.COMMENT_BY_ME,new ChildPage(
+//				getActivity().getResources().getString(R.string.my_comment), getCommentsByMeTimeLineFragment()));
         
 		return sparseArray;
 	}
