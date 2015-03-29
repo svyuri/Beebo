@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Beebo</string>
+    <string name="app_name">iBeebo</string>
+    
     <string name="action_settings">设置</string>
     <string name="img_folder_name">文件名称</string>
     <string name="img_number">张</string>
