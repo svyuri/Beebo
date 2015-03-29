@@ -9,6 +9,7 @@ import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
+import org.zarroboogs.weibo.activity.NotifyActivity;
 import org.zarroboogs.weibo.activity.SearchMainActivity;
 import org.zarroboogs.weibo.adapter.AbstractAppListAdapter;
 import org.zarroboogs.weibo.adapter.FriendsTimeLineListNavAdapter;
@@ -146,6 +147,9 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
 					break;
 				}
 				case R.id.notify_menu:{
+					Intent intent = new Intent(getActivity(), NotifyActivity.class);
+					startActivity(intent);
+					
 					break;
 				}
 

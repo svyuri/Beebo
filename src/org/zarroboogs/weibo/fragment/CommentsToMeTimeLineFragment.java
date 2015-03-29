@@ -117,8 +117,8 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
         newMsgTipBar.setOnChangeListener(new TopTipsView.OnChangeListener() {
             @Override
             public void onChange(int count) {
-                ((MainTimeLineActivity) getActivity()).setCommentsToMeCount(count);
-                setActionBarTabCount(count);
+//                ((MainTimeLineActivity) getActivity()).setCommentsToMeCount(count);
+//                setActionBarTabCount(count);
             }
         });
         checkUnreadInfo();
@@ -332,7 +332,7 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
         if (p != null && p.newMsgIds != null) {
             newMsgTipBar.setValue(p.newMsgIds);
             setActionBarTabCount(newMsgTipBar.getValues().size());
-            ((MainTimeLineActivity) getActivity()).setCommentsToMeCount(newMsgTipBar.getValues().size());
+//            ((MainTimeLineActivity) getActivity()).setCommentsToMeCount(newMsgTipBar.getValues().size());
         }
     }
 

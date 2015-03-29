@@ -346,6 +346,9 @@
             android:label="@string/app_name" >
         </activity>
         <activity android:name="org.zarroboogs.weibo.widget.galleryview.ViewPagerActivity" />
+        
+        <activity android:name="org.zarroboogs.weibo.activity.NotifyActivity" />
+        
         <!-- 热门微博Activity -->
         <activity android:name="org.zarroboogs.weibo.activity.HotWeiboActivity" />
         <activity android:name="org.zarroboogs.weibo.activity.HotHuaTiActivity" />

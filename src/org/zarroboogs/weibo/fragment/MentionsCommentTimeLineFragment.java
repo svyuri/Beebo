@@ -121,7 +121,7 @@ public class MentionsCommentTimeLineFragment extends AbsBaseTimeLineFragment<Com
         getNewMsgTipBar().setOnChangeListener(new TopTipsView.OnChangeListener() {
             @Override
             public void onChange(int count) {
-                ((MainTimeLineActivity) getActivity()).setMentionsCommentCount(count);
+//                ((MainTimeLineActivity) getActivity()).setMentionsCommentCount(count);
                 // setActionBarTabCount(count);
             }
         });
@@ -335,7 +335,7 @@ public class MentionsCommentTimeLineFragment extends AbsBaseTimeLineFragment<Com
         if (p != null && p.newMsgIds != null) {
             newMsgTipBar.setValue(p.newMsgIds);
             // setActionBarTabCount(newMsgTipBar.getValues().size());
-            ((MainTimeLineActivity) getActivity()).setMentionsCommentCount(newMsgTipBar.getValues().size());
+//            ((MainTimeLineActivity) getActivity()).setMentionsCommentCount(newMsgTipBar.getValues().size());
 
         }
     }

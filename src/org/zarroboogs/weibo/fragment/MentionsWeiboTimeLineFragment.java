@@ -95,7 +95,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
         getNewMsgTipBar().setOnChangeListener(new TopTipsView.OnChangeListener() {
             @Override
             public void onChange(int count) {
-                ((MainTimeLineActivity) getActivity()).setMentionsWeiboCount(count);
+//                ((MainTimeLineActivity) getActivity()).setMentionsWeiboCount(count);
                 // setActionBarTabCount(count);
             }
         });
@@ -358,7 +358,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
         if (p != null && p.newMsgIds != null) {
             newMsgTipBar.setValue(p.newMsgIds);
             // setActionBarTabCount(newMsgTipBar.getValues().size());
-            ((MainTimeLineActivity) getActivity()).setMentionsWeiboCount(newMsgTipBar.getValues().size());
+//            ((MainTimeLineActivity) getActivity()).setMentionsWeiboCount(newMsgTipBar.getValues().size());
         }
     }
 
