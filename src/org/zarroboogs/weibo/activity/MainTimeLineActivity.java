@@ -15,14 +15,12 @@ import org.zarroboogs.weibo.bean.UnreadBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.db.DatabaseManager;
 import org.zarroboogs.weibo.db.task.AccountDBTask;
-import org.zarroboogs.weibo.fragment.CommentsTimeLineFragment;
-import org.zarroboogs.weibo.fragment.DMUserListFragment;
 import org.zarroboogs.weibo.fragment.FriendsTimeLineFragment;
+import org.zarroboogs.weibo.fragment.HotHuaTiViewPagerFragment;
+import org.zarroboogs.weibo.fragment.HotWeiboViewPagerFragment;
 import org.zarroboogs.weibo.fragment.LeftMenuFragment;
-import org.zarroboogs.weibo.fragment.AtMeTimeLineFragment;
 import org.zarroboogs.weibo.fragment.MyFavListFragment;
 import org.zarroboogs.weibo.fragment.RightMenuFragment;
-import org.zarroboogs.weibo.fragment.UserInfoFragment;
 import org.zarroboogs.weibo.othercomponent.AppNewMsgAlarm;
 import org.zarroboogs.weibo.othercomponent.ConnectionChangeReceiver;
 import org.zarroboogs.weibo.othercomponent.MusicReceiver;
@@ -207,6 +205,10 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         Fragment friend = getFriendsTimeLineFragment();
         Fragment fav = getFavFragment();
 
+        Fragment hotWeibo = getHotWeiboViewPagerFragment();
+        
+        Fragment hotHuatiFragment = getHotHuaTiViewPagerFragment();
+        
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (!friend.isAdded()) {
             fragmentTransaction.add(R.id.menu_right_fl, friend, FriendsTimeLineFragment.class.getName());
@@ -217,6 +219,16 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             fragmentTransaction.add(R.id.menu_right_fl, fav, MyFavListFragment.class.getName());
             fragmentTransaction.hide(fav);
         }
+        
+        if (!hotWeibo.isAdded()) {
+        	fragmentTransaction.add(R.id.menu_right_fl, hotWeibo, HotWeiboViewPagerFragment.class.getName());
+            fragmentTransaction.hide(hotWeibo);
+		}
+        
+        if (!hotHuatiFragment.isAdded()) {
+        	fragmentTransaction.add(R.id.menu_right_fl, hotHuatiFragment, HotHuaTiViewPagerFragment.class.getName());
+            fragmentTransaction.hide(hotHuatiFragment);
+		}
 
         if (!fragmentTransaction.isEmpty()) {
             fragmentTransaction.commit();
@@ -447,6 +459,24 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         return fragment;
     }
 
+    public HotWeiboViewPagerFragment getHotWeiboViewPagerFragment() {
+    	HotWeiboViewPagerFragment fragment = ((HotWeiboViewPagerFragment) getSupportFragmentManager().findFragmentByTag(
+    			HotWeiboViewPagerFragment.class.getName()));
+        if (fragment == null) {
+            fragment = HotWeiboViewPagerFragment.newInstance();
+        }
+        return fragment;
+    }
+    
+    public HotHuaTiViewPagerFragment getHotHuaTiViewPagerFragment() {
+    	HotHuaTiViewPagerFragment fragment = ((HotHuaTiViewPagerFragment) getSupportFragmentManager().findFragmentByTag(
+    			HotHuaTiViewPagerFragment.class.getName()));
+        if (fragment == null) {
+            fragment = HotHuaTiViewPagerFragment.newInstance();
+        }
+        return fragment;
+    }
+    
 
     public MyFavListFragment getFavFragment() {
         MyFavListFragment fragment = ((MyFavListFragment) getSupportFragmentManager().findFragmentByTag(

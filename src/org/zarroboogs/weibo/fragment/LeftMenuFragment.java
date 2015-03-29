@@ -23,6 +23,7 @@ import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.BlurImageView;
 
+import android.R.integer;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -60,6 +61,10 @@ public class LeftMenuFragment extends BaseStateFragment {
 
 	public static final int FAV_INDEX = 1;
 
+	public static final int HOT_WEIBO = 2;
+
+	public static final int HOT_HUA_TI = 3;
+
 	private Toolbar mToolbar;
 	private BlurImageView mCoverBlureImage;
 
@@ -92,6 +97,9 @@ public class LeftMenuFragment extends BaseStateFragment {
 		rightFragments.append(HOME_INDEX, ((MainTimeLineActivity) getActivity()).getFriendsTimeLineFragment());
 		rightFragments.append(FAV_INDEX, ((MainTimeLineActivity) getActivity()).getFavFragment());
 
+		rightFragments.append(HOT_WEIBO, ((MainTimeLineActivity) getActivity()).getHotWeiboViewPagerFragment());
+		rightFragments.append(HOT_HUA_TI, ((MainTimeLineActivity) getActivity()).getHotHuaTiViewPagerFragment());
+
 		switchCategory(currentIndex);
 
 		layout.nickname.setText(GlobalContext.getInstance().getCurrentAccountName());
@@ -123,20 +131,97 @@ public class LeftMenuFragment extends BaseStateFragment {
 		case FAV_INDEX:
 			showFavPage(true);
 			break;
+		case HOT_WEIBO: {
+			showHotWeibo(true);
+			break;
+		}
+		case HOT_HUA_TI: {
+			showHotHuaTi(true);
+			break;
+		}
+
 		}
 		drawButtonsBackground(position);
 
 		firstStart = false;
 	}
 
-	private void readUnreadCountFromDB() {
-		TimeLinePosition position = MentionWeiboTimeLineDBTask.getPosition(GlobalContext.getInstance().getCurrentAccountId());
-		TreeSet<Long> hashSet = position.newMsgIds;
+	private boolean showHotHuaTi(boolean reset) {
+		if (currentIndex == HOT_HUA_TI && !reset) {
+			return true;
+		}
+		currentIndex = HOT_HUA_TI;
+		if (Utility.isDevicePort() && !reset) {
+			BroadcastReceiver receiver = new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
+					if (currentIndex == HOT_HUA_TI) {
+						mToolbar.setTitle(R.string.left_drawer_hothuati);
+						shotHotHuaTiImp();
+					}
 
-		position = MentionCommentsTimeLineDBTask.getPosition(GlobalContext.getInstance().getCurrentAccountId());
-		hashSet = position.newMsgIds;
-		position = CommentToMeTimeLineDBTask.getPosition(GlobalContext.getInstance().getCurrentAccountId());
-		hashSet = position.newMsgIds;
+				}
+			};
+			LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(AppEventAction.SLIDING_MENU_CLOSED_BROADCAST));
+		} else {
+			shotHotHuaTiImp();
+
+		}
+		return false;
+	}
+
+	protected void shotHotHuaTiImp() {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+		ft.hide(rightFragments.get(HOT_HUA_TI));
+
+		HotHuaTiViewPagerFragment fragment = (HotHuaTiViewPagerFragment) rightFragments.get(HOT_HUA_TI);
+		ft.show(fragment);
+		ft.commit();
+
+		// fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
+		//
+		// fragment.buildActionBarNav();
+	}
+
+	private boolean showHotWeibo(boolean reset) {
+		if (currentIndex == HOT_WEIBO && !reset) {
+			return true;
+		}
+		currentIndex = HOT_WEIBO;
+		if (Utility.isDevicePort() && !reset) {
+			BroadcastReceiver receiver = new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
+					if (currentIndex == HOT_WEIBO) {
+						mToolbar.setTitle(R.string.left_drawer_hothuati);
+						showHotWeiboImp();
+					}
+
+				}
+			};
+			LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(AppEventAction.SLIDING_MENU_CLOSED_BROADCAST));
+		} else {
+			showHotWeiboImp();
+
+		}
+		return false;
+	}
+
+	protected void showHotWeiboImp() {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+		ft.hide(rightFragments.get(HOT_WEIBO));
+
+		HotWeiboViewPagerFragment fragment = (HotWeiboViewPagerFragment) rightFragments.get(HOT_WEIBO);
+		ft.show(fragment);
+		ft.commit();
+
+		// fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
+		//
+		// fragment.buildActionBarNav();
 	}
 
 	private void showSettingPage() {
@@ -145,14 +230,9 @@ public class LeftMenuFragment extends BaseStateFragment {
 
 	private boolean showHomePage(boolean reset) {
 		if (currentIndex == HOME_INDEX && !reset) {
-			// ((MainTimeLineActivity)
-			// getActivity()).getSlidingMenu().showContent();
 			return true;
 		}
-
-		// getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 		currentIndex = HOME_INDEX;
-
 		if (Utility.isDevicePort() && !reset) {
 			BroadcastReceiver receiver = new BroadcastReceiver() {
 				@Override
@@ -170,10 +250,6 @@ public class LeftMenuFragment extends BaseStateFragment {
 			showHomePageImp();
 
 		}
-
-		// ((MainTimeLineActivity)
-		// getActivity()).getSlidingMenu().showContent();
-
 		return false;
 	}
 
@@ -196,14 +272,9 @@ public class LeftMenuFragment extends BaseStateFragment {
 	}
 
 	private boolean showFavPage(boolean reset) {
-		// getActivity().getActionBar().setDisplayShowTitleEnabled(true);
 		if (currentIndex == FAV_INDEX && !reset) {
-			// ((MainTimeLineActivity)
-			// getActivity()).getSlidingMenu().showContent();
 			return true;
 		}
-		// getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
-
 		currentIndex = FAV_INDEX;
 		if (Utility.isDevicePort() && !reset) {
 			BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -222,10 +293,6 @@ public class LeftMenuFragment extends BaseStateFragment {
 			showFavPageImp();
 
 		}
-
-		// ((MainTimeLineActivity)
-		// getActivity()).getSlidingMenu().showContent();
-
 		return false;
 	}
 
@@ -240,8 +307,18 @@ public class LeftMenuFragment extends BaseStateFragment {
 		ft.commit();
 
 		fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
-		
+
 		((MyFavListFragment) fragment).buildActionBarAndViewPagerTitles();
+	}
+
+	private void readUnreadCountFromDB() {
+		TimeLinePosition position = MentionWeiboTimeLineDBTask.getPosition(GlobalContext.getInstance().getCurrentAccountId());
+		TreeSet<Long> hashSet = position.newMsgIds;
+
+		position = MentionCommentsTimeLineDBTask.getPosition(GlobalContext.getInstance().getCurrentAccountId());
+		hashSet = position.newMsgIds;
+		position = CommentToMeTimeLineDBTask.getPosition(GlobalContext.getInstance().getCurrentAccountId());
+		hashSet = position.newMsgIds;
 	}
 
 	@Override
@@ -329,30 +406,49 @@ public class LeftMenuFragment extends BaseStateFragment {
 			} else if (id == R.id.leftDrawerSettingBtn) {
 				showSettingPage();
 			} else if (id == R.id.btnHotWeibo) {
-				Intent intent = new Intent(getActivity(), HotWeiboActivity.class);
-				startActivity(intent);
+//				Intent intent = new Intent(getActivity(), HotWeiboActivity.class);
+//				startActivity(intent);
+				showHotWeibo(false);
+				drawButtonsBackground(HOT_WEIBO);
+				
 			} else if (id == R.id.btnHotHuaTi) {
-				Intent intent = new Intent(getActivity(), HotHuaTiActivity.class);
-				startActivity(intent);
+				showHotHuaTi(false);
+				drawButtonsBackground(HOT_HUA_TI);
+//				Intent intent = new Intent(getActivity(), HotHuaTiActivity.class);
+//				startActivity(intent);
 			} else if (id == R.id.btnHotModel) {
 				Intent intent = new Intent(getActivity(), HotModelActivity.class);
 				startActivity(intent);
-			} 
+			}
 			((MainTimeLineActivity) getActivity()).closeLeftDrawer();
 		}
 	};
 
 	private void drawButtonsBackground(int position) {
-		layout.homeButton.setTextColor(getResources().getColor(R.color.draw_text_color));
 
-		layout.fav.setTextColor(getResources().getColor(R.color.draw_text_color));
+		int hightLight = getResources().getColor(R.color.md_actionbar_bg_color);
+
+		int normalColor = getResources().getColor(R.color.draw_text_color);
+		layout.homeButton.setTextColor(normalColor);
+		layout.fav.setTextColor(normalColor);
+		layout.mHotWeibo.setTextColor(normalColor);
+		layout.mHotHuaTi.setTextColor(normalColor);
+
 		switch (position) {
 		case HOME_INDEX:
-			layout.homeButton.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
+			layout.homeButton.setTextColor(hightLight);
 			break;
 		case FAV_INDEX:
-			layout.fav.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
+			layout.fav.setTextColor(hightLight);
 			break;
+		case HOT_WEIBO: {
+			layout.mHotWeibo.setTextColor(hightLight);
+			break;
+		}
+		case HOT_HUA_TI: {
+			layout.mHotHuaTi.setTextColor(hightLight);
+			break;
+		}
 		}
 	}
 

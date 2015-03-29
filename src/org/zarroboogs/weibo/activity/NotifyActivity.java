@@ -21,6 +21,7 @@ public class NotifyActivity extends TranslucentStatusBarActivity {
          mToolbar = (Toolbar) findViewById(R.id.hotWeiboToolbar);
          
          buildContent();
+         mToolbar.setTitle("与我相关");
          disPlayHomeAsUp(mToolbar);
     }
 
