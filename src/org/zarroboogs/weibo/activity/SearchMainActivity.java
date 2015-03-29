@@ -223,11 +223,11 @@ public class SearchMainActivity extends SharedPreferenceActivity {
 		SearchWhat sw = getSearchWhat();
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		if (sw == SearchWhat.status) {
-			ft.show(getSearchUserFragment());
-			ft.hide(getSearchStatusFragment());
-		} else {
 			ft.show(getSearchStatusFragment());
 			ft.hide(getSearchUserFragment());
+		} else {
+			ft.show(getSearchUserFragment());
+			ft.hide(getSearchStatusFragment());
 		}
 		ft.commit();
 	}
