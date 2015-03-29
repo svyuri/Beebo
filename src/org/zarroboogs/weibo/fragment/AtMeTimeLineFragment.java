@@ -3,6 +3,7 @@ package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.activity.DMSelectUserActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.bean.UnreadTabIndex;
 import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
@@ -22,6 +23,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -61,14 +65,13 @@ public class AtMeTimeLineFragment extends ViewPagerFragment {
 		
 		
 		sparseArray.append(DM_INDEX, new ChildPage("微博私信", getDMFragment()));
+		
 //		sparseArray.append(AtMeTimeLineFragment.COMMENT_BY_ME,new ChildPage(
 //				getActivity().getResources().getString(R.string.my_comment), getCommentsByMeTimeLineFragment()));
         
 		return sparseArray;
 	}
-	
-
-
+    
     @Override
     public void onResume() {
         super.onResume();
@@ -81,28 +84,6 @@ public class AtMeTimeLineFragment extends ViewPagerFragment {
         if (unreadTabIndex == null) {
             return;
         }
-//        switch (unreadTabIndex) {
-//            case MENTION_WEIBO:
-//                ((MainTimeLineActivity) getActivity()).getLeftMenuFragment().switchCategory(LeftMenuFragment.MENTIONS_INDEX);
-//                viewPager.setCurrentItem(0);
-//                intent.putExtra(BundleArgsConstants.OPEN_NAVIGATION_INDEX_EXTRA, UnreadTabIndex.NONE);
-//                break;
-//            case MENTION_COMMENT:
-//                ((MainTimeLineActivity) getActivity()).getLeftMenuFragment().switchCategory(LeftMenuFragment.MENTIONS_INDEX);
-//                viewPager.setCurrentItem(1);
-//                intent.putExtra(BundleArgsConstants.OPEN_NAVIGATION_INDEX_EXTRA, UnreadTabIndex.NONE);
-//                break;
-//			case COMMENT_TO_ME:
-//                ((MainTimeLineActivity) getActivity()).getLeftMenuFragment().switchCategory(LeftMenuFragment.MENTIONS_INDEX);
-//                viewPager.setCurrentItem(2);
-//                intent.putExtra(BundleArgsConstants.OPEN_NAVIGATION_INDEX_EXTRA, UnreadTabIndex.NONE);
-//				break;
-//			case NONE:
-//				break;
-//			default:
-//				break;
-//        }
-
     }
 
     public MentionsCommentTimeLineFragment getMentionsCommentTimeLineFragment() {

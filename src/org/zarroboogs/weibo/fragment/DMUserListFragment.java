@@ -20,7 +20,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -107,15 +108,7 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-		if (itemId == R.id.menu_write_dm) {
-			Intent intent = new Intent(getActivity(), DMSelectUserActivity.class);
-			startActivityForResult(intent, 0);
-		}
-        return super.onOptionsItemSelected(item);
-    }
+
 
     @Override
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
