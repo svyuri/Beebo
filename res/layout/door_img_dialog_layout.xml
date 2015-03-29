@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="验证码"
+        android:text="搜索"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
@@ -46,8 +46,9 @@
         android:layout_below="@id/doorEditText"
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
+        android:background="@drawable/button_background_selector"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="验证" />
+        android:text="搜索" />
 
 </RelativeLayout>

@@ -11,6 +11,7 @@ import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import com.umeng.analytics.MobclickAgent;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -23,12 +24,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +74,11 @@ public class SearchMainActivity extends SharedPreferenceActivity {
 	private SearchWhat getSearchWhat() {
 		String title = getSPs().getString(KEY_SEARCH, SearchWhat.status.toString());
         SearchWhat sw = Enum.valueOf(SearchWhat.class, title);
+		return sw;
+	}
+	
+	private SearchWhat changeSearchWhat(SearchWhat sw){
+		getSPs().edit().putString(KEY_SEARCH, sw.toString()).commit();
 		return sw;
 	}
 
@@ -171,6 +179,46 @@ public class SearchMainActivity extends SharedPreferenceActivity {
         return super.onCreateOptionsMenu(menu);
 
     }
+    
+    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		switch (id) {
+		case R.id.search: {
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			LayoutInflater lif = LayoutInflater.from(this);
+			View view = lif.inflate(R.layout.door_img_dialog_layout, null);
+			TextView tvTextView = ViewUtility.findViewById(view, R.id.doorTitle);
+			
+	        SearchWhat sw = getSearchWhat();
+	        if (sw == SearchWhat.status) {
+	        	tvTextView.setText("搜索微博");
+			}else {
+				tvTextView.setText("搜索用户");
+			}
+	        
+			builder.setView(view);
+			builder.create().show();
+			break;
+		}
+		case R.id.searchWeibo:{
+			changeSearchWhat(SearchWhat.status);
+			break;
+		}
+		
+		case R.id.searchUser:{
+			changeSearchWhat(SearchWhat.user);
+			break;
+		}
+
+		default:
+			break;
+		}
+
+		return true;
+	}
+    
 
     public String getSearchWord() {
         return this.q;
@@ -200,19 +248,7 @@ public class SearchMainActivity extends SharedPreferenceActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                intent = MainTimeLineActivity.newIntent();
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                return true;
-        }
 
-        return true;
-    }
 
     private Fragment getSearchUserFragment() {
         return getSupportFragmentManager().findFragmentByTag(SearchUserFragment.class.getName());
