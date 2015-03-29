@@ -29,9 +29,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-/**
- * User: qii Date: 12-11-14
- */
 public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> implements
         MainTimeLineActivity.ScrollableListFragment {
 
@@ -137,10 +134,10 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
         ((MainTimeLineActivity) getActivity()).setCurrentFragment(this);
 
         if (Utility.isDevicePort()) {
-            ((MainTimeLineActivity) getActivity()).setTitle(getString(R.string.weibo_dmessage));
+            ((MainTimeLineActivity) getActivity()).setTitle(getString(R.string.private_message));
             // getBaseToolbar().setLogo(R.drawable.ic_menu_message);
         } else {
-            ((MainTimeLineActivity) getActivity()).setTitle(getString(R.string.weibo_dmessage));
+            ((MainTimeLineActivity) getActivity()).setTitle(getString(R.string.private_message));
             // getBaseToolbar().setLogo(R.drawable.beebo_launcher);
         }
 

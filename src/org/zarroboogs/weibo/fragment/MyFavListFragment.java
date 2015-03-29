@@ -30,9 +30,6 @@ import android.widget.AdapterView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: qii Date: 12-8-18 this class need to refactor
- */
 public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implements
         MainTimeLineActivity.ScrollableListFragment {
 

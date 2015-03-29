@@ -145,7 +145,6 @@
     <string name="me">个人</string>
     <string name="repost">转发</string>
     <string name="repost_weibo">转发微博</string>
-    <string name="mail">私信</string>
     <string name="info">资料</string>
 
     <!-- write activity -->
@@ -310,7 +309,6 @@
     <string name="user">用户</string>
 
     <!-- dm -->
-    <string name="weibo_dmessage">私信</string>
     <string name="write_dm">写信</string>
     <string name="select_dm_receiver">选择收信人</string>
     <string name="clear_dm">删除全部</string>
@@ -333,7 +331,7 @@
     <string name="group_name_must_less_than_ten_chinese_words">分组名限制在10个汉字内</string>
 
     <!-- fav -->
-    <string name="favourite">收藏</string>
+    <string name="favourite">我的收藏</string>
     <string name="un_favourite">取消收藏</string>
     <string name="fav_number">收藏数</string>
     <string name="fav_successfully">收藏成功</string>

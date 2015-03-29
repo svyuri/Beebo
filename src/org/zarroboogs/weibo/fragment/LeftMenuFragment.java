@@ -416,7 +416,7 @@ public class LeftMenuFragment extends BaseStateFragment {
                 public void onReceive(Context context, Intent intent) {
                     LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
                     if (currentIndex == DM_INDEX) {
-                        mToolbar.setTitle(R.string.weibo_dmessage);
+                        mToolbar.setTitle(R.string.private_message);
                         showDMPageImp();
                     }
 
