@@ -33,6 +33,8 @@ public class AtMeTimeLineFragment extends ViewPagerFragment {
 	
 	public static final int AT_ME_WEIBO = 1;
 	public static final int AT_ME_COMMENT = 2;
+	
+	public static final int DM_INDEX = 3;
 
 
 //	public static final int COMMENT_BY_ME = 3;
@@ -58,6 +60,7 @@ public class AtMeTimeLineFragment extends ViewPagerFragment {
 				getActivity().getResources().getString(R.string.all_people_send_to_me), getCommentsToMeTimeLineFragment()));
 		
 		
+		sparseArray.append(DM_INDEX, new ChildPage("微博私信", getDMFragment()));
 //		sparseArray.append(AtMeTimeLineFragment.COMMENT_BY_ME,new ChildPage(
 //				getActivity().getResources().getString(R.string.my_comment), getCommentsByMeTimeLineFragment()));
         
@@ -139,6 +142,15 @@ public class AtMeTimeLineFragment extends ViewPagerFragment {
         return fragment;
     }
 
+    public DMUserListFragment getDMFragment() {
+        DMUserListFragment fragment = ((DMUserListFragment) getChildFragmentManager().findFragmentByTag(
+                DMUserListFragment.class.getName()));
+        if (fragment == null) {
+            fragment = DMUserListFragment.newInstance();
+        }
+        return fragment;
+    }
+    
     public CommentsByMeTimeLineFragment getCommentsByMeTimeLineFragment() {
         CommentsByMeTimeLineFragment fragment = ((CommentsByMeTimeLineFragment) getChildFragmentManager().findFragmentByTag(
                 CommentsByMeTimeLineFragment.class.getName()));

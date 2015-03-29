@@ -43,37 +43,6 @@ public class CommentsTimeLineFragment extends BaseStateFragment implements MainT
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        if ((((MainTimeLineActivity) getActivity()).getLeftMenuFragment()).getCurrentIndex() == LeftMenuFragment.COMMENTS_INDEX) {
-            buildActionBarAndViewPagerTitles(((MainTimeLineActivity) getActivity()).getLeftMenuFragment().commentsTabIndex);
-        }
-    }
-
-    // private ActionBar.Tab buildCommentsByMeTab(SimpleTwoTabsListener tabListener) {
-    // View customView =
-    // getActivity().getLayoutInflater().inflate(R.layout.ab_tab_custom_view_layout, null);
-    // ((TextView) customView.findViewById(R.id.title)).setText(R.string.my_comment);
-    // ActionBar.Tab commentsByMeTab =
-    // getActivity().getActionBar().newTab().setCustomView(customView).setTag(CommentsByMeTimeLineFragment.class.getName())
-    // .setTabListener(tabListener);
-    // tabMap.append(COMMENTS_BY_ME_CHILD_POSITION, commentsByMeTab);
-    // return commentsByMeTab;
-    // }
-    //
-    // private ActionBar.Tab buildCommentsToMeTab(SimpleTwoTabsListener tabListener) {
-    // View customView =
-    // getActivity().getLayoutInflater().inflate(R.layout.ab_tab_custom_view_layout, null);
-    // ((TextView) customView.findViewById(R.id.title)).setText(R.string.all_people_send_to_me);
-    // ActionBar.Tab commentsToMeTab =
-    // getActivity().getActionBar().newTab().setCustomView(customView).setTag(CommentsToMeTimeLineFragment.class.getName())
-    // .setTabListener(tabListener);
-    // tabMap.append(COMMENTS_TO_ME_CHILD_POSITION, commentsToMeTab);
-    // return commentsToMeTab;
-    // }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.comments_time_line_fragment_layout, container, false);
         viewPager = (ViewPager) view.findViewById(R.id.commentsViewpager);
@@ -108,71 +77,10 @@ public class CommentsTimeLineFragment extends BaseStateFragment implements MainT
 
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            int commentsTabIndex = getArguments().getInt("commentsTabIndex");
-            buildActionBarAndViewPagerTitles(commentsTabIndex);
-
-        }
-    }
-
-    public void buildActionBarAndViewPagerTitles(int nav) {
-        ((MainTimeLineActivity) getActivity()).setCurrentFragment(this);
-        //
-        // if (Utility.isDevicePort()) {
-        // ((MainTimeLineActivity) getActivity()).setTitle(R.string.comments);
-        // getActivity().getActionBar().setIcon(R.drawable.comment_light);
-        // } else {
-        // ((MainTimeLineActivity) getActivity()).setTitle("");
-        // getActivity().getActionBar().setIcon(R.drawable.beebo_launcher);
-        // }
-        //
-        // ActionBar actionBar = getActivity().getActionBar();
-        // actionBar.setDisplayHomeAsUpEnabled(Utility.isDevicePort());
-        // actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        // actionBar.removeAllTabs();
-        // SimpleTwoTabsListener tabListener = new SimpleTwoTabsListener(viewPager);
-        //
-        // ActionBar.Tab commentsToMeTab = getCommentsToMeTab();
-        // if (commentsToMeTab == null) {
-        // commentsToMeTab = buildCommentsToMeTab(tabListener);
-        // }
-        // ActionBar.Tab commentsByMeTab = getCommentsByMeTab();
-        // if (commentsByMeTab == null) {
-        // commentsByMeTab = buildCommentsByMeTab(tabListener);
-        // }
-        // actionBar.addTab(commentsToMeTab);
-        // actionBar.addTab(commentsByMeTab);
-        //
-        // if (actionBar.getNavigationMode() == ActionBar.NAVIGATION_MODE_TABS && nav > -1) {
-        // if(viewPager != null){
-        // viewPager.setCurrentItem(nav, false);
-        // }
-        // }
-
-    }
-
-    // public ActionBar.Tab getCommentsToMeTab() {
-    // return tabMap.get(COMMENTS_TO_ME_CHILD_POSITION);
-    // }
-    //
-    // public ActionBar.Tab getCommentsByMeTab() {
-    // return tabMap.get(COMMENTS_BY_ME_CHILD_POSITION);
-    // }
 
     ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
-            // ActionBar ab = getActivity().getActionBar();
-            // if (getActivity().getActionBar().getNavigationMode() ==
-            // ActionBar.NAVIGATION_MODE_TABS && ab.getTabAt(position) == tabMap.get(position)) {
-            // ab.setSelectedNavigationItem(position);
-            // }
-
-            ((LeftMenuFragment) ((MainTimeLineActivity) getActivity()).getLeftMenuFragment()).commentsTabIndex = position;
-            clearActionMode();
         }
 
         @Override

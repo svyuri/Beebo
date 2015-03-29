@@ -548,11 +548,6 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         }
 
         super.onActivityCreated(savedInstanceState);
-
-        if ((getActivity() instanceof MainTimeLineActivity)
-                && (((MainTimeLineActivity) getActivity()).getLeftMenuFragment()).getCurrentIndex() == LeftMenuFragment.PROFILE_INDEX) {
-            buildActionBarAndViewPagerTitles();
-        }
         
     }
     

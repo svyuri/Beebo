@@ -33,9 +33,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * User: qii Date: 12-11-14
- */
 public class DMUserListAdapter extends BaseAdapter {
 
     private List<DMUserBean> bean;

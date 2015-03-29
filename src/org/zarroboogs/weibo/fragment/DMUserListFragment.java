@@ -18,13 +18,9 @@ import org.zarroboogs.weibo.support.utils.Utility;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -58,8 +54,8 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setRetainInstance(true);
-        setHasOptionsMenu(true);
+//        setRetainInstance(true);
+//        setHasOptionsMenu(true);
         switch (getCurrentState(savedInstanceState)) {
             case FIRST_TIME_START:
                 if (Utility.isTaskStopped(dbTask)) {
@@ -76,9 +72,6 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
                 getAdapter().notifyDataSetChanged();
                 refreshLayout(getDataList());
                 break;
-        }
-        if ((((MainTimeLineActivity) getActivity()).getLeftMenuFragment()).getCurrentIndex() == LeftMenuFragment.DM_INDEX) {
-            buildActionBarAndViewPagerTitles();
         }
 
     }
@@ -98,43 +91,21 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
         super.onViewCreated(view, savedInstanceState);
         getListView().setDivider(null);
 
-        writeDMToolbar = (Toolbar) ((MainTimeLineActivity) getActivity()).findViewById(R.id.mainTimeLineToolBar);
-        writeDMToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem arg0) {
-                int itemId = arg0.getItemId();
-				if (itemId == R.id.menu_write_dm) {
-					Intent intent = new Intent(getActivity(), DMSelectUserActivity.class);
-					startActivityForResult(intent, 0);
-				}
-                return false;
-            }
-        });
+//        writeDMToolbar = (Toolbar) (getActivity()).findViewById(R.id.mainTimeLineToolBar);
+//        writeDMToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+//
+//            @Override
+//            public boolean onMenuItemClick(MenuItem arg0) {
+//                int itemId = arg0.getItemId();
+//				if (itemId == R.id.menu_write_dm) {
+//					Intent intent = new Intent(getActivity(), DMSelectUserActivity.class);
+//					startActivityForResult(intent, 0);
+//				}
+//                return false;
+//            }
+//        });
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            buildActionBarAndViewPagerTitles();
-        }
-    }
-
-    public void buildActionBarAndViewPagerTitles() {
-        ((MainTimeLineActivity) getActivity()).setCurrentFragment(this);
-
-        if (Utility.isDevicePort()) {
-            ((MainTimeLineActivity) getActivity()).setTitle(getString(R.string.private_message));
-            // getBaseToolbar().setLogo(R.drawable.ic_menu_message);
-        } else {
-            ((MainTimeLineActivity) getActivity()).setTitle(getString(R.string.private_message));
-            // getBaseToolbar().setLogo(R.drawable.beebo_launcher);
-        }
-
-        // getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        // getActivity().getActionBar().removeAllTabs();
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

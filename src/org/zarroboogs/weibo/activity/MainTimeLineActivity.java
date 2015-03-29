@@ -205,7 +205,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
     private void initFragments() {
         Fragment friend = getFriendsTimeLineFragment();
-        Fragment mentions = getAtMeTimeLineFragment();
         Fragment comments = getCommentsTimeLineFragment();
 
         Fragment fav = getFavFragment();
@@ -215,11 +214,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         if (!friend.isAdded()) {
             fragmentTransaction.add(R.id.menu_right_fl, friend, FriendsTimeLineFragment.class.getName());
             fragmentTransaction.hide(friend);
-        }
-        if (!mentions.isAdded()) {
-            fragmentTransaction.add(R.id.menu_right_fl, mentions, AtMeTimeLineFragment.class.getName());
-            fragmentTransaction.hide(mentions);
-
         }
         if (!comments.isAdded()) {
             fragmentTransaction.add(R.id.menu_right_fl, comments, CommentsTimeLineFragment.class.getName());
@@ -476,14 +470,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         return fragment;
     }
 
-    public AtMeTimeLineFragment getAtMeTimeLineFragment() {
-        AtMeTimeLineFragment fragment = ((AtMeTimeLineFragment) getSupportFragmentManager().findFragmentByTag(
-                AtMeTimeLineFragment.class.getName()));
-        if (fragment == null) {
-            fragment = AtMeTimeLineFragment.newInstance();
-        }
-        return fragment;
-    }
 
     public CommentsTimeLineFragment getCommentsTimeLineFragment() {
         CommentsTimeLineFragment fragment = ((CommentsTimeLineFragment) getSupportFragmentManager().findFragmentByTag(
