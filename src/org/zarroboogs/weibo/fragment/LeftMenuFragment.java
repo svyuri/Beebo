@@ -163,7 +163,8 @@ public class LeftMenuFragment extends BaseStateFragment {
 
 				}
 			};
-			LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(AppEventAction.SLIDING_MENU_CLOSED_BROADCAST));
+			LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, 
+					new IntentFilter(AppEventAction.SLIDING_MENU_CLOSED_BROADCAST));
 		} else {
 			shotHotHuaTiImp();
 
@@ -172,9 +173,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 	}
 
 	protected void shotHotHuaTiImp() {
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-
-		ft.hide(rightFragments.get(HOT_HUA_TI));
+		FragmentTransaction ft = hideFragmentExp(HOT_HUA_TI);
 
 		HotHuaTiViewPagerFragment fragment = (HotHuaTiViewPagerFragment) rightFragments.get(HOT_HUA_TI);
 		ft.show(fragment);
@@ -211,9 +210,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 	}
 
 	protected void showHotWeiboImp() {
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-
-		ft.hide(rightFragments.get(HOT_WEIBO));
+		FragmentTransaction ft = hideFragmentExp(HOT_WEIBO);
 
 		HotWeiboViewPagerFragment fragment = (HotWeiboViewPagerFragment) rightFragments.get(HOT_WEIBO);
 		ft.show(fragment);
@@ -254,10 +251,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 	}
 
 	private void showHomePageImp() {
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-
-		ft.hide(rightFragments.get(FAV_INDEX));
-
+		FragmentTransaction ft = hideFragmentExp(HOME_INDEX);
 		FriendsTimeLineFragment fragment = (FriendsTimeLineFragment) rightFragments.get(HOME_INDEX);
 		ft.show(fragment);
 		ft.commit();
@@ -267,6 +261,35 @@ public class LeftMenuFragment extends BaseStateFragment {
 		fragment.buildActionBarNav();
 	}
 
+	private FragmentTransaction hideFragmentExp(int key){
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		switch (key) {
+			case HOME_INDEX:
+				ft.hide(rightFragments.get(FAV_INDEX));
+				ft.hide(rightFragments.get(HOT_WEIBO));
+				ft.hide(rightFragments.get(HOT_HUA_TI));
+				
+				break;
+			case FAV_INDEX:
+				ft.hide(rightFragments.get(HOME_INDEX));
+				ft.hide(rightFragments.get(HOT_WEIBO));
+				ft.hide(rightFragments.get(HOT_HUA_TI));
+				break;
+			case HOT_WEIBO:
+				ft.hide(rightFragments.get(HOME_INDEX));
+				ft.hide(rightFragments.get(FAV_INDEX));
+				ft.hide(rightFragments.get(HOT_HUA_TI));
+				break;
+			case HOT_HUA_TI:
+				ft.hide(rightFragments.get(HOME_INDEX));
+				ft.hide(rightFragments.get(FAV_INDEX));
+				ft.hide(rightFragments.get(HOT_WEIBO));
+				break;
+			default:
+				break;
+		}
+		return ft;
+	}
 	public int getCurrentIndex() {
 		return currentIndex;
 	}
@@ -297,9 +320,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 	}
 
 	private void showFavPageImp() {
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-
-		ft.hide(rightFragments.get(HOME_INDEX));
+		FragmentTransaction ft = hideFragmentExp(FAV_INDEX);
 
 		MyFavListFragment fragment = (MyFavListFragment) rightFragments.get(FAV_INDEX);
 
