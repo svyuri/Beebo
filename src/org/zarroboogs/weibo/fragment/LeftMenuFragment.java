@@ -575,7 +575,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         layout.home = (LinearLayout) view.findViewById(R.id.btn_home);
         layout.mention = (LinearLayout) view.findViewById(R.id.btn_mention);
         layout.comment = (LinearLayout) view.findViewById(R.id.btn_comment);
-        layout.search = (Button) view.findViewById(R.id.btn_search);
         // layot.location = (Button) view.findViewById(R.id.btn_location);
         layout.dm = (Button) view.findViewById(R.id.btn_dm);
         layout.fav = (Button) view.findViewById(R.id.btn_favourite);
@@ -603,7 +602,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         boolean blackMagic = GlobalContext.getInstance().getAccountBean().isBlack_magic();
         if (!blackMagic) {
             layout.dm.setVisibility(View.GONE);
-            layout.search.setVisibility(View.GONE);
         }
         return view;
     }
@@ -625,7 +623,6 @@ public class LeftMenuFragment extends BaseStateFragment {
         layout.home.setOnClickListener(onClickListener);
         layout.mention.setOnClickListener(onClickListener);
         layout.comment.setOnClickListener(onClickListener);
-        layout.search.setOnClickListener(onClickListener);
         // layout.location.setOnClickListener(onClickListener);
         layout.dm.setOnClickListener(onClickListener);
         layout.fav.setOnClickListener(onClickListener);
@@ -656,9 +653,6 @@ public class LeftMenuFragment extends BaseStateFragment {
 			} else if (id == R.id.btn_comment) {
 				showCommentPage(false);
 				drawButtonsBackground(COMMENTS_INDEX);
-			} else if (id == R.id.btn_search) {
-				Intent intent = new Intent(getActivity(), SearchMainActivity.class);
-				startActivity(intent);
 			} else if (id == R.id.btn_location) {
 				startActivity(new Intent(getActivity(), NearbyTimeLineActivity.class));
 			} else if (id == R.id.btn_favourite) {
@@ -698,7 +692,6 @@ public class LeftMenuFragment extends BaseStateFragment {
     	
     	layout.dm.setTextColor(getResources().getColor(R.color.draw_text_color));
 		layout.fav.setTextColor(getResources().getColor(R.color.draw_text_color));
-		layout.search.setTextColor(getResources().getColor(R.color.draw_text_color));
         switch (position) {
             case HOME_INDEX:
             	layout.homeButton.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
@@ -791,8 +784,6 @@ public class LeftMenuFragment extends BaseStateFragment {
 		TextView mentionCount;
 
 		TextView commentCount;
-
-		Button search;
 
 		// Button location;
 		Button dm;

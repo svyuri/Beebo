@@ -107,15 +107,6 @@
         tools:ignore="RtlHardcoded" />
 
     <Button
-        android:id="@+id/btn_search"
-        style="@style/drawerMenuButton"
-        android:layout_width="match_parent"
-        android:layout_weight="0"
-        android:drawableLeft="@drawable/ic_search_grey600_24dp"
-        android:text="@string/weibo_search"
-        tools:ignore="RtlHardcoded" />
-
-    <Button
         android:id="@+id/btn_location"
         style="@style/drawerMenuButton"
         android:layout_width="match_parent"
