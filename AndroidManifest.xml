@@ -296,7 +296,7 @@
             android:name="org.zarroboogs.weibo.othercomponent.UnreadMsgReceiver"
             android:exported="false" >
             <intent-filter>
-                <action android:name="org.zarroboogs.weibo.newmsg.priority" />
+                <action android:name="org.zarroboogs.weibo.UnReadMessageAction" />
             </intent-filter>
         </receiver>
         <receiver

@@ -160,7 +160,7 @@ public class FetchNewMsgService extends IntentService {
     private void sendTwoKindsOfBroadcast(AccountBean accountBean, CommentListBean commentResult,
             MessageListBean mentionStatusesResult,
             CommentListBean mentionCommentsResult, UnreadBean unreadBean) {
-        Intent intent = new Intent(AppEventAction.NEW_MSG_PRIORITY_BROADCAST);
+        Intent intent = new Intent(AppEventAction.UnRead_Message_Action);
         intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, accountBean);
         intent.putExtra(BundleArgsConstants.COMMENTS_TO_ME_EXTRA, commentResult);
         intent.putExtra(BundleArgsConstants.MENTIONS_WEIBO_EXTRA, mentionStatusesResult);

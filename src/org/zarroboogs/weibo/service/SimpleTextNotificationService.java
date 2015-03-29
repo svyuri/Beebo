@@ -27,9 +27,6 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-/**
- * User: qii Date: 14-3-8
- */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class SimpleTextNotificationService extends NotificationServiceHelper {
 
@@ -123,7 +120,7 @@ public class SimpleTextNotificationService extends NotificationServiceHelper {
                                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(getApplicationContext(), "weiciyuan:remove notification items",
+                                        Toast.makeText(getApplicationContext(), "iBeebo的通知被移除",
                                                 Toast.LENGTH_SHORT).show();
 
                                     }

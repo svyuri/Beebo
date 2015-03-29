@@ -21,8 +21,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+
+
+
 /**
- * User: Jiang Qi Date: 12-7-31
+ * 注册在AndroidManifest中
+ *
  */
 public class UnreadMsgReceiver extends BroadcastReceiver {
 
@@ -45,7 +49,7 @@ public class UnreadMsgReceiver extends BroadcastReceiver {
             CommentListBean commentsToMeData,
             CommentListBean mentionsCommentData, UnreadBean unreadBean) {
 
-        Intent clickNotificationToOpenAppPendingIntentInner = MainTimeLineActivity.newIntent(accountBean, mentionsWeiboData,
+        Intent clickNotificationToOpenAppPendingIntentInner = MainTimeLineActivity.unReadIntent(accountBean, mentionsWeiboData,
                 mentionsCommentData,
                 commentsToMeData, unreadBean);
         clickNotificationToOpenAppPendingIntentInner

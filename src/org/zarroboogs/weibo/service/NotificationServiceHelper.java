@@ -7,9 +7,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-/**
- * User: qii Date: 13-5-4
- */
 public class NotificationServiceHelper extends Service {
 
     protected static final String RESET_UNREAD_MENTIONS_WEIBO_ACTION = "org.zarroboogs.weibo.Notification.unread.reset.mentionsweibo";

@@ -234,9 +234,7 @@ public class BigTextNotificationService extends NotificationServiceHelper {
                                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(getApplicationContext(),
-                                                "weiciyuan:remove notification items" + System.currentTimeMillis(),
-                                                Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "iBeebo通知被移除", Toast.LENGTH_SHORT).show();
 
                                     }
                                 });

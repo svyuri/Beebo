@@ -4,15 +4,10 @@ package org.zarroboogs.utils;
 import org.zarroboogs.weibo.BuildConfig;
 
 /**
- * User: Jiang Qi
- * Date: 12-7-31
- */
-
-/**
  * Wrapper API for sending log output.
  */
 public class AppLoggerUtils {
-    protected static final String TAG = "weiciyuan";
+    protected static final String TAG = "iBeebo";
 
     private AppLoggerUtils() {
     }

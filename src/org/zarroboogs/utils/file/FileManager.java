@@ -23,9 +23,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: qii Date: 12-8-3
- */
 public class FileManager {
 
     private static final String PICTURE_CACHE = "picture_cache";
@@ -36,12 +33,12 @@ public class FileManager {
 
     private static final String LOG = "log";
 
-    private static final String WEICIYUAN = "weiciyuan";
+    private static final String BEEBO = "iBeebo";
 
     /**
-     * install weiciyuan, open app and login in, Android system will create cache dir. then open
+     * install iBeebo, open app and login in, Android system will create cache dir. then open
      * cache dir (/sdcard dir/Android/data/org.zarroboogs.weibo) with Root Explorer, uninstall
-     * weiciyuan and reinstall it, the new weiciyuan app will have the bug it can't read cache dir
+     * iBeebo and reinstall it, the new iBeebo app will have the bug it can't read cache dir
      * again, so I have to tell user to delete that cache dir
      */
     private static volatile boolean cantReadBecauseOfAndroidBugPermissionProblem = false;
@@ -304,7 +301,7 @@ public class FileManager {
         File file = new File(path);
         String name = file.getName();
         String newPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath()
-                + File.separator + WEICIYUAN
+                + File.separator + BEEBO
                 + File.separator + name;
         try {
             FileManager.createNewFileInSDCard(newPath);

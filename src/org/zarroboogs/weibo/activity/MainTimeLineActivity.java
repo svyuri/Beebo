@@ -58,7 +58,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainTimeLineActivity extends AbstractAppActivity {
 
@@ -98,8 +97,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 			mAccountBean = savedInstanceState.getParcelable(Constants.ACCOUNT);
 		} else {
 			Intent intent = getIntent();
-			mAccountBean = intent
-					.getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
+			mAccountBean = intent.getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
 		}
 
 		if (mAccountBean == null) {
@@ -127,8 +125,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 //			});
 
 			if (AppNewMsgAlarm.DEBUG) {
-				AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG,
-						getApplicationContext(), true);
+				AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG,getApplicationContext(), true);
 			}
 		}else {
 			Intent start = new Intent(this, AccountActivity.class);
@@ -446,8 +443,10 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         MobclickAgent.onPageStart(this.getClass().getName());
         MobclickAgent.onResume(this);
 
-        IntentFilter filter = new IntentFilter(AppEventAction.NEW_MSG_PRIORITY_BROADCAST);
+        IntentFilter filter = new IntentFilter(AppEventAction.UnRead_Message_Action);
         filter.setPriority(1);
+        
+        
         newMsgInterruptBroadcastReceiver = new NewMsgInterruptBroadcastReceiver();
         Utility.registerReceiverIgnoredReceiverHasRegisteredHereException(this, newMsgInterruptBroadcastReceiver, filter);
         musicReceiver = new MusicReceiver();
@@ -556,9 +555,9 @@ public class MainTimeLineActivity extends AbstractAppActivity {
                     notify.sendEmptyMessage(NOTIFY_ON);
 				}
 
-                String tip = String.format(context.getString(R.string.you_have_new_unread_count),
-                        String.valueOf(unreadCount));
-                Toast.makeText(MainTimeLineActivity.this, tip, Toast.LENGTH_LONG).show();
+//                String tip = String.format(context.getString(R.string.you_have_new_unread_count),
+//                        String.valueOf(unreadCount));
+//                Toast.makeText(MainTimeLineActivity.this, tip, Toast.LENGTH_LONG).show();
                 abortBroadcast();
             }
         }
@@ -614,18 +613,26 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         return intent;
     }
 
-    /*
-     * notification bar
+    /**
+     * 未读信息的Intent
+     * @param accountBean
+     * @param mentionsWeiboData
+     * @param mentionsCommentData
+     * @param commentsToMeData
+     * @param unreadBean
+     * @return
      */
-    public static Intent newIntent(AccountBean accountBean, MessageListBean mentionsWeiboData,
+    public static Intent unReadIntent(AccountBean accountBean, MessageListBean mentionsWeiboData,
             CommentListBean mentionsCommentData,
             CommentListBean commentsToMeData, UnreadBean unreadBean) {
-        Intent intent = newIntent();
+        Intent intent = new Intent(GlobalContext.getInstance(), NotifyActivity.class);
         intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, accountBean);
         intent.putExtra(BundleArgsConstants.MENTIONS_WEIBO_EXTRA, mentionsWeiboData);
         intent.putExtra(BundleArgsConstants.MENTIONS_COMMENT_EXTRA, mentionsCommentData);
         intent.putExtra(BundleArgsConstants.COMMENTS_TO_ME_EXTRA, commentsToMeData);
         intent.putExtra(BundleArgsConstants.UNREAD_EXTRA, unreadBean);
+        
+        intent.putExtra(BundleArgsConstants.FromUnReadIntent, true);
         return intent;
     }
 

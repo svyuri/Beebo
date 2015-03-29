@@ -5,9 +5,6 @@ import android.content.IntentFilter;
 
 import org.zarroboogs.weibo.bean.MessageBean;
 
-/**
- * User: qii Date: 13-4-21
- */
 public class AppEventAction {
     // use ordered broadcast to decide to use which method to show new message
     // notification,
@@ -16,7 +13,7 @@ public class AppEventAction {
     // activity can interrupt this broadcast
     // Must equal AndroidManifest's
     // .othercomponent.unreadnotification.UnreadMsgReceiver action name
-    public static final String NEW_MSG_PRIORITY_BROADCAST = "org.zarroboogs.weibo.newmsg.priority";
+    public static final String UnRead_Message_Action = "org.zarroboogs.weibo.UnReadMessageAction";
 
     // mentions weibo, mentions comment, comments to me fragment use this
     // broadcast to receive actual data
