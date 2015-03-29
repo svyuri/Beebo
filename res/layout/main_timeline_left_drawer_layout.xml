@@ -34,42 +34,6 @@
             android:text="@string/setting"
             tools:ignore="RtlHardcoded" />
         
-        <ImageButton
-            android:id="@+id/hotWeiboIb"
-            style="@style/drawerMenuButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/coverBlureImage"
-            android:layout_alignRight="@id/coverBlureImage"
-            android:src="@drawable/hot_weibo_gray"
-            android:text="@string/setting"
-            tools:ignore="RtlHardcoded" />
-
-        <ImageButton
-            android:id="@+id/hotHuatiIb"
-            style="@style/drawerMenuButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/coverBlureImage"
-            android:layout_toLeftOf="@id/hotWeiboIb"
-            android:src="@drawable/hot_huati_gray"
-            android:layout_marginRight="10dp"
-            android:text="@string/setting"
-            tools:ignore="RtlHardcoded" />
-
-        <ImageButton
-            android:id="@+id/hotModeIb"
-            style="@style/drawerMenuButton"
-            android:layout_width="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/coverBlureImage"
-            android:layout_toLeftOf="@id/hotHuatiIb"
-            android:visibility="gone"
-            android:src="@drawable/hot_model_gray"
-            android:text="@string/setting"
-            tools:ignore="RtlHardcoded" />
-                                
         <LinearLayout
             android:id="@+id/coverLayout"
             android:layout_width="match_parent"

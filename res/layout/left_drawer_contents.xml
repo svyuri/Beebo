@@ -31,46 +31,6 @@
             tools:ignore="RtlHardcoded" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/btn_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:addStatesFromChildren="true"
-        android:background="@drawable/btn_drawer_menu"
-        android:clickable="true"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-
-        <Button
-            android:id="@+id/commentButton"
-            style="@style/drawerMenuButton"
-            android:background="@null"
-            android:clickable="false"
-            android:drawableLeft="@drawable/ic_question_answer_grey600_24dp"
-            android:text="@string/comments"
-            tools:ignore="RtlHardcoded" />
-
-        <TextView
-            android:id="@+id/tv_comment_count"
-            style="@style/drawerMessageCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:freezesText="false"
-            android:text="0"
-            android:visibility="gone"
-            tools:ignore="RtlHardcoded" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_dm"
-        style="@style/drawerMenuButton"
-        android:layout_width="match_parent"
-        android:layout_weight="0"
-        android:drawableLeft="@drawable/ic_email_grey600_24dp"
-        android:text="@string/private_message"
-        tools:ignore="RtlHardcoded" />
-
     <Button
         android:id="@+id/btn_favourite"
         style="@style/drawerMenuButton"
@@ -91,7 +51,6 @@
         tools:ignore="RtlHardcoded" />
 
     <Button
-        android:visibility="gone"
         android:id="@+id/btnHotWeibo"
         style="@style/drawerMenuButton"
         android:layout_width="match_parent"
@@ -101,7 +60,6 @@
         tools:ignore="RtlHardcoded" />
 
     <Button
-        android:visibility="gone"
         android:id="@+id/btnHotHuaTi"
         style="@style/drawerMenuButton"
         android:layout_width="match_parent"
