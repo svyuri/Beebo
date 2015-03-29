@@ -7,17 +7,18 @@
     android:orientation="vertical" >
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/mainTimeLineToolBar"
+        android:id="@+id/dmselectUserToolbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:minHeight="48dp"
         android:background="?attr/colorPrimary"
+        app:title="选择好友"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <com.rengwuxian.materialedittext.MaterialAutoCompleteTextView
         android:id="@+id/search"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:hint="@string/input_username"
         android:paddingLeft="20dp"

@@ -44,6 +44,18 @@ public class NotifyActivity extends TranslucentStatusBarActivity {
         return super.onOptionsItemSelected(item);
     }
     
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
+
+        Intent intent = new Intent(NotifyActivity.this, DMActivity.class);
+        intent.putExtra("user", data.getParcelableExtra("user"));
+        startActivity(intent);
+    }
+    
     private void buildContent() {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override

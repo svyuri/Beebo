@@ -32,9 +32,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: qii Date: 13-3-2
- */
+
 public class DMSelectUserActivity extends AbstractAppActivity {
 
     private List<UserBean> data;
@@ -45,15 +43,9 @@ public class DMSelectUserActivity extends AbstractAppActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dmselectuseractivity_layout);
-        // getActionBar().setTitle(R.string.select_dm_receiver);
-        // getActionBar().setDisplayShowHomeEnabled(false);
-        // getActionBar().setDisplayShowTitleEnabled(true);
-        // getActionBar().setDisplayHomeAsUpEnabled(true);
 
         View title = getLayoutInflater().inflate(R.layout.dmselectuseractivity_title_layout, null);
         suggestProgressBar = (ProgressBar) title.findViewById(R.id.have_suggest_progressbar);
-        // getActionBar().setCustomView(title, new ActionBar.LayoutParams(Gravity.RIGHT));
-        // getActionBar().setDisplayShowCustomEnabled(true);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -76,6 +68,7 @@ public class DMSelectUserActivity extends AbstractAppActivity {
             }
         });
 
+        disPlayHomeAsUp(R.id.dmselectUserToolbar);
     }
 
     @Override
