@@ -36,8 +36,6 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
 
     private DBCacheTask dbTask;
 
-    private Handler mHandler = new Handler(Looper.getMainLooper());
-
     private Toolbar writeDMToolbar;
 
     public static DMUserListFragment newInstance() {
@@ -91,6 +89,10 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
         Utility.cancelTasks(dbTask);
     }
 
+    public void showMenuOnToolBar(int menu){
+    	showMenuOnToolBar(writeDMToolbar, menu);
+    }
+    
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -109,17 +111,6 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
                 return false;
             }
         });
-    }
-
-    public void showWriteDmMenu() {
-        mHandler.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                writeDMToolbar.getMenu().clear();
-                writeDMToolbar.inflateMenu(R.menu.actionbar_menu_dmuserlistfragment);
-            }
-        }, 200);
     }
 
     @Override

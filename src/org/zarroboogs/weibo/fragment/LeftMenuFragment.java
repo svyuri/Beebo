@@ -269,8 +269,9 @@ public class LeftMenuFragment extends BaseStateFragment {
         FriendsTimeLineFragment fragment = (FriendsTimeLineFragment) rightFragments.get(HOME_INDEX);
         ft.show(fragment);
         ft.commit();
-        // setTitle("");
-        ViewUtility.findViewById(getActivity(), R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
+        
+        fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
+        
         mToolbar.getMenu().clear();
 
         fragment.buildActionBarNav();
@@ -327,7 +328,7 @@ public class LeftMenuFragment extends BaseStateFragment {
         ft.show(m);
         ft.commit();
 
-        ViewUtility.findViewById(getActivity(), R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
+//        ViewUtility.findViewById(getActivity(), R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
         mToolbar.getMenu().clear();
     }
 
@@ -393,7 +394,7 @@ public class LeftMenuFragment extends BaseStateFragment {
         ft.show(fragment);
         ft.commit();
 
-        ViewUtility.findViewById(getActivity(), R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
+//        ViewUtility.findViewById(getActivity(), R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
         mToolbar.getMenu().clear();
 
         ((CommentsTimeLineFragment) fragment).buildActionBarAndViewPagerTitles(commentsTabIndex);
@@ -402,13 +403,9 @@ public class LeftMenuFragment extends BaseStateFragment {
 
 
     private boolean showDMPage(boolean reset) {
-        // getActivity().getActionBar().setDisplayShowTitleEnabled(true);
         if (currentIndex == DM_INDEX && !reset) {
-            // ((MainTimeLineActivity) getActivity()).getSlidingMenu().showContent();
             return true;
         }
-        // getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
-
         currentIndex = DM_INDEX;
         if (Utility.isDevicePort() && !reset) {
             BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -444,12 +441,10 @@ public class LeftMenuFragment extends BaseStateFragment {
         ft.hide(rightFragments.get(PROFILE_INDEX));
 
         Fragment fragment = rightFragments.get(DM_INDEX);
-
         ft.show(fragment);
         ft.commit();
-
-        ((DMUserListFragment) fragment).showWriteDmMenu();
-        ViewUtility.findViewById(getActivity(), R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
+    
+        ((DMUserListFragment) fragment).showMenuOnToolBar(R.menu.actionbar_menu_dmuserlistfragment);
 
         ((DMUserListFragment) fragment).buildActionBarAndViewPagerTitles();
     }
@@ -500,7 +495,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 
         ft.show(fragment);
         ft.commit();
-        ViewUtility.findViewById(getActivity(), R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
+//        ViewUtility.findViewById(getActivity(), R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
         mToolbar.getMenu().clear();
 
         ((MyFavListFragment) fragment).buildActionBarAndViewPagerTitles();
@@ -553,7 +548,7 @@ public class LeftMenuFragment extends BaseStateFragment {
         ft.commit();
         ((UserInfoFragment) fragment).buildActionBarAndViewPagerTitles();
 
-        ViewUtility.findViewById(getActivity(), R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
+//        ViewUtility.findViewById(getActivity(), R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
         mToolbar.getMenu().clear();
 
         AnimationUtility.translateFragmentY(fragment, -400, 0, fragment);

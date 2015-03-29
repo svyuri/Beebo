@@ -9,6 +9,7 @@ import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
+import org.zarroboogs.weibo.activity.SearchMainActivity;
 import org.zarroboogs.weibo.adapter.AbstractAppListAdapter;
 import org.zarroboogs.weibo.adapter.FriendsTimeLineListNavAdapter;
 import org.zarroboogs.weibo.adapter.StatusListAdapter;
@@ -50,8 +51,10 @@ import android.os.Looper;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.util.Log;
 import android.util.Pair;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroupOverlay;
 import android.view.ViewTreeObserver;
@@ -126,6 +129,33 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
         setHasOptionsMenu(true);
 
     }
+    
+    public void showMenuOnToolBar(int menu){
+    	showMenuOnToolBar(mToolbar, menu);
+    	
+    	mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem arg0) {
+				// TODO Auto-generated method stub
+				int id = arg0.getItemId();
+				switch (id) {
+				case R.id.search_menu:{
+					Intent intent = new Intent(getActivity(), SearchMainActivity.class);
+					startActivity(intent);
+					break;
+				}
+				case R.id.notify_menu:{
+					break;
+				}
+
+				default:
+					break;
+				}
+				return false;
+			}
+		});
+    }
 
     @Override
     public MessageListBean getDataList() {
@@ -137,7 +167,6 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
         super.onViewCreated(view, savedInstanceState);
         mToolbar = (Toolbar) getActivity().findViewById(R.id.mainTimeLineToolBar);
         mToolbar.setTitle(R.string.weibo_home_page);
-        mToolbar.inflateMenu(R.menu.actionbar_menu_friendstimelinefragment);
     }
 
     @Override

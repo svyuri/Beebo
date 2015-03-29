@@ -112,16 +112,16 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
 			buildInterface(savedInstanceState);
 
-			mScrollTopBtn = (Button) findViewById(R.id.scrollToTopBtn);
-			mScrollTopBtn.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					// Toast.makeText(getApplicationContext(), "TOP",
-					// Toast.LENGTH_LONG).show();
-					scrollCurrentListViewToTop();
-				}
-			});
+//			mScrollTopBtn = (Button) findViewById(R.id.scrollToTopBtn);
+//			mScrollTopBtn.setOnClickListener(new OnClickListener() {
+//
+//				@Override
+//				public void onClick(View v) {
+//					// Toast.makeText(getApplicationContext(), "TOP",
+//					// Toast.LENGTH_LONG).show();
+//					scrollCurrentListViewToTop();
+//				}
+//			});
 
 			if (AppNewMsgAlarm.DEBUG) {
 				AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG,

@@ -2,6 +2,9 @@
 package org.zarroboogs.weibo.fragment.base;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -48,7 +51,8 @@ public abstract class AbsTimeLineFragment<T extends DataListItem<MessageBean, ?>
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         // getListView().setOnItemLongClickListener(onItemLongClickListener);
     }
-
+    
+    
     private AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
