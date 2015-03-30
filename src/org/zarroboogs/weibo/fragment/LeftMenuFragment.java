@@ -213,6 +213,9 @@ public class LeftMenuFragment extends BaseStateFragment {
 		FragmentTransaction ft = hideFragmentExp(HOT_WEIBO);
 
 		HotWeiboViewPagerFragment fragment = (HotWeiboViewPagerFragment) rightFragments.get(HOT_WEIBO);
+
+		((MainTimeLineActivity) getActivity()).setCurrentFragment(fragment);
+		
 		ft.show(fragment);
 		ft.commit();
 
