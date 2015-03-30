@@ -1,38 +1,17 @@
 
 package org.zarroboogs.weibo.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import org.zarroboogs.devutils.DevLog;
-import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.MainTimeLineActivity;
-import org.zarroboogs.weibo.adapter.HotHuaTiViewPagerAdapter;
-import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
-import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
-import org.zarroboogs.weibo.support.lib.LongClickableLinkMovementMethod;
-import org.zarroboogs.weibo.support.utils.Utility;
+import org.zarroboogs.weibo.widget.viewpagerfragment.ChildPage;
+import org.zarroboogs.weibo.widget.viewpagerfragment.ViewPagerFragment;
 
-import com.example.android.common.view.SlidingTabLayout;
 
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 
-public class HotWeiboViewPagerFragment extends BaseStateFragment implements MainTimeLineActivity.ScrollableListFragment {
+public class HotWeiboViewPagerFragment extends ViewPagerFragment {
 
-    private ViewPager viewPager;
-
-    private SparseArray<Fragment> childrenFragments = new SparseArray<Fragment>();
-
-    private SlidingTabLayout mSlidingTabLayout;
 
     public static HotWeiboViewPagerFragment newInstance() {
         HotWeiboViewPagerFragment fragment = new HotWeiboViewPagerFragment();
@@ -41,86 +20,30 @@ public class HotWeiboViewPagerFragment extends BaseStateFragment implements Main
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mention_timeline_fragment_layout, container, false);
-        viewPager = (ViewPager) view.findViewById(R.id.mentionViewpager);
-        mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.mentionSlidingTab);
-        
-        childrenFragments.append(0, new HotWeiboFragment());
-        childrenFragments.append(1, new HotWeiboFragmentYestoday());
-        childrenFragments.append(2, new HotWeiboFragmentQianTian());
-        childrenFragments.append(3, new HotWeiboFragmentZuiYou());
-        childrenFragments.append(4, new HotWeiboFragmentVideo());
-        childrenFragments.append(5, new HotWeiboFragmentBaoLiao());
-        childrenFragments.append(6, new HotWeiboFragmentXiaoHua());
-        childrenFragments.append(7, new HotWeiboFragmentPet());
-        childrenFragments.append(8, new HotWeiboFragmentMeiNv());
-        childrenFragments.append(9, new HotWeiboFragmentKeji());
-        childrenFragments.append(10, new HotWeiboFragmentTravel());
-        childrenFragments.append(11, new HotWeiboFragmentMeiTu());
-        
-        return view;
-    }
+	public SparseArray<ChildPage> buildChildPage() {
+		// TODO Auto-generated method stub
+    	SparseArray<ChildPage> sparseArray = new SparseArray<ChildPage>();
+		
+		Resources re = getActivity().getResources();
+		sparseArray.append(0, new ChildPage("当前", new HotWeiboFragment()) );
+		sparseArray.append(1, new ChildPage("昨天", new HotWeiboFragmentYestoday()) );
+		sparseArray.append(2, new ChildPage("前天", new HotWeiboFragmentQianTian()) );
+		sparseArray.append(3, new ChildPage("神最右", new HotWeiboFragmentZuiYou()) );
+		sparseArray.append(4, new ChildPage("视频", new HotWeiboFragmentVideo()) );
+		sparseArray.append(5, new ChildPage("爆料",new HotWeiboFragmentBaoLiao()) );
+		sparseArray.append(6, new ChildPage("笑话", new HotWeiboFragmentXiaoHua()) );
+		sparseArray.append(7, new ChildPage("萌宠", new HotWeiboFragmentPet()) );
+		sparseArray.append(8, new ChildPage("美女", new HotWeiboFragmentMeiNv()) );
+		sparseArray.append(9, new ChildPage("科技", new HotWeiboFragmentKeji()) );
+		sparseArray.append(10, new ChildPage("旅行", new HotWeiboFragmentTravel()) );
+		sparseArray.append(11, new ChildPage("美图", new HotWeiboFragmentMeiTu()) );
+		return sparseArray;
+	}
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        viewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        viewPager.setOffscreenPageLimit(2);
-//        viewPager.setOnPageChangeListener(onPageChangeListener);
-        List<String> titleList = new ArrayList<String>();
-        titleList.add("当前");
-        titleList.add("昨天");
-        titleList.add("前天");
-        titleList.add("神最右");
-        titleList.add("视频");
-        titleList.add("爆料");
-        titleList.add("笑话");
-        titleList.add("萌宠");
-        titleList.add("美女");
-        titleList.add("科技");
-        titleList.add("旅行");
-        titleList.add("美图");
-
-        HotHuaTiViewPagerAdapter adapter = new HotHuaTiViewPagerAdapter(this, viewPager, getChildFragmentManager(), childrenFragments, titleList);
-        
-        viewPager.setAdapter(adapter);
-        mSlidingTabLayout.setViewPager(viewPager);
-        
-        mSlidingTabLayout.setOnPageChangeListener(onPageChangeListener);
-    }
-
-    ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
-        @Override
-        public void onPageSelected(int position) {
-        	super.onPageSelected(position);
-        	DevLog.printLog("SimpleOnPageChangeListener onPageSelected", "" + position);
-        	BaseHotWeiboFragment hotWeiboFragment = (BaseHotWeiboFragment) ((HotHuaTiViewPagerAdapter)viewPager.getAdapter()).getItem(position);
-        	hotWeiboFragment.onPageSelected();
-        }
-
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        	super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-        	DevLog.printLog("SimpleOnPageChangeListener onPageScrolled", "" + position + "  " + positionOffset);
-        };
-        @Override
-        public void onPageScrollStateChanged(int state) {
-            super.onPageScrollStateChanged(state);
-            DevLog.printLog("SimpleOnPageChangeListener onPageScrollStateChanged", "" + state);
-            switch (state) {
-                case ViewPager.SCROLL_STATE_SETTLING:
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-
-    
-    @Override
-    public void scrollToTop() {
-        AbsBaseTimeLineFragment fragment = (AbsBaseTimeLineFragment) (childrenFragments.get(viewPager.getCurrentItem()));
-        Utility.stopListViewScrollingAndScrollToTop(fragment.getListView());
-    }
+	@Override
+	public void onViewPageSelected(int id) {
+		// TODO Auto-generated method stub
+//    	BaseHotWeiboFragment hotWeiboFragment = (BaseHotWeiboFragment) ((HotHuaTiViewPagerAdapter)viewPager.getAdapter()).getItem(id);
+//    	hotWeiboFragment.onPageSelected();
+	}
 }

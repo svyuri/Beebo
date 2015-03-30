@@ -1,105 +1,44 @@
 
 package org.zarroboogs.weibo.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.MainTimeLineActivity;
-import org.zarroboogs.weibo.adapter.HotHuaTiViewPagerAdapter;
-import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
-import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
-import org.zarroboogs.weibo.support.utils.Utility;
+import org.zarroboogs.weibo.widget.viewpagerfragment.ChildPage;
+import org.zarroboogs.weibo.widget.viewpagerfragment.ViewPagerFragment;
 
-import com.example.android.common.view.SlidingTabLayout;
 
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-public class HotHuaTiViewPagerFragment extends BaseStateFragment implements MainTimeLineActivity.ScrollableListFragment {
-
-    private ViewPager viewPager;
-
-    private SparseArray<Fragment> childrenFragments = new SparseArray<Fragment>();
-
-    private SlidingTabLayout mSlidingTabLayout;
+public class HotHuaTiViewPagerFragment extends ViewPagerFragment {
 
     public static HotHuaTiViewPagerFragment newInstance() {
         HotHuaTiViewPagerFragment fragment = new HotHuaTiViewPagerFragment();
         fragment.setArguments(new Bundle());
         return fragment;
     }
+    
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mention_timeline_fragment_layout, container, false);
-        viewPager = (ViewPager) view.findViewById(R.id.mentionViewpager);
-        mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.mentionSlidingTab);
-        
-        childrenFragments.append(0, new HotHuaTiOneHourFragment());
-        childrenFragments.append(1, new HotHuaTiFragmentFilm());
-        childrenFragments.append(2, new HotHuaTiFragmentDigit());
-        childrenFragments.append(3, new HotHuaTiFragmentHumor());
-        childrenFragments.append(4, new HotHuaTiFragmentIT());
-        childrenFragments.append(5, new HotHuaTiFragmentShot());
-        childrenFragments.append(6, new HotHuaTiFragmentOrig());
-        childrenFragments.append(7, new HotHuaTiFragmentPet());
-        return view;
-    }
+	public SparseArray<ChildPage> buildChildPage() {
+		// TODO Auto-generated method stub
+		SparseArray<ChildPage> sparseArray = new SparseArray<ChildPage>();
+		
+		Resources re = getActivity().getResources();
+		sparseArray.append(0, new ChildPage("1小时热榜", new HotHuaTiOneHourFragment()) );
+		sparseArray.append(1, new ChildPage("电影热榜", new HotHuaTiFragmentFilm()) );
+		sparseArray.append(2, new ChildPage("消费数码", new HotHuaTiFragmentDigit()) );
+		sparseArray.append(3, new ChildPage("幽默搞笑", new HotHuaTiFragmentHumor()) );
+		sparseArray.append(4, new ChildPage("IT互联网", new HotHuaTiFragmentIT()) );
+		sparseArray.append(5, new ChildPage("摄影热榜",new HotHuaTiFragmentShot()) );
+		sparseArray.append(6, new ChildPage("创意征集", new HotHuaTiFragmentOrig()) );
+		sparseArray.append(7, new ChildPage("动物萌宠", new HotHuaTiFragmentPet()) );
+		return sparseArray;
+	}
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        viewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        viewPager.setOffscreenPageLimit(2);
-//        viewPager.setOnPageChangeListener(onPageChangeListener);
-        
-        List<String> titleList = new ArrayList<String>();
-        titleList.add("1小时热榜");
-        titleList.add("电影热榜");
-        titleList.add("消费数码");
-        titleList.add("幽默搞笑");
-        titleList.add("IT互联网");
-        titleList.add("摄影热榜");
-        titleList.add("创意征集");
-        titleList.add("动物萌宠");
-        HotHuaTiViewPagerAdapter adapter = new HotHuaTiViewPagerAdapter(this, viewPager, getChildFragmentManager(), childrenFragments, titleList);
-        
-        viewPager.setAdapter(adapter);
-        mSlidingTabLayout.setViewPager(viewPager);
-        
-        mSlidingTabLayout.setOnPageChangeListener(onPageChangeListener);
-    }
-
-    ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
-        @Override
-        public void onPageSelected(int position) {
-        	BaseHotHuaTiFragment bs = (BaseHotHuaTiFragment) ((HotHuaTiViewPagerAdapter)viewPager.getAdapter()).getItem(position);
-        	bs.onPageSelected();
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-            super.onPageScrollStateChanged(state);
-            switch (state) {
-                case ViewPager.SCROLL_STATE_SETTLING:
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-    
-    
-    
-    @Override
-    public void scrollToTop() {
-        AbsBaseTimeLineFragment fragment = (AbsBaseTimeLineFragment) (childrenFragments.get(viewPager.getCurrentItem()));
-        Utility.stopListViewScrollingAndScrollToTop(fragment.getListView());
-    }
+	@Override
+	public void onViewPageSelected(int id) {
+		// TODO Auto-generated method stub
+		
+	}
 }
