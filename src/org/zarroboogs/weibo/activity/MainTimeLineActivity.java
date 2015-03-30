@@ -58,6 +58,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainTimeLineActivity extends AbstractAppActivity {
 
@@ -80,8 +81,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    private Button mScrollTopBtn;
-    
     private static MenuItem notifcationMenu;
 
     @Override
@@ -112,17 +111,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 			setContentView(R.layout.layout_main_time_line_activity);
 
 			buildInterface(savedInstanceState);
-
-//			mScrollTopBtn = (Button) findViewById(R.id.scrollToTopBtn);
-//			mScrollTopBtn.setOnClickListener(new OnClickListener() {
-//
-//				@Override
-//				public void onClick(View v) {
-//					// Toast.makeText(getApplicationContext(), "TOP",
-//					// Toast.LENGTH_LONG).show();
-//					scrollCurrentListViewToTop();
-//				}
-//			});
 
 			if (AppNewMsgAlarm.DEBUG) {
 				AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG,getApplicationContext(), true);
@@ -191,6 +179,15 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     private void buildInterface(Bundle savedInstanceState) {
         
         mToolbar = (Toolbar) findViewById(R.id.mainTimeLineToolBar);
+        mToolbar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(), "ToobarClick", Toast.LENGTH_SHORT).show();
+				scrollCurrentListViewToTop();
+			}
+		});
         
         showMenuOnToolBar(R.menu.main_time_line_menu);
 
@@ -316,10 +313,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         if (this.currentFragment != null) {
             this.currentFragment.scrollToTop();
         }
-    }
-
-    public View getClickToTopView() {
-        return mScrollTopBtn;
     }
 
     public void setCurrentFragment(ScrollableListFragment fragment) {
