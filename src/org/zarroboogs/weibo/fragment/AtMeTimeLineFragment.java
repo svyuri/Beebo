@@ -17,6 +17,7 @@ import org.zarroboogs.weibo.widget.viewpagerfragment.ViewPagerFragment;
 import com.example.android.common.view.SlidingTabLayout;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -33,13 +34,10 @@ import android.view.ViewGroup;
 public class AtMeTimeLineFragment extends ViewPagerFragment {
 
 
-	public static final int COMMENT_TO_ME = 0;
-	
+	public static final int COMMENT_TO_ME = 0; // 收到评论
 	public static final int AT_ME_WEIBO = 1;
 	public static final int AT_ME_COMMENT = 2;
-	
 	public static final int DM_INDEX = 3;
-
 
 //	public static final int COMMENT_BY_ME = 3;
 
@@ -53,18 +51,21 @@ public class AtMeTimeLineFragment extends ViewPagerFragment {
 	public SparseArray<ChildPage> buildChildPage() {
 		// TODO Auto-generated method stub
 		SparseArray<ChildPage> sparseArray = new SparseArray<ChildPage>();
-		sparseArray.append(AtMeTimeLineFragment.AT_ME_WEIBO,new ChildPage(
-				getActivity().getResources().getString(R.string.mentions_weibo),
-				getMentionsWeiboTimeLineFragment()));
 		
-		sparseArray.append(AtMeTimeLineFragment.AT_ME_COMMENT,new ChildPage(
-				getActivity().getResources().getString(R.string.mentions_to_me), getMentionsCommentTimeLineFragment()));
+		Resources re = getActivity().getResources();
+		
+		sparseArray.append(AT_ME_WEIBO,new ChildPage(
+				re.getString(R.string.mentions_weibo),getMentionsWeiboTimeLineFragment()));
+		
+		sparseArray.append(AT_ME_COMMENT,new ChildPage(
+				re.getString(R.string.mentions_to_me), getMentionsCommentTimeLineFragment()));
         
-		sparseArray.append(AtMeTimeLineFragment.COMMENT_TO_ME,new ChildPage(
-				getActivity().getResources().getString(R.string.all_people_send_to_me), getCommentsToMeTimeLineFragment()));
+		sparseArray.append(COMMENT_TO_ME,new ChildPage(
+				re.getString(R.string.all_people_send_to_me), getCommentsToMeTimeLineFragment()));
 		
 		
-		sparseArray.append(DM_INDEX, new ChildPage("微博私信", getDMFragment()));
+		sparseArray.append(DM_INDEX, new ChildPage(
+				re.getString(R.string.private_message), getDMFragment()));
 		
 //		sparseArray.append(AtMeTimeLineFragment.COMMENT_BY_ME,new ChildPage(
 //				getActivity().getResources().getString(R.string.my_comment), getCommentsByMeTimeLineFragment()));

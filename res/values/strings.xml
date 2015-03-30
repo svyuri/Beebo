@@ -350,7 +350,7 @@
     <string name="reply">回复</string>
     <string name="delete">删除</string>
     <string name="reply_to_comment">回复评论</string>
-    <string name="view">查看微博</string>
+    <string name="view_weibo_str">查看微博</string>
     <string name="view_comment">查看评论</string>
 
     <!-- location -->

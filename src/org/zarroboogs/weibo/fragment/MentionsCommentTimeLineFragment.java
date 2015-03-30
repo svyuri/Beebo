@@ -5,8 +5,6 @@ import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.IRemoveItem;
-import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.adapter.CommentListAdapter;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -32,7 +30,6 @@ import org.zarroboogs.weibo.ui.actionmenu.CommentSingleChoiceModeListener;
 import org.zarroboogs.weibo.widget.TopTipsView;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -45,12 +42,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * User: qii Date: 13-1-23
- */
 @SuppressLint("ValidFragment")
 public class MentionsCommentTimeLineFragment extends AbsBaseTimeLineFragment<CommentListBean> implements IRemoveItem {
 

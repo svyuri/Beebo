@@ -1,19 +1,20 @@
 
 package org.zarroboogs.weibo.adapter;
 
-import org.zarroboogs.util.net.HttpUtility;
-import org.zarroboogs.util.net.HttpUtility.HttpMethod;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
+import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
+import org.zarroboogs.weibo.activity.WriteCommentActivity;
 import org.zarroboogs.weibo.activity.WriteReplyToCommentActivity;
+import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.CommentBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
-import org.zarroboogs.weibo.dialogfragment.RemoveDialog;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.Utility;
+import org.zarroboogs.weibo.ui.task.FavAsyncTask;
 import org.zarroboogs.weibo.widget.AutoScrollListView;
 import org.zarroboogs.weibo.widget.TopTipsView;
 
@@ -22,7 +23,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
@@ -35,7 +35,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -141,6 +140,10 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
             holder.comment_source.setText(comment.getSourceString());
         }
 
+        if (holder.source != null) {
+        	holder.source.setText(comment.getSourceString());
+		}
+        
         holder.repost_content.setVisibility(View.GONE);
         holder.repost_content_pic.setVisibility(View.GONE);
 
@@ -158,6 +161,52 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
             holder.repost_content.setVisibility(View.VISIBLE);
             holder.repost_content.setText(reply.getListViewSpannableString());
             holder.repost_content.setTag(reply.getId());
+            
+            holder.popupMenuIb.setOnClickListener(new OnClickListener() {
+    			
+    			@Override
+    			public void onClick(View v) {
+    				// TODO Auto-generated method stub
+    				PopupMenu popupMenu = new PopupMenu(getActivity(), holder.popupMenuIb);
+    				popupMenu.inflate(R.menu.comments_to_me_popmenu);
+    				popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+    					
+    					@Override
+    					public boolean onMenuItemClick(MenuItem arg0) {
+    						// TODO Auto-generated method stub
+    						int id = arg0.getItemId();
+    						switch (id) {
+    						case R.id.reply_comment_menu:{
+    							
+    							Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
+    	                        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+    	                        intent.putExtra("msg", comment);
+    	                        getActivity().startActivity(intent);
+    							break;
+    						}
+    						case R.id.view_weibo_menu:{
+    							getActivity().startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
+    									comment.getStatus(), GlobalContext.getInstance().getAccessToken()));
+    							break;
+    						}
+    						
+    						case R.id.menu_copy:{
+    							ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+    							cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", comment.getText()));
+    							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
+    							break;
+    						}
+
+    						default:
+    							break;
+    						}
+    						return false;
+    					}
+    				});
+    				popupMenu.show();
+    			}
+    		});
+            
         } else {
 
             MessageBean repost_msg = comment.getStatus();

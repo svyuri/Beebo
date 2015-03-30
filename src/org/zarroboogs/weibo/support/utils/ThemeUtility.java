@@ -12,9 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-/**
- * User: qii Date: 13-8-4
- */
 public class ThemeUtility {
 
     public static int getColor(int attr) {

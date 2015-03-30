@@ -32,15 +32,6 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_favourite"
-        style="@style/drawerMenuButton"
-        android:layout_width="match_parent"
-        android:layout_weight="0"
-        android:drawableLeft="@drawable/ic_book_grey600_24dp"
-        android:text="@string/favourite_weibo"
-        tools:ignore="RtlHardcoded" />
-
-    <Button
         android:id="@+id/btn_location"
         style="@style/drawerMenuButton"
         android:layout_width="match_parent"
@@ -68,6 +59,14 @@
         android:text="@string/left_drawer_hothuati"
         tools:ignore="RtlHardcoded" />
 
+    <Button
+        android:id="@+id/btn_favourite"
+        style="@style/drawerMenuButton"
+        android:layout_width="match_parent"
+        android:layout_weight="0"
+        android:drawableLeft="@drawable/ic_book_grey600_24dp"
+        android:text="@string/favourite_weibo"
+        tools:ignore="RtlHardcoded" />
     <Button
         android:visibility="gone"
         android:id="@+id/btnHotModel"

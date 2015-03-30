@@ -48,7 +48,7 @@ public class CommentFloatingMenuDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(this.bean.getUser().getScreen_name());
         String[] str = {
-                getString(R.string.view), getString(R.string.reply_to_comment)
+                getString(R.string.view_weibo_str), getString(R.string.reply_to_comment)
         };
         builder.setItems(str, new DialogInterface.OnClickListener() {
             @Override

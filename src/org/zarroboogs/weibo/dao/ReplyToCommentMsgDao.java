@@ -14,9 +14,6 @@ import org.zarroboogs.weibo.bean.CommentBean;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: qii Date: 12-8-28
- */
 public class ReplyToCommentMsgDao {
 
     public CommentBean reply() throws WeiboException {
