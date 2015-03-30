@@ -34,12 +34,14 @@ public class NotifyActivity extends TranslucentStatusBarActivity {
     	getMenuInflater().inflate(R.menu.write_dm_menu, menu);
     	return super.onCreateOptionsMenu(menu);
     }
+    
+    public static final int REQUEST_CODE = 0x1010;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 		if (itemId == R.id.menu_write_dm) {
 			Intent intent = new Intent(NotifyActivity.this, DMSelectUserActivity.class);
-			startActivityForResult(intent, 0);
+			startActivityForResult(intent, REQUEST_CODE);
 		}
         return super.onOptionsItemSelected(item);
     }
@@ -50,10 +52,12 @@ public class NotifyActivity extends TranslucentStatusBarActivity {
         if (data == null) {
             return;
         }
+        if (REQUEST_CODE == requestCode) {
+            Intent intent = new Intent(NotifyActivity.this, DMActivity.class);
+            intent.putExtra("user", data.getParcelableExtra("user"));
+            startActivity(intent);
+		}
 
-        Intent intent = new Intent(NotifyActivity.this, DMActivity.class);
-        intent.putExtra("user", data.getParcelableExtra("user"));
-        startActivity(intent);
     }
     
     private void buildContent() {
