@@ -1,5 +1,6 @@
 <resources>
-        <string-array name="water_mark_pos_array">
+
+    <string-array name="water_mark_pos_array">
         <item>底部居右</item>
         <item>底部居中</item>
         <item>图片中间</item>
@@ -9,8 +10,6 @@
         <item>2</item>
         <item>3</item>
     </string-array>
-    
-    
     <string-array name="frequency">
         <item>三分钟</item>
         <item>十五分钟</item>
@@ -74,23 +73,24 @@
     <string-array name="theme_value">
         <item>1</item>
         <item>2</item>
-        <!--<item>3</item>-->
-        <!--<item>4</item>-->
+        <!-- <item>3</item> -->
+        <!-- <item>4</item> -->
     </string-array>
     <string-array name="font">
         <item>小</item>
-        <!--<item>较小</item>-->
+        <!-- <item>较小</item> -->
         <item>中等</item>
         <item>大</item>
-        <!--<item>很大</item>-->
+        <!-- <item>很大</item> -->
     </string-array>
     <string-array name="font_value">
-        <!--<item>12</item>-->
+
+        <!-- <item>12</item> -->
         <item>13</item>
         <item>15</item>
         <item>17</item>
-        <!--<item>18</item>-->
-        <!--<item>20</item>-->
+        <!-- <item>18</item> -->
+        <!-- <item>20</item> -->
     </string-array>
     <string-array name="notification_style">
         <item>一行一条</item>
@@ -128,11 +128,9 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-    
-    
-	<string-array name="hot_weibo_multi_select_title">
-        <item>当前</item>
-        <item>昨天</item>
+    <string-array name="hot_weibo_multi_select_title">
+<!--         <item>当前</item> -->
+<!--         <item>昨天</item> -->
         <item>前天</item>
         <item>神最右</item>
         <item>视频</item>
@@ -145,6 +143,20 @@
         <item>美图</item>
     </string-array>
     <string-array name="hot_weibo_multi_select_value">
+<!--         <item>0</item> -->
+<!--         <item>1</item> -->
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+    </string-array>
+    <string-array name="hot_weibo_multi_select_value_def">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -159,18 +171,29 @@
         <item>11</item>
     </string-array>
     
-        
-	<string-array name="hot_huati_multi_select_title">
-		<item>1小时热榜</item>
+    
+    
+    <string-array name="hot_huati_multi_select_title">
+<!--         <item>1小时热榜</item> -->
+        <item>幽默搞笑</item>
         <item>电影热榜</item>
         <item>消费数码</item>
-        <item>幽默搞笑</item>
         <item>IT互联网</item>
         <item>摄影热榜</item>
         <item>创意征集</item>
         <item>动物萌宠</item>
     </string-array>
     <string-array name="hot_huati_multi_select_value">
+<!--         <item>0</item> -->
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+    <string-array name="hot_huati_multi_select_value_def">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -180,5 +203,5 @@
         <item>6</item>
         <item>7</item>
     </string-array>
-    
+
 </resources>

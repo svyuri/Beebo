@@ -198,7 +198,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 				public void onReceive(Context context, Intent intent) {
 					LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
 					if (currentIndex == HOT_WEIBO) {
-						mToolbar.setTitle(R.string.left_drawer_hothuati);
+						mToolbar.setTitle(R.string.left_drawer_hotweibo);
 						showHotWeiboImp();
 					}
 

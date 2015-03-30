@@ -30,9 +30,10 @@ public class HotHuaTiViewPagerFragment extends ViewPagerFragment {
 		
 		Resources re = getActivity().getResources();
 		sparseArray.add(0, new ChildPage("1小时热榜", new HotHuaTiOneHourFragment()) );
-		sparseArray.add(1, new ChildPage("电影热榜", new HotHuaTiFragmentFilm()) );
-		sparseArray.add(2, new ChildPage("消费数码", new HotHuaTiFragmentDigit()) );
-		sparseArray.add(3, new ChildPage("幽默搞笑", new HotHuaTiFragmentHumor()) );
+		sparseArray.add(1, new ChildPage("幽默搞笑", new HotHuaTiFragmentHumor()) );
+		sparseArray.add(2, new ChildPage("电影热榜", new HotHuaTiFragmentFilm()) );
+		sparseArray.add(3, new ChildPage("消费数码", new HotHuaTiFragmentDigit()) );
+
 		sparseArray.add(4, new ChildPage("IT互联网", new HotHuaTiFragmentIT()) );
 		sparseArray.add(5, new ChildPage("摄影热榜",new HotHuaTiFragmentShot()) );
 		sparseArray.add(6, new ChildPage("创意征集", new HotHuaTiFragmentOrig()) );

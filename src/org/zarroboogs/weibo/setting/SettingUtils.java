@@ -362,10 +362,10 @@ public class SettingUtils {
     }
     
     public static String[] getHotWeiboSelected(){
-    	return SettingHelper.getStringSetPreferences(getContext(), SettingActivity.HOT_WEIBO_LIST_KEY, R.array.hot_weibo_multi_select_value);
+    	return SettingHelper.getStringSetPreferences(getContext(), SettingActivity.HOT_WEIBO_LIST_KEY, R.array.hot_weibo_multi_select_value_def);
     }
     
     public static String[] getHotHuaTioSelected(){
-    	return SettingHelper.getStringSetPreferences(getContext(), SettingActivity.HOT_HUATI_LIST_KEY, R.array.hot_huati_multi_select_value);
+    	return SettingHelper.getStringSetPreferences(getContext(), SettingActivity.HOT_HUATI_LIST_KEY, R.array.hot_huati_multi_select_value_def);
     }
 }
