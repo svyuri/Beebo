@@ -79,6 +79,10 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
+    @Override
+    public void scrollToTop() {
+        Utility.stopListViewScrollingAndScrollToTop(getListView());
+    }
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {

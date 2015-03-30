@@ -3,6 +3,8 @@ package org.zarroboogs.weibo.fragment;
 import org.apache.http.Header;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
+import org.zarroboogs.weibo.support.utils.Utility;
+import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.bean.MessageListBean;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -15,7 +17,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 
-public abstract class BaseHotWeiboFragment extends AbsBaseTimeLineFragment<MessageListBean> {
+public abstract class BaseHotWeiboFragment extends AbsBaseTimeLineFragment<MessageListBean> implements MainTimeLineActivity.ScrollableListFragment{
 
     private MessageListBean mMessageListBean = new MessageListBean();
     private AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
@@ -53,6 +55,12 @@ public abstract class BaseHotWeiboFragment extends AbsBaseTimeLineFragment<Messa
 		});
 	}
 
+	@Override
+	public void scrollToTop() {
+		// TODO Auto-generated method stub
+		Utility.stopListViewScrollingAndScrollToTop(getListView());
+	}
+	
 	public String getGsid(){
 		String gsid = mSharedPreference.getString("gsid", "");
 		return gsid;
