@@ -19,7 +19,6 @@ import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.dao.ClearUnreadDao;
 import org.zarroboogs.weibo.dao.DestroyCommentDao;
 import org.zarroboogs.weibo.db.task.CommentToMeTimeLineDBTask;
-import org.zarroboogs.weibo.dialogfragment.CommentFloatingMenuDialog;
 import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.loader.CommentsToMeDBLoader;
 import org.zarroboogs.weibo.loader.CommentsToMeMsgLoader;
@@ -345,10 +344,6 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     }
 
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
-        if (!clearActionModeIfOpen()) {
-            CommentFloatingMenuDialog menu = new CommentFloatingMenuDialog(getDataList().getItem(position));
-            menu.show(getFragmentManager(), "");
-        }
     }
 
     @Override

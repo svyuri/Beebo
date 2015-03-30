@@ -113,55 +113,7 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
 
         final CommentBean comment = getList().get(position);
 
-        UserBean user = comment.getUser();
-        if (user != null) {
-            holder.username.setVisibility(View.VISIBLE);
-            if (!TextUtils.isEmpty(user.getRemark())) {
-                holder.username.setText(new StringBuilder(user.getScreen_name()).append("(").append(user.getRemark())
-                        .append(")").toString());
-            } else {
-                holder.username.setText(user.getScreen_name());
-            }
-            if (!showOriStatus && !SettingUtils.getEnableCommentRepostListAvatar()) {
-                holder.avatar.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
-            } else {
-                buildAvatar(holder.avatar, position, user);
-            }
-
-        } else {
-            holder.username.setVisibility(View.INVISIBLE);
-            holder.avatar.setVisibility(View.INVISIBLE);
-        }
-
-        holder.weiboTextContent.setText(comment.getListViewSpannableString());
-
-        holder.time.setTime(comment.getMills());
-        if (holder.comment_source != null) {
-            holder.comment_source.setText(comment.getSourceString());
-        }
-
-        if (holder.source != null) {
-        	holder.source.setText(comment.getSourceString());
-		}
-        
-        holder.repost_content.setVisibility(View.GONE);
-        holder.repost_content_pic.setVisibility(View.GONE);
-
-        
-        
-        final CommentBean reply = comment.getReply_comment();
-        if (holder.cmmentsReply != null) {
-            holder.cmmentsReply.setVisibility(View.GONE);
-        }
-        if (reply != null && showOriStatus) {
-            if (holder.repost_layout != null) {
-                holder.repost_layout.setVisibility(View.VISIBLE);
-            }
-            holder.repost_flag.setVisibility(View.VISIBLE);
-            holder.repost_content.setVisibility(View.VISIBLE);
-            holder.repost_content.setText(reply.getListViewSpannableString());
-            holder.repost_content.setTag(reply.getId());
-            
+        if (holder.popupMenuIb != null) {
             holder.popupMenuIb.setOnClickListener(new OnClickListener() {
     			
     			@Override
@@ -206,6 +158,58 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
     				popupMenu.show();
     			}
     		});
+		}
+
+        
+        UserBean user = comment.getUser();
+        if (user != null) {
+            holder.username.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(user.getRemark())) {
+                holder.username.setText(new StringBuilder(user.getScreen_name()).append("(").append(user.getRemark())
+                        .append(")").toString());
+            } else {
+                holder.username.setText(user.getScreen_name());
+            }
+            if (!showOriStatus && !SettingUtils.getEnableCommentRepostListAvatar()) {
+                holder.avatar.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
+            } else {
+                buildAvatar(holder.avatar, position, user);
+            }
+
+        } else {
+            holder.username.setVisibility(View.INVISIBLE);
+            holder.avatar.setVisibility(View.INVISIBLE);
+        }
+
+        holder.weiboTextContent.setText(comment.getListViewSpannableString());
+
+        holder.time.setTime(comment.getMills());
+        if (holder.comment_source != null) {
+            holder.comment_source.setText(comment.getSourceString());
+        }
+
+        if (holder.source != null) {
+        	holder.source.setText(comment.getSourceString());
+		}
+        
+        holder.repost_content.setVisibility(View.GONE);
+        holder.repost_content_pic.setVisibility(View.GONE);
+
+        
+        
+        final CommentBean reply = comment.getReply_comment();
+        if (holder.cmmentsReply != null) {
+            holder.cmmentsReply.setVisibility(View.GONE);
+        }
+        
+        if (reply != null && showOriStatus) {
+            if (holder.repost_layout != null) {
+                holder.repost_layout.setVisibility(View.VISIBLE);
+            }
+            holder.repost_flag.setVisibility(View.VISIBLE);
+            holder.repost_content.setVisibility(View.VISIBLE);
+            holder.repost_content.setText(reply.getListViewSpannableString());
+            holder.repost_content.setTag(reply.getId());
             
         } else {
 

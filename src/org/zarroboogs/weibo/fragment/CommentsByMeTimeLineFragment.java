@@ -15,7 +15,6 @@ import org.zarroboogs.weibo.bean.TimeLinePosition;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.dao.DestroyCommentDao;
 import org.zarroboogs.weibo.db.task.CommentByMeTimeLineDBTask;
-import org.zarroboogs.weibo.dialogfragment.CommentFloatingMenuDialog;
 import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.loader.CommentsByMeDBLoader;
 import org.zarroboogs.weibo.loader.CommentsByMeMsgLoader;
@@ -32,9 +31,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-/**
- * User: qii Date: 13-1-22
- */
 @SuppressLint("ValidFragment")
 public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<CommentListBean> implements IRemoveItem {
 
@@ -261,8 +257,6 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     }
 
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
-        CommentFloatingMenuDialog menu = new CommentFloatingMenuDialog(getDataList().getItem(position));
-        menu.show(getFragmentManager(), "");
     }
 
     @Override

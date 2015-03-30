@@ -18,7 +18,6 @@ import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.dao.ClearUnreadDao;
 import org.zarroboogs.weibo.dao.DestroyCommentDao;
 import org.zarroboogs.weibo.db.task.MentionCommentsTimeLineDBTask;
-import org.zarroboogs.weibo.dialogfragment.CommentFloatingMenuDialog;
 import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.loader.MentionsCommentDBLoader;
 import org.zarroboogs.weibo.loader.MentionsCommentMsgLoader;
@@ -342,8 +341,6 @@ public class MentionsCommentTimeLineFragment extends AbsBaseTimeLineFragment<Com
     }
 
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
-        CommentFloatingMenuDialog menu = new CommentFloatingMenuDialog(getDataList().getItem(position));
-        menu.show(getFragmentManager(), "");
     }
 
     @Override

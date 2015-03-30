@@ -3,41 +3,23 @@ package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.DMSelectUserActivity;
-import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.bean.UnreadTabIndex;
-import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
-import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
-import org.zarroboogs.weibo.support.lib.LongClickableLinkMovementMethod;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
-import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.widget.viewpagerfragment.ChildPage;
 import org.zarroboogs.weibo.widget.viewpagerfragment.ViewPagerFragment;
-
-import com.example.android.common.view.SlidingTabLayout;
 
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 
 public class AtMeTimeLineFragment extends ViewPagerFragment {
 
 
-	public static final int COMMENT_TO_ME = 0; // 收到评论
-	public static final int AT_ME_WEIBO = 1;
-	public static final int AT_ME_COMMENT = 2;
-	public static final int DM_INDEX = 3;
+	public static final int COMMENT_TO_ME = 0; 	// 收到评论
+	public static final int AT_ME_WEIBO = 1;	// 微博提及
+	public static final int AT_ME_COMMENT = 2;	// 评论提及
+	public static final int DM_INDEX = 3;		// 微博私心
 
 //	public static final int COMMENT_BY_ME = 3;
 
