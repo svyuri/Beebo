@@ -5,7 +5,9 @@ package org.zarroboogs.weibo.fragment;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.setting.SettingUtils;
+import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.widget.viewpagerfragment.ChildPage;
 import org.zarroboogs.weibo.widget.viewpagerfragment.ViewPagerFragment;
 
@@ -55,5 +57,12 @@ public class HotHuaTiViewPagerFragment extends ViewPagerFragment {
 	public void onViewPageSelected(int id) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void scrollToTop() {
+		// TODO Auto-generated method stub
+		BaseHotHuaTiFragment bf = (BaseHotHuaTiFragment) getCurrentFargment();
+        Utility.stopListViewScrollingAndScrollToTop(bf.getListView());
 	}
 }

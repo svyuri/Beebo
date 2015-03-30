@@ -25,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 public class HotModelDetailFragment extends BaseHotHuaTiFragment {
@@ -118,6 +119,12 @@ public class HotModelDetailFragment extends BaseHotHuaTiFragment {
 		}else {
 			loadData(WeiBoURLs.hotModelDetail(getGsid(), mPage, extparam));
 		}
+	}
+
+	@Override
+	public ListView getListView() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

@@ -176,6 +176,9 @@ public class LeftMenuFragment extends BaseStateFragment {
 		FragmentTransaction ft = hideFragmentExp(HOT_HUA_TI);
 
 		HotHuaTiViewPagerFragment fragment = (HotHuaTiViewPagerFragment) rightFragments.get(HOT_HUA_TI);
+		
+		((MainTimeLineActivity) getActivity()).setCurrentFragment(fragment);
+		
 		ft.show(fragment);
 		ft.commit();
 

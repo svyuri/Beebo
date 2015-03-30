@@ -172,7 +172,7 @@ public class HotHuaTiFragmentDigit extends BaseHotHuaTiFragment {
         }
     }
 
-    private ListView getListView() {
+    public ListView getListView() {
         return listView;
     }
 

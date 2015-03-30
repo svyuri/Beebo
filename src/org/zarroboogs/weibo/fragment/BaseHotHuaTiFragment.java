@@ -9,6 +9,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.ListView;
 
 public abstract class BaseHotHuaTiFragment extends BaseLoadDataFragment {
 
@@ -20,6 +21,8 @@ public abstract class BaseHotHuaTiFragment extends BaseLoadDataFragment {
 	abstract void onGsidLoadFailed(String errorStr);
 	
 	abstract void onPageSelected();
+	
+	abstract public ListView getListView();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,7 +31,7 @@ public abstract class BaseHotHuaTiFragment extends BaseLoadDataFragment {
 		mSharedPreference = getActivity().getApplicationContext().getSharedPreferences(getActivity().getPackageName()	, Context.MODE_PRIVATE);
 		
 	}
-
+	
 	@Override
 	void onLoadDataSucess(String json) {
 		// TODO Auto-generated method stub

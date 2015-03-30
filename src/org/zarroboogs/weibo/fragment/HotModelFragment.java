@@ -155,7 +155,7 @@ public class HotModelFragment extends BaseHotHuaTiFragment implements OnModelDet
         }
     }
 
-    private ListView getListView() {
+    public ListView getListView() {
         return listView;
     }
 

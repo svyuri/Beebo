@@ -17,10 +17,10 @@ import android.os.Bundle;
 public class AtMeTimeLineFragment extends ViewPagerFragment {
 
 
-	public static final int COMMENT_TO_ME = 0; 	// 收到评论
-	public static final int AT_ME_WEIBO = 1;	// 微博提及
-	public static final int AT_ME_COMMENT = 2;	// 评论提及
-	public static final int DM_INDEX = 3;		// 微博私心
+//	public static final int COMMENT_TO_ME = 0; 	// 收到评论
+//	public static final int AT_ME_WEIBO = 1;	// 微博提及
+//	public static final int AT_ME_COMMENT = 2;	// 评论提及
+//	public static final int DM_INDEX = 3;		// 微博私心
 
 //	public static final int COMMENT_BY_ME = 3;
 
@@ -37,17 +37,17 @@ public class AtMeTimeLineFragment extends ViewPagerFragment {
 		
 		Resources re = getActivity().getResources();
 		
-		sparseArray.add(AT_ME_WEIBO,new ChildPage(
+		sparseArray.add(new ChildPage(
 				re.getString(R.string.mentions_weibo),getMentionsWeiboTimeLineFragment()));
 		
-		sparseArray.add(AT_ME_COMMENT,new ChildPage(
+		sparseArray.add(new ChildPage(
 				re.getString(R.string.mentions_to_me), getMentionsCommentTimeLineFragment()));
         
-		sparseArray.add(COMMENT_TO_ME,new ChildPage(
+		sparseArray.add(new ChildPage(
 				re.getString(R.string.all_people_send_to_me), getCommentsToMeTimeLineFragment()));
 		
 		
-		sparseArray.add(DM_INDEX, new ChildPage(
+		sparseArray.add( new ChildPage(
 				re.getString(R.string.private_message), getDMFragment()));
 		
 //		sparseArray.append(AtMeTimeLineFragment.COMMENT_BY_ME,new ChildPage(

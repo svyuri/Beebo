@@ -14,6 +14,7 @@ import com.example.android.common.view.SlidingTabLayout;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,10 @@ public abstract class ViewPagerFragment extends BaseStateFragment implements Mai
         return view;
     }
 
+    public Fragment getCurrentFargment(){
+    	return childrenFragments.get(viewPager.getCurrentItem()).getmFragment();
+    }
+    
     @Override
     public void onAttach(Activity activity) {
     	// TODO Auto-generated method stub
