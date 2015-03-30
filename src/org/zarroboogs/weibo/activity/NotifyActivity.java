@@ -10,6 +10,8 @@ import android.os.Looper;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 
 public class NotifyActivity extends TranslucentStatusBarActivity {
 
@@ -26,6 +28,16 @@ public class NotifyActivity extends TranslucentStatusBarActivity {
          buildContent();
          mToolbar.setTitle(R.string.mentions_me);
          disPlayHomeAsUp(mToolbar);
+         
+         mToolbar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				AtMeTimeLineFragment atme = (AtMeTimeLineFragment) getSupportFragmentManager().findFragmentByTag(AtMeTimeLineFragment.class.getName());
+				atme.scrollToTop();
+			}
+		});
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

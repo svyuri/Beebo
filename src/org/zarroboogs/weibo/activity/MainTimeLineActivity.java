@@ -184,7 +184,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(), "ToobarClick", Toast.LENGTH_SHORT).show();
 				scrollCurrentListViewToTop();
 			}
 		});

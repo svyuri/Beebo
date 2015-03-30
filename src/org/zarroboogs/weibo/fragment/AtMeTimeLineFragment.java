@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.UnreadTabIndex;
+import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.widget.viewpagerfragment.ChildPage;
 import org.zarroboogs.weibo.widget.viewpagerfragment.ViewPagerFragment;
@@ -13,16 +14,9 @@ import org.zarroboogs.weibo.widget.viewpagerfragment.ViewPagerFragment;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 public class AtMeTimeLineFragment extends ViewPagerFragment {
-
-
-//	public static final int COMMENT_TO_ME = 0; 	// 收到评论
-//	public static final int AT_ME_WEIBO = 1;	// 微博提及
-//	public static final int AT_ME_COMMENT = 2;	// 评论提及
-//	public static final int DM_INDEX = 3;		// 微博私心
-
-//	public static final int COMMENT_BY_ME = 3;
 
     public static AtMeTimeLineFragment newInstance() {
         AtMeTimeLineFragment fragment = new AtMeTimeLineFragment();
@@ -134,4 +128,7 @@ public class AtMeTimeLineFragment extends ViewPagerFragment {
 		
 	}
 
+//	public void scrollToTop(){
+//		AbsBaseTimeLineFragment<?> abf = (AbsBaseTimeLineFragment<?>) getCurrentFargment();
+//	}
 }
