@@ -19,11 +19,13 @@
                 android:targetPackage="org.zarroboogs.weibo" />
         </Preference>
         -->
-<!--         <CheckBoxPreference
+        <!--
+             <CheckBoxPreference
             android:defaultValue="false"
             android:key="auto_refresh"
             android:summary="@string/pref_auto_refresh_summary"
-            android:title="@string/pref_auto_refresh_title" /> -->
+            android:title="@string/pref_auto_refresh_title" />
+        -->
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="sound_of_pull_to_fresh"
@@ -125,6 +127,20 @@
                 android:targetPackage="org.zarroboogs.weibo" />
         </Preference>
         -->
+        <MultiSelectListPreference
+            android:defaultValue="@array/hot_weibo_multi_select_value"
+            android:entries="@array/hot_weibo_multi_select_title"
+            android:entryValues="@array/hot_weibo_multi_select_value"
+            android:key="hot_weibo_multiselect_key"
+            android:summary="修改热门微博定阅"
+            android:title="热门微博" />
+        <MultiSelectListPreference
+            android:defaultValue="@array/hot_huati_multi_select_value"
+            android:entries="@array/hot_huati_multi_select_title"
+            android:entryValues="@array/hot_huati_multi_select_value"
+            android:key="hot_huati_multiselect_key"
+            android:summary="修改热门话题定阅"
+            android:title="热门话题" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_support_title" >
         <Preference

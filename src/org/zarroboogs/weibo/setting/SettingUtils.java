@@ -360,4 +360,12 @@ public class SettingUtils {
     public static boolean isNaviGationBarIm(){
     	return SettingHelper.getSharedPreferences(getContext(), SettingActivity.SETTING_PREF_NAVIGATIONBAR_MD, true);
     }
+    
+    public static String[] getHotWeiboSelected(){
+    	return SettingHelper.getStringSetPreferences(getContext(), SettingActivity.HOT_WEIBO_LIST_KEY, R.array.hot_weibo_multi_select_value);
+    }
+    
+    public static String[] getHotHuaTioSelected(){
+    	return SettingHelper.getStringSetPreferences(getContext(), SettingActivity.HOT_WEIBO_LIST_KEY, R.array.hot_huati_multi_select_value);
+    }
 }

@@ -1,13 +1,15 @@
 
 package org.zarroboogs.weibo.setting;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.zarroboogs.weibo.R;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-/**
- * User: qii Date: 12-11-28
- */
 class SettingHelper {
     private static SharedPreferences.Editor editor = null;
     private static SharedPreferences sharedPreferences = null;
@@ -25,7 +27,21 @@ class SettingHelper {
     public static int getSharedPreferences(Context paramContext, String paramString, int paramInt) {
         return getSharedPreferencesObject(paramContext).getInt(paramString, paramInt);
     }
+    
+    public static String[] getStringSetPreferences(Context paramContext, String paramString, int def) {
+    	String[] strs = paramContext.getResources().getStringArray(def);
 
+    	Set<String> sets = new HashSet<String>();
+    	for (String string : strs) {
+			sets.add(string);
+		}
+    	Set<String> result = getSharedPreferencesObject(paramContext).getStringSet(paramString, sets);
+    	
+    	String[] resultArray = result.toArray(new String[result.size()]);
+        return resultArray;
+    }
+
+    
     public static long getSharedPreferences(Context paramContext, String paramString, long paramLong) {
         return getSharedPreferencesObject(paramContext).getLong(paramString, paramLong);
     }

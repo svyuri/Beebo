@@ -6,27 +6,19 @@ import java.util.List;
 
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
-import org.zarroboogs.weibo.activity.NotifyActivity;
-import org.zarroboogs.weibo.activity.SearchMainActivity;
 import org.zarroboogs.weibo.adapter.HotHuaTiViewPagerAdapter;
 import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
-import org.zarroboogs.weibo.support.lib.LongClickableLinkMovementMethod;
 import org.zarroboogs.weibo.support.utils.Utility;
 
 import com.example.android.common.view.SlidingTabLayout;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 
 public class HotHuaTiViewPagerFragment extends BaseStateFragment implements MainTimeLineActivity.ScrollableListFragment {
