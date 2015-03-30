@@ -195,7 +195,7 @@ public class HotWeiboStatusListAdapter extends AbstractAppListAdapter<MessageBea
             boolean checkPic = msg.havePicture()
                     || (msg.getRetweeted_status() != null && msg.getRetweeted_status().havePicture());
             checkPic = (checkPic && !SettingUtils.isEnablePic());
-            boolean checkGps = (msg.getGeo() != null);
+            boolean checkGps = (msg.getGeo() != null) && msg.getGeo().getLat() != 0.0f && msg.getGeo().getLon() != 0.0f;
 
             if (!checkRepostsCount && !checkCommentsCount && !checkPic && !checkGps) {
                 holder.count_layout.setVisibility(View.INVISIBLE);
