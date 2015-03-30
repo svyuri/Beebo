@@ -24,7 +24,7 @@ public class DMActivity extends AbstractAppActivity {
         mToolBar = (Toolbar) findViewById(R.id.settingToolBar);
         UserBean bean = (UserBean) getIntent().getParcelableExtra("user");
 
-        mToolBar.setTitle("私信对话");
+        mToolBar.setTitle(R.string.private_message_list);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()

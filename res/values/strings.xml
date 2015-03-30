@@ -3,6 +3,7 @@
 
     <string name="app_name">iBeebo</string>
     
+    <string name="private_message_list">"私信对话"</string>
     <string name="action_settings">设置</string>
     <string name="img_folder_name">文件名称</string>
     <string name="img_number">张</string>
@@ -137,7 +138,7 @@
     <string name="is_following_me">正在关注</string>
 
     <!-- main category -->
-    <string name="mentions">与我相关</string>
+    <string name="mentions_me">与我相关</string>
     <string name="comments">评论</string>
     <string name="comments_weibo">评论微博</string>
     <string name="discover">探索</string>

@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 public class NotifyActivity extends TranslucentStatusBarActivity {
@@ -25,7 +24,7 @@ public class NotifyActivity extends TranslucentStatusBarActivity {
          mToolbar = (Toolbar) findViewById(R.id.hotWeiboToolbar);
          
          buildContent();
-         mToolbar.setTitle("与我相关");
+         mToolbar.setTitle(R.string.mentions_me);
          disPlayHomeAsUp(mToolbar);
     }
     @Override
