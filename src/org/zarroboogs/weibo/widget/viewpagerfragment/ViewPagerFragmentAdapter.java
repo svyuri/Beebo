@@ -1,18 +1,19 @@
 package org.zarroboogs.weibo.widget.viewpagerfragment;
 
+import java.util.ArrayList;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.SparseArray;
 
 import org.zarroboogs.weibo.support.lib.AppFragmentPagerAdapter;
 
 public class ViewPagerFragmentAdapter extends AppFragmentPagerAdapter {
 
-	private SparseArray<ChildPage> mFragmentList;
+	private ArrayList<ChildPage> mFragmentList;
 
-	public ViewPagerFragmentAdapter(Fragment fragment, ViewPager viewPager, FragmentManager fm, SparseArray<ChildPage> fragmentList) {
+	public ViewPagerFragmentAdapter(Fragment fragment, ViewPager viewPager, FragmentManager fm, ArrayList<ChildPage> fragmentList) {
 		super(fm);
 		this.mFragmentList = fragmentList;
 

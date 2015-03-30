@@ -1,6 +1,8 @@
 
 package org.zarroboogs.weibo.widget.viewpagerfragment;
 
+import java.util.ArrayList;
+
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
@@ -13,7 +15,6 @@ import com.example.android.common.view.SlidingTabLayout;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,11 @@ public abstract class ViewPagerFragment extends BaseStateFragment implements Mai
 
     private ViewPager viewPager;
 
-    private SparseArray<ChildPage> childrenFragments = new SparseArray<ChildPage>();
+    private ArrayList<ChildPage> childrenFragments = new ArrayList<ChildPage>();
 
     private SlidingTabLayout mSlidingTabLayout;
 
-    public abstract SparseArray<ChildPage> buildChildPage();
+    public abstract ArrayList<ChildPage> buildChildPage();
     
     public abstract void onViewPageSelected(int id);
     

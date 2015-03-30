@@ -1,6 +1,8 @@
 
 package org.zarroboogs.weibo.fragment;
 
+import java.util.ArrayList;
+
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.UnreadTabIndex;
@@ -11,7 +13,6 @@ import org.zarroboogs.weibo.widget.viewpagerfragment.ViewPagerFragment;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.SparseArray;
 
 public class AtMeTimeLineFragment extends ViewPagerFragment {
 
@@ -30,23 +31,23 @@ public class AtMeTimeLineFragment extends ViewPagerFragment {
     }
 
 	@Override
-	public SparseArray<ChildPage> buildChildPage() {
+	public ArrayList<ChildPage> buildChildPage() {
 		// TODO Auto-generated method stub
-		SparseArray<ChildPage> sparseArray = new SparseArray<ChildPage>();
+		ArrayList<ChildPage> sparseArray = new ArrayList<ChildPage>();
 		
 		Resources re = getActivity().getResources();
 		
-		sparseArray.append(AT_ME_WEIBO,new ChildPage(
+		sparseArray.add(AT_ME_WEIBO,new ChildPage(
 				re.getString(R.string.mentions_weibo),getMentionsWeiboTimeLineFragment()));
 		
-		sparseArray.append(AT_ME_COMMENT,new ChildPage(
+		sparseArray.add(AT_ME_COMMENT,new ChildPage(
 				re.getString(R.string.mentions_to_me), getMentionsCommentTimeLineFragment()));
         
-		sparseArray.append(COMMENT_TO_ME,new ChildPage(
+		sparseArray.add(COMMENT_TO_ME,new ChildPage(
 				re.getString(R.string.all_people_send_to_me), getCommentsToMeTimeLineFragment()));
 		
 		
-		sparseArray.append(DM_INDEX, new ChildPage(
+		sparseArray.add(DM_INDEX, new ChildPage(
 				re.getString(R.string.private_message), getDMFragment()));
 		
 //		sparseArray.append(AtMeTimeLineFragment.COMMENT_BY_ME,new ChildPage(

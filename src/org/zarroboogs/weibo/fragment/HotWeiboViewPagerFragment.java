@@ -2,9 +2,12 @@
 package org.zarroboogs.weibo.fragment;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.widget.viewpagerfragment.ChildPage;
 import org.zarroboogs.weibo.widget.viewpagerfragment.ViewPagerFragment;
-
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -20,7 +23,7 @@ public class HotWeiboViewPagerFragment extends ViewPagerFragment {
     }
 
     @Override
-	public SparseArray<ChildPage> buildChildPage() {
+	public ArrayList<ChildPage> buildChildPage() {
 		// TODO Auto-generated method stub
     	SparseArray<ChildPage> sparseArray = new SparseArray<ChildPage>();
 		
@@ -37,7 +40,18 @@ public class HotWeiboViewPagerFragment extends ViewPagerFragment {
 		sparseArray.append(9, new ChildPage("科技", new HotWeiboFragmentKeji()) );
 		sparseArray.append(10, new ChildPage("旅行", new HotWeiboFragmentTravel()) );
 		sparseArray.append(11, new ChildPage("美图", new HotWeiboFragmentMeiTu()) );
-		return sparseArray;
+		
+		String[] select = SettingUtils.getHotWeiboSelected();
+		
+		Arrays.sort(select);
+		
+		ArrayList<ChildPage> result = new ArrayList<ChildPage>();
+		for (String string : select) {
+			int key = Integer.valueOf(string);
+			result.add(sparseArray.get(key));
+		}
+		
+		return result;
 	}
 
 	@Override
