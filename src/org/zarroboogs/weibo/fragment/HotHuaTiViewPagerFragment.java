@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.zarroboogs.devutils.DevLog;
-import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.widget.viewpagerfragment.ChildPage;
@@ -66,7 +64,8 @@ public class HotHuaTiViewPagerFragment extends ViewPagerFragment {
 	@Override
 	public void onViewPageSelected(int id) {
 		// TODO Auto-generated method stub
-		
+		BaseHotHuaTiFragment bf = (BaseHotHuaTiFragment) getCurrentFargment();
+		bf.onPageSelected();
 	}
 	
 	@Override

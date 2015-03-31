@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.weibo.GlobalContext;
@@ -336,6 +337,7 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 	@Override
 	void onPageSelected() {
 		// TODO Auto-generated method stub
+		DevLog.printLog("onViewPageSelected", "onPageSelected-----");
 		if (TextUtils.isEmpty(getGsid())) {
 			loadGsid();
 		}else {
