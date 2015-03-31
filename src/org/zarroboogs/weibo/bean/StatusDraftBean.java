@@ -4,9 +4,6 @@ package org.zarroboogs.weibo.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * User: qii Date: 12-10-21
- */
 public class StatusDraftBean implements Parcelable {
     private String content;
     private String pic;

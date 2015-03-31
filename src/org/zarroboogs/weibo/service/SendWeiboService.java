@@ -20,6 +20,7 @@ import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileUploaderHttpHelper;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.WriteWeiboActivity;
+import org.zarroboogs.weibo.activity.WriteWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.GeoBean;
@@ -295,7 +296,7 @@ public class SendWeiboService extends Service {
                     .setOnlyAlertOnce(true).setAutoCancel(true)
                     .setSmallIcon(R.drawable.send_failed).setOngoing(false);
 
-            Intent notifyIntent = WriteWeiboActivity.startBecauseSendFailed(SendWeiboService.this, account, content,
+            Intent notifyIntent = WriteWeiboWithAppSrcActivity.startBecauseSendFailed(SendWeiboService.this, account, content,
                     picPath, geoBean, statusDraftBean,
                     String.format(SendWeiboService.this.getString(R.string.failed_reason), e.getError()));
 

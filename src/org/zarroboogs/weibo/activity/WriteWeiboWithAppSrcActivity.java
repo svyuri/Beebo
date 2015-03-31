@@ -12,6 +12,8 @@ import org.zarroboogs.weibo.ChangeWeibaAdapter;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.AccountBean;
+import org.zarroboogs.weibo.bean.GeoBean;
+import org.zarroboogs.weibo.bean.StatusDraftBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
@@ -102,6 +104,22 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
     private GridView mNinePicGridView;
     private NinePicGriViewAdapter mNinePicAdapter;
+    
+    public static Intent startBecauseSendFailed(Context context, AccountBean accountBean, String content, String picPath,
+            GeoBean geoBean,
+            StatusDraftBean statusDraftBean, String failedReason) {
+        Intent intent = new Intent(context, WriteWeiboWithAppSrcActivity.class);
+        intent.setAction(WriteWeiboActivity.ACTION_SEND_FAILED);
+        intent.putExtra(Constants.ACCOUNT, accountBean);
+        intent.putExtra("content", content);
+        intent.putExtra("failedReason", failedReason);
+        intent.putExtra("picPath", picPath);
+        intent.putExtra("geoBean", geoBean);
+        intent.putExtra("statusDraftBean", statusDraftBean);
+        return intent;
+    }
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,6 +234,20 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
 
+        Intent intent = getIntent();
+        if (WriteWeiboActivity.ACTION_SEND_FAILED.equals(intent.getAction())) {
+        	mEditText.setText(intent.getStringExtra("content"));
+        	String picUrl = intent.getStringExtra("picPath");
+        	if (!TextUtils.isEmpty(picUrl)) {
+        		SendImgData.getInstance().clearSendImgs();
+        		SendImgData.getInstance().clearReSizeImgs();
+        		
+        		SendImgData.getInstance().addSendImg(picUrl);
+				refreshNineGridView();
+			}
+        	
+        	mAccountBean = intent.getParcelableExtra(Constants.ACCOUNT);
+		}
 
     }
     
