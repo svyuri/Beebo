@@ -23,9 +23,6 @@ import org.zarroboogs.weibo.support.utils.Utility;
 
 import com.umeng.analytics.MobclickAgent;
 
-/**
- * User: Jiang Qi Date: 12-8-2
- */
 public class WriteRepostActivity extends AbstractWriteActivity<MessageBean> {
 
     public static final String ACTION_DRAFT = "org.zarroboogs.weibo.DRAFT";

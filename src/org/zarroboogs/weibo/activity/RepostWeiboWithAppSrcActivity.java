@@ -16,9 +16,11 @@ import org.zarroboogs.weibo.activity.WriteWeiboWithAppSrcActivity.MyDrawerToggle
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
+import org.zarroboogs.weibo.dao.RepostNewMsgDao;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.service.RepostWithAppSrcServices;
+import org.zarroboogs.weibo.service.SendRepostService;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.SmileyPicker;
@@ -440,15 +442,26 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     }
     
     protected void repostWeibo() {
-        	
-            Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, RepostWithAppSrcServices.class);
-            
-            intent.putExtra(RepostWithAppSrcServices.IS_COMMENT, mComments.isChecked());
-            intent.putExtra(RepostWithAppSrcServices.TEXT_CONTENT,getRepostTextContent());
-            intent.putExtra(RepostWithAppSrcServices.APP_SRC, getWeiba());
-            intent.putExtra(RepostWithAppSrcServices.WEIBO_MID, msg.getId());
-            startService(intent);
-            finish();
+        	if (Constants.isBeeboPlus) {
+                Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, RepostWithAppSrcServices.class);
+                
+                intent.putExtra(RepostWithAppSrcServices.IS_COMMENT, mComments.isChecked());
+                intent.putExtra(RepostWithAppSrcServices.TEXT_CONTENT,getRepostTextContent());
+                intent.putExtra(RepostWithAppSrcServices.APP_SRC, getWeiba());
+                intent.putExtra(RepostWithAppSrcServices.WEIBO_MID, msg.getId());
+                startService(intent);
+                finish();
+			}else {
+	            String is_comment = mComments.isChecked() ? "" :  RepostNewMsgDao.ENABLE_COMMENT;
+	            Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, SendRepostService.class);
+	            intent.putExtra("oriMsg", msg);
+	            intent.putExtra("content", getRepostTextContent());
+	            intent.putExtra("is_comment", is_comment);
+	            intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+	            intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+	            startService(intent);
+	            finish();
+			}
     }
 
     @Override
