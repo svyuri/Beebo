@@ -175,7 +175,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 		HotHuaTiViewPagerFragment fragment = (HotHuaTiViewPagerFragment) rightFragments.get(HOT_HUA_TI);
 		
 		((MainTimeLineActivity) getActivity()).setCurrentFragment(fragment);
-		
+		fragment.onViewPageSelected(0);
 		ft.show(fragment);
 		ft.commit();
 
@@ -215,7 +215,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 		HotWeiboViewPagerFragment fragment = (HotWeiboViewPagerFragment) rightFragments.get(HOT_WEIBO);
 
 		((MainTimeLineActivity) getActivity()).setCurrentFragment(fragment);
-		
+		fragment.onViewPageSelected(0);
 		ft.show(fragment);
 		ft.commit();
 
