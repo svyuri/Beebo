@@ -5,12 +5,14 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.List;
 
+import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
 import org.zarroboogs.weibo.ChangeWeibaAdapter;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
+import org.zarroboogs.weibo.activity.WriteWeiboWithAppSrcActivity.MyDrawerToggle;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
@@ -18,6 +20,7 @@ import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.service.RepostWithAppSrcServices;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.SmileyPicker;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
@@ -104,9 +107,17 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
         mToolbar = (Toolbar) findViewById(R.id.writeWeiboToolBar);
 
-        mDrawerToggle = new MyDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
-        mDrawerToggle.syncState();
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        if (Constants.isBeeboPlus) {
+            mDrawerToggle = new MyDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
+            mDrawerToggle.syncState();
+            mDrawerLayout.setDrawerListener(mDrawerToggle);
+		}else {
+	        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+	        disPlayHomeAsUp(mToolbar);
+	        RelativeLayout editAppSrc = ViewUtility.findViewById(this, R.id.editAppSrc);
+	        editAppSrc.setVisibility(View.GONE);
+		}
+
 
         mAccountBean = GlobalContext.getInstance().getAccountBean();
         // mAccountBean = getAccount();

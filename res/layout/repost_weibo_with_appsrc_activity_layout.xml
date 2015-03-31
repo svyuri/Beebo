@@ -198,6 +198,7 @@
                 </ScrollView>
 
                 <RelativeLayout
+                            android:layout_alignWithParentIfMissing="true"
                     android:id="@+id/commentRoot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

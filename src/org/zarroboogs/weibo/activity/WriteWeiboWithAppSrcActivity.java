@@ -20,6 +20,7 @@ import org.zarroboogs.weibo.service.SendWeiboService;
 import org.zarroboogs.weibo.service.SendWithAppSrcServices;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.SmileyPicker;
 import org.zarroboogs.weibo.widget.galleryview.ViewPagerActivity;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
@@ -111,9 +112,17 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
         mToolbar = (Toolbar) findViewById(R.id.writeWeiboToolBar);
 
-        mDrawerToggle = new MyDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
-        mDrawerToggle.syncState();
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        if (Constants.isBeeboPlus) {
+            mDrawerToggle = new MyDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
+            mDrawerToggle.syncState();
+            mDrawerLayout.setDrawerListener(mDrawerToggle);
+		}else {
+	        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+	        disPlayHomeAsUp(mToolbar);
+	        RelativeLayout editAppSrc = ViewUtility.findViewById(this, R.id.editAppSrc);
+	        editAppSrc.setVisibility(View.GONE);
+		}
+
 
         mAccountBean = getIntent().getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
         atContent = getIntent().getStringExtra("content");
@@ -144,6 +153,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 		});
 
         appSrcBtn = (Button) findViewById(R.id.appSrcBtn);
+        
         appSrcBtn.setText(getWeiba().getText());
 
         mSelectPhoto = (ImageButton) findViewById(R.id.imageButton1);
