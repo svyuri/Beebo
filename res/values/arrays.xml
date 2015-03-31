@@ -175,7 +175,7 @@
     
     <string-array name="hot_huati_multi_select_title">
 <!--         <item>1小时热榜</item> -->
-        <item>幽默搞笑</item>
+<!--         <item>幽默搞笑</item> -->
         <item>电影热榜</item>
         <item>消费数码</item>
         <item>IT互联网</item>
@@ -185,7 +185,7 @@
     </string-array>
     <string-array name="hot_huati_multi_select_value">
 <!--         <item>0</item> -->
-        <item>1</item>
+<!--         <item>1</item> -->
         <item>2</item>
         <item>3</item>
         <item>4</item>

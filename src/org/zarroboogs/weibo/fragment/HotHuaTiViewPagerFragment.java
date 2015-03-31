@@ -4,7 +4,9 @@ package org.zarroboogs.weibo.fragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.Utility;
@@ -42,9 +44,16 @@ public class HotHuaTiViewPagerFragment extends ViewPagerFragment {
 		String[] select = SettingUtils.getHotHuaTioSelected();
 		Arrays.sort(select);
 		
+		List<String> selected = new ArrayList<String>();
+		for (String str : select) {
+			selected.add(str);
+		}
 		ArrayList<ChildPage> result = new ArrayList<ChildPage>();
-		for (int i = 0; i < select.length; i++) {
-			
+		if (!selected.contains("0")) {
+			result.add(sparseArray.get(0));
+		}
+		if (!selected.contains("1")) {
+			result.add(sparseArray.get(1));
 		}
 		for (String string : select) {
 			int key = Integer.valueOf(string);
