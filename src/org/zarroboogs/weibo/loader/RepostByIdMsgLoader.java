@@ -10,9 +10,6 @@ import org.zarroboogs.weibo.dao.RepostsTimeLineByIdDao;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * User: qii Date: 13-5-15
- */
 public class RepostByIdMsgLoader extends AbstractAsyncNetRequestTaskLoader<RepostListBean> {
 
     private static Lock lock = new ReentrantLock();

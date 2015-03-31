@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.ErrorCode;
 import org.zarroboogs.weibo.GlobalContext;
@@ -48,7 +49,7 @@ public class UpdateMessageTask extends MyAsyncTask<Void, Void, MessageBean> {
     @Override
     protected MessageBean doInBackground(Void... params) {
         try {
-            return new ShowStatusDao(GlobalContext.getInstance().getAccessToken(), msg.getId()).getMsg();
+            return new ShowStatusDao(GlobalContext.getInstance().getAccessTokenHack(), msg.getId()).getMsg();
         } catch (WeiboException e) {
             this.e = e;
             cancel(true);
@@ -61,6 +62,7 @@ public class UpdateMessageTask extends MyAsyncTask<Void, Void, MessageBean> {
         super.onCancelled(weiboMsgBean);
         if (Utility.isAllNotNull(getActivity(), this.e)) {
             Toast.makeText(getActivity(), e.getError(), Toast.LENGTH_SHORT).show();
+            DevLog.printLog("BrowserWeiboMsgFragment", "UpdateMessageTask onCancelled: " + e.getError());
             if (e.getError_code() == ErrorCode.DELETED) {
                 setTextViewDeleted();
             }

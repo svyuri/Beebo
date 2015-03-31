@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.fragment;
 
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.file.FileLocationMethod;
@@ -426,7 +427,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
         layout.time.setText(msg.getTimeInFormat());
 
-        if (msg.getGeo() != null) {
+        if (msg.getGeo() != null && msg.getGeo().getLat() != 0.0 && msg.getGeo().getLon() != 0.0) {
             layout.mapView.setVisibility(View.VISIBLE);
             if (Utility.isTaskStopped(geoTask)) {
                 geoTask = new GetWeiboLocationInfoTask(getActivity(), msg.getGeo(), layout.mapView, layout.location);
@@ -1031,6 +1032,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
                     }
                     if (Utility.isAllNotNull(exception)) {
                         Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
+                        DevLog.printLog("BrowserWeiboMsgFragment", "new-loadComments: " + exception.getError());
                     } else {
                         if (data != null && data.getSize() > 0) {
                             commentList.replaceAll(data);
@@ -1049,6 +1051,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
                     if (Utility.isAllNotNull(exception)) {
                         Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
+                        DevLog.printLog("BrowserWeiboMsgFragment", "old-loadComments: " + exception.getError());
                         showErrorFooterView();
                     } else {
                         if (data != null && data.getSize() <= 1) {
@@ -1076,7 +1079,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
         @Override
         public Loader<AsyncTaskLoaderResult<RepostListBean>> onCreateLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getAccessToken();
+            String token = GlobalContext.getInstance().getAccessTokenHack();
 
             switch (id) {
                 case NEW_REPOST_LOADER_ID:
@@ -1115,6 +1118,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
                     }
                     if (Utility.isAllNotNull(exception)) {
                         Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
+                        DevLog.printLog("BrowserWeiboMsgFragment", "loadRepost: " + exception.getError());
                     } else {
                         if (data != null && data.getSize() > 0) {
                             repostList.replaceAll(data);
@@ -1133,6 +1137,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
                     if (Utility.isAllNotNull(exception)) {
                         Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
+                        DevLog.printLog("BrowserWeiboMsgFragment", "old-loadRepost: " + exception.getError());
                         showErrorFooterView();
                     } else {
                         if (data != null && data.getSize() <= 1) {

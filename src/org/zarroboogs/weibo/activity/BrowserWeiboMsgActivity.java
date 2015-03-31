@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.activity;
 
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.GlobalContext;
@@ -346,6 +347,7 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
             super.onCancelled(aBoolean);
             if (this.e != null) {
                 Toast.makeText(BrowserWeiboMsgActivity.this, e.getError(), Toast.LENGTH_SHORT).show();
+                DevLog.printLog("BrowserWeiboMsgFragment", "Activity:onCancelled " + e.getError());
             }
         }
 
@@ -374,7 +376,8 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
         }
     }
 
-    private LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<MessageBean>> refreshCallback = new LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<MessageBean>>() {
+    private LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<MessageBean>> refreshCallback = 
+    		new LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<MessageBean>>() {
         @Override
         public Loader<AsyncTaskLoaderResult<MessageBean>> onCreateLoader(int id, Bundle args) {
             return new RefreshLoader(BrowserWeiboMsgActivity.this, msgId);
@@ -399,6 +402,7 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
                     if (exception != null) {
                         CommonErrorDialogFragment userInfoActivityErrorDialog = CommonErrorDialogFragment
                                 .newInstance(exception.getError());
+                        DevLog.printLog("BrowserWeiboMsgFragment", "Activity: " + exception.getError());
                         getSupportFragmentManager().beginTransaction()
                                 .add(userInfoActivityErrorDialog, CommonErrorDialogFragment.class.getName()).commit();
                     }

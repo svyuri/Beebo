@@ -9,9 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 
-/**
- * User: qii Date: 13-12-4
- */
 public class CommonProgressDialogFragment extends DialogFragment {
 
     public CommonProgressDialogFragment() {
