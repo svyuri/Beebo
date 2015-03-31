@@ -13,9 +13,6 @@ import org.zarroboogs.weibo.bean.GeoBean;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: qii Date: 12-7-29
- */
 public class StatusNewMsgDao {
 
     private String access_token;

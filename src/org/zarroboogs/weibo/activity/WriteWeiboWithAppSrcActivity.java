@@ -445,23 +445,22 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 			    if (checkDataEmpty()) {
 			        mEmptyToast.show();
 			    } else {
-			    	if (false) {
-			    		String charSequence = mEditText.getText().toString();
-			    		ArrayList<String> send = SendImgData.getInstance().getSendImgs();
-			    		if (send != null && send.size() > 0) {
-			    			executeTask(charSequence,send.get(0));
-						}else {
-							executeTask(charSequence,null);
-						}
-			    		
-					}else {
-//				        showDialogForWeiBo();
-//				        startPicCacheAndSendWeibo();
+			    	
+		    		ArrayList<String> send = SendImgData.getInstance().getSendImgs(); 
+		    		
+		    		if (send.size() >1) {
 						Intent intent = new Intent(getApplicationContext(), SendWithAppSrcServices.class);
 						intent.putExtra(SendWithAppSrcServices.APP_SRC, getWeiba());
 						intent.putExtra(SendWithAppSrcServices.TEXT_CONTENT, getWeiboTextContent());
 						startService(intent);
 						finish();
+					}else {
+			    		String charSequence = getWeiboTextContent();
+			    		if (send != null && send.size() > 0) {
+			    			executeTask(charSequence,send.get(0));
+						}else {
+							executeTask(charSequence,null);
+						}
 					}
 			    }
 			} else {
