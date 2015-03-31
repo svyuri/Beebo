@@ -4,9 +4,7 @@ import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.HotHuaTiActivity;
 import org.zarroboogs.weibo.activity.HotModelActivity;
-import org.zarroboogs.weibo.activity.HotWeiboActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.activity.MyInfoActivity;
 import org.zarroboogs.weibo.activity.NearbyTimeLineActivity;
@@ -23,7 +21,6 @@ import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.BlurImageView;
 
-import android.R.integer;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -228,7 +225,14 @@ public class LeftMenuFragment extends BaseStateFragment {
 	}
 
 	private void showSettingPage() {
-		startActivity(new Intent(getActivity(), SettingActivity.class));
+		BroadcastReceiver receiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
+				startActivity(new Intent(getActivity(), SettingActivity.class));
+			}
+		};
+		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(AppEventAction.SLIDING_MENU_CLOSED_BROADCAST));
 	}
 
 	private boolean showHomePage(boolean reset) {
