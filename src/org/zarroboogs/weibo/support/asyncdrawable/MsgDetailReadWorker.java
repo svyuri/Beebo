@@ -17,6 +17,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +27,7 @@ import android.widget.ProgressBar;
 import java.util.ArrayList;
 
 /**
- * User: qii Date: 13-2-8 insert progress update listener into download worker if it exists or
+ * insert progress update listener into download worker if it exists or
  * create a new download worker
  */
 public class MsgDetailReadWorker extends MyAsyncTask<Void, Integer, String> {
@@ -103,21 +105,30 @@ public class MsgDetailReadWorker extends MyAsyncTask<Void, Integer, String> {
     };
 
     @Override
-    protected void onProgressUpdate(Integer... values) {
+    protected void onProgressUpdate(final Integer... values) {
         super.onProgressUpdate(values);
         if (this.getStatus() == Status.RUNNING) {
-            pb.setVisibility(View.VISIBLE);
-            pb.setIndeterminate(false);
+        	mHadler.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+		            pb.setVisibility(View.VISIBLE);
+		            pb.setIndeterminate(false);
 
-            Integer progress = values[0];
-            Integer max = values[1];
+		            Integer progress = values[0];
+		            Integer max = values[1];
 
-            pb.setMax(max);
-            pb.setProgress(progress);
+		            pb.setMax(max);
+		            pb.setProgress(progress);
+				}
+			});
+
 
         }
     }
 
+    Handler mHadler = new Handler(Looper.getMainLooper());
     @Override
     protected void onCancelled(String bitmap) {
         pb.setVisibility(View.INVISIBLE);
