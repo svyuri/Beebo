@@ -30,9 +30,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-/**
- * User: qii Date: 13-1-20
- */
 @SuppressLint("NewApi")
 public class SendRepostService extends Service {
 

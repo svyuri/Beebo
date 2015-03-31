@@ -15,6 +15,7 @@ import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.activity.WriteWeiboWithAppSrcActivity.MyDrawerToggle;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.MessageBean;
+import org.zarroboogs.weibo.bean.RepostDraftBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.dao.RepostNewMsgDao;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
@@ -98,6 +99,19 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     
     private CheckBox mComments;
 
+    public static Intent startBecauseSendFailed(Context context, AccountBean accountBean, String content,
+            MessageBean oriMsg, RepostDraftBean repostDraftBean,
+            String failedReason) {
+        Intent intent = new Intent(context, RepostWeiboWithAppSrcActivity.class);
+        intent.setAction(WriteRepostActivity.ACTION_SEND_FAILED);
+        intent.putExtra(Constants.ACCOUNT, accountBean);
+        intent.putExtra("content", content);
+        intent.putExtra("oriMsg", oriMsg);
+        intent.putExtra("failedReason", failedReason);
+        intent.putExtra("repostDraftBean", repostDraftBean);
+        return intent;
+    }
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,7 +180,14 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         mRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
         Intent intent = getIntent();
-        handleNormalOperation(intent);
+        if (WriteRepostActivity.ACTION_SEND_FAILED.equals(intent.getAction())) {
+			mAccountBean = intent.getParcelableExtra(Constants.ACCOUNT);
+			mEditText.setText(intent.getStringExtra("content"));
+			msg = intent.getParcelableExtra("oriMsg");
+		}else {
+	        handleNormalOperation(intent);
+		}
+
         mDBmanager = new AppsrcDatabaseManager(getApplicationContext());
         listAdapter = new ChangeWeibaAdapter(this);
         listView = (PullToRefreshListView) findViewById(R.id.left_menu_list_view);
@@ -190,7 +211,8 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         });
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
-
+        
+        
     }
 
     private void showSmileyPicker(boolean showAnimation) {
