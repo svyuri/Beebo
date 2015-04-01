@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-	<release version="v3.0.0" versioncode="31">
-	    <change>这是测试版本，你可别给我搞砸了~</change>
-	    <change>不要发布或者分享给别人~</change>
-	    <change>否则你的菊花不保</change>
+	<release version="v3.0.0" versioncode="32">
+	    <change>Beebo正式改名为iBeebo</change>
+	    <change>不再提供改变尾巴功能</change>
+	    <change>添加通知中心页面</change>
+	    <change>改变主题为蓝色</change>
+	    <change>去掉点赞</change>
+	    <change>修改评论和转发数的位置</change>
+	    <change>不再要求用户输入密码</change>
+	    <change>简化授权流程</change>
+	    <change>修改热门的位置</change>
+	    <change>修改左侧抽屉菜单</change>
+	    <change>修改搜索位置</change>
+	    <change>在显著位置添加提醒铃铛</change>
+	    <change>其他性能方面的优化</change>
     </release>
 </changelog>
