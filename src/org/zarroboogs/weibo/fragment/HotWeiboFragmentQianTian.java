@@ -13,6 +13,7 @@ import org.zarroboogs.weibo.hot.hean.HotWeiboBean;
 import org.zarroboogs.weibo.hot.hean.HotWeiboErrorBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.Utility;
+import org.zarroboogs.weibo.widget.TopTipsView;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 
@@ -152,7 +153,7 @@ public class HotWeiboFragmentQianTian extends BaseHotWeiboFragment {
         }
     };
 
-    private void addNewDataAndRememberPosition(final List<MessageBean> newValue) {
+    private void addNewDataAndRememberPosition(final List<MessageBean> newValue, final MessageListBean mb) {
 
         int initSize = getListView().getCount();
 
@@ -167,7 +168,8 @@ public class HotWeiboFragmentQianTian extends BaseHotWeiboFragment {
 
                 @Override
                 public void run() {
-
+                	 newMsgTipBar.setValue(mb, false);
+                     newMsgTipBar.setType(TopTipsView.Type.AUTO);
                 }
             });
 
@@ -218,13 +220,16 @@ public class HotWeiboFragmentQianTian extends BaseHotWeiboFragment {
 		HotWeiboErrorBean error = gson.fromJson(jsonStr, HotWeiboErrorBean.class);
 		if (error != null && TextUtils.isEmpty(error.getErrmsg())) {
 			HotWeiboBean result = gson.fromJson(jsonStr, new TypeToken<HotWeiboBean>() {}.getType());
-			getDataList().addNewData(result.getMessageListBean());
+			MessageListBean mslBean = result.getMessageListBean();
+			getDataList().addNewData(mslBean);
 			List<MessageBean> list = result.getMessageBeans();
+			
 			if (SettingUtils.isReadStyleEqualWeibo()) {
+				newMsgTipBar.setValue(mslBean, true);
 				adapter.addNewData(list);
 				adapter.notifyDataSetChanged();
 			}else {
-				addNewDataAndRememberPosition(list);
+				addNewDataAndRememberPosition(list, mslBean);
 			}
 		}else {
 			Log.d("===========after_READ_JSON_DONE:", "-----------"+ error.getErrmsg());

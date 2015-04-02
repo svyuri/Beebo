@@ -22,6 +22,7 @@ import org.zarroboogs.weibo.support.asyncdrawable.TimeLineBitmapDownloader;
 import org.zarroboogs.weibo.support.gallery.GalleryAnimationActivity;
 import org.zarroboogs.weibo.support.lib.AnimationRect;
 import org.zarroboogs.weibo.support.utils.Utility;
+import org.zarroboogs.weibo.widget.TopTipsView;
 import org.zarroboogs.weibo.widget.WeiboDetailImageView;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
@@ -239,7 +240,7 @@ public class HotWeiboFragmentTravel extends BaseHotWeiboFragment {
         }
     };
 
-    private void addNewDataAndRememberPosition(final List<MessageBean> newValue) {
+    private void addNewDataAndRememberPosition(final List<MessageBean> newValue, final MessageListBean mb) {
 
         int initSize = getListView().getCount();
 
@@ -254,7 +255,8 @@ public class HotWeiboFragmentTravel extends BaseHotWeiboFragment {
 
                 @Override
                 public void run() {
-
+                	 newMsgTipBar.setValue(mb, false);
+                     newMsgTipBar.setType(TopTipsView.Type.AUTO);
                 }
             });
 
@@ -305,13 +307,16 @@ public class HotWeiboFragmentTravel extends BaseHotWeiboFragment {
 		HotWeiboErrorBean error = gson.fromJson(jsonStr, HotWeiboErrorBean.class);
 		if (error != null && TextUtils.isEmpty(error.getErrmsg())) {
 			HotWeiboBean result = gson.fromJson(jsonStr, new TypeToken<HotWeiboBean>() {}.getType());
-			getDataList().addNewData(result.getMessageListBean());
+			MessageListBean mslBean = result.getMessageListBean();
+			getDataList().addNewData(mslBean);
 			List<MessageBean> list = result.getMessageBeans();
+			
 			if (SettingUtils.isReadStyleEqualWeibo()) {
+				newMsgTipBar.setValue(mslBean, true);
 				adapter.addNewData(list);
 				adapter.notifyDataSetChanged();
 			}else {
-				addNewDataAndRememberPosition(list);
+				addNewDataAndRememberPosition(list, mslBean);
 			}
 		}else {
 			Log.d("===========after_READ_JSON_DONE:", "-----------"+ error.getErrmsg());

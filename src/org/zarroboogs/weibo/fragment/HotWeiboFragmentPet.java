@@ -22,6 +22,7 @@ import org.zarroboogs.weibo.support.asyncdrawable.TimeLineBitmapDownloader;
 import org.zarroboogs.weibo.support.gallery.GalleryAnimationActivity;
 import org.zarroboogs.weibo.support.lib.AnimationRect;
 import org.zarroboogs.weibo.support.utils.Utility;
+import org.zarroboogs.weibo.widget.TopTipsView;
 import org.zarroboogs.weibo.widget.WeiboDetailImageView;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
@@ -232,28 +233,29 @@ public class HotWeiboFragmentPet extends BaseHotWeiboFragment {
 		}
 	};
 
-	private void addNewDataAndRememberPosition(final List<MessageBean> newValue) {
+    private void addNewDataAndRememberPosition(final List<MessageBean> newValue, final MessageListBean mb) {
 
-		int initSize = getListView().getCount();
+        int initSize = getListView().getCount();
 
-		if (getActivity() != null && newValue.size() > 0) {
-			adapter.addNewData(newValue);
-			int index = getListView().getFirstVisiblePosition();
-			adapter.notifyDataSetChanged();
-			int finalSize = getListView().getCount();
-			final int positionAfterRefresh = index + finalSize - initSize + getListView().getHeaderViewsCount();
-			// use 1 px to show newMsgTipBar
-			Utility.setListViewSelectionFromTop(getListView(), positionAfterRefresh, 1, new Runnable() {
+        if (getActivity() != null && newValue.size() > 0) {
+            adapter.addNewData(newValue);
+            int index = getListView().getFirstVisiblePosition();
+            adapter.notifyDataSetChanged();
+            int finalSize = getListView().getCount();
+            final int positionAfterRefresh = index + finalSize - initSize + getListView().getHeaderViewsCount();
+            // use 1 px to show newMsgTipBar
+            Utility.setListViewSelectionFromTop(getListView(), positionAfterRefresh, 1, new Runnable() {
 
-				@Override
-				public void run() {
+                @Override
+                public void run() {
+                	 newMsgTipBar.setValue(mb, false);
+                     newMsgTipBar.setType(TopTipsView.Type.AUTO);
+                }
+            });
 
-				}
-			});
+        }
 
-		}
-
-	}
+    }
 
 	public void loadOldRepostData() {
 		if (getLoaderManager().getLoader(OLD_REPOST_LOADER_ID) != null || !canLoadOldRepostData) {
@@ -285,13 +287,16 @@ public class HotWeiboFragmentPet extends BaseHotWeiboFragment {
 		if (error != null && TextUtils.isEmpty(error.getErrmsg())) {
 			HotWeiboBean result = gson.fromJson(jsonStr, new TypeToken<HotWeiboBean>() {
 			}.getType());
-			getDataList().addNewData(result.getMessageListBean());
+			MessageListBean mslBean = result.getMessageListBean();
+			getDataList().addNewData(mslBean);
 			List<MessageBean> list = result.getMessageBeans();
+			
 			if (SettingUtils.isReadStyleEqualWeibo()) {
+				newMsgTipBar.setValue(mslBean, true);
 				adapter.addNewData(list);
 				adapter.notifyDataSetChanged();
 			}else {
-				addNewDataAndRememberPosition(list);
+				addNewDataAndRememberPosition(list, mslBean);
 			}
 		} else {
 			Log.d("===========after_READ_JSON_DONE:", "-----------" + error.getErrmsg());
