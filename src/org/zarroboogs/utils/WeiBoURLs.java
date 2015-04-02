@@ -178,127 +178,53 @@ public class WeiBoURLs {
     }
     
     public static String hotWeiboMeiTu(String gsid, int page) {
-		String url = "http://api.weibo.cn/2/cardlist?"
-				+ "gsid=" + gsid
-				+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051393010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.3__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=10&containerid=102803_ctg1_2899_-_ctg1_2899&fid=102803_ctg1_2899_-_ctg1_2899&lfid=2305090002_1573&"
-				+ "page=" + page;
-		return url;
+    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2899", page);
 	}
     // lvxing
     public static String hotWeiboTravel(String gsid, int page) {
-		String url = "http://api.weibo.cn/2/cardlist?"
-				+ "gsid=" + gsid
-				+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051393010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.3__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=10&containerid=102803_ctg1_2599_-_ctg1_2599&fid=102803_ctg1_2599_-_ctg1_2599&lfid=2305090002_1573&"
-				+ "page=" + page;
-		return url;
+    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2599", page);
 	}
     // 科技
     public static String hotWeiboKeji(String gsid, int page){
-    	String url = "http://api.weibo.cn/2/cardlist?"
-    			+ "gsid=" + gsid
-    			+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051393010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.3__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=10&containerid=102803_ctg1_2099_-_ctg1_2099&fid=102803_ctg1_2099_-_ctg1_2099&lfid=2305090002_1573&"
-    			+ "page=" + page;
-    	return url;
+    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2099", page);
     }
     // 美女
     public static String hotWeiboMeiNv(String gsid, int page){
-    	String url = "http://api.weibo.cn/2/cardlist?"
-    			+ "gsid=" + gsid
-    			+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051393010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.3__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=10&containerid=102803_ctg1_2299_-_ctg1_2299&fid=102803_ctg1_2299_-_ctg1_2299&lfid=2305090002_1573&"
-    			+ "page=" + page;
-    	return url;
+    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2299", page);
     }
     // 萌宠
     public static String hotWeiboPet(String gsid, int page){
-    	String url = "http://api.weibo.cn/2/cardlist?"
-    			+ "gsid=" + gsid
-    			+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051393010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.3__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=10&containerid=102803_ctg1_2799_-_ctg1_2799&fid=102803_ctg1_2799_-_ctg1_2799&lfid=2305090002_1573&"
-    			+ "page=" + page;
-    	return url;
+    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2799", page);
     }
-    
     // 囧人糗事
     public static String hotWeioJiushi(String gsid, int page) {
-		String url = "http://api.weibo.cn/2/cardlist?"
-				+ "gsid=" + gsid
-				+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051393010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.3__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=10&containerid=102803_ctg1_6199_-_ctg1_6199&fid=102803_ctg1_6199_-_ctg1_6199&lfid=2305090002_1573&"
-				+ "page=" + page;
-		return url;
+    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "6199", page);
 	}
     //笑话
     public static String hotWeiboXiaoHua(String gsid, int page) {
-		String url = "http://api.weibo.cn/2/cardlist?"
-				+ "gsid=" + gsid
-				+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051393010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.3__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=10&containerid=102803_ctg1_1899_-_ctg1_1899&fid=102803_ctg1_1899_-_ctg1_1899&lfid=2305090002_1573&"
-				+ "page=" + page;
-		return url;
+    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "1899", page);
 	}
     // 爆料
     public static String hotWeiboBaoLiao(String gsid, int page) {
-		String url = "http://api.weibo.cn/2/cardlist?"
-				+ "gsid=" + gsid
-				+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051393010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.3__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=10&containerid=102803_ctg1_1799_-_ctg1_1799&fid=102803_ctg1_1799_-_ctg1_1799&lfid=2305090002_1573&"
-				+ "page=" + page;
-		return url;
+    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "1799", page);
 	}
     // 视频
     public static String hotWeiboVideo(String gsid, int page){
-    	String url = "http://api.weibo.cn/2/cardlist?"
-    			+ "gsid=" + gsid
-    			+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051393010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.3__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=10&containerid=102803_ctg1_1199_-_ctg1_1199&fid=102803_ctg1_1199_-_ctg1_1199&lfid=2305090002_1573&"
-    			+ "page=" + page;
-    	return url;
+    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "1199", page);
     }
-    
     // 神最右
     public static String hotWeiboZuiyou(String gsid, int page){
     	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "6399", page);
     }
     public static String hotWeiboYestoday(String gsid, int page){
-    	
-    	String url = "http://api.weibo.cn/2/cardlist?"
-    			+ "gsid=" + gsid
-    			+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051293010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=10&containerid=102803_ctg1_8899_-_ctg1_8899&fid=102803_ctg1_8899_-_ctg1_8899&lfid=102803_ctg1_8999_-_ctg1_8999&"
-    			+ "page=" + page;
-    	return url;
-    	
+    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "8899", page);
     }
-    
-    
     public static String hotWeiboQianTian(String gsid, int page){
-    	
-    	String url = "http://api.weibo.cn/2/cardlist?"
-    			+ "gsid=" + gsid
-    			+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051293010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=10&containerid=102803_ctg1_8799_-_ctg1_8799&fid=102803_ctg1_8799_-_ctg1_8799&lfid=102803_ctg1_8899_-_ctg1_8899&"
-    			+ "page=" + page;
-    	return url;
-    	
+    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "8799", page);
     }
-    
-    
     // hack 小时热门微博
     public static String hotWeiboUrl(String gsid, int page){
-		String url = "http://api.weibo.cn/2/cardlist?"
-				+ "gsid="+ gsid + "&"
-				+ "wm=3333_2001&"
-				+ "i=d5d6f09&"
-				+ "b=1&"
-				+ "from=1051293010&"
-				+ "c=iphone&"
-				+ "v_p=18&"
-				+ "skin=default&"
-				+ "v_f=1&"
-				+ "s=a57eef07&"
-				+ "lang=zh_CN&"
-				+ "ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2&"
-				+ "uicode=10000011&"
-				+ "luicode=10000011&"
-				+ "count=10&"
-				+ "containerid=102803_ctg1_8999_-_ctg1_8999&"
-				+ "fid=102803_ctg1_8999_-_ctg1_8999&"
-				+ "lfid=102803&"
-				+ "page="+page+"";
-		return url;
+    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "8999", page);
     }
 
     //消费数码
