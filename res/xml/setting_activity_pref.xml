@@ -43,6 +43,15 @@
             android:summary="切换微博帐号"
             android:title="切换帐号" >
         </Preference>
+		<ListPreference
+            android:defaultValue="1"
+            android:dialogTitle="阅读方式"
+            android:entries="@array/read_style_mode"
+            android:entryValues="@array/read_style_mode_value"
+            android:key="read_style"
+            android:summary="设置浏览微博方式"
+            android:title="阅读方式" />
+                
         <Preference
             android:summary="新消息通知"
             android:title="@string/notification" >

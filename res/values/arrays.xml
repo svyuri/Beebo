@@ -126,12 +126,12 @@
         <item>3</item>
     </string-array>
     <string-array name="read_style_mode">
-        <item>滚动到第一条（新浪微博）</item>
-        <item>保留阅读位置（Twitter）</item>
+        <item>正向阅读</item>
+        <item>逆向阅读</item>
     </string-array>
     <string-array name="read_style_mode_value">
+        <item>0</item>
         <item>1</item>
-        <item>2</item>
     </string-array>
     <string-array name="hot_weibo_multi_select_title">
 <!--         <item>当前</item> -->
