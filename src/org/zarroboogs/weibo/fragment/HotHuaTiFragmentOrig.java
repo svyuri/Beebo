@@ -288,7 +288,12 @@ public class HotHuaTiFragmentOrig extends BaseHotHuaTiFragment {
 			}
 		}
 		
-		addNewDataAndRememberPosition(result);
+		if (SettingUtils.isReadStyleEqualWeibo()) {
+			adapter.addNewData(result);
+			adapter.notifyDataSetChanged();
+		}else {
+			addNewDataAndRememberPosition(result);
+		}
 		
 		pullToRefreshListView.onRefreshComplete();
 	}
