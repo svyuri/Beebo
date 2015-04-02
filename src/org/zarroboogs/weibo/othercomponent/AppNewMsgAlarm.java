@@ -26,13 +26,13 @@ public class AppNewMsgAlarm {
         long time = AlarmManager.INTERVAL_DAY;
 
         if (value.equals("1")) {
-            time = (3 * 60 * 1000);
+            time = (1000 * 30);
         }
         if (value.equals("2")) {
-            time = (AlarmManager.INTERVAL_FIFTEEN_MINUTES);
+            time = (1000 * 60 * 2);
         }
         if (value.equals("3")) {
-            time = (AlarmManager.INTERVAL_HALF_HOUR);
+            time = (1000 * 60 * 5);
         }
         
         if (DEBUG) {
