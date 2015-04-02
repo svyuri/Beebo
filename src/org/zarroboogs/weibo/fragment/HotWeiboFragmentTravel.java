@@ -307,7 +307,12 @@ public class HotWeiboFragmentTravel extends BaseHotWeiboFragment {
 			HotWeiboBean result = gson.fromJson(jsonStr, new TypeToken<HotWeiboBean>() {}.getType());
 			getDataList().addNewData(result.getMessageListBean());
 			List<MessageBean> list = result.getMessageBeans();
-			addNewDataAndRememberPosition(list);
+			if (SettingUtils.isReadStyleEqualWeibo()) {
+				adapter.addNewData(list);
+				adapter.notifyDataSetChanged();
+			}else {
+				addNewDataAndRememberPosition(list);
+			}
 		}else {
 			Log.d("===========after_READ_JSON_DONE:", "-----------"+ error.getErrmsg());
 		}
