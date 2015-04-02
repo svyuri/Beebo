@@ -4,6 +4,7 @@ package org.zarroboogs.weibo.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.adapter.HotModelDetailAdapter;
@@ -102,7 +103,7 @@ public class HotModelDetailFragment extends BaseHotHuaTiFragment {
 	@Override
 	void onGsidLoadSuccess(String gsid) {
 		// TODO Auto-generated method stub
-		loadData(WeiBoURLs.hotModelDetail(getGsid(), mPage, extparam));
+		loadData(SeniorUrl.hotModelDetail(getGsid(), mPage, extparam));
 	}
 
 	@Override
@@ -117,7 +118,7 @@ public class HotModelDetailFragment extends BaseHotHuaTiFragment {
 		if (TextUtils.isEmpty(getGsid())) {
 			loadGsid();
 		}else {
-			loadData(WeiBoURLs.hotModelDetail(getGsid(), mPage, extparam));
+			loadData(SeniorUrl.hotModelDetail(getGsid(), mPage, extparam));
 		}
 	}
 

@@ -177,55 +177,67 @@ public class WeiBoURLs {
     	return url;
     }
     
-    public static String hotWeiboMeiTu(String gsid, int page) {
-    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2899", page);
+	public static String hotWeiboMeiTu(String gsid, int page) {
+		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2899", page);
 	}
-    // lvxing
-    public static String hotWeiboTravel(String gsid, int page) {
-    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2599", page);
+
+	// lvxing
+	public static String hotWeiboTravel(String gsid, int page) {
+		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2599", page);
 	}
-    // 科技
-    public static String hotWeiboKeji(String gsid, int page){
-    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2099", page);
-    }
-    // 美女
-    public static String hotWeiboMeiNv(String gsid, int page){
-    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2299", page);
-    }
-    // 萌宠
-    public static String hotWeiboPet(String gsid, int page){
-    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2799", page);
-    }
-    // 囧人糗事
-    public static String hotWeioJiushi(String gsid, int page) {
-    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "6199", page);
+
+	// 科技
+	public static String hotWeiboKeji(String gsid, int page) {
+		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2099", page);
 	}
-    //笑话
-    public static String hotWeiboXiaoHua(String gsid, int page) {
-    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "1899", page);
+
+	// 美女
+	public static String hotWeiboMeiNv(String gsid, int page) {
+		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2299", page);
 	}
-    // 爆料
-    public static String hotWeiboBaoLiao(String gsid, int page) {
-    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "1799", page);
+
+	// 萌宠
+	public static String hotWeiboPet(String gsid, int page) {
+		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2799", page);
 	}
-    // 视频
-    public static String hotWeiboVideo(String gsid, int page){
-    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "1199", page);
-    }
-    // 神最右
-    public static String hotWeiboZuiyou(String gsid, int page){
-    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "6399", page);
-    }
-    public static String hotWeiboYestoday(String gsid, int page){
-    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "8899", page);
-    }
-    public static String hotWeiboQianTian(String gsid, int page){
-    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "8799", page);
-    }
-    // hack 小时热门微博
-    public static String hotWeiboUrl(String gsid, int page){
-    	return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "8999", page);
-    }
+
+	// 囧人糗事
+	public static String hotWeioJiushi(String gsid, int page) {
+		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "6199", page);
+	}
+
+	// 笑话
+	public static String hotWeiboXiaoHua(String gsid, int page) {
+		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "1899", page);
+	}
+
+	// 爆料
+	public static String hotWeiboBaoLiao(String gsid, int page) {
+		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "1799", page);
+	}
+
+	// 视频
+	public static String hotWeiboVideo(String gsid, int page) {
+		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "1199", page);
+	}
+
+	// 神最右
+	public static String hotWeiboZuiyou(String gsid, int page) {
+		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "6399", page);
+	}
+
+	public static String hotWeiboYestoday(String gsid, int page) {
+		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "8899", page);
+	}
+
+	public static String hotWeiboQianTian(String gsid, int page) {
+		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "8799", page);
+	}
+
+	// hack 小时热门微博
+	public static String hotWeiboUrl(String gsid, int page) {
+		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "8999", page);
+	}
 
 	// 消费数码
 	public static String hotHuatiDigit(String gsid, int page) {
@@ -261,73 +273,8 @@ public class WeiBoURLs {
 	public static String hotHuaTiFilm(String gsid, int page) {
 		return SeniorUrl.hotHuaTiApi(gsid, "100", page);
 	}
-    public static String hotHuaTiOneHouOur(String gsid, int page){
-    	
-    	return SeniorUrl.hotHuaTiApi(gsid, "-1", page);
-    }
-    
-    public static String hotModel(String gsid, int page){
-    	String url = "http://mapi.weibo.com/2/cardlist?"
-    			+ "gsid=" + gsid
-    			+ "&wm=3333_2001"
-    			+ "&i=d5d6f09"
-    			+ "&b=1"
-    			+ "&from=1051293010"
-    			+ "&c=iphone"
-    			+ "&v_p=18"
-    			+ "&skin=default"
-    			+ "&v_f=1"
-    			+ "&s=a57eef07"
-    			+ "&lang=zh_CN"
-    			+ "&ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2"
-    			+ "&uicode=10000011"
-    			+ "&luicode=10000011"
-    			+ "&count=20"
-    			+ "&containerid=101903_-_girl_pic_lst"
-    			+ "&fid=101903_-_girl_pic_lst"
-    			+ "&lfid=101903"
-    			+ "&page=" + page;
-    	return url;
-    }
-    
-    public static String hotModelDetail(String gsid, int page, String extparam) {
-		String url = "http://api.weibo.cn/2/cardlist?"
-				+ "gsid=" + gsid
-				+ "&wm=3333_2001"
-				+ "&i=d5d6f09"
-				+ "&b=1"
-				+ "&from=1051293010"
-				+ "&c=iphone"
-				+ "&v_p=18"
-				+ "&skin=default"
-				+ "&v_f=1"
-				+ "&s=a57eef07"
-				+ "&lang=zh_CN"
-				+ "&ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2"
-				+ "&uicode=10000011"
-				+ "&luicode=10000011"
-				+ "&count=20"
-				+ "&extparam=" + extparam
-				+ "&containerid=101903_-_girl_pic_dtl"
-				+ "&fid=101903_-_girl_pic_dtl"
-				+ "&lfid=101903_-_girl_pic_lst"
-				+ "&sourcetype=page"
-				+ "&page=" + page;
-		return url;
-	}
-    
-    public static String galleryUrl(String gsid, String coundID,int page, int count ) {
-		String url = "http://api.weibo.cn/2/cardlist?"
-				+ "gsid=" + gsid
-				+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051393010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.3__iphone__os8.1.2&mid=3818285881989188&_status_id=3818285881989188&containerid=107803_"
-				+ "" + coundID
-				+ "&luicode=10000001&fid=107803_"
-				+ "" + coundID
-				+ "&featurecode=10000001&uicode=10000198&rid=1_0_2667326337649401610&fromlog=100011878230075&"
-				+ "count=" + coundID
-				+ "&"
-				+ "page=" + page
-				+ "&lfid=100011878230075";
-		return url;
+
+	public static String hotHuaTiOneHouOur(String gsid, int page) {
+		return SeniorUrl.hotHuaTiApi(gsid, "-1", page);
 	}
 }

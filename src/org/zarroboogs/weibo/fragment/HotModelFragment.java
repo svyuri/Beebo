@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
+import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
@@ -82,7 +83,7 @@ public class HotModelFragment extends BaseHotHuaTiFragment implements OnModelDet
 				if (TextUtils.isEmpty(getGsid())) {
 					loadGsid();
 				}else {
-					loadData(WeiBoURLs.hotModel(getGsid(), mPage));
+					loadData(SeniorUrl.hotModel(getGsid(), mPage));
 				}
 				refreshView.setRefreshing();
 			}
@@ -259,7 +260,7 @@ public class HotModelFragment extends BaseHotHuaTiFragment implements OnModelDet
 	@Override
 	void onGsidLoadSuccess(String gsid) {
 		// TODO Auto-generated method stub
-		loadData(WeiBoURLs.hotModel(getGsid(), mPage));
+		loadData(SeniorUrl.hotModel(getGsid(), mPage));
 	}
 
 	@Override
@@ -274,7 +275,7 @@ public class HotModelFragment extends BaseHotHuaTiFragment implements OnModelDet
 		if (TextUtils.isEmpty(getGsid())) {
 			loadGsid();
 		}else {
-			loadData(WeiBoURLs.hotModel(getGsid(), mPage));
+			loadData(SeniorUrl.hotModel(getGsid(), mPage));
 		}
 	}
 
