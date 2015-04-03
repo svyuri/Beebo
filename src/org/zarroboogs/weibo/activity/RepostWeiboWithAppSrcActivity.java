@@ -123,7 +123,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
         mToolbar = (Toolbar) findViewById(R.id.writeWeiboToolBar);
 
-        if (Constants.isBeeboPlus) {
+        if (Constants.isEnableAppsrc) {
             mDrawerToggle = new MyDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
             mDrawerToggle.syncState();
             mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -464,7 +464,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     }
     
     protected void repostWeibo() {
-        	if (Constants.isBeeboPlus) {
+        	if (Constants.isEnableAppsrc) {
                 Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, RepostWithAppSrcServices.class);
                 
                 intent.putExtra(RepostWithAppSrcServices.IS_COMMENT, mComments.isChecked());

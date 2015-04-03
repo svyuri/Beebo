@@ -130,7 +130,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
         mToolbar = (Toolbar) findViewById(R.id.writeWeiboToolBar);
 
-        if (Constants.isBeeboPlus) {
+        if (Constants.isEnableAppsrc) {
             mDrawerToggle = new MyDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
             mDrawerToggle.syncState();
             mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -478,7 +478,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 			    	
 		    		ArrayList<String> send = SendImgData.getInstance().getSendImgs(); 
 		    		
-		    		if (send.size() >1) {
+		    		if (send.size() >1 || Constants.isEnableAppsrc) {
 						Intent intent = new Intent(getApplicationContext(), SendWithAppSrcServices.class);
 						intent.putExtra(SendWithAppSrcServices.APP_SRC, getWeiba());
 						intent.putExtra(SendWithAppSrcServices.TEXT_CONTENT, getWeiboTextContent());
