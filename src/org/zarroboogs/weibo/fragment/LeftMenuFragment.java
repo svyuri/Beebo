@@ -375,7 +375,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 		layout.fav = (Button) view.findViewById(R.id.btn_favourite);
 		layout.homeCount = (TextView) view.findViewById(R.id.tv_home_count);
 
-		layout.leftDrawerSettingBtn = (ImageButton) view.findViewById(R.id.leftDrawerSettingBtn);
+		layout.leftDrawerSettingBtn = (Button) view.findViewById(R.id.leftDrawerSettingBtn);
 
 		layout.homeButton = (Button) view.findViewById(R.id.homeButton);
 
@@ -507,7 +507,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 		// Button location;
 		Button fav;
 
-		ImageButton leftDrawerSettingBtn;
+		Button leftDrawerSettingBtn;
 
 		Button mHotWeibo;
 

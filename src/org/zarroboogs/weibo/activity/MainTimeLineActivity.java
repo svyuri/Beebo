@@ -56,9 +56,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainTimeLineActivity extends AbstractAppActivity {
 
