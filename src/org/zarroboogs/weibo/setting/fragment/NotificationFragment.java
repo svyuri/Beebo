@@ -14,7 +14,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.othercomponent.AppNewMsgAlarm;
+import org.zarroboogs.weibo.othercomponent.BeeboAlermManager;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.setting.activity.SettingActivity;
 
@@ -120,15 +120,15 @@ public class NotificationFragment extends PreferenceFragment implements SharedPr
             boolean value = sharedPreferences.getBoolean(key, false);
             buildSummary();
             if (value) {
-                AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG, getActivity(), false);
+                BeeboAlermManager.startAlarm(BeeboAlermManager.DEBUG, getActivity(), false);
             } else {
-                AppNewMsgAlarm.stopAlarm(getActivity(), true);
+                BeeboAlermManager.stopAlarm(getActivity(), true);
             }
         }
 
         if (key.equals(SettingActivity.FREQUENCY)) {
 
-            AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG, getActivity(), false);
+            BeeboAlermManager.startAlarm(BeeboAlermManager.DEBUG, getActivity(), false);
             buildSummary();
         }
 

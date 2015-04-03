@@ -43,16 +43,16 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
 
             if (forceStartFetchNewUnreadBackgroundService) {
                 if (SettingUtils.getEnableFetchMSG()) {
-                    AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG, context, true);
+                    BeeboAlermManager.startAlarm(BeeboAlermManager.DEBUG, context, true);
                 } else {
-                    AppNewMsgAlarm.stopAlarm(context, false);
+                    BeeboAlermManager.stopAlarm(context, false);
                 }
             }
 
             decideTimeLineBigPic(context);
             decideCommentRepostAvatar(context);
         } else {
-            AppNewMsgAlarm.stopAlarm(context, false);
+            BeeboAlermManager.stopAlarm(context, false);
         }
     }
 

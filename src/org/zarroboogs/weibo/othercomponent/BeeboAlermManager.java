@@ -4,6 +4,7 @@ package org.zarroboogs.weibo.othercomponent;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.service.FetchNewMsgService;
+import org.zarroboogs.weibo.service.KeepCookieService;
 import org.zarroboogs.weibo.setting.SettingUtils;
 
 import android.app.AlarmManager;
@@ -13,9 +14,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-public class AppNewMsgAlarm {
+public class BeeboAlermManager {
 
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 	
     private static final int REQUEST_CODE = 195;
 
@@ -47,6 +48,14 @@ public class AppNewMsgAlarm {
             Toast.makeText(context, context.getString(R.string.start_fetch_msg), Toast.LENGTH_SHORT).show();
         }
     }
+    
+    public static void keepCookie(Context context, String cookie) {
+        AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, KeepCookieService.class);
+        intent.putExtra(KeepCookieService.COOKIE_KEEP, cookie);
+        PendingIntent sender = PendingIntent.getService(context, KeepCookieService.KeepCookie, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, 0, 1000 * 60 * 10, sender);
+	}
 
     public static void stopAlarm(Context context, boolean clearNotification) {
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

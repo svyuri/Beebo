@@ -21,7 +21,7 @@ import org.zarroboogs.weibo.fragment.HotWeiboViewPagerFragment;
 import org.zarroboogs.weibo.fragment.LeftMenuFragment;
 import org.zarroboogs.weibo.fragment.MyFavListFragment;
 import org.zarroboogs.weibo.fragment.RightMenuFragment;
-import org.zarroboogs.weibo.othercomponent.AppNewMsgAlarm;
+import org.zarroboogs.weibo.othercomponent.BeeboAlermManager;
 import org.zarroboogs.weibo.othercomponent.ConnectionChangeReceiver;
 import org.zarroboogs.weibo.othercomponent.MusicReceiver;
 import org.zarroboogs.weibo.setting.SettingUtils;
@@ -112,9 +112,10 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
 			buildInterface(savedInstanceState);
 
-			if (AppNewMsgAlarm.DEBUG) {
-				AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG,getApplicationContext(), true);
+			if (BeeboAlermManager.DEBUG) {
+				BeeboAlermManager.startAlarm(BeeboAlermManager.DEBUG,getApplicationContext(), true);
 			}
+			BeeboAlermManager.keepCookie(getApplicationContext(), mAccountBean.getCookie());
 		}else {
 			Intent start = new Intent(this, AccountActivity.class);
 			startActivity(start);
