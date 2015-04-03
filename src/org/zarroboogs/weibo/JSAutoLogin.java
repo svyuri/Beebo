@@ -9,6 +9,7 @@ import org.zarroboogs.devutils.http.request.HeaderList;
 import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
+import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.utils.PatternUtils;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.CheckUserPasswordBean;
@@ -77,7 +78,6 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
 	
 	
 	
-	static final String REDIRECT = "http://widget.weibo.com/dialog/PublishMobile.php";
     static String url = "https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic";
 
     
@@ -163,14 +163,14 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
 
         	DevLog.printLog("JSAutoLogin onPageStarted", url);
         	
-            if (url.startsWith(REDIRECT)) {
+            if (url.startsWith(SeniorUrl.SeniorUrl_SendWeibo_Appsrc)) {
                 view.stopLoading();
 
                 CookieManager cookieManager = CookieManager.getInstance();
 
                 String cookie = cookieManager.getCookie(url);
-                String pubCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/PublishMobile.php");
-                String longInCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/LoginMobile.php");
+                String pubCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Appsrc);
+                String longInCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Login);
 
                 Log.d("Weibo-CookieStr", cookie + " \r\n\r\n PubCookie:" + pubCookie + "  \r\n\r\r LogInCookie:" + longInCookie);
                 String uid = "";

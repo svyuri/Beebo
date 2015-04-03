@@ -6,6 +6,7 @@ import org.zarroboogs.devutils.http.AbsAsyncHttpActivity;
 import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
+import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.utils.PatternUtils;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.db.AccountDatabaseManager;
@@ -135,7 +136,7 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
         mInjectJS.removeDocument("<a href=\"javascript:history.go(-1);\" class=\"close\">关闭</a>");
         mInjectJS.removeDocument("使用其他方式登录");
         mInjectJS.removeDocument("<a href=\"http://m.weibo.cn/reg/index?&vt=4&wm=3349&backURL=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">注册帐号</a><a href=\"http://m.weibo.cn/setting/forgotpwd?vt=4\">忘记密码</a>");
-        mInjectJS.injectUrl(getAuthoUrl(), new AssertLoader(this).loadJs("inject.js"), "gb2312");
+        mInjectJS.injectUrl(SeniorUrl.SeniorUrl_SeniorLogin, new AssertLoader(this).loadJs("inject.js"), "gb2312");
         
 
         mInjectJS.setOnLoadListener(new OnLoadListener() {
@@ -165,12 +166,6 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
     	public void saveAccountInfo(String uname, String upassword){
     		DevLog.printLog("saveAccountInfo ", "uname: " + uname + "  password:" + upassword );
     	}
-    }
-
-    static final String REDIRECT = "http://widget.weibo.com/dialog/PublishMobile.php";
-    static String url = "https://passport.weibo.cn/signin/login?entry=mweibo&r=http://widget.weibo.com/dialog/PublishMobile.php?button=public";
-    public String getAuthoUrl() {
-        return url;
     }
 
     private void showProgress() {
@@ -208,9 +203,9 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
         // TODO Auto-generated method stub
         CookieManager cookieManager = CookieManager.getInstance();
 
-        String cookie = cookieManager.getCookie(url);
-        String pubCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/PublishMobile.php");
-        String longInCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/LoginMobile.php");
+        String cookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SeniorLogin);
+        String pubCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Appsrc);
+        String longInCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Login);
 
         Log.d("Weibo-CookieStr", cookie + " \r\n\r\n PubCookie:" + pubCookie + "  \r\n\r\r LogInCookie:" + longInCookie);
 
@@ -257,7 +252,7 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
         } else if (!TextUtils.isEmpty(uid)) {
             Toast.makeText(getApplicationContext(), "请登录昵称是[" + mAccountBean.getUsernick() + "]的微博！", Toast.LENGTH_LONG)
                     .show();
-            mWebView.loadUrl(url);
+            mWebView.loadUrl(SeniorUrl.SeniorUrl_SeniorLogin);
         }
     }
 
@@ -285,7 +280,7 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
             showProgress();
-            if (url.startsWith(REDIRECT)) {
+            if (url.startsWith(SeniorUrl.SeniorUrl_SendWeibo_Appsrc)) {
                 view.stopLoading();
                 handleRedirectUrl(view, url, GSIDWebViewActivity.this);
                 return;

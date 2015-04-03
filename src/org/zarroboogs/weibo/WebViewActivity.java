@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo;
 
+import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.utils.PatternUtils;
 import org.zarroboogs.weibo.activity.SharedPreferenceActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -20,7 +21,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -96,7 +96,6 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
         webSettings.setJavaScriptEnabled(true);
         webSettings.setBuiltInZoomControls(true);
         webSettings.setSaveFormData(true);
-        webSettings.setSavePassword(true);
         webSettings.setSupportZoom(true);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
@@ -108,24 +107,7 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
         mWeiboWebViewClient = new WeiboWebViewClient();
         mWebView.setWebViewClient(mWeiboWebViewClient);
 
-        CookieSyncManager.createInstance(this);
-
-        String authoUrl = getAuthoUrl();
-
-        mWebView.loadUrl(authoUrl);
-
-
-    }
-
-    static final String REDIRECT = "http://widget.weibo.com/dialog/PublishMobile.php";
-    static String url = "https://passport.weibo.cn/signin/login?entry=mweibo&r=http://widget.weibo.com/dialog/PublishMobile.php?button=public";
-    public static String URL_OAUTH2_ACCESS_AUTHORIZE = url;// "https://api.weibo.com/oauth2/authorize";
-
-    public String getAuthoUrl() {
-
-        String url = URL_OAUTH2_ACCESS_AUTHORIZE;
-
-        return url;
+        mWebView.loadUrl(SeniorUrl.SeniorUrl_SeniorLogin);
     }
 
     private void showProgress() {
@@ -163,9 +145,9 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
         // TODO Auto-generated method stub
         CookieManager cookieManager = CookieManager.getInstance();
 
-        String cookie = cookieManager.getCookie(url);
-        String pubCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/PublishMobile.php");
-        String longInCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/LoginMobile.php");
+        String cookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SeniorLogin);
+        String pubCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Appsrc);
+        String longInCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Login);
 
         Log.d("Weibo-CookieStr", cookie + " \r\n\r\n PubCookie:" + pubCookie + "  \r\n\r\r LogInCookie:" + longInCookie);
 
@@ -201,7 +183,7 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
         } else if (!TextUtils.isEmpty(uid)) {
             Toast.makeText(getApplicationContext(), "请登录昵称是[" + mAccountBean.getUsernick() + "]的微博！", Toast.LENGTH_LONG)
                     .show();
-            mWebView.loadUrl(url);
+            mWebView.loadUrl(SeniorUrl.SeniorUrl_SeniorLogin);
         }
     }
 
@@ -229,7 +211,7 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
             showProgress();
-            if (url.startsWith(REDIRECT)) {
+            if (url.startsWith(SeniorUrl.SeniorUrl_SendWeibo_Appsrc)) {
                 view.stopLoading();
                 handleRedirectUrl(view, url, WebViewActivity.this);
                 return;

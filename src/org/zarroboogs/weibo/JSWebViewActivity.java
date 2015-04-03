@@ -8,6 +8,7 @@ import org.zarroboogs.devutils.http.AbsAsyncHttpActivity;
 import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
+import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.utils.PatternUtils;
 import org.zarroboogs.weibo.activity.OAuthActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -173,7 +174,6 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
     	}
     }
 
-    static final String REDIRECT = "http://widget.weibo.com/dialog/PublishMobile.php";
     static String url = "https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic";
     public String getAuthoUrl() {
         return url;
@@ -215,8 +215,8 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
         CookieManager cookieManager = CookieManager.getInstance();
 
         String cookie = cookieManager.getCookie(url);
-        String pubCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/PublishMobile.php");
-        String longInCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/LoginMobile.php");
+        String pubCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Appsrc);
+        String longInCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Login);
 
         Log.d("Weibo-CookieStr", cookie + " \r\n\r\n PubCookie:" + pubCookie + "  \r\n\r\r LogInCookie:" + longInCookie);
 
@@ -280,7 +280,7 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
             showProgress();
-            if (url.startsWith(REDIRECT)) {
+            if (url.startsWith(SeniorUrl.SeniorUrl_SendWeibo_Appsrc)) {
                 view.stopLoading();
                 handleRedirectUrl(view, url, JSWebViewActivity.this);
                 return;
