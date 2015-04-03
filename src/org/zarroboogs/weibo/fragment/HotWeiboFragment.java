@@ -3,7 +3,6 @@ package org.zarroboogs.weibo.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.Header;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.utils.file.FileLocationMethod;
@@ -13,7 +12,6 @@ import org.zarroboogs.weibo.adapter.HotWeiboStatusListAdapter;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.MessageListBean;
-import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.hot.hean.HotWeiboBean;
 import org.zarroboogs.weibo.hot.hean.HotWeiboErrorBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
@@ -31,7 +29,6 @@ import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshList
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.content.Intent;
 import android.os.Bundle;
