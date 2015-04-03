@@ -8,24 +8,6 @@ public class SendImgData {
     private static ArrayList<String> sendImgList = new ArrayList<String>();
     private static SendImgData mSendImgData;
 
-    private static ArrayList<String> resizeList = new ArrayList<String>();
-
-    public void addReSizeImg(String newData) {
-        resizeList.add(newData);
-    }
-
-    public void removeReSizeImg(String newData) {
-        resizeList.remove(newData);
-    }
-
-    public void clearReSizeImgs() {
-        resizeList.clear();
-    }
-
-    public ArrayList<String> getReSizeImgs() {
-        return resizeList;
-    }
-
     private SendImgData() {
     }
 

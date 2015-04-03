@@ -240,7 +240,6 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         	String picUrl = intent.getStringExtra("picPath");
         	if (!TextUtils.isEmpty(picUrl)) {
         		SendImgData.getInstance().clearSendImgs();
-        		SendImgData.getInstance().clearReSizeImgs();
         		
         		SendImgData.getInstance().addSendImg(picUrl);
 				refreshNineGridView();
@@ -378,7 +377,6 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         getSPs().unregisterOnSharedPreferenceChangeListener(this);
         
         SendImgData.getInstance().clearSendImgs();
-        SendImgData.getInstance().clearReSizeImgs();
     }
 
     @Override

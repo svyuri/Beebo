@@ -55,6 +55,8 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 	public static final String APP_SRC = "mAppSrc";
 	public static final String TEXT_CONTENT = "TEXT_CONTENT";
 	
+	private ArrayList<String> sendImgList = new ArrayList<String>();
+	
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
@@ -91,9 +93,11 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 		                    @Override
 		                    public void onCacheDone(String newFile) {
 		                        // TODO Auto-generated method stub
-		                        sendImgData.addReSizeImg(newFile);
-		                        if (sendImgData.getReSizeImgs().size() == count) {
+		                    	sendImgList.add(newFile);
+		                        DevLog.printLog("startPicCacheAndSendWeibo ", " Should Send Count : " + count + "  current Count :" + sendImgList.size());
+		                        if (sendImgList.size() == count) {
 		                            sendWeibo(sendImgData, mTextContent);
+		                            DevLog.printLog("startPicCacheAndSendWeibo ", " Start Send==========");
 		                        }
 		                    }
 		                });
@@ -121,7 +125,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
         }
         WaterMark mark = new WaterMark(mAccountBean.getUsernick(), url);
 
-        dosend( mark, mAppSrc.getCode(), text, sendImgData.getReSizeImgs());
+        dosend( mark, mAppSrc.getCode(), text, sendImgList);
     }
     
 
@@ -246,7 +250,6 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 		SendWeiboResultBean sb = new Gson().fromJson(arg0, SendWeiboResultBean.class);
 		if (sb.isSuccess()) {
 			
-			sendImgData.clearReSizeImgs();
 			deleteSendFile();
 			showSuccessfulNotification();
 			
@@ -297,7 +300,6 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 	public void deleteSendFile() {
 		SendImgData sid = SendImgData.getInstance();
 		sid.clearSendImgs();
-		sid.clearReSizeImgs();
 
 		File[] cacheFiles = getExternalCacheDir().listFiles(
 				new WeiBaCacheFile());
