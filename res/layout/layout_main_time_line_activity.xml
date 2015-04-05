@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/host_background"
-    android:fitsSystemWindows="true" >
+    android:fitsSystemWindows="true" xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/mainTimeLineToolBar"
@@ -22,26 +22,29 @@
         android:layout_below="@id/mainTimeLineToolBar" >
 
         <FrameLayout
-            android:id="@+id/menu_right_fl"
+            android:id="@+id/center_frame_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/mainTimeLineToolBar" />
 
         <FrameLayout
-            android:id="@+id/menu_frame"
+            android:id="@+id/left_drawer_layout"
             android:layout_width="250dp"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
+            android:layout_gravity="left"
             android:background="@color/gray"
-            android:choiceMode="singleChoice" />
+            android:choiceMode="singleChoice"
+            tools:ignore="RtlHardcoded" />
 
         <FrameLayout
-            android:id="@+id/menu_frame_right"
+            android:id="@+id/right_drawer_layout"
             android:layout_width="250dp"
             android:layout_height="match_parent"
-            android:layout_gravity="end"
+            android:layout_gravity="right"
             android:background="@color/gray"
-            android:choiceMode="singleChoice" />
+            android:choiceMode="singleChoice"
+            tools:ignore="RtlHardcoded" />
+
     </android.support.v4.widget.DrawerLayout>
 
 </RelativeLayout>

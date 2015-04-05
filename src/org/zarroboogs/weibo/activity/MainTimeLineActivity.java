@@ -201,20 +201,18 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         });
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        boolean isPhoneDevice = findViewById(R.id.menu_frame) == null;
+        boolean isPhoneDevice = findViewById(R.id.left_drawer_layout) == null;
         Log.d("MainTimeLine-buildInterface", "isPhoneDevice: " + isPhoneDevice);
-
-        buildCustomActionBarTitle(savedInstanceState);
 
         if (savedInstanceState == null) {
             initFragments();
             FragmentTransaction secondFragmentTransaction = getSupportFragmentManager().beginTransaction();
-            secondFragmentTransaction.replace(R.id.menu_frame, getLeftMenuFragment(), LeftMenuFragment.class.getName());
+            secondFragmentTransaction.replace(R.id.left_drawer_layout, getLeftMenuFragment(), LeftMenuFragment.class.getName());
             // getSlidingMenu().showContent();
             secondFragmentTransaction.commit();
 
             FragmentTransaction mainTransaction = getSupportFragmentManager().beginTransaction();
-            mainTransaction.replace(R.id.menu_frame_right, getRightMenuFragment(), RightMenuFragment.class.getName());
+            mainTransaction.replace(R.id.right_drawer_layout, getRightMenuFragment(), RightMenuFragment.class.getName());
             mainTransaction.commit();
         }
     }
@@ -238,7 +236,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         public void onDrawerOpened(View drawerView) {
             super.onDrawerOpened(drawerView);
             Log.d("onOptionsItemSelected", " onDrawerOpened");
-            if (mDrawerLayout.isDrawerOpen(findViewById(R.id.menu_frame_right))) {
+            if (mDrawerLayout.isDrawerOpen(findViewById(R.id.right_drawer_layout))) {
                 mDrawerLayout.closeDrawer(Gravity.END);
             }
             getLeftMenuFragment().displayCover();
@@ -255,22 +253,22 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (!friend.isAdded()) {
-            fragmentTransaction.add(R.id.menu_right_fl, friend, FriendsTimeLineFragment.class.getName());
+            fragmentTransaction.add(R.id.center_frame_layout, friend, FriendsTimeLineFragment.class.getName());
             fragmentTransaction.hide(friend);
         }
         
         if (!fav.isAdded()) {
-            fragmentTransaction.add(R.id.menu_right_fl, fav, MyFavListFragment.class.getName());
+            fragmentTransaction.add(R.id.center_frame_layout, fav, MyFavListFragment.class.getName());
             fragmentTransaction.hide(fav);
         }
         
         if (!hotWeibo.isAdded()) {
-        	fragmentTransaction.add(R.id.menu_right_fl, hotWeibo, HotWeiboViewPagerFragment.class.getName());
+        	fragmentTransaction.add(R.id.center_frame_layout, hotWeibo, HotWeiboViewPagerFragment.class.getName());
             fragmentTransaction.hide(hotWeibo);
 		}
         
         if (!hotHuatiFragment.isAdded()) {
-        	fragmentTransaction.add(R.id.menu_right_fl, hotHuatiFragment, HotHuaTiViewPagerFragment.class.getName());
+        	fragmentTransaction.add(R.id.center_frame_layout, hotHuatiFragment, HotHuaTiViewPagerFragment.class.getName());
             fragmentTransaction.hide(hotHuatiFragment);
 		}
 
@@ -278,33 +276,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             fragmentTransaction.commit();
             getSupportFragmentManager().executePendingTransactions();
         }
-    }
-
-    private void buildCustomActionBarTitle(Bundle savedInstanceState) {
-        View title = getLayoutInflater().inflate(R.layout.maintimelineactivity_title_layout, null);
-        titleText = (TextView) title.findViewById(R.id.tv_title);
-        clickToTop = title.findViewById(R.id.tv_click_to_top);
-        clickToTop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                scrollCurrentListViewToTop();
-            }
-        });
-        View write = title.findViewById(R.id.btn_write);
-        write.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (SettingUtils.isDebug()) {
-                    Intent intent = WriteWeiboActivity.newIntent(GlobalContext.getInstance().getAccountBean());
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(MainTimeLineActivity.this, WriteWeiboWithAppSrcActivity.class);
-                    startActivity(intent);
-                }
-
-            }
-        });
     }
 
     private void scrollCurrentListViewToTop() {
