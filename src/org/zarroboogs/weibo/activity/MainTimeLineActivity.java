@@ -74,7 +74,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
     private TextView titleText;
 
-    private View clickToTop;
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -151,7 +150,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 			
 			@Override
 			public boolean onMenuItemClick(MenuItem arg0) {
-				// TODO Auto-generated method stub
 				int id = arg0.getItemId();
 				switch (id) {
 				case R.id.search_menu:{
@@ -182,7 +180,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				scrollCurrentListViewToTop();
 			}
 		});
