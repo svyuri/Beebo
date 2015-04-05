@@ -91,7 +91,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 			currentIndex = GlobalContext.getInstance().getAccountBean().getNavigationPosition() / 10;
 		}
 
-		rightFragments.append(HOME_INDEX, ((MainTimeLineActivity) getActivity()).getFriendsTimeLineFragment());
+		rightFragments.append(HOME_INDEX, ((MainTimeLineActivity) getActivity()).getMainTimeLineFragment());
 		rightFragments.append(FAV_INDEX, ((MainTimeLineActivity) getActivity()).getFavFragment());
 
 		rightFragments.append(HOT_WEIBO, ((MainTimeLineActivity) getActivity()).getHotWeiboViewPagerFragment());
@@ -262,7 +262,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 
 	private void showHomePageImp() {
 		FragmentTransaction ft = hideFragmentExp(HOME_INDEX);
-		FriendsTimeLineFragment fragment = (FriendsTimeLineFragment) rightFragments.get(HOME_INDEX);
+		MainTimeLineFragment fragment = (MainTimeLineFragment) rightFragments.get(HOME_INDEX);
 		ft.show(fragment);
 		ft.commit();
 //

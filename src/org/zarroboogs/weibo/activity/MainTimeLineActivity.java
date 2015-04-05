@@ -15,7 +15,7 @@ import org.zarroboogs.weibo.bean.UnreadBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.db.DatabaseManager;
 import org.zarroboogs.weibo.db.task.AccountDBTask;
-import org.zarroboogs.weibo.fragment.FriendsTimeLineFragment;
+import org.zarroboogs.weibo.fragment.MainTimeLineFragment;
 import org.zarroboogs.weibo.fragment.HotHuaTiViewPagerFragment;
 import org.zarroboogs.weibo.fragment.HotWeiboViewPagerFragment;
 import org.zarroboogs.weibo.fragment.LeftMenuFragment;
@@ -241,27 +241,27 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     }
 
     private void initFragments() {
-        Fragment friend = getFriendsTimeLineFragment();
-        Fragment fav = getFavFragment();
+        Fragment timeLineFragment = getMainTimeLineFragment();
+        Fragment favFragment = getFavFragment();
 
-        Fragment hotWeibo = getHotWeiboViewPagerFragment();
+        Fragment hotWeiboFragment = getHotWeiboViewPagerFragment();
         
         Fragment hotHuatiFragment = getHotHuaTiViewPagerFragment();
         
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if (!friend.isAdded()) {
-            fragmentTransaction.add(R.id.center_frame_layout, friend, FriendsTimeLineFragment.class.getName());
-            fragmentTransaction.hide(friend);
+        if (!timeLineFragment.isAdded()) {
+            fragmentTransaction.add(R.id.center_frame_layout, timeLineFragment, MainTimeLineFragment.class.getName());
+            fragmentTransaction.hide(timeLineFragment);
         }
         
-        if (!fav.isAdded()) {
-            fragmentTransaction.add(R.id.center_frame_layout, fav, MyFavListFragment.class.getName());
-            fragmentTransaction.hide(fav);
+        if (!favFragment.isAdded()) {
+            fragmentTransaction.add(R.id.center_frame_layout, favFragment, MyFavListFragment.class.getName());
+            fragmentTransaction.hide(favFragment);
         }
         
-        if (!hotWeibo.isAdded()) {
-        	fragmentTransaction.add(R.id.center_frame_layout, hotWeibo, HotWeiboViewPagerFragment.class.getName());
-            fragmentTransaction.hide(hotWeibo);
+        if (!hotWeiboFragment.isAdded()) {
+        	fragmentTransaction.add(R.id.center_frame_layout, hotWeiboFragment, HotWeiboViewPagerFragment.class.getName());
+            fragmentTransaction.hide(hotWeiboFragment);
 		}
         
         if (!hotHuatiFragment.isAdded()) {
@@ -460,11 +460,11 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         return fragment;
     }
 
-    public FriendsTimeLineFragment getFriendsTimeLineFragment() {
-        FriendsTimeLineFragment fragment = ((FriendsTimeLineFragment) getSupportFragmentManager().findFragmentByTag(
-                FriendsTimeLineFragment.class.getName()));
+    public MainTimeLineFragment getMainTimeLineFragment() {
+        MainTimeLineFragment fragment = ((MainTimeLineFragment) getSupportFragmentManager().findFragmentByTag(
+                MainTimeLineFragment.class.getName()));
         if (fragment == null) {
-            fragment = FriendsTimeLineFragment.newInstance(getAccount(), getUser(), getToken());
+            fragment = MainTimeLineFragment.newInstance(getAccount(), getUser(), getToken());
         }
         return fragment;
     }

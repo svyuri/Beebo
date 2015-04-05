@@ -9,7 +9,7 @@ import org.zarroboogs.weibo.bean.MessageListBean;
 import org.zarroboogs.weibo.dao.BilateralTimeLineDao;
 import org.zarroboogs.weibo.dao.FriendGroupTimeLineDao;
 import org.zarroboogs.weibo.dao.MainFriendsTimeLineDao;
-import org.zarroboogs.weibo.fragment.FriendsTimeLineFragment;
+import org.zarroboogs.weibo.fragment.MainTimeLineFragment;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.Utility;
 
@@ -68,9 +68,9 @@ public class FriendsMsgLoader extends AbstractAsyncNetRequestTaskLoader<MessageL
 
     private MessageListBean get(String token, String groupId, String sinceId, String maxId) throws WeiboException {
         MainFriendsTimeLineDao dao;
-        if (currentGroupId.equals(FriendsTimeLineFragment.BILATERAL_GROUP_ID)) {
+        if (currentGroupId.equals(MainTimeLineFragment.BILATERAL_GROUP_ID)) {
             dao = new BilateralTimeLineDao(token);
-        } else if (currentGroupId.equals(FriendsTimeLineFragment.ALL_GROUP_ID)) {
+        } else if (currentGroupId.equals(MainTimeLineFragment.ALL_GROUP_ID)) {
             dao = new MainFriendsTimeLineDao(token);
         } else {
             dao = new FriendGroupTimeLineDao(token, currentGroupId);

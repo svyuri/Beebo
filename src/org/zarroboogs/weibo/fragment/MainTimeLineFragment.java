@@ -74,7 +74,7 @@ import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean> implements
+public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> implements
         GlobalContext.MyProfileInfoChangeListener, MainTimeLineActivity.ScrollableListFragment {
 
     private AccountBean mAccountBean;
@@ -107,17 +107,17 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
 
     private Toolbar mToolbar;
 
-    public FriendsTimeLineFragment() {
+    public MainTimeLineFragment() {
         super();
     }
 
-    public static FriendsTimeLineFragment newInstance(AccountBean accountBean, UserBean userBean, String token) {
-        FriendsTimeLineFragment fragment = new FriendsTimeLineFragment(accountBean, userBean, token);
+    public static MainTimeLineFragment newInstance(AccountBean accountBean, UserBean userBean, String token) {
+        MainTimeLineFragment fragment = new MainTimeLineFragment(accountBean, userBean, token);
         fragment.setArguments(new Bundle());
         return fragment;
     }
 
-    public FriendsTimeLineFragment(AccountBean accountBean, UserBean userBean, String token) {
+    public MainTimeLineFragment(AccountBean accountBean, UserBean userBean, String token) {
         this.mAccountBean = accountBean;
         this.mUserBean = userBean;
         this.mToken = token;
@@ -530,7 +530,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
             getPullToRefreshListView().setRefreshing();
             loadNewMsg();
         } else {
-            new RefreshReCmtCountTask(FriendsTimeLineFragment.this, getDataList())
+            new RefreshReCmtCountTask(MainTimeLineFragment.this, getDataList())
                     .executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
@@ -545,25 +545,25 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
     @Override
     public void loadNewMsg() {
         super.loadNewMsg();
-        new RefreshReCmtCountTask(FriendsTimeLineFragment.this, getDataList())
+        new RefreshReCmtCountTask(MainTimeLineFragment.this, getDataList())
                 .executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private static class DBCacheTask extends MyAsyncTask<Void, MessageTimeLineData, List<MessageTimeLineData>> {
 
-        private WeakReference<FriendsTimeLineFragment> fragmentWeakReference;
+        private WeakReference<MainTimeLineFragment> fragmentWeakReference;
 
         private String accountId;
 
-        private DBCacheTask(FriendsTimeLineFragment friendsTimeLineFragment, String accountId) {
-            fragmentWeakReference = new WeakReference<FriendsTimeLineFragment>(friendsTimeLineFragment);
+        private DBCacheTask(MainTimeLineFragment friendsTimeLineFragment, String accountId) {
+            fragmentWeakReference = new WeakReference<MainTimeLineFragment>(friendsTimeLineFragment);
             this.accountId = accountId;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            FriendsTimeLineFragment fragment = fragmentWeakReference.get();
+            MainTimeLineFragment fragment = fragmentWeakReference.get();
             if (fragment != null) {
                 fragment.getPullToRefreshListView().setVisibility(View.INVISIBLE);
             }
@@ -579,7 +579,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
         @Override
         protected void onPostExecute(List<MessageTimeLineData> result) {
             super.onPostExecute(result);
-            FriendsTimeLineFragment fragment = fragmentWeakReference.get();
+            MainTimeLineFragment fragment = fragmentWeakReference.get();
 
             if (fragment == null) {
                 return;
@@ -598,7 +598,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
         protected void onProgressUpdate(MessageTimeLineData... result) {
             super.onProgressUpdate(result);
 
-            FriendsTimeLineFragment fragment = fragmentWeakReference.get();
+            MainTimeLineFragment fragment = fragmentWeakReference.get();
 
             if (fragment == null) {
                 return;
@@ -1006,10 +1006,10 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
 
         private List<String> msgIds;
 
-        private WeakReference<FriendsTimeLineFragment> fragmentWeakReference;
+        private WeakReference<MainTimeLineFragment> fragmentWeakReference;
 
-        private RefreshReCmtCountTask(FriendsTimeLineFragment friendsTimeLineFragment, MessageListBean data) {
-            fragmentWeakReference = new WeakReference<FriendsTimeLineFragment>(friendsTimeLineFragment);
+        private RefreshReCmtCountTask(MainTimeLineFragment friendsTimeLineFragment, MessageListBean data) {
+            fragmentWeakReference = new WeakReference<MainTimeLineFragment>(friendsTimeLineFragment);
             msgIds = new ArrayList<String>();
             List<MessageBean> msgList = data.getItemList();
             for (MessageBean msg : msgList) {
@@ -1037,7 +1037,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
         @Override
         protected void onPostExecute(List<MessageReCmtCountBean> value) {
             super.onPostExecute(value);
-            FriendsTimeLineFragment fragment = fragmentWeakReference.get();
+            MainTimeLineFragment fragment = fragmentWeakReference.get();
             if (fragment == null || value == null || value.size() == 0) {
                 return;
             }
