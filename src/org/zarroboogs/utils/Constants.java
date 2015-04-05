@@ -3,6 +3,12 @@ package org.zarroboogs.utils;
 
 public final class Constants {
 
+	// 分组编号
+	public static final	String ALL_GROUP_ID = "0";				// 所有人
+	public static final String BILATERAL_GROUP_ID = "1";		// 互相关注
+
+	
+	
 	public static final boolean isHack = true;
 	
     public static final String ACCOUNT = "account";

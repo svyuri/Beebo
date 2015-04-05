@@ -6,7 +6,7 @@ import org.zarroboogs.utils.WeiBoURLs;
 /**
  * User: qii Date: 12-9-13
  */
-public class BilateralTimeLineDao extends MainFriendsTimeLineDao {
+public class BilateralTimeLineDao extends MainTimeLineDao {
 
     public BilateralTimeLineDao(String access_token) {
         super(access_token);

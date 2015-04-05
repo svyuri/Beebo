@@ -5,20 +5,17 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import org.zarroboogs.util.net.WeiboException;
+import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.bean.MessageListBean;
 import org.zarroboogs.weibo.dao.BilateralTimeLineDao;
 import org.zarroboogs.weibo.dao.FriendGroupTimeLineDao;
-import org.zarroboogs.weibo.dao.MainFriendsTimeLineDao;
-import org.zarroboogs.weibo.fragment.MainTimeLineFragment;
+import org.zarroboogs.weibo.dao.MainTimeLineDao;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.Utility;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * User: qii Date: 13-4-18
- */
 public class FriendsMsgLoader extends AbstractAsyncNetRequestTaskLoader<MessageListBean> {
 
     private static Lock lock = new ReentrantLock();
@@ -26,17 +23,15 @@ public class FriendsMsgLoader extends AbstractAsyncNetRequestTaskLoader<MessageL
     private String token;
     private String sinceId;
     private String maxId;
-    private String accountId;
     private String currentGroupId;
 
     private final int MAX_RETRY_COUNT = 6; // 1*50+6*49=344 new messages count
 
-    public FriendsMsgLoader(Context context, String accountId, String token, String groupId, String sinceId, String maxId) {
+    public FriendsMsgLoader(Context context,String token, String groupId, String sinceId, String maxId) {
         super(context);
         this.token = token;
         this.sinceId = sinceId;
         this.maxId = maxId;
-        this.accountId = accountId;
         this.currentGroupId = groupId;
     }
 
@@ -67,11 +62,11 @@ public class FriendsMsgLoader extends AbstractAsyncNetRequestTaskLoader<MessageL
     }
 
     private MessageListBean get(String token, String groupId, String sinceId, String maxId) throws WeiboException {
-        MainFriendsTimeLineDao dao;
-        if (currentGroupId.equals(MainTimeLineFragment.BILATERAL_GROUP_ID)) {
+        MainTimeLineDao dao;
+        if (currentGroupId.equals(Constants.BILATERAL_GROUP_ID)) {
             dao = new BilateralTimeLineDao(token);
-        } else if (currentGroupId.equals(MainTimeLineFragment.ALL_GROUP_ID)) {
-            dao = new MainFriendsTimeLineDao(token);
+        } else if (currentGroupId.equals(Constants.ALL_GROUP_ID)) {
+            dao = new MainTimeLineDao(token);
         } else {
             dao = new FriendGroupTimeLineDao(token, currentGroupId);
         }

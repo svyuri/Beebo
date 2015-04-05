@@ -112,7 +112,6 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 Class<?> clzz = null;
                 if (SettingUtils.isDebug()) {
                     clzz = WriteWeiboActivity.class;

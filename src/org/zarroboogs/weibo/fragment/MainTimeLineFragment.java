@@ -1041,30 +1041,27 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
     }
 
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String accountId = mAccountBean.getUid();
         String token = mAccountBean.getAccess_token();
         String sinceId = null;
         if (getDataList().getItemList().size() > 0) {
             sinceId = getDataList().getItemList().get(0).getId();
         }
-        return new FriendsMsgLoader(getActivity(), accountId, token, currentGroupId, sinceId, null);
+        return new FriendsMsgLoader(getActivity(), token, currentGroupId, sinceId, null);
     }
 
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateMiddleMsgLoader(int id, Bundle args,
             String middleBeginId, String middleEndId,
             String middleEndTag, int middlePosition) {
-        String accountId = mAccountBean.getUid();
         String token = mAccountBean.getAccess_token();
-        return new FriendsMsgLoader(getActivity(), accountId, token, currentGroupId, middleBeginId, middleEndId);
+        return new FriendsMsgLoader(getActivity(), token, currentGroupId, middleBeginId, middleEndId);
     }
 
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String accountId = mAccountBean.getUid();
         String token = mAccountBean.getAccess_token();
         String maxId = null;
         if (getDataList().getItemList().size() > 0) {
             maxId = getDataList().getItemList().get(getDataList().getItemList().size() - 1).getId();
         }
-        return new FriendsMsgLoader(getActivity(), accountId, token, currentGroupId, null, maxId);
+        return new FriendsMsgLoader(getActivity(), token, currentGroupId, null, maxId);
     }
 }

@@ -16,10 +16,7 @@ import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: qii Date: 12-7-28
- */
-public class MainFriendsTimeLineDao {
+public class MainTimeLineDao {
 
     protected String getUrl() {
         return WeiBoURLs.FRIENDS_TIMELINE;
@@ -84,43 +81,43 @@ public class MainFriendsTimeLineDao {
 
     protected String trim_user;
 
-    public MainFriendsTimeLineDao(String access_token) {
+    public MainTimeLineDao(String access_token) {
 
         this.access_token = access_token;
         this.count = SettingUtils.getMsgCount();
     }
 
-    public MainFriendsTimeLineDao setSince_id(String since_id) {
+    public MainTimeLineDao setSince_id(String since_id) {
         this.since_id = since_id;
         return this;
     }
 
-    public MainFriendsTimeLineDao setMax_id(String max_id) {
+    public MainTimeLineDao setMax_id(String max_id) {
         this.max_id = max_id;
         return this;
     }
 
-    public MainFriendsTimeLineDao setCount(String count) {
+    public MainTimeLineDao setCount(String count) {
         this.count = count;
         return this;
     }
 
-    public MainFriendsTimeLineDao setPage(String page) {
+    public MainTimeLineDao setPage(String page) {
         this.page = page;
         return this;
     }
 
-    public MainFriendsTimeLineDao setBase_app(String base_app) {
+    public MainTimeLineDao setBase_app(String base_app) {
         this.base_app = base_app;
         return this;
     }
 
-    public MainFriendsTimeLineDao setFeature(String feature) {
+    public MainTimeLineDao setFeature(String feature) {
         this.feature = feature;
         return this;
     }
 
-    public MainFriendsTimeLineDao setTrim_user(String trim_user) {
+    public MainTimeLineDao setTrim_user(String trim_user) {
         this.trim_user = trim_user;
         return this;
     }

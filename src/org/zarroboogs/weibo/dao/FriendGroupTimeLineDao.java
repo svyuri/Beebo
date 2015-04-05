@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * User: qii Date: 12-10-17
  */
-public class FriendGroupTimeLineDao extends MainFriendsTimeLineDao {
+public class FriendGroupTimeLineDao extends MainTimeLineDao {
 
     protected String getUrl() {
         return WeiBoURLs.FRIENDSGROUP_TIMELINE;
