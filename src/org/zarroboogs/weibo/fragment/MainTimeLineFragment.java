@@ -1040,6 +1040,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         FriendsTimeLineDBTask.asyncReplace(getDataList(), mAccountBean.getUid(), currentGroupId);
     }
 
+    @Override
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateNewMsgLoader(int id, Bundle args) {
         String token = mAccountBean.getAccess_token();
         String sinceId = null;
@@ -1049,6 +1050,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         return new MainTimeLineMsgLoader(getActivity(), token, currentGroupId, sinceId, null);
     }
 
+    @Override
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateMiddleMsgLoader(int id, Bundle args,
             String middleBeginId, String middleEndId,
             String middleEndTag, int middlePosition) {
@@ -1056,6 +1058,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         return new MainTimeLineMsgLoader(getActivity(), token, currentGroupId, middleBeginId, middleEndId);
     }
 
+    @Override
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateOldMsgLoader(int id, Bundle args) {
         String token = mAccountBean.getAccess_token();
         String maxId = null;
