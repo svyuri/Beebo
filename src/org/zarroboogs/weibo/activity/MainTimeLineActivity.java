@@ -105,7 +105,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 			GlobalContext.getInstance().setAccountBean(mAccountBean);
 			SettingUtils.setDefaultAccountId(mAccountBean.getUid());
 
-			setContentView(R.layout.layout_main_time_line_activity);
+			setContentView(R.layout.main_time_line_activity);
 
 			buildInterface(savedInstanceState);
 
