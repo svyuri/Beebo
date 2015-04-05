@@ -16,7 +16,7 @@ import org.zarroboogs.weibo.support.utils.Utility;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class FriendsMsgLoader extends AbstractAsyncNetRequestTaskLoader<MessageListBean> {
+public class MainTimeLineMsgLoader extends AbstractAsyncNetRequestTaskLoader<MessageListBean> {
 
     private static Lock lock = new ReentrantLock();
 
@@ -27,7 +27,7 @@ public class FriendsMsgLoader extends AbstractAsyncNetRequestTaskLoader<MessageL
 
     private final int MAX_RETRY_COUNT = 6; // 1*50+6*49=344 new messages count
 
-    public FriendsMsgLoader(Context context,String token, String groupId, String sinceId, String maxId) {
+    public MainTimeLineMsgLoader(Context context,String token, String groupId, String sinceId, String maxId) {
         super(context);
         this.token = token;
         this.sinceId = sinceId;

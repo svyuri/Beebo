@@ -28,7 +28,7 @@ import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.dao.TimeLineReCmtCountDao;
 import org.zarroboogs.weibo.db.task.FriendsTimeLineDBTask;
 import org.zarroboogs.weibo.fragment.base.AbsTimeLineFragment;
-import org.zarroboogs.weibo.loader.FriendsMsgLoader;
+import org.zarroboogs.weibo.loader.MainTimeLineMsgLoader;
 import org.zarroboogs.weibo.othercomponent.WifiAutoDownloadPictureRunnable;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.lib.LogOnExceptionScheduledExecutor;
@@ -1046,14 +1046,14 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         if (getDataList().getItemList().size() > 0) {
             sinceId = getDataList().getItemList().get(0).getId();
         }
-        return new FriendsMsgLoader(getActivity(), token, currentGroupId, sinceId, null);
+        return new MainTimeLineMsgLoader(getActivity(), token, currentGroupId, sinceId, null);
     }
 
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateMiddleMsgLoader(int id, Bundle args,
             String middleBeginId, String middleEndId,
             String middleEndTag, int middlePosition) {
         String token = mAccountBean.getAccess_token();
-        return new FriendsMsgLoader(getActivity(), token, currentGroupId, middleBeginId, middleEndId);
+        return new MainTimeLineMsgLoader(getActivity(), token, currentGroupId, middleBeginId, middleEndId);
     }
 
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateOldMsgLoader(int id, Bundle args) {
@@ -1062,6 +1062,6 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         if (getDataList().getItemList().size() > 0) {
             maxId = getDataList().getItemList().get(getDataList().getItemList().size() - 1).getId();
         }
-        return new FriendsMsgLoader(getActivity(), token, currentGroupId, null, maxId);
+        return new MainTimeLineMsgLoader(getActivity(), token, currentGroupId, null, maxId);
     }
 }
