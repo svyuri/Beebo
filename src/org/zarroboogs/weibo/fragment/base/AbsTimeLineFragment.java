@@ -2,12 +2,8 @@
 package org.zarroboogs.weibo.fragment.base;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import org.zarroboogs.util.net.WeiboException;
@@ -20,7 +16,6 @@ import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.data.DataListItem;
 import org.zarroboogs.weibo.dao.DestroyStatusDao;
 import org.zarroboogs.weibo.support.utils.Utility;
-import org.zarroboogs.weibo.ui.actionmenu.StatusSingleChoiceModeListener;
 
 public abstract class AbsTimeLineFragment<T extends DataListItem<MessageBean, ?>> extends AbsBaseTimeLineFragment<T>
         implements IRemoveItem {
@@ -49,36 +44,8 @@ public abstract class AbsTimeLineFragment<T extends DataListItem<MessageBean, ?>
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-        // getListView().setOnItemLongClickListener(onItemLongClickListener);
     }
     
-    
-    private AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-            if (position - getListView().getHeaderViewsCount() < getDataList().getSize()
-                    && position - getListView().getHeaderViewsCount() >= 0
-                    && timeLineAdapter.getItem(position - getListView().getHeaderViewsCount()) != null) {
-                MessageBean msg = getDataList().getItemList().get(position - getListView().getHeaderViewsCount());
-                StatusSingleChoiceModeListener choiceModeListener = new StatusSingleChoiceModeListener(BeeboApplication
-                        .getInstance().getAccountBean(),
-                        getListView(), (StatusListAdapter) timeLineAdapter, AbsTimeLineFragment.this, msg);
-                if (actionMode != null) {
-                    actionMode.finish();
-                    actionMode = null;
-                }
-
-                getListView().setItemChecked(position, true);
-                getAdapter().notifyDataSetChanged();
-                actionMode = getActivity().startActionMode(choiceModeListener);
-                return true;
-
-            }
-            return false;
-        }
-    };
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

@@ -11,7 +11,6 @@ import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.AppMapActivity;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
-import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
 import org.zarroboogs.weibo.adapter.BrowserWeiboMsgCommentAndRepostAdapter;
 import org.zarroboogs.weibo.asynctask.GetWeiboLocationInfoTask;
@@ -36,8 +35,6 @@ import org.zarroboogs.weibo.support.lib.ClickableTextViewMentionLinkOnTouchListe
 import org.zarroboogs.weibo.support.utils.AppEventAction;
 import org.zarroboogs.weibo.support.utils.ThemeUtility;
 import org.zarroboogs.weibo.support.utils.Utility;
-import org.zarroboogs.weibo.ui.actionmenu.CommentSingleChoiceModeListener;
-import org.zarroboogs.weibo.ui.actionmenu.StatusSingleChoiceModeListener;
 import org.zarroboogs.weibo.widget.ProfileTopAvatarImageView;
 import org.zarroboogs.weibo.widget.SwipeFrameLayout;
 import org.zarroboogs.weibo.widget.WeiboDetailImageView;
@@ -713,62 +710,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
             }
         }
-    };
-
-    private AdapterView.OnItemLongClickListener repostOnItemLongClickListener = new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-            if (position - getListView().getHeaderViewsCount() < repostList.getSize()
-                    && position - getListView().getHeaderViewsCount() >= 0
-                    && adapter.getItem(position - getListView().getHeaderViewsCount()) != null) {
-                MessageBean msg = repostList.getItemList().get(position - getListView().getHeaderViewsCount());
-                StatusSingleChoiceModeListener choiceModeListener = new StatusSingleChoiceModeListener(
-                        ((MainTimeLineActivity) getActivity()).getAccount(),
-                        getListView(), adapter, BrowserWeiboMsgFragment.this, msg);
-                if (actionMode != null) {
-                    actionMode.finish();
-                    actionMode = null;
-                }
-
-                getListView().setItemChecked(position, true);
-                adapter.notifyDataSetChanged();
-                actionMode = getActivity().startActionMode(choiceModeListener);
-                return true;
-
-            }
-            return false;
-        }
-    };
-
-    private AdapterView.OnItemLongClickListener commentOnItemLongClickListener = new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            if (position - listView.getHeaderViewsCount() < commentList.getSize()
-                    && position - listView.getHeaderViewsCount() >= 0) {
-                if (actionMode != null) {
-                    actionMode.finish();
-                    actionMode = null;
-                    getListView().setItemChecked(position, true);
-                    adapter.notifyDataSetChanged();
-                    actionMode = getActivity().startActionMode(
-                            new CommentSingleChoiceModeListener(getListView(), adapter, BrowserWeiboMsgFragment.this,
-                                    commentList.getItemList().get(
-                                            position - listView.getHeaderViewsCount())));
-                    return true;
-                } else {
-                    getListView().setItemChecked(position, true);
-                    adapter.notifyDataSetChanged();
-                    actionMode = getActivity().startActionMode(
-                            new CommentSingleChoiceModeListener(getListView(), adapter, BrowserWeiboMsgFragment.this,
-                                    commentList.getItemList().get(
-                                            position - listView.getHeaderViewsCount())));
-                    return true;
-                }
-            }
-            return false;
-        }
-
     };
 
     private AdapterView.OnItemClickListener repostOnItemClickListener = new AdapterView.OnItemClickListener() {

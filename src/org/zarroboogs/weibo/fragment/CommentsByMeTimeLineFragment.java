@@ -19,7 +19,6 @@ import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.loader.CommentsByMeDBLoader;
 import org.zarroboogs.weibo.loader.CommentsByMeMsgLoader;
 import org.zarroboogs.weibo.support.utils.Utility;
-import org.zarroboogs.weibo.ui.actionmenu.CommentSingleChoiceModeListener;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -135,37 +134,8 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-//        getListView().setOnItemLongClickListener(onItemLongClickListener);
     }
 
-    private AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            if (position - 1 < getDataList().getSize() && position - 1 >= 0) {
-                if (actionMode != null) {
-                    actionMode.finish();
-                    actionMode = null;
-                    getListView().setItemChecked(position, true);
-                    timeLineAdapter.notifyDataSetChanged();
-                    actionMode = getActivity().startActionMode(
-                            new CommentSingleChoiceModeListener(getListView(), timeLineAdapter,
-                                    CommentsByMeTimeLineFragment.this, getDataList().getItemList().get(
-                                            position - 1)));
-                    return true;
-                } else {
-                    getListView().setItemChecked(position, true);
-                    timeLineAdapter.notifyDataSetChanged();
-                    actionMode = getActivity().startActionMode(
-                            new CommentSingleChoiceModeListener(getListView(), timeLineAdapter,
-                                    CommentsByMeTimeLineFragment.this, getDataList().getItemList().get(
-                                            position - 1)));
-                    return true;
-                }
-            }
-            return false;
-        }
-
-    };
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

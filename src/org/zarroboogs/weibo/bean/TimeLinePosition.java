@@ -4,12 +4,11 @@ package org.zarroboogs.weibo.bean;
 import java.io.Serializable;
 import java.util.TreeSet;
 
-/**
- * User: qii Date: 13-3-23
- */
 public class TimeLinePosition implements Serializable {
 
-    public TimeLinePosition(int position, int top) {
+	private static final long serialVersionUID = -8442914085483115385L;
+
+	public TimeLinePosition(int position, int top) {
         this.position = position;
         this.top = top;
     }

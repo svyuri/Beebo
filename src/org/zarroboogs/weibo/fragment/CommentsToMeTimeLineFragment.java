@@ -5,7 +5,6 @@ import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.IRemoveItem;
-import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.adapter.CommentListAdapter;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -26,7 +25,6 @@ import org.zarroboogs.weibo.service.NotificationServiceHelper;
 import org.zarroboogs.weibo.support.utils.AppEventAction;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.Utility;
-import org.zarroboogs.weibo.ui.actionmenu.CommentSingleChoiceModeListener;
 import org.zarroboogs.weibo.widget.TopTipsView;
 
 import android.app.NotificationManager;
@@ -217,34 +215,6 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
 //        getListView().setOnItemLongClickListener(onItemLongClickListener);
         newMsgTipBar.setType(TopTipsView.Type.ALWAYS);
     }
-
-    private AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            if (position - 1 < getDataList().getSize() && position - 1 >= 0) {
-                if (actionMode != null) {
-                    actionMode.finish();
-                    actionMode = null;
-                    getListView().setItemChecked(position, true);
-                    timeLineAdapter.notifyDataSetChanged();
-                    actionMode = getActivity().startActionMode(
-                            new CommentSingleChoiceModeListener(getListView(), timeLineAdapter,
-                                    CommentsToMeTimeLineFragment.this, getDataList().getItemList().get(
-                                            position - 1)));
-                    return true;
-                } else {
-                    getListView().setItemChecked(position, true);
-                    timeLineAdapter.notifyDataSetChanged();
-                    actionMode = getActivity().startActionMode(
-                            new CommentSingleChoiceModeListener(getListView(), timeLineAdapter,
-                                    CommentsToMeTimeLineFragment.this, getDataList().getItemList().get(
-                                            position - 1)));
-                    return true;
-                }
-            }
-            return false;
-        }
-    };
 
     @Override
     public void removeItem(int position) {

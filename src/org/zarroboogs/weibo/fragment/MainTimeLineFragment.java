@@ -74,6 +74,7 @@ import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+@SuppressLint("UseSparseArrays")
 public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> implements
         BeeboApplication.AccountChangeListener, MainTimeLineActivity.ScrollableListFragment {
 
@@ -138,7 +139,6 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
 			
 			@Override
 			public boolean onMenuItemClick(MenuItem arg0) {
-				// TODO Auto-generated method stub
 				int id = arg0.getItemId();
 				switch (id) {
 				case R.id.search_menu:{
@@ -428,29 +428,6 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         getListView().setAdapter(timeLineAdapter);
     }
 
-    private int getIndexFromGroupId(String id, List<GroupBean> list) {
-
-        if (list == null || list.size() == 0) {
-            return 0;
-        }
-
-        int index = 0;
-
-        if (id.equals("0")) {
-            index = 0;
-        } else if (id.equals("1")) {
-            index = 1;
-        }
-
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getIdstr().equals(id)) {
-                index = i + 2;
-                break;
-            }
-        }
-        return index;
-    }
-
     private String getGroupIdFromIndex(int index, List<GroupBean> list) {
         String selectedItemId;
 
@@ -491,8 +468,6 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
             list = new ArrayList<GroupBean>();
         }
         mBaseAdapter = new FriendsTimeLineListNavAdapter(getActivity(), buildListNavData(list));
-        final List<GroupBean> finalList = list;
-
         currentGroupId = FriendsTimeLineDBTask.getRecentGroupId(BeeboApplication.getInstance().getCurrentAccountId());
 
     }
@@ -613,16 +588,6 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         }
     }
 
-    private int getRecentNavIndex() {
-        List<GroupBean> list = new ArrayList<GroupBean>();
-        if (BeeboApplication.getInstance().getGroup() != null) {
-            list = BeeboApplication.getInstance().getGroup().getLists();
-        } else {
-            list = new ArrayList<GroupBean>();
-        }
-        return getIndexFromGroupId(currentGroupId, list);
-    }
-
     @Override
     protected void onTimeListViewItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent mIntent = BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
@@ -655,7 +620,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         }
     }
 
-    @SuppressLint("NewApi")
+    @SuppressLint({ "NewApi", "UseSparseArrays" })
     private void addNewDataAndRememberPositionAutoRefresh(final MessageListBean newValue) {
 
         int initSize = getDataList().getSize();
@@ -912,7 +877,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         dismissFooterView();
         savedCurrentLoadingMsgViewPositon = -1;
         if (timeLineAdapter instanceof AbstractAppListAdapter) {
-            ((AbstractAppListAdapter) timeLineAdapter).setSavedMiddleLoadingViewPosition(savedCurrentLoadingMsgViewPositon);
+            ((AbstractAppListAdapter<?>) timeLineAdapter).setSavedMiddleLoadingViewPosition(savedCurrentLoadingMsgViewPositon);
         }
 
         positionCache.put(currentGroupId, Utility.getCurrentPositionFromListView(getListView()));
