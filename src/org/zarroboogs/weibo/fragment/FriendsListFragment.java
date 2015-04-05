@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.UserListBean;
@@ -52,7 +52,7 @@ public class FriendsListFragment extends AbstractFriendsFanListFragment {
                     actionMode = null;
                     getListView().setItemChecked(position, true);
                     getAdapter().notifyDataSetChanged();
-                    if (getCurrentUser().getId().equals(GlobalContext.getInstance().getCurrentAccountId())) {
+                    if (getCurrentUser().getId().equals(BeeboApplication.getInstance().getCurrentAccountId())) {
                         actionMode = getActivity().startActionMode(
                                 new MyFriendSingleChoiceModeListener(getListView(), getAdapter(), FriendsListFragment.this,
                                         bean.getUsers().get(position - 1)));
@@ -66,7 +66,7 @@ public class FriendsListFragment extends AbstractFriendsFanListFragment {
                 } else {
                     getListView().setItemChecked(position, true);
                     getAdapter().notifyDataSetChanged();
-                    if (getCurrentUser().getId().equals(GlobalContext.getInstance().getCurrentAccountId())) {
+                    if (getCurrentUser().getId().equals(BeeboApplication.getInstance().getCurrentAccountId())) {
                         actionMode = getActivity().startActionMode(
                                 new MyFriendSingleChoiceModeListener(getListView(), getAdapter(), FriendsListFragment.this,
                                         bean.getUsers().get(position - 1)));
@@ -85,7 +85,7 @@ public class FriendsListFragment extends AbstractFriendsFanListFragment {
 
     @Override
     protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateNewUserLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessTokenHack();
+        String token = BeeboApplication.getInstance().getAccessTokenHack();
         String cursor = String.valueOf(0);
         return new FriendUserLoader(getActivity(), token, getCurrentUser().getId(), cursor);
     }
@@ -97,7 +97,7 @@ public class FriendsListFragment extends AbstractFriendsFanListFragment {
             return null;
         }
 
-        String token = GlobalContext.getInstance().getAccessTokenHack();
+        String token = BeeboApplication.getInstance().getAccessTokenHack();
         String cursor = String.valueOf(bean.getNext_cursor());
 
         return new FriendUserLoader(getActivity(), token, getCurrentUser().getId(), cursor);

@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.dialogfragment;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.ManageGroupActivity;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
@@ -83,7 +83,7 @@ public class ManageGroupDialog extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        GroupListBean current = GlobalContext.getInstance().getGroup();
+        GroupListBean current = BeeboApplication.getInstance().getGroup();
         if (current != this.group) {
             dismissAllowingStateLoss();
             ManageGroupDialog dialog = new ManageGroupDialog(current, uid);
@@ -170,7 +170,7 @@ public class ManageGroupDialog extends DialogFragment {
 
         @Override
         protected List<String> doInBackground(Void... params) {
-            GroupListDao dao = new GroupListDao(GlobalContext.getInstance().getAccessToken(), uid);
+            GroupListDao dao = new GroupListDao(BeeboApplication.getInstance().getAccessToken(), uid);
             try {
                 return dao.getInfo();
             } catch (WeiboException e) {
@@ -215,7 +215,7 @@ public class ManageGroupDialog extends DialogFragment {
 
         @Override
         protected Void doInBackground(Void... params) {
-            ModifyGroupMemberDao dao = new ModifyGroupMemberDao(GlobalContext.getInstance().getAccessToken(), uid);
+            ModifyGroupMemberDao dao = new ModifyGroupMemberDao(BeeboApplication.getInstance().getAccessToken(), uid);
             for (String id : add) {
                 try {
                     dao.add(id);
@@ -238,7 +238,7 @@ public class ManageGroupDialog extends DialogFragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Toast.makeText(GlobalContext.getInstance(), GlobalContext.getInstance().getString(R.string.modify_successfully),
+            Toast.makeText(BeeboApplication.getInstance(), BeeboApplication.getInstance().getString(R.string.modify_successfully),
                     Toast.LENGTH_SHORT).show();
         }
     }

@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserCommentActivity;
 import org.zarroboogs.weibo.activity.WriteReplyToCommentActivity;
@@ -57,14 +57,14 @@ public class CommentByIdFloatingMenu extends DialogFragment {
                 switch (which) {
                     case 0:
                         intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-                        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+                        intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
                         intent.putExtra("msg", bean);
                         getActivity().startActivity(intent);
                         break;
                     case 1:
                         intent = new Intent(getActivity(), BrowserCommentActivity.class);
                         intent.putExtra("comment", bean);
-                        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+                        intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
                         getActivity().startActivity(intent);
                         break;
                 }

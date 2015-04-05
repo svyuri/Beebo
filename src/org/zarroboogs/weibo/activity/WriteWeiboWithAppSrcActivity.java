@@ -9,7 +9,7 @@ import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
 import org.zarroboogs.weibo.ChangeWeibaAdapter;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.GeoBean;
@@ -453,7 +453,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 		if (id == R.id.menu_topic) {
 			insertTopic();
 		} else if (id == R.id.menu_at) {
-			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
+			Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
 			startActivityForResult(intent, AT_USER);
 		} else if (id == R.id.editTextLayout) {
 			mEditText.performClick();

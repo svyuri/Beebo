@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.IRemoveItem;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.adapter.CommentListAdapter;
@@ -250,10 +250,10 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     public void removeItem(int position) {
         clearActionMode();
         if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-            removeTask = new RemoveTask(GlobalContext.getInstance().getAccessToken(), getDataList().getItemList().get(position)
+            removeTask = new RemoveTask(BeeboApplication.getInstance().getAccessToken(), getDataList().getItemList().get(position)
                     .getId(), position);
             
-            Log.d("commentsToooME: removeItem", "toaken:" + GlobalContext.getInstance().getAccessToken() + "  ID: "+ getDataList().getItemList().get(position)
+            Log.d("commentsToooME: removeItem", "toaken:" + BeeboApplication.getInstance().getAccessToken() + "  ID: "+ getDataList().getItemList().get(position)
                     .getId() + "   pos:"  +position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -354,7 +354,7 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
         unreadBean = null;
         NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(
                 Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(NotificationServiceHelper.getCommentsToMeNotificationId(GlobalContext.getInstance()
+        notificationManager.cancel(NotificationServiceHelper.getCommentsToMeNotificationId(BeeboApplication.getInstance()
                 .getAccountBean()));
     }
 
@@ -428,7 +428,7 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
         @Override
         public Loader<CommentTimeLineData> onCreateLoader(int id, Bundle args) {
             getPullToRefreshListView().setVisibility(View.INVISIBLE);
-            return new CommentsToMeDBLoader(getActivity(), GlobalContext.getInstance().getCurrentAccountId());
+            return new CommentsToMeDBLoader(getActivity(), BeeboApplication.getInstance().getCurrentAccountId());
         }
 
         @Override
@@ -520,8 +520,8 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    new ClearUnreadDao(GlobalContext.getInstance().getAccountBean().getAccess_token()).clearCommentUnread(
-                            data, GlobalContext.getInstance()
+                    new ClearUnreadDao(BeeboApplication.getInstance().getAccountBean().getAccess_token()).clearCommentUnread(
+                            data, BeeboApplication.getInstance()
                                     .getAccountBean().getUid());
                 } catch (WeiboException ignored) {
 

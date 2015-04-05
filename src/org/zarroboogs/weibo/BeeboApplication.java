@@ -43,13 +43,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public final class GlobalContext extends Application {
-    public static GlobalContext instance;
+public final class BeeboApplication extends Application {
+    public static BeeboApplication instance;
 
     public final static String SLEEP_INTENT = "org.videolan.vlc.SleepIntent";
 
     // singleton
-    public static GlobalContext globalContext = null;
+    public static BeeboApplication globalContext = null;
 
     // image size
     public Activity activity = null;
@@ -77,8 +77,8 @@ public final class GlobalContext extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        globalContext = (GlobalContext) getApplicationContext();
-        instance = (GlobalContext) getApplicationContext();
+        globalContext = (BeeboApplication) getApplicationContext();
+        instance = (BeeboApplication) getApplicationContext();
 
         handler = new Handler();
         emotionsPic = new LinkedHashMap<Integer, LinkedHashMap<String, Bitmap>>();
@@ -93,7 +93,7 @@ public final class GlobalContext extends Application {
         }
     }
 
-    public static GlobalContext getInstance() {
+    public static BeeboApplication getInstance() {
         return globalContext;
     }
 
@@ -103,7 +103,7 @@ public final class GlobalContext extends Application {
 
     public GroupListBean getGroup() {
         if (group == null) {
-            group = GroupDBTask.get(GlobalContext.getInstance().getCurrentAccountId());
+            group = GroupDBTask.get(BeeboApplication.getInstance().getCurrentAccountId());
         }
         return group;
     }
@@ -142,7 +142,7 @@ public final class GlobalContext extends Application {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                for (MyProfileInfoChangeListener listener : profileListenerSet) {
+                for (AccountChangeListener listener : profileListenerSet) {
                     listener.onChange(userBean);
                 }
             }
@@ -176,19 +176,19 @@ public final class GlobalContext extends Application {
         return accountBean;
     }
 
-    private Set<MyProfileInfoChangeListener> profileListenerSet = new HashSet<MyProfileInfoChangeListener>();
+    private Set<AccountChangeListener> profileListenerSet = new HashSet<AccountChangeListener>();
 
-    public void registerForAccountChangeListener(MyProfileInfoChangeListener listener) {
+    public void registerForAccountChangeListener(AccountChangeListener listener) {
         if (listener != null) {
             profileListenerSet.add(listener);
         }
     }
 
-    public void unRegisterForAccountChangeListener(MyProfileInfoChangeListener listener) {
+    public void unRegisterForAccountChangeListener(AccountChangeListener listener) {
         profileListenerSet.remove(listener);
     }
 
-    public static interface MyProfileInfoChangeListener {
+    public static interface AccountChangeListener {
 
         public void onChange(UserBean newUserBean);
     }
@@ -286,7 +286,7 @@ public final class GlobalContext extends Application {
         LinkedHashMap<String, Bitmap> bitmapMap = new LinkedHashMap<String, Bitmap>();
         for (String str : index) {
             String name = emotionMap.get(str);
-            AssetManager assetManager = GlobalContext.getInstance().getAssets();
+            AssetManager assetManager = BeeboApplication.getInstance().getAssets();
             InputStream inputStream;
             try {
                 inputStream = assetManager.open(name);

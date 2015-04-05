@@ -16,7 +16,7 @@ import org.zarroboogs.util.net.WaterMark;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.SendBitmapWorkerTask;
 import org.zarroboogs.utils.SendBitmapWorkerTask.OnCacheDoneListener;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.JSAutoLogin;
 import org.zarroboogs.weibo.JSAutoLogin.AutoLogInListener;
 import org.zarroboogs.weibo.JSAutoLogin.CheckUserNamePasswordListener;
@@ -68,7 +68,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 		// TODO Auto-generated method stub
 		super.onCreate();
 		mSinaLoginHelper = new SinaLoginHelper();
-		mAccountBean = GlobalContext.getInstance().getAccountBean();
+		mAccountBean = BeeboApplication.getInstance().getAccountBean();
 		mJsAutoLogin = new JSAutoLogin(getApplicationContext(), mAccountBean);
 	}
 	
@@ -171,7 +171,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
     }
     
 	private String getCookieIfHave() {
-		String cookieInDB = GlobalContext.getInstance().getAccountBean().getCookieInDB();
+		String cookieInDB = BeeboApplication.getInstance().getAccountBean().getCookieInDB();
 		if (!TextUtils.isEmpty(cookieInDB)) {
 			return cookieInDB;
 		}

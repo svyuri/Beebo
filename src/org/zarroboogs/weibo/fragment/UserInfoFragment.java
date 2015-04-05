@@ -6,7 +6,7 @@ import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.utils.file.FileManager;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.activity.EditMyProfileActivity;
@@ -233,7 +233,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         weiboCountLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = UserTimeLineActivity.newIntent(GlobalContext.getInstance().getAccessTokenHack(), userBean);
+                Intent intent = UserTimeLineActivity.newIntent(BeeboApplication.getInstance().getAccessTokenHack(), userBean);
                 startActivity(intent);
             }
         });
@@ -241,7 +241,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         friendsCountLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = FriendListActivity.newIntent(GlobalContext.getInstance().getAccessTokenHack(), userBean);
+                Intent intent = FriendListActivity.newIntent(BeeboApplication.getInstance().getAccessTokenHack(), userBean);
                 startActivity(intent);
             }
         });
@@ -249,7 +249,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         fansCountLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = FanListActivity.newIntent(GlobalContext.getInstance().getAccessTokenHack(), userBean);
+                Intent intent = FanListActivity.newIntent(BeeboApplication.getInstance().getAccessTokenHack(), userBean);
                 startActivity(intent);
             }
         });
@@ -435,7 +435,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         if (userBean.isFollow_me()) {
             followsYou.setVisibility(View.VISIBLE);
             followsYou.setText(getString(R.string.is_following_me) + "@"
-                    + GlobalContext.getInstance().getCurrentAccountName());
+                    + BeeboApplication.getInstance().getCurrentAccountName());
         } else {
             followsYou.setVisibility(View.GONE);
         }
@@ -475,8 +475,8 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     public void onResume() {
         super.onResume();
         if (userBean != null && userBean.getId() != null
-                && userBean.getId().equals(GlobalContext.getInstance().getCurrentAccountId())) {
-            GlobalContext.getInstance().registerForAccountChangeListener(myProfileInfoChangeListener);
+                && userBean.getId().equals(BeeboApplication.getInstance().getCurrentAccountId())) {
+            BeeboApplication.getInstance().registerForAccountChangeListener(myProfileInfoChangeListener);
         }
     }
 
@@ -484,10 +484,10 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     public void onDestroy() {
         super.onDestroy();
         Utility.cancelTasks(refreshTask, topicListTask);
-        GlobalContext.getInstance().unRegisterForAccountChangeListener(myProfileInfoChangeListener);
+        BeeboApplication.getInstance().unRegisterForAccountChangeListener(myProfileInfoChangeListener);
     }
 
-    private GlobalContext.MyProfileInfoChangeListener myProfileInfoChangeListener = new GlobalContext.MyProfileInfoChangeListener() {
+    private BeeboApplication.AccountChangeListener myProfileInfoChangeListener = new BeeboApplication.AccountChangeListener() {
         @Override
         public void onChange(UserBean newUserBean) {
 
@@ -554,7 +554,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 	public boolean editMyFileOnItemClick() {
 		if (isMyself() && isOpenedFromMainPage()) {
 		    Intent intent = new Intent(getActivity(), EditMyProfileActivity.class);
-		    intent.putExtra(Constants.USERBEAN, GlobalContext.getInstance().getAccountBean().getInfo());
+		    intent.putExtra(Constants.USERBEAN, BeeboApplication.getInstance().getAccountBean().getInfo());
 		    startActivity(intent);
 		    return true;
 		} else {
@@ -574,7 +574,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 	public void editMyProFile() {
 		Menu menu = mUserToolbar.getMenu();
 		MenuItem edit = menu.findItem(R.id.menu_edit);
-		edit.setVisible(GlobalContext.getInstance().getAccountBean().isBlack_magic());
+		edit.setVisible(BeeboApplication.getInstance().getAccountBean().isBlack_magic());
 		refreshItem = menu.findItem(R.id.menu_refresh_my_profile);
 	}
     
@@ -605,8 +605,8 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
 
-        startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), getDataList()
-                .getItem(position), GlobalContext
+        startActivityForResult(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(), getDataList()
+                .getItem(position), BeeboApplication
                 .getInstance().getAccessTokenHack()), 0);
 
     }
@@ -614,11 +614,11 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     private boolean isMyself() {
 
         if (!TextUtils.isEmpty(userBean.getId())) {
-            return userBean.getId().equals(GlobalContext.getInstance().getCurrentAccountId());
+            return userBean.getId().equals(BeeboApplication.getInstance().getCurrentAccountId());
         }
 
         if (!TextUtils.isEmpty(userBean.getScreen_name())) {
-            return userBean.getScreen_name().equals(GlobalContext.getInstance().getCurrentAccountName());
+            return userBean.getScreen_name().equals(BeeboApplication.getInstance().getCurrentAccountName());
         }
 
         return false;
@@ -682,7 +682,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 
     @Override
     protected void loadOldMsg(View view) {
-        Intent intent = UserTimeLineActivity.newIntent(GlobalContext.getInstance().getAccessTokenHack(), userBean);
+        Intent intent = UserTimeLineActivity.newIntent(BeeboApplication.getInstance().getAccessTokenHack(), userBean);
         startActivity(intent);
     }
 
@@ -748,7 +748,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         if (position == null) {
             savePositionToPositionsCache();
         }
-        MyStatusDBTask.asyncUpdatePosition(position, GlobalContext.getInstance().getCurrentAccountId());
+        MyStatusDBTask.asyncUpdatePosition(position, BeeboApplication.getInstance().getCurrentAccountId());
     }
 
     private void savePositionToPositionsCache() {
@@ -841,7 +841,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 
         @Override
         protected ArrayList<String> doInBackground(Void... params) {
-            UserTopicListDao dao = new UserTopicListDao(GlobalContext.getInstance().getAccessTokenHack(), userBean.getId());
+            UserTopicListDao dao = new UserTopicListDao(BeeboApplication.getInstance().getAccessTokenHack(), userBean.getId());
             try {
                 return dao.getGSONMsgList();
             } catch (WeiboException e) {
@@ -901,7 +901,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         @Override
         protected UserBean doInBackground(Object... params) {
             if (!isCancelled()) {
-                ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getAccessTokenHack());
+                ShowUserDao dao = new ShowUserDao(BeeboApplication.getInstance().getAccessTokenHack());
                 boolean haveId = !TextUtils.isEmpty(userBean.getId());
                 boolean haveName = !TextUtils.isEmpty(userBean.getScreen_name());
                 if (haveId) {
@@ -955,8 +955,8 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
                 msg.setUser(o);
             }
             if (isMyself()) {
-                GlobalContext.getInstance().updateUserInfo(o);
-                AccountDBTask.asyncUpdateMyProfile(GlobalContext.getInstance().getAccountBean(), o);
+                BeeboApplication.getInstance().updateUserInfo(o);
+                AccountDBTask.asyncUpdateMyProfile(BeeboApplication.getInstance().getAccountBean(), o);
             }
             getAdapter().notifyDataSetChanged();
             stopRefreshMenuAnimationIfPossible();

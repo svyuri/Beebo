@@ -1,7 +1,7 @@
 package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.utils.WeiBoURLs;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.adapter.FriendsTimeLineListNavAdapter;
@@ -65,8 +65,8 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 		setRetainInstance(true);
 
 		List<GroupBean> list = new ArrayList<GroupBean>();
-		if (GlobalContext.getInstance().getGroup() != null) {
-			list = GlobalContext.getInstance().getGroup().getLists();
+		if (BeeboApplication.getInstance().getGroup() != null) {
+			list = BeeboApplication.getInstance().getGroup().getLists();
 		} else {
 			list = new ArrayList<GroupBean>();
 		}
@@ -124,14 +124,14 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		
-		if (GlobalContext.getInstance().getGroup() == null || GlobalContext.getInstance().getGroup().getLists().size() == 0) {
+		if (BeeboApplication.getInstance().getGroup() == null || BeeboApplication.getInstance().getGroup().getLists().size() == 0) {
 			loadGroup();
 		}
 	}
 
 	private void loadGroup() {
 		RequestParams requestParams = new RequestParams();
-		requestParams.add("access_token", GlobalContext.getInstance().getAccountBean().getAccess_token_hack());
+		requestParams.add("access_token", BeeboApplication.getInstance().getAccountBean().getAccess_token_hack());
 		loadData(WeiBoURLs.FRIENDSGROUP_INFO, requestParams);
 	}
 	
@@ -144,8 +144,8 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 
 		List<GroupBean> groupBeans = groupListBean.getLists();
 		if (groupBeans != null) {
-			GroupDBTask.update(groupListBean, GlobalContext.getInstance().getCurrentAccountId());
-			GlobalContext.getInstance().setGroup(groupListBean);
+			GroupDBTask.update(groupListBean, BeeboApplication.getInstance().getCurrentAccountId());
+			BeeboApplication.getInstance().setGroup(groupListBean);
 			for (GroupBean groupBean : groupBeans) {
 				Log.d("FETCH_GROUP ", "" + groupBean.getName());
 			}

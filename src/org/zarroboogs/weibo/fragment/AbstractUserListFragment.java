@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
@@ -178,7 +178,7 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
 
     protected void listViewItemClick(AdapterView parent, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+        intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
         intent.putExtra("user", bean.getUsers().get(position));
         startActivity(intent);
     }

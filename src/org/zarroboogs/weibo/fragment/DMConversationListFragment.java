@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.adapter.DMConversationAdapter;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
@@ -327,7 +327,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            SendDMDao dao = new SendDMDao(GlobalContext.getInstance().getAccessTokenHack(), userBean.getId(), et.getText()
+            SendDMDao dao = new SendDMDao(BeeboApplication.getInstance().getAccessTokenHack(), userBean.getId(), et.getText()
                     .toString());
             try {
                 return dao.send();
@@ -393,14 +393,14 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     @Override
     protected Loader<AsyncTaskLoaderResult<DMListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessTokenHack();
+        String token = BeeboApplication.getInstance().getAccessTokenHack();
         page = 1;
         return new DMConversationLoader(getActivity(), token, userBean.getId(), String.valueOf(page));
     }
 
     @Override
     protected Loader<AsyncTaskLoaderResult<DMListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessTokenHack();
+        String token = BeeboApplication.getInstance().getAccessTokenHack();
         return new DMConversationLoader(getActivity(), token, userBean.getId(), String.valueOf(page + 1));
     }
 

@@ -11,7 +11,7 @@ import org.zarroboogs.utils.file.FileDownloaderHttpHelper;
 import org.zarroboogs.utils.file.FileManager;
 import org.zarroboogs.utils.file.FileUploaderHttpHelper;
 import org.zarroboogs.weibo.BuildConfig;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.support.utils.Utility;
 
@@ -118,7 +118,7 @@ public class JavaHttpUtility {
     }
 
     public String doPost(String urlAddress, Map<String, String> param) throws WeiboException {
-        GlobalContext globalContext = GlobalContext.getInstance();
+        BeeboApplication globalContext = BeeboApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
         globalContext = null;
         try {
@@ -155,7 +155,7 @@ public class JavaHttpUtility {
     }
 
     private String handleResponse(HttpURLConnection httpURLConnection) throws WeiboException {
-        GlobalContext globalContext = GlobalContext.getInstance();
+        BeeboApplication globalContext = BeeboApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
         globalContext = null;
         int status = 0;
@@ -207,7 +207,7 @@ public class JavaHttpUtility {
     private String readResult(HttpURLConnection urlConnection) throws WeiboException {
         InputStream is = null;
         BufferedReader buffer = null;
-        GlobalContext globalContext = GlobalContext.getInstance();
+        BeeboApplication globalContext = BeeboApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
         globalContext = null;
         try {
@@ -241,7 +241,7 @@ public class JavaHttpUtility {
     private String readError(HttpURLConnection urlConnection) throws WeiboException {
         InputStream is = null;
         BufferedReader buffer = null;
-        GlobalContext globalContext = GlobalContext.getInstance();
+        BeeboApplication globalContext = BeeboApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
 
         try {
@@ -279,7 +279,7 @@ public class JavaHttpUtility {
     }
 
     public String doGet(String urlStr, Map<String, String> param) throws WeiboException {
-        GlobalContext globalContext = GlobalContext.getInstance();
+        BeeboApplication globalContext = BeeboApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
         globalContext = null;
         InputStream is = null;
@@ -461,7 +461,7 @@ public class JavaHttpUtility {
         HttpURLConnection urlConnection = null;
         BufferedOutputStream out = null;
         FileInputStream fis = null;
-        GlobalContext globalContext = GlobalContext.getInstance();
+        BeeboApplication globalContext = BeeboApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
         globalContext = null;
         try {

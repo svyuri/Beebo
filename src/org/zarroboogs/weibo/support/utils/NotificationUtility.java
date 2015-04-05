@@ -1,7 +1,7 @@
 
 package org.zarroboogs.weibo.support.utils;
 
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.CommentListBean;
 import org.zarroboogs.weibo.bean.MessageListBean;
@@ -67,7 +67,7 @@ public class NotificationUtility {
         StringBuilder stringBuilder = new StringBuilder();
         if (mention > 0) {
             String txt = String
-                    .format(GlobalContext.getInstance().getString(R.string.new_mentions), String.valueOf(mention));
+                    .format(BeeboApplication.getInstance().getString(R.string.new_mentions), String.valueOf(mention));
             stringBuilder.append(txt);
         }
 
@@ -90,7 +90,7 @@ public class NotificationUtility {
 
             if (cmt > 0) {
                 String txt = String
-                        .format(GlobalContext.getInstance().getString(R.string.new_comments), String.valueOf(cmt));
+                        .format(BeeboApplication.getInstance().getString(R.string.new_comments), String.valueOf(cmt));
                 stringBuilder.append(txt);
             }
 
@@ -106,20 +106,20 @@ public class NotificationUtility {
 
         int messageCount = unreadMentionCmt + unreadMentionStatus + unreadCmt;
 
-        String txt = String.format(GlobalContext.getInstance().getString(R.string.new_unread_messages),
+        String txt = String.format(BeeboApplication.getInstance().getString(R.string.new_unread_messages),
                 String.valueOf(messageCount));
 
         return txt;
     }
 
     public static void show(Notification notification, int id) {
-        NotificationManager notificationManager = (NotificationManager) GlobalContext.getInstance().getSystemService(
+        NotificationManager notificationManager = (NotificationManager) BeeboApplication.getInstance().getSystemService(
                 Context.NOTIFICATION_SERVICE);
         notificationManager.notify(id, notification);
     }
 
     public static void cancel(int id) {
-        NotificationManager notificationManager = (NotificationManager) GlobalContext.getInstance().getSystemService(
+        NotificationManager notificationManager = (NotificationManager) BeeboApplication.getInstance().getSystemService(
                 Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(id);
     }

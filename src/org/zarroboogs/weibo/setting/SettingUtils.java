@@ -1,7 +1,7 @@
 
 package org.zarroboogs.weibo.setting;
 
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.setting.activity.SettingActivity;
 import org.zarroboogs.weibo.support.utils.AppConfig;
@@ -36,7 +36,7 @@ public class SettingUtils {
     }
 
     private static Context getContext() {
-        return GlobalContext.getInstance();
+        return BeeboApplication.getInstance();
     }
 
     public static boolean firstStart() {

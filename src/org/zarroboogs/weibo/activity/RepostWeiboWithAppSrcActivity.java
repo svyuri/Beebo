@@ -9,7 +9,7 @@ import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
 import org.zarroboogs.weibo.ChangeWeibaAdapter;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.activity.WriteWeiboWithAppSrcActivity.MyDrawerToggle;
@@ -135,7 +135,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 		}
 
 
-        mAccountBean = GlobalContext.getInstance().getAccountBean();
+        mAccountBean = BeeboApplication.getInstance().getAccountBean();
         // mAccountBean = getAccount();
         Log.d("RpostWeiBo_activity", "AccountBean == null ? : " + (mAccountBean == null));
 
@@ -422,7 +422,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 		if (id == R.id.menu_topic) {
 			insertTopic();
 		} else if (id == R.id.menu_at) {
-			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccountBean().getAccess_token());
+			Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccountBean().getAccess_token());
 			startActivityForResult(intent, AT_USER);
 		} else if (id == R.id.editTextLayout) {
 			mEditText.performClick();
@@ -479,8 +479,8 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 	            intent.putExtra("oriMsg", msg);
 	            intent.putExtra("content", getRepostTextContent());
 	            intent.putExtra("is_comment", is_comment);
-	            intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
-	            intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+	            intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
+	            intent.putExtra(Constants.ACCOUNT, BeeboApplication.getInstance().getAccountBean());
 	            startService(intent);
 	            finish();
 			}

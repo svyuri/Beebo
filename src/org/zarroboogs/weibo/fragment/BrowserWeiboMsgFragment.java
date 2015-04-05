@@ -5,7 +5,7 @@ import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.file.FileLocationMethod;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.IRemoveItem;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
@@ -403,7 +403,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+                intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
                 intent.putExtra("user", msg.getUser());
                 startActivity(intent);
             }
@@ -635,7 +635,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
             return;
         }
         if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-            removeTask = new RemoveTask(GlobalContext.getInstance().getAccessToken(), commentList.getItemList()
+            removeTask = new RemoveTask(BeeboApplication.getInstance().getAccessToken(), commentList.getItemList()
                     .get(position).getId(), position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -680,8 +680,8 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
             boolean isDeleted = msg.getRetweeted_status() == null || msg.getRetweeted_status().getUser() == null;
 
             if (isNotLink && !isDeleted) {
-                startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
-                        msg.getRetweeted_status(), GlobalContext
+                startActivity(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
+                        msg.getRetweeted_status(), BeeboApplication
                                 .getInstance().getAccessToken()));
             } else if (isNotLink && isDeleted) {
                 Toast.makeText(getActivity(), getString(R.string.cant_open_deleted_weibo), Toast.LENGTH_SHORT).show();
@@ -782,8 +782,8 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
             if (position - listView.getHeaderViewsCount() < repostList.getSize()
                     && position >= listView.getHeaderViewsCount()) {
-                startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
-                        repostList.getItemList().get(position - listView.getHeaderViewsCount()), GlobalContext.getInstance()
+                startActivity(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
+                        repostList.getItemList().get(position - listView.getHeaderViewsCount()), BeeboApplication.getInstance()
                                 .getAccessToken()));
             } else {
                 loadOldRepostData();
@@ -995,7 +995,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
         @Override
         public Loader<AsyncTaskLoaderResult<CommentListBean>> onCreateLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getAccessToken();
+            String token = BeeboApplication.getInstance().getAccessToken();
 
             switch (id) {
                 case NEW_COMMENT_LOADER_ID:
@@ -1079,7 +1079,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
         @Override
         public Loader<AsyncTaskLoaderResult<RepostListBean>> onCreateLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getAccessTokenHack();
+            String token = BeeboApplication.getInstance().getAccessTokenHack();
 
             switch (id) {
                 case NEW_REPOST_LOADER_ID:

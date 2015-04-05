@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
 import org.zarroboogs.weibo.activity.WriteReplyToCommentActivity;
@@ -94,7 +94,7 @@ public class BrowserCommentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+                intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
                 intent.putExtra("user", msg.getUser());
                 startActivity(intent);
             }
@@ -107,7 +107,7 @@ public class BrowserCommentFragment extends Fragment {
         if (msg.getUser() != null) {
             username.setText(msg.getUser().getScreen_name());
             String url = msg.getUser().getProfile_image_url();
-            Bitmap bitmap = GlobalContext.getInstance().getBitmapCache().get(url);
+            Bitmap bitmap = BeeboApplication.getInstance().getBitmapCache().get(url);
             if (bitmap != null) {
                 avatar.setImageBitmap(bitmap);
             } else {
@@ -159,7 +159,7 @@ public class BrowserCommentFragment extends Fragment {
         int itemId = item.getItemId();
 		if (itemId == R.id.menu_comment) {
 			intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
 			intent.putExtra("msg", msg);
 			getActivity().startActivity(intent);
 		} else if (itemId == R.id.menu_share) {

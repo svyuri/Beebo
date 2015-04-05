@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.file.FileManager;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
@@ -376,7 +376,7 @@ public class BrowserWebFragment extends Fragment {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                return new Mid2IdDao(GlobalContext.getInstance().getAccessToken(), mid).getId();
+                return new Mid2IdDao(BeeboApplication.getInstance().getAccessToken(), mid).getId();
             } catch (WeiboException e) {
                 return "0";
             }
@@ -401,12 +401,12 @@ public class BrowserWebFragment extends Fragment {
             commonProgressDialogFragment.dismissAllowingStateLoss();
 
             if (Long.valueOf(id) > 0L) {
-                webFragment.startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
-                        id, GlobalContext.getInstance()
+                webFragment.startActivity(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
+                        id, BeeboApplication.getInstance()
                                 .getAccessToken()));
                 activity.finish();
             } else {
-                Toast.makeText(GlobalContext.getInstance(), R.string.cant_not_convert_to_weibo_id, Toast.LENGTH_SHORT)
+                Toast.makeText(BeeboApplication.getInstance(), R.string.cant_not_convert_to_weibo_id, Toast.LENGTH_SHORT)
                         .show();
                 webFragment.mWebView.loadUrl(oriUrl);
             }

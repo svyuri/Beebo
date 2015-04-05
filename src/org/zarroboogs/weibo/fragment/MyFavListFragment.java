@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.util.net.WeiboException;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
@@ -119,7 +119,7 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-        account = GlobalContext.getInstance().getAccountBean();
+        account = BeeboApplication.getInstance().getAccountBean();
         switch (getCurrentState(savedInstanceState)) {
             case FIRST_TIME_START:
                 readDBCache();
@@ -160,8 +160,8 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
     }
 
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
-        startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
-                bean.getItem(position), GlobalContext
+        startActivityForResult(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
+                bean.getItem(position), BeeboApplication
                         .getInstance().getAccessToken()),
                 MainTimeLineActivity.REQUEST_CODE_UPDATE_MY_FAV_TIMELINE_COMMENT_REPOST_COUNT);
 
@@ -255,14 +255,14 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
 
     @Override
     protected Loader<AsyncTaskLoaderResult<FavListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessToken();
+        String token = BeeboApplication.getInstance().getAccessToken();
         page = 1;
         return new MyFavMsgLoader(getActivity(), token, String.valueOf(page));
     }
 
     @Override
     protected Loader<AsyncTaskLoaderResult<FavListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessToken();
+        String token = BeeboApplication.getInstance().getAccessToken();
         return new MyFavMsgLoader(getActivity(), token, String.valueOf(page + 1));
     }
 
@@ -360,7 +360,7 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
         @Override
         protected List<MessageReCmtCountBean> doInBackground(Void... params) {
             try {
-                return new TimeLineReCmtCountDao(GlobalContext.getInstance().getAccessToken(), msgIds).get();
+                return new TimeLineReCmtCountDao(BeeboApplication.getInstance().getAccessToken(), msgIds).get();
             } catch (WeiboException e) {
                 cancel(true);
             }

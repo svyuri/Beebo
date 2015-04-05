@@ -5,7 +5,7 @@ import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileDownloaderHttpHelper;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.utils.file.FileManager;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.MessageBean;
@@ -106,7 +106,7 @@ public class TimeLineBitmapDownloader {
         if (TextUtils.isEmpty(key)) {
             return null;
         } else {
-            return GlobalContext.getInstance().getBitmapCache().get(key);
+            return BeeboApplication.getInstance().getBitmapCache().get(key);
         }
     }
 
@@ -378,7 +378,7 @@ public class TimeLineBitmapDownloader {
         if (bitmap != null && bitmap.getHeight() == height && bitmap.getWidth() == width) {
             for (int i = 0; i < imageView.size(); i++) {
                 ImageView imageView1 = imageView.get(i);
-                imageView1.setImageDrawable(new BitmapDrawable(GlobalContext.getInstance().getResources(), bitmap));
+                imageView1.setImageDrawable(new BitmapDrawable(BeeboApplication.getInstance().getResources(), bitmap));
                 if (animations != null && animations.size() > i) {
                     Animation animation = animations.get(i);
                     imageView1.startAnimation(animation);
@@ -414,10 +414,10 @@ public class TimeLineBitmapDownloader {
             protected void onPostExecute(Bitmap bitmap) {
                 super.onPostExecute(bitmap);
                 if (bitmap != null) {
-                    GlobalContext.getInstance().getBitmapCache().put(url, bitmap);
+                    BeeboApplication.getInstance().getBitmapCache().put(url, bitmap);
                     for (int i = 0; i < imageView.size(); i++) {
                         ImageView imageView1 = imageView.get(i);
-                        imageView1.setImageDrawable(new BitmapDrawable(GlobalContext.getInstance().getResources(), bitmap));
+                        imageView1.setImageDrawable(new BitmapDrawable(BeeboApplication.getInstance().getResources(), bitmap));
                         if (animations != null && animations.size() > i) {
                             Animation animation = animations.get(i);
                             imageView1.startAnimation(animation);

@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.ui.actionmenu;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserCommentActivity;
 import org.zarroboogs.weibo.activity.WriteReplyToCommentActivity;
@@ -85,9 +85,9 @@ public class CommentSingleChoiceModeListener implements ActionMode.Callback {
         MenuInflater inflater = mode.getMenuInflater();
         menu.clear();
 
-        boolean isMyComment = bean.getUser().getId().equals(GlobalContext.getInstance().getCurrentAccountId());
+        boolean isMyComment = bean.getUser().getId().equals(BeeboApplication.getInstance().getCurrentAccountId());
         boolean isCommentUnderMyStatus = bean.getStatus().getUser().getId()
-                .equals(GlobalContext.getInstance().getCurrentAccountId());
+                .equals(BeeboApplication.getInstance().getCurrentAccountId());
 
         if (isMyComment || isCommentUnderMyStatus) {
             inflater.inflate(R.menu.contextual_menu_fragment_comment_listview_myself, menu);
@@ -125,13 +125,13 @@ public class CommentSingleChoiceModeListener implements ActionMode.Callback {
 		if (itemId == R.id.menu_view) {
 			intent = new Intent(getActivity(), BrowserCommentActivity.class);
 			intent.putExtra("comment", bean);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
 			getActivity().startActivity(intent);
 			listView.clearChoices();
 			mode.finish();
 		} else if (itemId == R.id.menu_comment) {
 			intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
 			intent.putExtra("msg", bean);
 			getActivity().startActivity(intent);
 			listView.clearChoices();

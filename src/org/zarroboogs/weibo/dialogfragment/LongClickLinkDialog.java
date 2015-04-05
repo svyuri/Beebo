@@ -1,7 +1,7 @@
 
 package org.zarroboogs.weibo.dialogfragment;
 
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
 import org.zarroboogs.weibo.support.utils.Utility;
@@ -86,8 +86,8 @@ public class LongClickLinkDialog extends DialogFragment {
                         ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                         cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", getStringContent()));
                         Toast.makeText(
-                                GlobalContext.getInstance(),
-                                String.format(GlobalContext.getInstance().getString(R.string.have_copied),
+                                BeeboApplication.getInstance(),
+                                String.format(BeeboApplication.getInstance().getString(R.string.have_copied),
                                         getStringContent()),
                                 Toast.LENGTH_SHORT).show();
                         break;

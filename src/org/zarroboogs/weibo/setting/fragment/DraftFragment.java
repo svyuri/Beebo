@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.setting.fragment;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.WriteCommentActivity;
 import org.zarroboogs.weibo.activity.WriteReplyToCommentActivity;
@@ -188,7 +188,7 @@ public class DraftFragment extends ListFragment {
 
         @Override
         protected List<DraftListViewItemBean> doInBackground(Void... params) {
-            return DraftDBManager.getInstance().removeAndGet(set, GlobalContext.getInstance().getAccountBean().getUid());
+            return DraftDBManager.getInstance().removeAndGet(set, BeeboApplication.getInstance().getAccountBean().getUid());
         }
 
         @Override
@@ -203,7 +203,7 @@ public class DraftFragment extends ListFragment {
         @Override
         protected List<DraftListViewItemBean> doInBackground(Void... params) {
             List<DraftListViewItemBean> set = DraftDBManager.getInstance().getDraftList(
-                    GlobalContext.getInstance().getAccountBean().getUid());
+                    BeeboApplication.getInstance().getAccountBean().getUid());
 
             return set;
         }

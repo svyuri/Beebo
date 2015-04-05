@@ -4,7 +4,7 @@ package org.zarroboogs.util.net;
 import android.content.res.Resources;
 import android.text.TextUtils;
 
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 
 /**
@@ -62,11 +62,11 @@ public class WeiboException extends Exception {
         } else {
 
             String name = "code" + error_code;
-            int i = GlobalContext.getInstance().getResources()
-                    .getIdentifier(name, "string", GlobalContext.getInstance().getPackageName());
+            int i = BeeboApplication.getInstance().getResources()
+                    .getIdentifier(name, "string", BeeboApplication.getInstance().getPackageName());
 
             try {
-                result = GlobalContext.getInstance().getString(i);
+                result = BeeboApplication.getInstance().getString(i);
 
             } catch (Resources.NotFoundException e) {
 
@@ -74,7 +74,7 @@ public class WeiboException extends Exception {
                     result = oriError;
                 } else {
 
-                    result = GlobalContext.getInstance().getString(R.string.unknown_error_error_code) + error_code;
+                    result = BeeboApplication.getInstance().getString(R.string.unknown_error_error_code) + error_code;
                 }
             }
         }

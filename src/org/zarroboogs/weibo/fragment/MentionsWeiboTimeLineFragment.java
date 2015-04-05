@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
@@ -190,7 +190,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
         unreadBean = null;
         NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(
                 Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(NotificationServiceHelper.getMentionsWeiboNotificationId(GlobalContext.getInstance()
+        notificationManager.cancel(NotificationServiceHelper.getMentionsWeiboNotificationId(BeeboApplication.getInstance()
                 .getAccountBean()));
 
     }
@@ -308,8 +308,8 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
     @Override
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
         startActivityForResult(
-                BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
-                        bean.getItemList().get(position), GlobalContext
+                BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
+                        bean.getItemList().get(position), BeeboApplication
                                 .getInstance().getAccessToken()),
                 MainTimeLineActivity.REQUEST_CODE_UPDATE_MENTIONS_WEIBO_TIMELINE_COMMENT_REPOST_COUNT);
 
@@ -363,7 +363,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
         @Override
         public Loader<MentionTimeLineData> onCreateLoader(int id, Bundle args) {
             getPullToRefreshListView().setVisibility(View.INVISIBLE);
-            return new MentionsWeiboTimeDBLoader(getActivity(), GlobalContext.getInstance().getCurrentAccountId());
+            return new MentionsWeiboTimeDBLoader(getActivity(), BeeboApplication.getInstance().getCurrentAccountId());
         }
 
         @Override
@@ -474,7 +474,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
         @Override
         protected List<MessageReCmtCountBean> doInBackground(Void... params) {
             try {
-                return new TimeLineReCmtCountDao(GlobalContext.getInstance().getAccessToken(), msgIds).get();
+                return new TimeLineReCmtCountDao(BeeboApplication.getInstance().getAccessToken(), msgIds).get();
             } catch (WeiboException e) {
                 cancel(true);
             }
@@ -509,8 +509,8 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    new ClearUnreadDao(GlobalContext.getInstance().getAccountBean().getAccess_token())
-                            .clearMentionStatusUnread(data, GlobalContext
+                    new ClearUnreadDao(BeeboApplication.getInstance().getAccountBean().getAccess_token())
+                            .clearMentionStatusUnread(data, BeeboApplication
                                     .getInstance().getAccountBean().getUid());
                 } catch (WeiboException ignored) {
 

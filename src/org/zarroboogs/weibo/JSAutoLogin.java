@@ -197,7 +197,7 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
                         if (!TextUtils.isEmpty(uname)) {
                             manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.USER_NAME, uname);
                             manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.GSID, gsid);
-                            GlobalContext.getInstance().updateAccountBean();
+                            BeeboApplication.getInstance().updateAccountBean();
                         }
                     }
                 }
@@ -208,7 +208,7 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
 						mListener.onAutoLonin(true);
 					}
                     manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, pubCookie);
-                    GlobalContext.getInstance().updateAccountBean();
+                    BeeboApplication.getInstance().updateAccountBean();
                 } else if (!TextUtils.isEmpty(uid)) {
                     mWebView.loadUrl(url);
                 }

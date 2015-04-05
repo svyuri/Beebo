@@ -17,7 +17,7 @@ import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.activity.WriteCommentActivity;
@@ -89,7 +89,7 @@ public class StatusSingleChoiceModeListener implements ActionMode.Callback {
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
         MenuInflater inflater = mode.getMenuInflater();
         menu.clear();
-        if (bean.getUser().getId().equals(GlobalContext.getInstance().getCurrentAccountId())) {
+        if (bean.getUser().getId().equals(BeeboApplication.getInstance().getCurrentAccountId())) {
             inflater.inflate(R.menu.contextual_menu_fragment_status_listview_myself, menu);
         } else {
             inflater.inflate(R.menu.contextual_menu_fragment_status_listview, menu);
@@ -135,7 +135,7 @@ public class StatusSingleChoiceModeListener implements ActionMode.Callback {
         int itemId = item.getItemId();
 		if (itemId == R.id.menu_repost) {
 			intent = new Intent(getActivity(), RepostWeiboWithAppSrcActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
 			intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
 			intent.putExtra("id", String.valueOf(ids[0]));
 			intent.putExtra("msg", bean);
@@ -144,7 +144,7 @@ public class StatusSingleChoiceModeListener implements ActionMode.Callback {
 			mode.finish();
 		} else if (itemId == R.id.menu_comment) {
 			intent = new Intent(getActivity(), WriteCommentActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
 			intent.putExtra("id", String.valueOf(ids[0]));
 			intent.putExtra("msg", bean);
 			getActivity().startActivity(intent);
@@ -152,14 +152,14 @@ public class StatusSingleChoiceModeListener implements ActionMode.Callback {
 			mode.finish();
 		} else if (itemId == R.id.menu_fav) {
 			if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
-			    favTask = new FavAsyncTask(GlobalContext.getInstance().getAccessToken(), bean.getId());
+			    favTask = new FavAsyncTask(BeeboApplication.getInstance().getAccessToken(), bean.getId());
 			    favTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
 			}
 			listView.clearChoices();
 			mode.finish();
 		} else if (itemId == R.id.menu_unfav) {
 			if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
-			    unFavTask = new UnFavAsyncTask(GlobalContext.getInstance().getAccessToken(), bean.getId());
+			    unFavTask = new UnFavAsyncTask(BeeboApplication.getInstance().getAccessToken(), bean.getId());
 			    unFavTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
 			}
 			listView.clearChoices();

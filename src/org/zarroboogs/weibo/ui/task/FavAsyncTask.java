@@ -4,7 +4,7 @@ package org.zarroboogs.weibo.ui.task;
 import android.widget.Toast;
 
 import org.zarroboogs.util.net.WeiboException;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.FavBean;
@@ -40,14 +40,14 @@ public class FavAsyncTask extends MyAsyncTask<Void, FavBean, FavBean> {
     protected void onCancelled(FavBean favBean) {
         super.onCancelled(favBean);
         if (favBean == null && this.e != null)
-            Toast.makeText(GlobalContext.getInstance(), e.getError(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(BeeboApplication.getInstance(), e.getError(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onPostExecute(FavBean favBean) {
         super.onPostExecute(favBean);
         if (favBean != null)
-            Toast.makeText(GlobalContext.getInstance(), GlobalContext.getInstance().getString(R.string.fav_successfully),
+            Toast.makeText(BeeboApplication.getInstance(), BeeboApplication.getInstance().getString(R.string.fav_successfully),
                     Toast.LENGTH_SHORT).show();
     }
 }

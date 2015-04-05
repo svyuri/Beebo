@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.service;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.WriteReplyToCommentActivity;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
@@ -46,7 +46,7 @@ public class SendReplyToCommentService extends Service {
     private Handler handler = new Handler();
 
     public static Intent newIntent(AccountBean accountBean, CommentBean commentBean, String content, String repostContent) {
-        Intent intent = new Intent(GlobalContext.getInstance(), SendReplyToCommentService.class);
+        Intent intent = new Intent(BeeboApplication.getInstance(), SendReplyToCommentService.class);
         intent.putExtra("oriMsg", commentBean);
         intent.putExtra("content", content);
         intent.putExtra(Constants.TOKEN, accountBean.getAccess_token());

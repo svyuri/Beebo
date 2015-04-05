@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.CommentBean;
@@ -164,7 +164,7 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
 
         token = intent.getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getAccessToken();
+            token = BeeboApplication.getInstance().getAccessToken();
         }
 
         bean = (CommentBean) intent.getParcelableExtra("msg");
@@ -174,7 +174,7 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
     private void handleDraftOperation(Intent intent) {
         token = intent.getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getAccessToken();
+            token = BeeboApplication.getInstance().getAccessToken();
         }
 
         replyDraftBean = (ReplyDraftBean) intent.getParcelableExtra("draft");
@@ -197,7 +197,7 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
     public void saveToDraft() {
         if (!TextUtils.isEmpty(getEditTextView().getText().toString())) {
             DraftDBManager.getInstance().insertReply(getEditTextView().getText().toString(), bean,
-                    GlobalContext.getInstance().getCurrentAccountId());
+                    BeeboApplication.getInstance().getCurrentAccountId());
         }
         finish();
     }
@@ -237,7 +237,7 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
 			    enableRepost.setChecked(true);
 			}
 		} else if (itemId == R.id.menu_at) {
-			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
+			Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
 			intent.putExtra(Constants.TOKEN, token);
 			startActivityForResult(intent, AT_USER);
 		} else if (itemId == R.id.menu_clear) {

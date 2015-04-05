@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.weibo.GSIDWebViewActivity;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -151,13 +151,13 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
     	return super.onOptionsItemSelected(item);
     }
     public static Intent newIntent() {
-        Intent intent = new Intent(GlobalContext.getInstance(), AccountActivity.class);
+        Intent intent = new Intent(BeeboApplication.getInstance(), AccountActivity.class);
         intent.setAction(ACTION_OPEN_FROM_APP_INNER);
         return intent;
     }
 
     public static Intent newIntent(AccountBean refreshAccount) {
-        Intent intent = new Intent(GlobalContext.getInstance(), AccountActivity.class);
+        Intent intent = new Intent(BeeboApplication.getInstance(), AccountActivity.class);
         intent.setAction(ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN);
         intent.putExtra(REFRESH_ACTION_EXTRA, refreshAccount);
         return intent;

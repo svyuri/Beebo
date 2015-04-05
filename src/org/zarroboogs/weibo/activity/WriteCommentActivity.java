@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.CommentDraftBean;
@@ -149,7 +149,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
 
         token = getIntent().getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getAccessToken();
+            token = BeeboApplication.getInstance().getAccessToken();
         }
 
         msg = (MessageBean) getIntent().getParcelableExtra("msg");
@@ -160,7 +160,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
 
         token = getIntent().getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getAccessToken();
+            token = BeeboApplication.getInstance().getAccessToken();
         }
 
         commentDraftBean = (CommentDraftBean) getIntent().getParcelableExtra("draft");
@@ -206,7 +206,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
     public void saveToDraft() {
         if (!TextUtils.isEmpty(getEditTextView().getText().toString())) {
             DraftDBManager.getInstance().insertComment(getEditTextView().getText().toString(), msg,
-                    GlobalContext.getInstance().getCurrentAccountId());
+                    BeeboApplication.getInstance().getCurrentAccountId());
         }
         finish();
     }
@@ -271,7 +271,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
 			    enableRepost.setChecked(true);
 			}
 		} else if (itemId == R.id.menu_at) {
-			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
+			Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
 			startActivityForResult(intent, AT_USER);
 		} else if (itemId == R.id.menu_clear) {
 			clearContentMenu();
@@ -328,8 +328,8 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
         intent.putExtra("oriMsg", msg);
         intent.putExtra("content", content);
         intent.putExtra("is_comment", is_comment);
-        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
-        intent.putExtra("accountId", GlobalContext.getInstance().getCurrentAccountId());
+        intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
+        intent.putExtra("accountId", BeeboApplication.getInstance().getCurrentAccountId());
         startService(intent);
         finish();
 

@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.SearchTopicByNameActivity;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
@@ -118,7 +118,7 @@ public class UserTopicListFragment extends ListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        if (userBean.getId().equals(GlobalContext.getInstance().getCurrentAccountId()))
+        if (userBean.getId().equals(BeeboApplication.getInstance().getCurrentAccountId()))
             inflater.inflate(R.menu.actionbar_menu_usertopiclistfragment, menu);
     }
 
@@ -138,7 +138,7 @@ public class UserTopicListFragment extends ListFragment {
 
         @Override
         protected List<String> doInBackground(Void... params) {
-            UserTopicListDao dao = new UserTopicListDao(GlobalContext.getInstance().getAccessToken(), userBean.getId());
+            UserTopicListDao dao = new UserTopicListDao(BeeboApplication.getInstance().getAccessToken(), userBean.getId());
             try {
                 return dao.getGSONMsgList();
             } catch (WeiboException e) {
@@ -181,7 +181,7 @@ public class UserTopicListFragment extends ListFragment {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return new TopicDao(GlobalContext.getInstance().getAccessToken()).follow(keyWord);
+                return new TopicDao(BeeboApplication.getInstance().getAccessToken()).follow(keyWord);
             } catch (WeiboException e) {
                 this.e = e;
                 cancel(true);

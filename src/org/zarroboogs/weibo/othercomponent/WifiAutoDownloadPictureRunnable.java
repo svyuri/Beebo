@@ -5,7 +5,7 @@ import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.utils.file.FileManager;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.MessageListBean;
 import org.zarroboogs.weibo.bean.UserBean;
@@ -67,7 +67,7 @@ public class WifiAutoDownloadPictureRunnable implements Runnable {
             return false;
         }
 
-        if (!Utility.isWifi(GlobalContext.getInstance())) {
+        if (!Utility.isWifi(BeeboApplication.getInstance())) {
             return false;
         }
 

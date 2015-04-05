@@ -6,7 +6,7 @@ import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.utils.file.FileManager;
 import org.zarroboogs.weibo.BuildConfig;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.AccountActivity;
 import org.zarroboogs.weibo.activity.BlackMagicActivity;
@@ -205,17 +205,17 @@ public class Utility {
     }
 
     public static int dip2px(int dipValue) {
-        float reSize = GlobalContext.getInstance().getResources().getDisplayMetrics().density;
+        float reSize = BeeboApplication.getInstance().getResources().getDisplayMetrics().density;
         return (int) ((dipValue * reSize) + 0.5);
     }
 
     public static int px2dip(int pxValue) {
-        float reSize = GlobalContext.getInstance().getResources().getDisplayMetrics().density;
+        float reSize = BeeboApplication.getInstance().getResources().getDisplayMetrics().density;
         return (int) ((pxValue / reSize) + 0.5);
     }
 
     public static float sp2px(int spValue) {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, GlobalContext.getInstance().getResources()
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, BeeboApplication.getInstance().getResources()
                 .getDisplayMetrics());
     }
 
@@ -303,7 +303,7 @@ public class Utility {
             uri = Uri.parse(SettingUtils.getRingtone());
         }
 
-        if (uri != null && isSystemRinger(GlobalContext.getInstance())) {
+        if (uri != null && isSystemRinger(BeeboApplication.getInstance())) {
             builder.setSound(uri);
         }
     }
@@ -419,7 +419,7 @@ public class Utility {
     }
 
     public static int getScreenWidth() {
-        Activity activity = GlobalContext.getInstance().getActivity();
+        Activity activity = BeeboApplication.getInstance().getActivity();
         if (activity != null) {
             Display display = activity.getWindowManager().getDefaultDisplay();
             DisplayMetrics metrics = new DisplayMetrics();
@@ -431,7 +431,7 @@ public class Utility {
     }
 
     public static int getScreenHeight() {
-        Activity activity = GlobalContext.getInstance().getActivity();
+        Activity activity = BeeboApplication.getInstance().getActivity();
         if (activity != null) {
             Display display = activity.getWindowManager().getDefaultDisplay();
             DisplayMetrics metrics = new DisplayMetrics();
@@ -773,7 +773,7 @@ public class Utility {
     }
 
     public static boolean isDevicePort() {
-        return GlobalContext.getInstance().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        return BeeboApplication.getInstance().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
     public static void printStackTrace(Exception e) {
@@ -823,14 +823,14 @@ public class Utility {
     }
 
     public static void showExpiredTokenDialogOrNotification() {
-        final Activity activity = GlobalContext.getInstance().getCurrentRunningActivity();
+        final Activity activity = BeeboApplication.getInstance().getCurrentRunningActivity();
         boolean currentAccountTokenIsExpired = true;
-        AccountBean currentAccount = GlobalContext.getInstance().getAccountBean();
+        AccountBean currentAccount = BeeboApplication.getInstance().getAccountBean();
         if (currentAccount != null) {
             currentAccountTokenIsExpired = !Utility.isTokenValid(currentAccount);
         }
 
-        if (currentAccountTokenIsExpired && activity != null && !GlobalContext.getInstance().tokenExpiredDialogIsShowing) {
+        if (currentAccountTokenIsExpired && activity != null && !BeeboApplication.getInstance().tokenExpiredDialogIsShowing) {
             if (activity.getClass() == AccountActivity.class) {
                 return;
             }
@@ -853,7 +853,7 @@ public class Utility {
                                 public void onClick(DialogInterface dialog, int which) {
                                     activity.startActivity(AccountActivity.newIntent(needRefreshTokenAccount));
                                     activity.finish();
-                                    GlobalContext.getInstance().tokenExpiredDialogIsShowing = false;
+                                    BeeboApplication.getInstance().tokenExpiredDialogIsShowing = false;
                                 }
                             }).setOnCancelListener(new DialogInterface.OnCancelListener() {
                                 @Override
@@ -861,26 +861,26 @@ public class Utility {
                                     // do nothing
                                 }
                             }).show();
-                    GlobalContext.getInstance().tokenExpiredDialogIsShowing = true;
+                    BeeboApplication.getInstance().tokenExpiredDialogIsShowing = true;
                 }
             });
         } else if (!currentAccountTokenIsExpired || activity == null) {
 
             Intent i = AccountActivity.newIntent();
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            PendingIntent pendingIntent = PendingIntent.getActivity(GlobalContext.getInstance(), 0, i,
+            PendingIntent pendingIntent = PendingIntent.getActivity(BeeboApplication.getInstance(), 0, i,
                     PendingIntent.FLAG_UPDATE_CURRENT);
 
-            Notification.Builder builder = new Notification.Builder(GlobalContext.getInstance())
-                    .setContentTitle(GlobalContext.getInstance().getString(R.string.login_again))
-                    .setContentText(GlobalContext.getInstance().getString(R.string.have_account_whose_token_is_expired))
+            Notification.Builder builder = new Notification.Builder(BeeboApplication.getInstance())
+                    .setContentTitle(BeeboApplication.getInstance().getString(R.string.login_again))
+                    .setContentText(BeeboApplication.getInstance().getString(R.string.have_account_whose_token_is_expired))
                     .setSmallIcon(R.drawable.ic_notification).setAutoCancel(true).setContentIntent(pendingIntent)
                     .setOnlyAlertOnce(true);
-            NotificationManager notificationManager = (NotificationManager) GlobalContext.getInstance().getSystemService(
+            NotificationManager notificationManager = (NotificationManager) BeeboApplication.getInstance().getSystemService(
                     Context.NOTIFICATION_SERVICE);
             notificationManager.notify(NotificationServiceHelper.getTokenExpiredNotificationId(), builder.build());
-        } else if (GlobalContext.getInstance().tokenExpiredDialogIsShowing) {
-            NotificationManager notificationManager = (NotificationManager) GlobalContext.getInstance().getSystemService(
+        } else if (BeeboApplication.getInstance().tokenExpiredDialogIsShowing) {
+            NotificationManager notificationManager = (NotificationManager) BeeboApplication.getInstance().getSystemService(
                     Context.NOTIFICATION_SERVICE);
             notificationManager.cancel(NotificationServiceHelper.getTokenExpiredNotificationId());
         }
@@ -1073,7 +1073,7 @@ public class Utility {
         BitmapFactory.decodeFile(path, options);
         String type = options.outMimeType;
 
-        MediaScannerConnection.scanFile(GlobalContext.getInstance(), new String[] {
+        MediaScannerConnection.scanFile(BeeboApplication.getInstance(), new String[] {
                 path
         }, new String[] {
                 type

@@ -15,7 +15,7 @@ import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.devutils.http.AbsAsyncHttpService;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.JSAutoLogin;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
@@ -60,7 +60,7 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-		mAccountBean = GlobalContext.getInstance().getAccountBean();
+		mAccountBean = BeeboApplication.getInstance().getAccountBean();
 		mJsAutoLogin = new JSAutoLogin(getApplicationContext(), mAccountBean);
 	}
 	
@@ -137,7 +137,7 @@ public class RepostWithAppSrcServices extends AbsAsyncHttpService {
     
     
 	private String getCookieIfHave() {
-		String cookieInDB = GlobalContext.getInstance().getAccountBean().getCookieInDB();
+		String cookieInDB = BeeboApplication.getInstance().getAccountBean().getCookieInDB();
 		if (!TextUtils.isEmpty(cookieInDB)) {
 			return cookieInDB;
 		}

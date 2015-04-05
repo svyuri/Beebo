@@ -4,7 +4,7 @@ package org.zarroboogs.weibo.activity;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -147,7 +147,7 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
     }
 
     public static Intent newIntent(AccountBean accountBean, String weiboId, String token) {
-        Intent intent = new Intent(GlobalContext.getInstance(), BrowserWeiboMsgActivity.class);
+        Intent intent = new Intent(BeeboApplication.getInstance(), BrowserWeiboMsgActivity.class);
         intent.putExtra("weiboId", weiboId);
         intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, accountBean);
         intent.putExtra(Constants.TOKEN, token);
@@ -156,7 +156,7 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
     }
 
     public static Intent newIntent(AccountBean accountBean, MessageBean msg, String token) {
-        Intent intent = new Intent(GlobalContext.getInstance(), BrowserWeiboMsgActivity.class);
+        Intent intent = new Intent(BeeboApplication.getInstance(), BrowserWeiboMsgActivity.class);
         intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, accountBean);
         intent.putExtra("msg", msg);
         intent.putExtra(Constants.TOKEN, token);
@@ -223,7 +223,7 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
 
         getMenuInflater().inflate(R.menu.actionbar_menu_browserweibomsgactivity, menu);
 
-        if (msg.getUser() != null && msg.getUser().getId().equals(GlobalContext.getInstance().getCurrentAccountId())) {
+        if (msg.getUser() != null && msg.getUser().getId().equals(BeeboApplication.getInstance().getCurrentAccountId())) {
             menu.findItem(R.id.menu_delete).setVisible(true);
         }
 
@@ -371,7 +371,7 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
 
         @Override
         protected MessageBean loadData() throws WeiboException {
-            return new ShowStatusDao(GlobalContext.getInstance().getAccessToken(), msgId).getMsg();
+            return new ShowStatusDao(BeeboApplication.getInstance().getAccessToken(), msgId).getMsg();
 
         }
     }

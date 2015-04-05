@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.adapter;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
 import org.zarroboogs.weibo.bean.UserBean;
@@ -215,7 +215,7 @@ public class DMUserListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                    intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+                    intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
                     intent.putExtra("user", user);
                     getActivity().startActivity(intent);
                 }

@@ -8,7 +8,7 @@ import android.view.MenuInflater;
 import android.view.View;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.UserListBean;
@@ -71,7 +71,7 @@ public class SearchUserFragment extends AbstractUserListFragment {
 
     @Override
     protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateNewUserLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessTokenHack();
+        String token = BeeboApplication.getInstance().getAccessTokenHack();
         String word = searchKey;
         page = 1;
         return new SearchUserLoader(getActivity(), token, word, String.valueOf(page));
@@ -79,7 +79,7 @@ public class SearchUserFragment extends AbstractUserListFragment {
 
     @Override
     protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateOldUserLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessTokenHack();
+        String token = BeeboApplication.getInstance().getAccessTokenHack();
         String word = searchKey;
         return new SearchUserLoader(getActivity(), token, word, String.valueOf(page + 1));
     }

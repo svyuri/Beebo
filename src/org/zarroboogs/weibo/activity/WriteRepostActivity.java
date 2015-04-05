@@ -11,7 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.MessageBean;
@@ -130,7 +130,7 @@ public class WriteRepostActivity extends AbstractWriteActivity<MessageBean> {
 
         token = intent.getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token))
-            token = GlobalContext.getInstance().getAccessToken();
+            token = BeeboApplication.getInstance().getAccessToken();
 
         msg = (MessageBean) intent.getParcelableExtra("msg");
 
@@ -195,7 +195,7 @@ public class WriteRepostActivity extends AbstractWriteActivity<MessageBean> {
     public void saveToDraft() {
         if (!TextUtils.isEmpty(getEditTextView().getText().toString())) {
             DraftDBManager.getInstance().insertRepost(getEditTextView().getText().toString(), msg,
-                    GlobalContext.getInstance().getCurrentAccountId());
+                    BeeboApplication.getInstance().getCurrentAccountId());
         }
         finish();
     }
@@ -264,7 +264,7 @@ public class WriteRepostActivity extends AbstractWriteActivity<MessageBean> {
 			    menuEnableOriComment.setChecked(true);
 			}
 		} else if (itemId == R.id.menu_at) {
-			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
+			Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
 			startActivityForResult(intent, AT_USER);
 		} else if (itemId == R.id.menu_clear) {
 			clearContentMenu();
@@ -324,8 +324,8 @@ public class WriteRepostActivity extends AbstractWriteActivity<MessageBean> {
             intent.putExtra("oriMsg", msg);
             intent.putExtra("content", getEditTextView().getText().toString());
             intent.putExtra("is_comment", is_comment);
-            intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
-            intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+            intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
+            intent.putExtra(Constants.ACCOUNT, BeeboApplication.getInstance().getAccountBean());
             startService(intent);
             finish();
         }

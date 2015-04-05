@@ -2,7 +2,7 @@ package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.file.FileLocationMethod;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.HotModelActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
@@ -88,7 +88,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 			readUnreadCountFromDB();
 		}
 		if (currentIndex == -1) {
-			currentIndex = GlobalContext.getInstance().getAccountBean().getNavigationPosition() / 10;
+			currentIndex = BeeboApplication.getInstance().getAccountBean().getNavigationPosition() / 10;
 		}
 
 		rightFragments.append(HOME_INDEX, ((MainTimeLineActivity) getActivity()).getMainTimeLineFragment());
@@ -99,21 +99,21 @@ public class LeftMenuFragment extends BaseStateFragment {
 
 		switchCategory(currentIndex);
 
-		layout.nickname.setText(GlobalContext.getInstance().getCurrentAccountName());
+		layout.nickname.setText(BeeboApplication.getInstance().getCurrentAccountName());
 
-		TimeLineBitmapDownloader.getInstance().display(layout.avatar, -1, -1, GlobalContext.getInstance().getAccountBean().getInfo().getAvatar_large(),
+		TimeLineBitmapDownloader.getInstance().display(layout.avatar, -1, -1, BeeboApplication.getInstance().getAccountBean().getInfo().getAvatar_large(),
 				FileLocationMethod.avatar_large);
 		layout.avatar.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(getActivity(), MyInfoActivity.class);
-				intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccountBean().getAccess_token());
+				intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccountBean().getAccess_token());
 
 				UserBean userBean = new UserBean();
-				userBean.setId(GlobalContext.getInstance().getCurrentAccountId());
+				userBean.setId(BeeboApplication.getInstance().getCurrentAccountId());
 				intent.putExtra("user", userBean);
-				intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+				intent.putExtra(Constants.ACCOUNT, BeeboApplication.getInstance().getAccountBean());
 				startActivity(intent);
 			}
 		});
@@ -343,12 +343,12 @@ public class LeftMenuFragment extends BaseStateFragment {
 	}
 
 	private void readUnreadCountFromDB() {
-		TimeLinePosition position = MentionWeiboTimeLineDBTask.getPosition(GlobalContext.getInstance().getCurrentAccountId());
+		TimeLinePosition position = MentionWeiboTimeLineDBTask.getPosition(BeeboApplication.getInstance().getCurrentAccountId());
 		TreeSet<Long> hashSet = position.newMsgIds;
 
-		position = MentionCommentsTimeLineDBTask.getPosition(GlobalContext.getInstance().getCurrentAccountId());
+		position = MentionCommentsTimeLineDBTask.getPosition(BeeboApplication.getInstance().getCurrentAccountId());
 		hashSet = position.newMsgIds;
-		position = CommentToMeTimeLineDBTask.getPosition(GlobalContext.getInstance().getCurrentAccountId());
+		position = CommentToMeTimeLineDBTask.getPosition(BeeboApplication.getInstance().getCurrentAccountId());
 		hashSet = position.newMsgIds;
 	}
 

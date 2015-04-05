@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.adapter;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
@@ -131,14 +131,14 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
     						case R.id.reply_comment_menu:{
     							
     							Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-    	                        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+    	                        intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
     	                        intent.putExtra("msg", comment);
     	                        getActivity().startActivity(intent);
     							break;
     						}
     						case R.id.view_weibo_menu:{
-    							getActivity().startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
-    									comment.getStatus(), GlobalContext.getInstance().getAccessToken()));
+    							getActivity().startActivity(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
+    									comment.getStatus(), BeeboApplication.getInstance().getAccessToken()));
     							break;
     						}
     						
@@ -266,7 +266,7 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
     
 	private void replyComment(final CommentBean comment) {
 		Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+        intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
         intent.putExtra("msg", comment);
         getActivity().startActivity(intent);
 	}

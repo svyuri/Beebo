@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.support.utils;
 
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.WeiboPatterns;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.AdBean;
 import org.zarroboogs.weibo.bean.CommentBean;
 import org.zarroboogs.weibo.bean.MessageBean;
@@ -238,7 +238,7 @@ public class TimeLineUtility {
             List<String> sourceFilter) {
 
         // if this message is sent myself, ignore it;
-        if (content.getUser().getId().equals(GlobalContext.getInstance().getCurrentAccountId())) {
+        if (content.getUser().getId().equals(BeeboApplication.getInstance().getCurrentAccountId())) {
             return false;
         }
 
@@ -324,12 +324,12 @@ public class TimeLineUtility {
             int k = localMatcher.start();
             int m = localMatcher.end();
             if (m - k < 8) {
-                Bitmap bitmap = GlobalContext.getInstance().getEmotionsPics().get(str2);
+                Bitmap bitmap = BeeboApplication.getInstance().getEmotionsPics().get(str2);
                 if (bitmap == null) {
-                    bitmap = GlobalContext.getInstance().getHuahuaPics().get(str2);
+                    bitmap = BeeboApplication.getInstance().getHuahuaPics().get(str2);
                 }
                 if (bitmap != null) {
-                    ImageSpan localImageSpan = new ImageSpan(GlobalContext.getInstance().getActivity(), bitmap,
+                    ImageSpan localImageSpan = new ImageSpan(BeeboApplication.getInstance().getActivity(), bitmap,
                             ImageSpan.ALIGN_BASELINE);
                     value.setSpan(localImageSpan, k, m, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }

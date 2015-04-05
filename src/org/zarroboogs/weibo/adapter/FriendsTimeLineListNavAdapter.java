@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.GroupBean;
 import org.zarroboogs.weibo.db.task.FriendsTimeLineDBTask;
@@ -35,13 +35,13 @@ public class FriendsTimeLineListNavAdapter extends BaseAdapter {
 		this.activity = activity;
 		this.valueArray = valueArray;
 
-		mSelectId = getRecentNavIndex(FriendsTimeLineDBTask.getRecentGroupId(GlobalContext.getInstance().getCurrentAccountId()));
+		mSelectId = getRecentNavIndex(FriendsTimeLineDBTask.getRecentGroupId(BeeboApplication.getInstance().getCurrentAccountId()));
 	}
 
 	private int getRecentNavIndex(String currentGroupId) {
 		List<GroupBean> list = new ArrayList<GroupBean>();
-		if (GlobalContext.getInstance().getGroup() != null) {
-			list = GlobalContext.getInstance().getGroup().getLists();
+		if (BeeboApplication.getInstance().getGroup() != null) {
+			list = BeeboApplication.getInstance().getGroup().getLists();
 		} else {
 			list = new ArrayList<GroupBean>();
 		}

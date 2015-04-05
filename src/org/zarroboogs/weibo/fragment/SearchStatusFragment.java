@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
 import org.zarroboogs.weibo.bean.data.SearchStatusListBean;
@@ -67,14 +67,14 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
     }
 
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
-        startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
-                bean.getItem(position), GlobalContext.getInstance()
+        startActivity(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
+                bean.getItem(position), BeeboApplication.getInstance()
                         .getAccessTokenHack()));
     }
 
     @Override
     protected Loader<AsyncTaskLoaderResult<SearchStatusListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessTokenHack();
+        String token = BeeboApplication.getInstance().getAccessTokenHack();
         String word = searchKey;
         page = 1;
         return new SearchStatusLoader(getActivity(), token, word, String.valueOf(page));
@@ -82,7 +82,7 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
 
     @Override
     protected Loader<AsyncTaskLoaderResult<SearchStatusListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessTokenHack();
+        String token = BeeboApplication.getInstance().getAccessTokenHack();
         String word = searchKey;
         return new SearchStatusLoader(getActivity(), token, word, String.valueOf(page + 1));
     }

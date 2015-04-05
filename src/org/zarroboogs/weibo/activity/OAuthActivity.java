@@ -9,7 +9,7 @@ import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.WeiboOAuthConstances;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -194,7 +194,7 @@ public class OAuthActivity extends AbstractAppActivity {
 			manager.updateAccount(AccountTable.ACCOUNT_TABLE, mAccountBean.getUid(),
 					AccountTable.USER_PWD, password);
 		}
-        GlobalContext.getInstance().updateAccountBean();
+        BeeboApplication.getInstance().updateAccountBean();
 	}
 
     private class WeiboWebViewClient extends WebViewClient {
@@ -354,7 +354,7 @@ public class OAuthActivity extends AbstractAppActivity {
             		if (activity.mAccountBean != null) {
             			return AccountDBTask.updateAccountHackToken(activity.mAccountBean, token, System.currentTimeMillis() + expiresInSeconds * 1000);
 					}
-                    AccountBean account = GlobalContext.getInstance().getAccountBean();
+                    AccountBean account = BeeboApplication.getInstance().getAccountBean();
                     return AccountDBTask.updateAccountHackToken(account, token, System.currentTimeMillis() + expiresInSeconds * 1000);
 				}else {
 	                UserBean user = new OAuthDao(token).getOAuthUserInfo();

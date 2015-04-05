@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 import org.zarroboogs.utils.WeiboPatterns;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.AtUserBean;
 import org.zarroboogs.weibo.dao.AtUserDao;
 import org.zarroboogs.weibo.support.utils.Utility;
@@ -157,7 +157,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<AtUserBean> implements Fil
                 return filterResults;
             }
 
-            AtUserDao dao = new AtUserDao(GlobalContext.getInstance().getAccessToken(), q);
+            AtUserDao dao = new AtUserDao(BeeboApplication.getInstance().getAccessToken(), q);
             // SearchDao dao = new
             // SearchDao(GlobalContext.getInstance().getSpecialToken(), q);
             activity.runOnUiThread(new Runnable() {

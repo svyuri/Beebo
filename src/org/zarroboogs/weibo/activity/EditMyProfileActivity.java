@@ -4,7 +4,7 @@ package org.zarroboogs.weibo.activity;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.ImageUtility;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.UserBean;
@@ -318,7 +318,7 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
 
         @Override
         protected UserBean doInBackground(Void... params) {
-            EditMyProfileDao dao = new EditMyProfileDao(GlobalContext.getInstance().getAccessToken(), screenName);
+            EditMyProfileDao dao = new EditMyProfileDao(BeeboApplication.getInstance().getAccessToken(), screenName);
             dao.setUrl(url);
             dao.setDescription(description);
             dao.setAvatar(picPath);
@@ -403,15 +403,15 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
         protected UserBean doInBackground(Object... params) {
             UserBean user = null;
             try {
-                ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getAccessToken());
-                dao.setUid(GlobalContext.getInstance().getAccountBean().getUid());
+                ShowUserDao dao = new ShowUserDao(BeeboApplication.getInstance().getAccessToken());
+                dao.setUid(BeeboApplication.getInstance().getAccountBean().getUid());
                 user = dao.getUserInfo();
             } catch (WeiboException e) {
                 this.e = e;
                 cancel(true);
             }
             if (user != null) {
-                AccountDBTask.updateMyProfile(GlobalContext.getInstance().getAccountBean(), user);
+                AccountDBTask.updateMyProfile(BeeboApplication.getInstance().getAccountBean(), user);
             } else {
                 cancel(true);
             }
@@ -430,7 +430,7 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
         protected void onPostExecute(UserBean userBean) {
             super.onPostExecute(userBean);
             stopSaveAnimation();
-            GlobalContext.getInstance().updateUserInfo(userBean);
+            BeeboApplication.getInstance().updateUserInfo(userBean);
             finish();
         }
     }

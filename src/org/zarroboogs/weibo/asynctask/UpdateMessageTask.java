@@ -13,7 +13,7 @@ import android.widget.Toast;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.ErrorCode;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.dao.ShowStatusDao;
 import org.zarroboogs.weibo.fragment.BrowserWeiboMsgFragment;
@@ -49,7 +49,7 @@ public class UpdateMessageTask extends MyAsyncTask<Void, Void, MessageBean> {
     @Override
     protected MessageBean doInBackground(Void... params) {
         try {
-            return new ShowStatusDao(GlobalContext.getInstance().getAccessTokenHack(), msg.getId()).getMsg();
+            return new ShowStatusDao(BeeboApplication.getInstance().getAccessTokenHack(), msg.getId()).getMsg();
         } catch (WeiboException e) {
             this.e = e;
             cancel(true);

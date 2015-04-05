@@ -1,7 +1,7 @@
 
 package org.zarroboogs.weibo.support.utils;
 
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.data.DataItem;
 
@@ -17,20 +17,20 @@ public class TimeUtility {
     private static int MILL_HOUR = MILL_MIN * 60;
     private static int MILL_DAY = MILL_HOUR * 24;
 
-    private static String JUST_NOW = GlobalContext.getInstance().getString(R.string.justnow);
-    private static String MIN = GlobalContext.getInstance().getString(R.string.min);
-    private static String HOUR = GlobalContext.getInstance().getString(R.string.hour);
-    private static String DAY = GlobalContext.getInstance().getString(R.string.day);
-    private static String MONTH = GlobalContext.getInstance().getString(R.string.month);
-    private static String YEAR = GlobalContext.getInstance().getString(R.string.year);
+    private static String JUST_NOW = BeeboApplication.getInstance().getString(R.string.justnow);
+    private static String MIN = BeeboApplication.getInstance().getString(R.string.min);
+    private static String HOUR = BeeboApplication.getInstance().getString(R.string.hour);
+    private static String DAY = BeeboApplication.getInstance().getString(R.string.day);
+    private static String MONTH = BeeboApplication.getInstance().getString(R.string.month);
+    private static String YEAR = BeeboApplication.getInstance().getString(R.string.year);
 
-    private static String YESTER_DAY = GlobalContext.getInstance().getString(R.string.yesterday);
-    private static String THE_DAY_BEFORE_YESTER_DAY = GlobalContext.getInstance().getString(
+    private static String YESTER_DAY = BeeboApplication.getInstance().getString(R.string.yesterday);
+    private static String THE_DAY_BEFORE_YESTER_DAY = BeeboApplication.getInstance().getString(
             R.string.the_day_before_yesterday);
-    private static String TODAY = GlobalContext.getInstance().getString(R.string.today);
+    private static String TODAY = BeeboApplication.getInstance().getString(R.string.today);
 
-    private static String DATE_FORMAT = GlobalContext.getInstance().getString(R.string.date_format);
-    private static String YEAR_FORMAT = GlobalContext.getInstance().getString(R.string.year_format);
+    private static String DATE_FORMAT = BeeboApplication.getInstance().getString(R.string.date_format);
+    private static String YEAR_FORMAT = BeeboApplication.getInstance().getString(R.string.year_format);
 
     private static Calendar msgCalendar = null;
     private static java.text.SimpleDateFormat dayFormat = null;

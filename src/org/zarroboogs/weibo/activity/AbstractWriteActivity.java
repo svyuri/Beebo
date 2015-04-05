@@ -4,7 +4,7 @@ package org.zarroboogs.weibo.activity;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileLocationMethod;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.TextNumLimitWatcher;
 import org.zarroboogs.weibo.adapter.AutoCompleteAdapter;
@@ -218,7 +218,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
 		} else if (id == R.id.menu_topic) {
 			insertTopic();
 		} else if (id == R.id.menu_at) {
-			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
+			Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
 			startActivityForResult(intent, AT_USER);
 		}
     }
@@ -244,7 +244,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
             dialog.show(getFragmentManager(), "");
         } else {
 
-            if (GlobalContext.getInstance().getAccountBean().equals(getCurrentAccountBean())) {
+            if (BeeboApplication.getInstance().getAccountBean().equals(getCurrentAccountBean())) {
                 super.onBackPressed();
             } else {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -260,7 +260,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     }
 
     protected AccountBean getCurrentAccountBean() {
-        return GlobalContext.getInstance().getAccountBean();
+        return BeeboApplication.getInstance().getAccountBean();
     }
 
     protected abstract boolean canShowSaveDraftDialog();

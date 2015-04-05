@@ -6,7 +6,7 @@ import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.ImageEditUtility;
 import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileLocationMethod;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.TextNumLimitWatcher;
 import org.zarroboogs.weibo.adapter.AutoCompleteAdapter;
@@ -104,7 +104,7 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
     private GetGoogleLocationInfo locationTask;
 
     public static Intent newIntent(AccountBean accountBean) {
-        Intent intent = new Intent(GlobalContext.getInstance(), WriteWeiboActivity.class);
+        Intent intent = new Intent(BeeboApplication.getInstance(), WriteWeiboActivity.class);
         intent.putExtra(Constants.TOKEN, accountBean.getAccess_token());
         intent.putExtra(Constants.ACCOUNT, accountBean);
         return intent;
@@ -343,7 +343,7 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!GlobalContext.getInstance().checkUserIsLogin()) {
+        if (!BeeboApplication.getInstance().checkUserIsLogin()) {
             Toast.makeText(this, this.getString(R.string.share_failed_because_of_no_account), Toast.LENGTH_SHORT).show();
             Intent intent = AccountActivity.newIntent();
             startActivity(intent);
@@ -422,11 +422,11 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
         int avatarWidth = getResources().getDimensionPixelSize(R.dimen.timeline_avatar_width);
         int avatarHeight = getResources().getDimensionPixelSize(R.dimen.timeline_avatar_height);
 
-        Bitmap bitmap = ImageUtility.getWriteWeiboRoundedCornerPic(GlobalContext.getInstance().getAccountBean().getInfo()
+        Bitmap bitmap = ImageUtility.getWriteWeiboRoundedCornerPic(BeeboApplication.getInstance().getAccountBean().getInfo()
                 .getAvatar_large(), avatarWidth,
                 avatarHeight, FileLocationMethod.avatar_large);
         if (bitmap == null) {
-            bitmap = ImageUtility.getWriteWeiboRoundedCornerPic(GlobalContext.getInstance().getAccountBean().getInfo()
+            bitmap = ImageUtility.getWriteWeiboRoundedCornerPic(BeeboApplication.getInstance().getAccountBean().getInfo()
                     .getProfile_image_url(), avatarWidth,
                     avatarHeight, FileLocationMethod.avatar_small);
         }
@@ -516,7 +516,7 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
 
     private void getAccountInfo() {
 
-        AccountBean account = GlobalContext.getInstance().getAccountBean();
+        AccountBean account = BeeboApplication.getInstance().getAccountBean();
         if (account != null) {
             accountBean = account;
             token = account.getAccess_token();
@@ -595,7 +595,7 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
             menu.findItem(R.id.menu_clear).setVisible(false);
         }
 
-        MusicInfoBean musicInfo = GlobalContext.getInstance().getMusicInfo();
+        MusicInfoBean musicInfo = BeeboApplication.getInstance().getMusicInfo();
         if (!musicInfo.isEmpty()) {
             MenuItem musicMenu = menu.findItem(R.id.menu_add_now_playing);
             musicMenu.setVisible(true);
@@ -624,7 +624,7 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
 			content.setText(ori + topicTag);
 			content.setSelection(content.getText().toString().length() - 1);
 		} else if (itemId == R.id.menu_at) {
-			Intent intent2 = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
+			Intent intent2 = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
 			startActivityForResult(intent2, AT_USER);
 		} else if (itemId == R.id.menu_txt_to_pic) {
 			convertStringToBitmap();
@@ -633,7 +633,7 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
 		} else if (itemId == R.id.menu_add_gps) {
 			addLocation();
 		} else if (itemId == R.id.menu_add_now_playing) {
-			MusicInfoBean musicInfo = GlobalContext.getInstance().getMusicInfo();
+			MusicInfoBean musicInfo = BeeboApplication.getInstance().getMusicInfo();
 			if (!musicInfo.isEmpty()) {
 			    content.append(musicInfo.toString());
 			}
@@ -757,7 +757,7 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
 			} else if (id == R.id.menu_send) {
 				send();
 			} else if (id == R.id.menu_at) {
-				Intent intent = AtUserActivity.atUserIntent(WriteWeiboActivity.this, GlobalContext.getInstance().getAccessTokenHack());
+				Intent intent = AtUserActivity.atUserIntent(WriteWeiboActivity.this, BeeboApplication.getInstance().getAccessTokenHack());
 				startActivityForResult(intent, AT_USER);
 			}
         }

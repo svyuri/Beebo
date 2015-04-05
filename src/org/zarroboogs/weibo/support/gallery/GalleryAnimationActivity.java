@@ -1,7 +1,7 @@
 
 package org.zarroboogs.weibo.support.gallery;
 
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.hot.hean.HotMblogBean;
@@ -53,7 +53,7 @@ public class GalleryAnimationActivity extends FragmentActivity {
     private ColorDrawable backgroundColor;
 
     public static Intent newIntent(MessageBean msg, ArrayList<AnimationRect> rectList, int initPosition) {
-        Intent intent = new Intent(GlobalContext.getInstance(), GalleryAnimationActivity.class);
+        Intent intent = new Intent(BeeboApplication.getInstance(), GalleryAnimationActivity.class);
         intent.putExtra("msg", msg);
         intent.putExtra("rect", rectList);
         intent.putExtra("position", initPosition);
@@ -61,7 +61,7 @@ public class GalleryAnimationActivity extends FragmentActivity {
     }
     
     public static Intent newIntent(HotMblogBean msg, ArrayList<AnimationRect> rectList, int initPosition) {
-        Intent intent = new Intent(GlobalContext.getInstance(), GalleryAnimationActivity.class);
+        Intent intent = new Intent(BeeboApplication.getInstance(), GalleryAnimationActivity.class);
         intent.putExtra("msg", msg);
         intent.putExtra("rect", rectList);
         intent.putExtra("position", initPosition);
@@ -70,7 +70,7 @@ public class GalleryAnimationActivity extends FragmentActivity {
     
     
     public static Intent newIntent(ArrayList<String> lPics, ArrayList<AnimationRect> rectList, int initPosition) {
-        Intent intent = new Intent(GlobalContext.getInstance(), GalleryAnimationActivity.class);
+        Intent intent = new Intent(BeeboApplication.getInstance(), GalleryAnimationActivity.class);
         intent.putStringArrayListExtra("pics", lPics);
         intent.putExtra("position", initPosition);
         intent.putExtra("rect", rectList);

@@ -15,7 +15,7 @@ import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.ErrorCode;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.WriteWeiboActivity;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
@@ -79,9 +79,9 @@ public class UserDialog extends DialogFragment {
             switch (which) {
                 case 0:
                     Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
-                    intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+                    intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
                     intent.putExtra("content", "@" + user.getScreen_name());
-                    intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+                    intent.putExtra(Constants.ACCOUNT, BeeboApplication.getInstance().getAccountBean());
                     startActivity(intent);
                     break;
                 case 1:
@@ -103,13 +103,13 @@ public class UserDialog extends DialogFragment {
             switch (which) {
                 case 0:
                     Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
-                    intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+                    intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
                     intent.putExtra("content", "@" + user.getScreen_name());
-                    intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+                    intent.putExtra(Constants.ACCOUNT, BeeboApplication.getInstance().getAccountBean());
                     startActivity(intent);
                     break;
                 case 1:
-                    ManageGroupDialog manageGroupDialog = new ManageGroupDialog(GlobalContext.getInstance().getGroup(),
+                    ManageGroupDialog manageGroupDialog = new ManageGroupDialog(BeeboApplication.getInstance().getGroup(),
                             user.getId());
                     manageGroupDialog.show(getFragmentManager(), "");
                     break;
@@ -136,7 +136,7 @@ public class UserDialog extends DialogFragment {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
+            FriendshipsDao dao = new FriendshipsDao(BeeboApplication.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(user.getId())) {
                 dao.setUid(user.getId());
             } else {
@@ -161,7 +161,7 @@ public class UserDialog extends DialogFragment {
         @Override
         protected void onPostExecute(UserBean o) {
             super.onPostExecute(o);
-            Toast.makeText(GlobalContext.getInstance(), GlobalContext.getInstance().getString(R.string.follow_successfully),
+            Toast.makeText(BeeboApplication.getInstance(), BeeboApplication.getInstance().getString(R.string.follow_successfully),
                     Toast.LENGTH_SHORT).show();
             user.setFollowing(true);
         }
@@ -178,7 +178,7 @@ public class UserDialog extends DialogFragment {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
+            FriendshipsDao dao = new FriendshipsDao(BeeboApplication.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(user.getId())) {
                 dao.setUid(user.getId());
             } else {
@@ -208,8 +208,8 @@ public class UserDialog extends DialogFragment {
         @Override
         protected void onPostExecute(UserBean o) {
             super.onPostExecute(o);
-            Toast.makeText(GlobalContext.getInstance(),
-                    GlobalContext.getInstance().getString(R.string.unfollow_successfully), Toast.LENGTH_SHORT).show();
+            Toast.makeText(BeeboApplication.getInstance(),
+                    BeeboApplication.getInstance().getString(R.string.unfollow_successfully), Toast.LENGTH_SHORT).show();
             user.setFollowing(false);
         }
     }

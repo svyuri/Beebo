@@ -10,7 +10,7 @@ package org.zarroboogs.weibo.activity;
 //import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.zarroboogs.util.net.WeiboException;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.GeoBean;
@@ -270,7 +270,7 @@ public class NearbyTimeLineActivity extends AbstractAppActivity {
         protected NearbyStatusListBean doInBackground(Void... params) {
 
             try {
-                return new NearbyTimeLineDao(GlobalContext.getInstance().getAccessToken(), lat, lon).get();
+                return new NearbyTimeLineDao(BeeboApplication.getInstance().getAccessToken(), lat, lon).get();
             } catch (WeiboException e) {
                 e.printStackTrace();
             }

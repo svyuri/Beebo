@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.util.net.WeiboException;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.dao.ShareShortUrlCountDao;
@@ -103,7 +103,7 @@ public class BrowserWebActivity extends AbstractAppActivity {
         protected Integer doInBackground(Void... params) {
             int result = 0;
             try {
-                result = new ShareShortUrlCountDao(GlobalContext.getInstance().getAccessToken(), url).getCount();
+                result = new ShareShortUrlCountDao(BeeboApplication.getInstance().getAccessToken(), url).getCount();
             } catch (WeiboException e) {
 
             }

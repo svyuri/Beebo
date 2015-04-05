@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.db;
 
 import org.zarroboogs.devutils.DevLog;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.db.table.AccountTable;
 import org.zarroboogs.weibo.db.table.AtUsersTable;
 import org.zarroboogs.weibo.db.table.CommentByMeTable;
@@ -265,7 +265,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static synchronized DatabaseHelper getInstance() {
         if (singleton == null) {
-            singleton = new DatabaseHelper(GlobalContext.getInstance());
+            singleton = new DatabaseHelper(BeeboApplication.getInstance());
         }
         return singleton;
     }

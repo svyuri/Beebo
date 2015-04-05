@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import org.zarroboogs.util.net.WeiboException;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.IRemoveItem;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.adapter.StatusListAdapter;
@@ -61,7 +61,7 @@ public abstract class AbsTimeLineFragment<T extends DataListItem<MessageBean, ?>
                     && position - getListView().getHeaderViewsCount() >= 0
                     && timeLineAdapter.getItem(position - getListView().getHeaderViewsCount()) != null) {
                 MessageBean msg = getDataList().getItemList().get(position - getListView().getHeaderViewsCount());
-                StatusSingleChoiceModeListener choiceModeListener = new StatusSingleChoiceModeListener(GlobalContext
+                StatusSingleChoiceModeListener choiceModeListener = new StatusSingleChoiceModeListener(BeeboApplication
                         .getInstance().getAccountBean(),
                         getListView(), (StatusListAdapter) timeLineAdapter, AbsTimeLineFragment.this, msg);
                 if (actionMode != null) {
@@ -106,7 +106,7 @@ public abstract class AbsTimeLineFragment<T extends DataListItem<MessageBean, ?>
     public void removeItem(int position) {
         clearActionMode();
         if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-            removeTask = new RemoveTask(GlobalContext.getInstance().getAccessToken(), getDataList().getItemList().get(position)
+            removeTask = new RemoveTask(BeeboApplication.getInstance().getAccessToken(), getDataList().getItemList().get(position)
                     .getId(), position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }

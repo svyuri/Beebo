@@ -1,7 +1,7 @@
 
 package org.zarroboogs.weibo.widget;
 
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.support.utils.TimeLineUtility;
@@ -193,9 +193,9 @@ public class SmileyPicker extends LinearLayout {
             Set<String> keySet;
             switch (emotionPosition) {
                 case SmileyMap.GENERAL_EMOTION_POSITION:
-                    keySet = GlobalContext.getInstance().getEmotionsPics().keySet();
+                    keySet = BeeboApplication.getInstance().getEmotionsPics().keySet();
                     keys.addAll(keySet);
-                    bitmapMap = GlobalContext.getInstance().getEmotionsPics();
+                    bitmapMap = BeeboApplication.getInstance().getEmotionsPics();
                     count = bitmapMap.size();
                     break;
                 case SmileyMap.EMOJI_EMOTION_POSITION:
@@ -205,9 +205,9 @@ public class SmileyPicker extends LinearLayout {
                     count = keys.size();
                     break;
                 case SmileyMap.HUAHUA_EMOTION_POSITION:
-                    keySet = GlobalContext.getInstance().getHuahuaPics().keySet();
+                    keySet = BeeboApplication.getInstance().getHuahuaPics().keySet();
                     keys.addAll(keySet);
-                    bitmapMap = GlobalContext.getInstance().getHuahuaPics();
+                    bitmapMap = BeeboApplication.getInstance().getHuahuaPics();
                     count = bitmapMap.size();
                     break;
                 default:

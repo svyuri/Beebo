@@ -4,7 +4,7 @@ package org.zarroboogs.weibo.support.asyncdrawable;
 import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.utils.file.FileManager;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.support.lib.LayerEnablingAnimatorListener;
 import org.zarroboogs.weibo.support.utils.Utility;
@@ -74,27 +74,27 @@ public class LocalWorker extends AbstractWorker<String, Integer, Bitmap> {
         switch (method) {
             case avatar_small:
             case avatar_large:
-                width = GlobalContext.getInstance().getResources().getDimensionPixelSize(R.dimen.timeline_avatar_width)
+                width = BeeboApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.timeline_avatar_width)
                         - Utility.dip2px(5) * 2;
-                height = GlobalContext.getInstance().getResources().getDimensionPixelSize(R.dimen.timeline_avatar_height)
+                height = BeeboApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.timeline_avatar_height)
                         - Utility.dip2px(5) * 2;
                 break;
 
             case picture_thumbnail:
-                width = GlobalContext.getInstance().getResources()
+                width = BeeboApplication.getInstance().getResources()
                         .getDimensionPixelSize(R.dimen.timeline_pic_thumbnail_width);
-                height = GlobalContext.getInstance().getResources()
+                height = BeeboApplication.getInstance().getResources()
                         .getDimensionPixelSize(R.dimen.timeline_pic_thumbnail_height);
                 break;
 
             case picture_large:
             case picture_bmiddle:
                 if (!isMultiPictures) {
-                    DisplayMetrics metrics = GlobalContext.getInstance().getDisplayMetrics();
+                    DisplayMetrics metrics = BeeboApplication.getInstance().getDisplayMetrics();
 
-                    float reSize = GlobalContext.getInstance().getResources().getDisplayMetrics().density;
+                    float reSize = BeeboApplication.getInstance().getResources().getDisplayMetrics().density;
 
-                    height = GlobalContext.getInstance().getResources()
+                    height = BeeboApplication.getInstance().getResources()
                             .getDimensionPixelSize(R.dimen.timeline_pic_high_thumbnail_height);
                     // 8 is layout padding
                     width = (int) (metrics.widthPixels - (8 + 8) * reSize);
@@ -155,7 +155,7 @@ public class LocalWorker extends AbstractWorker<String, Integer, Bitmap> {
                 IWeiciyuanDrawable.setGifFlag(ImageUtility.isThisPictureGif(getUrl()));
             }
             playImageViewAnimation(imageView, bitmap);
-            GlobalContext.getInstance().getBitmapCache().put(data, bitmap);
+            BeeboApplication.getInstance().getBitmapCache().put(data, bitmap);
         } else {
             imageView.setImageDrawable(new ColorDrawable(DebugColor.READ_FAILED));
         }

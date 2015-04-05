@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import org.apache.http.client.CookieStore;
 import org.zarroboogs.util.net.WeiboException;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.asyncdrawable.TimeLineBitmapDownloader;
@@ -51,7 +51,7 @@ public class AbstractAppActivity extends WeiboDataProviderActivity {
         mAsyncHttoClient.setCookieStore(cookieStore);
 
         forceShowActionBarOverflowMenu();
-        GlobalContext.getInstance().setActivity(this);
+        BeeboApplication.getInstance().setActivity(this);
 
     }
 
@@ -95,7 +95,7 @@ public class AbstractAppActivity extends WeiboDataProviderActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        GlobalContext.getInstance().setCurrentRunningActivity(this);
+        BeeboApplication.getInstance().setCurrentRunningActivity(this);
 
         if (theme != SettingUtils.getAppTheme()) {
             reload();
@@ -106,8 +106,8 @@ public class AbstractAppActivity extends WeiboDataProviderActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (GlobalContext.getInstance().getCurrentRunningActivity() == this) {
-            GlobalContext.getInstance().setCurrentRunningActivity(null);
+        if (BeeboApplication.getInstance().getCurrentRunningActivity() == this) {
+            BeeboApplication.getInstance().setCurrentRunningActivity(null);
         }
 
     }

@@ -12,7 +12,7 @@ import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.utils.crashmanager.CrashManagerConstants;
 import org.zarroboogs.utils.file.FileManager;
 import org.zarroboogs.weibo.GSIDWebViewActivity;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.activity.WriteCommentActivity;
@@ -236,14 +236,14 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 						switch (id) {
 						case R.id.menu_repost:{
 							Intent intent = new Intent(getActivity(), RepostWeiboWithAppSrcActivity.class);
-			                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			                intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
 			                intent.putExtra("msg", msg);
 			                getActivity().startActivity(intent);
 							break;
 						}
 						case R.id.menu_comment:{
 							Intent intent = new Intent(getActivity(), WriteCommentActivity.class);
-			                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			                intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
 			                intent.putExtra("msg", msg);
 			                getActivity().startActivity(intent);
 							break;
@@ -251,7 +251,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 						
 						case R.id.menu_fav:{
 							if (Utility.isTaskStopped(favTask)) {
-							    favTask = new FavAsyncTask(GlobalContext.getInstance().getAccessToken(), msg.getId());
+							    favTask = new FavAsyncTask(BeeboApplication.getInstance().getAccessToken(), msg.getId());
 							    favTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
 							}
 							break;

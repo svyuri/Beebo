@@ -18,7 +18,7 @@ import android.widget.ArrayAdapter;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AtUserBean;
@@ -94,12 +94,12 @@ public class AtUserFragment extends ListFragment {
                 Intent intent = new Intent();
                 intent.putExtra("name", "@" + atList.get(position).getNickname() + " ");
                 getActivity().setResult(Activity.RESULT_OK, intent);
-                AtUsersDBTask.add(atList.get(position), GlobalContext.getInstance().getCurrentAccountId());
+                AtUsersDBTask.add(atList.get(position), BeeboApplication.getInstance().getCurrentAccountId());
                 getActivity().finish();
             }
         });
 
-        atList = AtUsersDBTask.get(GlobalContext.getInstance().getCurrentAccountId());
+        atList = AtUsersDBTask.get(BeeboApplication.getInstance().getCurrentAccountId());
         for (AtUserBean b : atList) {
             result.add(b.getNickname());
         }
@@ -140,7 +140,7 @@ public class AtUserFragment extends ListFragment {
                     }
                     atList.clear();
                     result.clear();
-                    atList = AtUsersDBTask.get(GlobalContext.getInstance().getCurrentAccountId());
+                    atList = AtUsersDBTask.get(BeeboApplication.getInstance().getCurrentAccountId());
                     for (AtUserBean b : atList) {
                         result.add(b.getNickname());
                     }

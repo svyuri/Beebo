@@ -5,7 +5,7 @@ import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.utils.file.FileManager;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.WriteCommentActivity;
 import org.zarroboogs.weibo.activity.WriteReplyToCommentActivity;
@@ -50,7 +50,7 @@ public class BigTextNotificationService extends NotificationServiceHelper {
             CommentListBean mentionsCommentData, UnreadBean unreadBean, Intent clickNotificationToOpenAppPendingIntentInner,
             String ticker, int currentIndex) {
 
-        Intent intent = new Intent(GlobalContext.getInstance(), BigTextNotificationService.class);
+        Intent intent = new Intent(BeeboApplication.getInstance(), BigTextNotificationService.class);
 
         intent.putExtra(NotificationServiceHelper.ACCOUNT_ARG, accountBean);
         intent.putExtra(NotificationServiceHelper.MENTIONS_WEIBO_ARG, mentionsWeiboData);
@@ -183,7 +183,7 @@ public class BigTextNotificationService extends NotificationServiceHelper {
             builder.setNumber(count);
         }
 
-        Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(GlobalContext.getInstance(),
+        Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(BeeboApplication.getInstance(),
                 valueWrapper.clearNotificationEventReceiver);
 
         valueWrapper.clearNotificationEventReceiver = new RecordOperationAppBroadcastReceiver() {
@@ -227,7 +227,7 @@ public class BigTextNotificationService extends NotificationServiceHelper {
                                         NotificationDBTask.UnreadDBType.mentionsComment);
                             }
                         } finally {
-                            Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(GlobalContext.getInstance(),
+                            Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(BeeboApplication.getInstance(),
                                     valueWrapper.clearNotificationEventReceiver);
                             if (Utility.isDebugMode()) {
 
@@ -248,13 +248,13 @@ public class BigTextNotificationService extends NotificationServiceHelper {
 
         IntentFilter intentFilter = new IntentFilter(RESET_UNREAD_MENTIONS_WEIBO_ACTION);
 
-        Utility.registerReceiverIgnoredReceiverHasRegisteredHereException(GlobalContext.getInstance(),
+        Utility.registerReceiverIgnoredReceiverHasRegisteredHereException(BeeboApplication.getInstance(),
                 valueWrapper.clearNotificationEventReceiver,
                 intentFilter);
 
         Intent broadcastIntent = new Intent(RESET_UNREAD_MENTIONS_WEIBO_ACTION);
 
-        PendingIntent deletedPendingIntent = PendingIntent.getBroadcast(GlobalContext.getInstance(), accountBean.getUid()
+        PendingIntent deletedPendingIntent = PendingIntent.getBroadcast(BeeboApplication.getInstance(), accountBean.getUid()
                 .hashCode(), broadcastIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setDeleteIntent(deletedPendingIntent);

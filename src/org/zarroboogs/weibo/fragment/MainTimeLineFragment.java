@@ -4,7 +4,7 @@ package org.zarroboogs.weibo.fragment;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
@@ -75,7 +75,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> implements
-        GlobalContext.MyProfileInfoChangeListener, MainTimeLineActivity.ScrollableListFragment {
+        BeeboApplication.AccountChangeListener, MainTimeLineActivity.ScrollableListFragment {
 
     private AccountBean mAccountBean;
 
@@ -276,11 +276,11 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         TimeLinePosition position = positionCache.get(currentGroupId);
         position.newMsgIds = newMsgTipBar.getValues();
         final String groupId = currentGroupId;
-        FriendsTimeLineDBTask.asyncUpdatePosition(position, GlobalContext.getInstance().getCurrentAccountId(), groupId);
+        FriendsTimeLineDBTask.asyncUpdatePosition(position, BeeboApplication.getInstance().getCurrentAccountId(), groupId);
     }
 
     private void saveGroupIdToDB() {
-        FriendsTimeLineDBTask.asyncUpdateRecentGroupId(GlobalContext.getInstance().getCurrentAccountId(), currentGroupId);
+        FriendsTimeLineDBTask.asyncUpdateRecentGroupId(BeeboApplication.getInstance().getCurrentAccountId(), currentGroupId);
     }
 
     @Override
@@ -298,7 +298,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
     public void onResume() {
         super.onResume();
         addRefresh();
-        GlobalContext.getInstance().registerForAccountChangeListener(this);
+        BeeboApplication.getInstance().registerForAccountChangeListener(this);
         if (SettingUtils.getEnableAutoRefresh()) {
             this.newMsgTipBar.setType(TopTipsView.Type.ALWAYS);
         } else {
@@ -313,8 +313,8 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         @Override
         public void onReceive(Context context, Intent intent) {
             List<GroupBean> list = new ArrayList<GroupBean>();
-            if (GlobalContext.getInstance().getGroup() != null) {
-                list = GlobalContext.getInstance().getGroup().getLists();
+            if (BeeboApplication.getInstance().getGroup() != null) {
+                list = BeeboApplication.getInstance().getGroup().getLists();
             } else {
                 list = new ArrayList<GroupBean>();
             }
@@ -331,7 +331,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
     public void onDestroy() {
         super.onDestroy();
         Utility.cancelTasks(mDBCacheTask);
-        GlobalContext.getInstance().unRegisterForAccountChangeListener(this);
+        BeeboApplication.getInstance().unRegisterForAccountChangeListener(this);
 
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(switchReceiver);
     }
@@ -356,8 +356,8 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
                 if (Utility.isTaskStopped(mDBCacheTask) && getDataList().getSize() == 0) {
                     mDBCacheTask = new DBCacheTask(this, mAccountBean.getUid());
                     mDBCacheTask.executeOnIO();
-                    GroupInfoTask groupInfoTask = new GroupInfoTask(GlobalContext.getInstance().getAccessToken(),
-                            GlobalContext.getInstance()
+                    GroupInfoTask groupInfoTask = new GroupInfoTask(BeeboApplication.getInstance().getAccessToken(),
+                            BeeboApplication.getInstance()
                                     .getCurrentAccountId());
                     groupInfoTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
                 } else {
@@ -387,8 +387,8 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
                 if (Utility.isTaskStopped(mDBCacheTask) && getDataList().getSize() == 0) {
                     mDBCacheTask = new DBCacheTask(this, mAccountBean.getUid());
                     mDBCacheTask.executeOnIO();
-                    GroupInfoTask groupInfoTask = new GroupInfoTask(GlobalContext.getInstance().getAccessToken(),
-                            GlobalContext.getInstance()
+                    GroupInfoTask groupInfoTask = new GroupInfoTask(BeeboApplication.getInstance().getAccessToken(),
+                            BeeboApplication.getInstance()
                                     .getCurrentAccountId());
                     groupInfoTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
                 } else {
@@ -485,15 +485,15 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         ((MainTimeLineActivity) getActivity()).setCurrentFragment(this);
 
         List<GroupBean> list = new ArrayList<GroupBean>();
-        if (GlobalContext.getInstance().getGroup() != null) {
-            list = GlobalContext.getInstance().getGroup().getLists();
+        if (BeeboApplication.getInstance().getGroup() != null) {
+            list = BeeboApplication.getInstance().getGroup().getLists();
         } else {
             list = new ArrayList<GroupBean>();
         }
         mBaseAdapter = new FriendsTimeLineListNavAdapter(getActivity(), buildListNavData(list));
         final List<GroupBean> finalList = list;
 
-        currentGroupId = FriendsTimeLineDBTask.getRecentGroupId(GlobalContext.getInstance().getCurrentAccountId());
+        currentGroupId = FriendsTimeLineDBTask.getRecentGroupId(BeeboApplication.getInstance().getCurrentAccountId());
 
     }
 
@@ -615,8 +615,8 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
 
     private int getRecentNavIndex() {
         List<GroupBean> list = new ArrayList<GroupBean>();
-        if (GlobalContext.getInstance().getGroup() != null) {
-            list = GlobalContext.getInstance().getGroup().getLists();
+        if (BeeboApplication.getInstance().getGroup() != null) {
+            list = BeeboApplication.getInstance().getGroup().getLists();
         } else {
             list = new ArrayList<GroupBean>();
         }
@@ -625,8 +625,8 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
 
     @Override
     protected void onTimeListViewItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent mIntent = BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
-                getDataList().getItem(position), GlobalContext
+        Intent mIntent = BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
+                getDataList().getItem(position), BeeboApplication
                         .getInstance().getAccessToken());
         mIntent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
         startActivityForResult(mIntent, MainTimeLineActivity.REQUEST_CODE_UPDATE_FRIENDS_TIMELINE_COMMENT_REPOST_COUNT);
@@ -1027,7 +1027,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
             }
 
             try {
-                return new TimeLineReCmtCountDao(GlobalContext.getInstance().getAccessToken(), msgIds).get();
+                return new TimeLineReCmtCountDao(BeeboApplication.getInstance().getAccessToken(), msgIds).get();
             } catch (WeiboException e) {
                 cancel(true);
             }

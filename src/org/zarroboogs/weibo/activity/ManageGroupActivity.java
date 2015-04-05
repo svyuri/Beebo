@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.util.net.WeiboException;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.GroupBean;
@@ -106,7 +106,7 @@ public class ManageGroupActivity extends AbstractAppActivity {
             getListView().setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
             getListView().setMultiChoiceModeListener(new GroupMultiChoiceModeListener());
             setListAdapter(adapter);
-            group = GlobalContext.getInstance().getGroup();
+            group = BeeboApplication.getInstance().getGroup();
             if (group != null) {
                 final List<GroupBean> list = group.getLists();
 
@@ -147,17 +147,17 @@ public class ManageGroupActivity extends AbstractAppActivity {
         }
 
         public void addGroup(String groupName) {
-            new CreateGroupTask(GlobalContext.getInstance().getAccessToken(), groupName)
+            new CreateGroupTask(BeeboApplication.getInstance().getAccessToken(), groupName)
                     .executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
 
         public void modifyGroupName(String idstr, String groupName) {
-            new ModifyGroupNameTask(GlobalContext.getInstance().getAccessToken(), idstr, groupName)
+            new ModifyGroupNameTask(BeeboApplication.getInstance().getAccessToken(), idstr, groupName)
                     .executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
 
         public void removeGroup(List<String> groupNames) {
-            new RemoveGroupTask(GlobalContext.getInstance().getAccessToken(), groupNames)
+            new RemoveGroupTask(BeeboApplication.getInstance().getAccessToken(), groupNames)
                     .executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
 
@@ -343,8 +343,8 @@ public class ManageGroupActivity extends AbstractAppActivity {
                 if (getActivity() == null) {
                     return;
                 }
-                GroupDBTask.update(groupListBean, GlobalContext.getInstance().getCurrentAccountId());
-                GlobalContext.getInstance().setGroup(groupListBean);
+                GroupDBTask.update(groupListBean, BeeboApplication.getInstance().getCurrentAccountId());
+                BeeboApplication.getInstance().setGroup(groupListBean);
                 group = groupListBean;
                 refreshListData();
             }

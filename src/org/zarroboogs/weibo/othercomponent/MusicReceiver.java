@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.othercomponent;
 
 import org.zarroboogs.utils.AppLoggerUtils;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.MusicInfoBean;
 import org.zarroboogs.weibo.support.lib.RecordOperationAppBroadcastReceiver;
 
@@ -26,7 +26,7 @@ public class MusicReceiver extends RecordOperationAppBroadcastReceiver {
             musicInfo.setAlbum(album);
             musicInfo.setTrack(track);
             AppLoggerUtils.d("Music" + artist + ":" + album + ":" + track);
-            GlobalContext.getInstance().updateMusicInfo(musicInfo);
+            BeeboApplication.getInstance().updateMusicInfo(musicInfo);
         }
     }
 }

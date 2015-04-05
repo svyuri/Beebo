@@ -4,7 +4,7 @@ package org.zarroboogs.weibo.support.asyncdrawable;
 import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.utils.file.FileManager;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 
@@ -26,12 +26,12 @@ public class ProfileAvatarReadWorker extends MyAsyncTask<String, Integer, Bitmap
 
     private ImageView view;
 
-    private GlobalContext globalContext;
+    private BeeboApplication globalContext;
 
     public ProfileAvatarReadWorker(ImageView view, String url) {
-        this.lruCache = GlobalContext.getInstance().getBitmapCache();
+        this.lruCache = BeeboApplication.getInstance().getBitmapCache();
         this.view = view;
-        this.globalContext = GlobalContext.getInstance();
+        this.globalContext = BeeboApplication.getInstance();
         this.data = url;
     }
 

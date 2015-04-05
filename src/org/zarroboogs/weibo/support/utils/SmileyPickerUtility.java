@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.support.utils;
 
 import org.zarroboogs.utils.AppLoggerUtils;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.setting.SettingUtils;
 
 import android.app.Activity;
@@ -19,7 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 public class SmileyPickerUtility {
 
     public static void hideSoftInput(View paramEditText) {
-        ((InputMethodManager) GlobalContext.getInstance().getSystemService("input_method")).hideSoftInputFromWindow(
+        ((InputMethodManager) BeeboApplication.getInstance().getSystemService("input_method")).hideSoftInputFromWindow(
                 paramEditText.getWindowToken(), 0);
     }
 
@@ -28,7 +28,7 @@ public class SmileyPickerUtility {
         paramEditText.post(new Runnable() {
             @Override
             public void run() {
-                ((InputMethodManager) GlobalContext.getInstance().getSystemService("input_method")).showSoftInput(
+                ((InputMethodManager) BeeboApplication.getInstance().getSystemService("input_method")).showSoftInput(
                         paramEditText, 0);
             }
         });

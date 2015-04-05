@@ -2,7 +2,7 @@
 package org.zarroboogs.utils.file;
 
 import org.zarroboogs.utils.AppLoggerUtils;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.db.task.DownloadPicturesDBTask;
 import org.zarroboogs.weibo.support.utils.Utility;
@@ -45,18 +45,18 @@ public class FileManager {
 
     public static String getSdCardPath() {
         if (isExternalStorageMounted()) {
-            File path = GlobalContext.getInstance().getExternalCacheDir();
+            File path = BeeboApplication.getInstance().getExternalCacheDir();
             if (path != null) {
                 return path.getAbsolutePath();
             } else {
                 if (!cantReadBecauseOfAndroidBugPermissionProblem) {
                     cantReadBecauseOfAndroidBugPermissionProblem = true;
-                    final Activity activity = GlobalContext.getInstance().getActivity();
+                    final Activity activity = BeeboApplication.getInstance().getActivity();
                     if (activity == null || activity.isFinishing()) {
-                        GlobalContext.getInstance().getUIHandler().post(new Runnable() {
+                        BeeboApplication.getInstance().getUIHandler().post(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(GlobalContext.getInstance(), R.string.please_deleted_cache_dir,
+                                Toast.makeText(BeeboApplication.getInstance(), R.string.please_deleted_cache_dir,
                                         Toast.LENGTH_SHORT).show();
                             }
                         });

@@ -5,7 +5,7 @@ import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileDownloaderHttpHelper;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.utils.file.FileManager;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
@@ -156,7 +156,7 @@ public class MsgDetailReadWorker extends MyAsyncTask<Void, Integer, String> {
                     ArrayList<AnimationRect> animationRectArrayList = new ArrayList<AnimationRect>();
                     animationRectArrayList.add(rect);
                     Intent intent = GalleryAnimationActivity.newIntent(msg, animationRectArrayList, 0);
-                    GlobalContext.getInstance().getActivity().startActivity(intent);
+                    BeeboApplication.getInstance().getActivity().startActivity(intent);
                 }
             });
         } else {

@@ -10,7 +10,7 @@ import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
@@ -59,7 +59,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     }
 
 	private String getCookieIfHave() {
-		String cookieInDB = GlobalContext.getInstance().getAccountBean().getCookieInDB();
+		String cookieInDB = BeeboApplication.getInstance().getAccountBean().getCookieInDB();
 		if (!TextUtils.isEmpty(cookieInDB)) {
 			return cookieInDB;
 		}

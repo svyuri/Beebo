@@ -6,7 +6,7 @@ import java.util.List;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.utils.file.FileLocationMethod;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.adapter.HotWeiboStatusListAdapter;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
@@ -94,8 +94,8 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				
-				Intent intent = BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), 
-						(MessageBean)adapter.getItem(position - 1), GlobalContext.getInstance().getAccessToken());
+				Intent intent = BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(), 
+						(MessageBean)adapter.getItem(position - 1), BeeboApplication.getInstance().getAccessToken());
 				startActivity(intent);
 			}
 		});

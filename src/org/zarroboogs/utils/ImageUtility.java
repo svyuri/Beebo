@@ -6,7 +6,7 @@ import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.file.FileDownloaderHttpHelper;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.utils.file.FileManager;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.Utility;
 
@@ -448,7 +448,7 @@ public class ImageUtility {
             }
             file = new File(filePath);
             if (file.exists()) {
-                DisplayMetrics displayMetrics = GlobalContext.getInstance().getDisplayMetrics();
+                DisplayMetrics displayMetrics = BeeboApplication.getInstance().getDisplayMetrics();
                 return decodeBitmapFromSDCard(filePath, displayMetrics.widthPixels, 900);
             }
             return null;

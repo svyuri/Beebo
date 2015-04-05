@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.DMActivity;
 import org.zarroboogs.weibo.activity.DMSelectUserActivity;
@@ -145,7 +145,7 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
 
         @Override
         protected DMUserListBean doInBackground(Void... params) {
-            return DMDBTask.get(GlobalContext.getInstance().getCurrentAccountId());
+            return DMDBTask.get(BeeboApplication.getInstance().getCurrentAccountId());
         }
 
         @Override
@@ -171,7 +171,7 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
             getDataList().addNewData(newValue);
             getAdapter().notifyDataSetChanged();
             getListView().setSelectionAfterHeaderView();
-            DMDBTask.asyncReplace(getDataList(), GlobalContext.getInstance().getCurrentAccountId());
+            DMDBTask.asyncReplace(getDataList(), BeeboApplication.getInstance().getCurrentAccountId());
 
         }
 
@@ -186,13 +186,13 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
     }
 
     protected Loader<AsyncTaskLoaderResult<DMUserListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessTokenHack();
+        String token = BeeboApplication.getInstance().getAccessTokenHack();
         String cursor = String.valueOf(0);
         return new DMUserLoader(getActivity(), token, cursor);
     }
 
     protected Loader<AsyncTaskLoaderResult<DMUserListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessTokenHack();
+        String token = BeeboApplication.getInstance().getAccessTokenHack();
         String cursor = null;
         if (getDataList().getSize() > 0 && Integer.valueOf(getDataList().getNext_cursor()) == 0) {
             return null;

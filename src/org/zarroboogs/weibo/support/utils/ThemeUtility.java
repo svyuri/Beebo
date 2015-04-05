@@ -1,7 +1,7 @@
 
 package org.zarroboogs.weibo.support.utils;
 
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 
 import android.app.Activity;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class ThemeUtility {
 
     public static int getColor(int attr) {
-        return getColor(GlobalContext.getInstance().getActivity(), attr);
+        return getColor(BeeboApplication.getInstance().getActivity(), attr);
     }
 
     public static int getColor(Activity activity, int attr) {
@@ -32,7 +32,7 @@ public class ThemeUtility {
         int[] attrs = new int[] {
                 attr
         };
-        Context context = GlobalContext.getInstance().getActivity();
+        Context context = BeeboApplication.getInstance().getActivity();
         TypedArray ta = context.obtainStyledAttributes(attrs);
         Drawable drawable = ta.getDrawable(0);
         ta.recycle();
@@ -44,7 +44,7 @@ public class ThemeUtility {
         int[] attrs = new int[] {
                 attr
         };
-        Context context = GlobalContext.getInstance().getActivity();
+        Context context = BeeboApplication.getInstance().getActivity();
         TypedArray ta = context.obtainStyledAttributes(attrs);
         int id = ta.getResourceId(0, 430);
         ta.recycle();

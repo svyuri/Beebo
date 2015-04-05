@@ -6,7 +6,7 @@ import com.umeng.update.UmengUpdateAgent;
 
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.WeiBoURLs;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.CommentListBean;
@@ -97,12 +97,12 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 		}
 
 		if (mAccountBean == null) {
-			mAccountBean = GlobalContext.getInstance().getAccountBean();
+			mAccountBean = BeeboApplication.getInstance().getAccountBean();
 		}
 
 		if (mAccountBean != null) {
-			GlobalContext.getInstance().setGroup(null);
-			GlobalContext.getInstance().setAccountBean(mAccountBean);
+			BeeboApplication.getInstance().setGroup(null);
+			BeeboApplication.getInstance().setAccountBean(mAccountBean);
 			SettingUtils.setDefaultAccountId(mAccountBean.getUid());
 
 			setContentView(R.layout.main_time_line_activity);
@@ -306,7 +306,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
         if (mAccountBean.equals(intentAccountBean)) {
             mAccountBean = intentAccountBean;
-            GlobalContext.getInstance().setAccountBean(mAccountBean);
+            BeeboApplication.getInstance().setAccountBean(mAccountBean);
             setIntent(intent);
         } else {
             finish();
@@ -320,7 +320,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        GlobalContext.getInstance().getBitmapCache().evictAll();
+        BeeboApplication.getInstance().getBitmapCache().evictAll();
         finish();
     }
 
@@ -438,8 +438,8 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         // second = actionBar.getSelectedNavigationIndex();
         // }
         int result = navPosition + second;
-        GlobalContext.getInstance().getAccountBean().setNavigationPosition(result);
-        AccountDBTask.updateNavigationPosition(GlobalContext.getInstance().getAccountBean(), result);
+        BeeboApplication.getInstance().getAccountBean().setNavigationPosition(result);
+        AccountDBTask.updateNavigationPosition(BeeboApplication.getInstance().getAccountBean(), result);
     }
 
     public LeftMenuFragment getLeftMenuFragment() {
@@ -563,7 +563,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     }
 
     public static Intent newIntent() {
-        return new Intent(GlobalContext.getInstance(), MainTimeLineActivity.class);
+        return new Intent(BeeboApplication.getInstance(), MainTimeLineActivity.class);
     }
 
     public static Intent newIntent(AccountBean accountBean) {
@@ -584,7 +584,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     public static Intent unReadIntent(AccountBean accountBean, MessageListBean mentionsWeiboData,
             CommentListBean mentionsCommentData,
             CommentListBean commentsToMeData, UnreadBean unreadBean) {
-        Intent intent = new Intent(GlobalContext.getInstance(), NotifyActivity.class);
+        Intent intent = new Intent(BeeboApplication.getInstance(), NotifyActivity.class);
         intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, accountBean);
         intent.putExtra(BundleArgsConstants.MENTIONS_WEIBO_EXTRA, mentionsWeiboData);
         intent.putExtra(BundleArgsConstants.MENTIONS_COMMENT_EXTRA, mentionsCommentData);

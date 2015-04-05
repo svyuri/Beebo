@@ -1,7 +1,7 @@
 
 package org.zarroboogs.weibo.fragment;
 
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.adapter.CommentsTimeLinePagerAdapter;
@@ -107,9 +107,9 @@ public class CommentsTimeLineFragment extends BaseStateFragment implements MainT
         CommentsToMeTimeLineFragment fragment = ((CommentsToMeTimeLineFragment) getChildFragmentManager().findFragmentByTag(
                 CommentsToMeTimeLineFragment.class.getName()));
         if (fragment == null) {
-            fragment = new CommentsToMeTimeLineFragment(GlobalContext.getInstance().getAccountBean(), GlobalContext
+            fragment = new CommentsToMeTimeLineFragment(BeeboApplication.getInstance().getAccountBean(), BeeboApplication
                     .getInstance().getAccountBean().getInfo(),
-                    GlobalContext.getInstance().getAccessToken());
+                    BeeboApplication.getInstance().getAccessToken());
         }
 
         return fragment;
@@ -119,9 +119,9 @@ public class CommentsTimeLineFragment extends BaseStateFragment implements MainT
         CommentsByMeTimeLineFragment fragment = ((CommentsByMeTimeLineFragment) getChildFragmentManager().findFragmentByTag(
                 CommentsByMeTimeLineFragment.class.getName()));
         if (fragment == null) {
-            fragment = new CommentsByMeTimeLineFragment(GlobalContext.getInstance().getAccountBean(), GlobalContext
+            fragment = new CommentsByMeTimeLineFragment(BeeboApplication.getInstance().getAccountBean(), BeeboApplication
                     .getInstance().getAccountBean().getInfo(),
-                    GlobalContext.getInstance().getAccessToken());
+                    BeeboApplication.getInstance().getAccessToken());
         }
 
         return fragment;

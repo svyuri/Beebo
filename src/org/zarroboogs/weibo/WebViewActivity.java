@@ -62,7 +62,7 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
         
         mAccountBean = (AccountBean) getIntent().getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
         if (mAccountBean == null) {
-            mAccountBean = GlobalContext.getInstance().getAccountBean();
+            mAccountBean = BeeboApplication.getInstance().getAccountBean();
         }
 
         initView();

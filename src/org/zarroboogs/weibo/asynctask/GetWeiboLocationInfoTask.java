@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.asynctask;
 
 import org.zarroboogs.util.net.WeiboException;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.GeoBean;
 import org.zarroboogs.weibo.dao.BaiduGeoCoderDao;
 import org.zarroboogs.weibo.dao.GoogleGeoCoderDao;
@@ -60,7 +60,7 @@ public class GetWeiboLocationInfoTask extends MyAsyncTask<Void, String, Bitmap> 
             }
         }
 
-        MapDao dao = new MapDao(GlobalContext.getInstance().getAccessToken(), geoBean.getLat(), geoBean.getLon());
+        MapDao dao = new MapDao(BeeboApplication.getInstance().getAccessToken(), geoBean.getLat(), geoBean.getLon());
 
         try {
             return dao.getMap();

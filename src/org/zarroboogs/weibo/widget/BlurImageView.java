@@ -1,7 +1,7 @@
 
 package org.zarroboogs.weibo.widget;
 
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -54,7 +54,7 @@ public class BlurImageView extends ImageView {
             final Bitmap bitmap = bitmapDrawable.getBitmap();
             if (bitmap != null) {
 
-                Bitmap blurBitmap = GlobalContext.getInstance().getBitmapCache().get(url + "/blur");
+                Bitmap blurBitmap = BeeboApplication.getInstance().getBitmapCache().get(url + "/blur");
                 if (blurBitmap == null) {
                     blurThread = new Thread(new Runnable() {
                         @Override
@@ -67,7 +67,7 @@ public class BlurImageView extends ImageView {
                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    GlobalContext.getInstance().getBitmapCache().put(url + "/blur", createdBlurBitmap);
+                                    BeeboApplication.getInstance().getBitmapCache().put(url + "/blur", createdBlurBitmap);
                                     BlurImageView.super.setImageDrawable(blurDrawable);
                                 }
                             });

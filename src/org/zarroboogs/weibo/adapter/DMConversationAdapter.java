@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.adapter;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
 import org.zarroboogs.weibo.bean.UserBean;
@@ -62,7 +62,7 @@ public class DMConversationAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         DMBean dmBean = bean.get(position);
-        if (dmBean.getUser().getId().equals(GlobalContext.getInstance().getCurrentAccountId())) {
+        if (dmBean.getUser().getId().equals(BeeboApplication.getInstance().getCurrentAccountId())) {
             return TYPE_MYSELF;
         } else {
             return TYPE_NORMAL;
@@ -212,7 +212,7 @@ public class DMConversationAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                    intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+                    intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
                     intent.putExtra("user", user);
                     getActivity().startActivity(intent);
                 }

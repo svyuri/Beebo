@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.activity.WriteWeiboActivity;
@@ -120,8 +120,8 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
         int itemId = item.getItemId();
 		if (itemId == R.id.menu_write) {
 			Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessTokenHack());
-			intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+			intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessTokenHack());
+			intent.putExtra(Constants.ACCOUNT, BeeboApplication.getInstance().getAccountBean());
 			intent.putExtra("content", "#" + q + "#");
 			startActivity(intent);
 		} else if (itemId == R.id.menu_refresh) {
@@ -143,8 +143,8 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
 
     @Override
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
-        startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), bean.getItemList()
-                .get(position), GlobalContext
+        startActivity(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(), bean.getItemList()
+                .get(position), BeeboApplication
                 .getInstance().getAccessTokenHack()));
     }
 
@@ -161,7 +161,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return new TopicDao(GlobalContext.getInstance().getAccessTokenHack()).follow(q);
+                return new TopicDao(BeeboApplication.getInstance().getAccessTokenHack()).follow(q);
             } catch (WeiboException e) {
                 this.e = e;
                 cancel(true);
@@ -198,7 +198,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return new TopicDao(GlobalContext.getInstance().getAccessTokenHack()).destroy(q);
+                return new TopicDao(BeeboApplication.getInstance().getAccessTokenHack()).destroy(q);
             } catch (WeiboException e) {
                 this.e = e;
                 cancel(true);
@@ -231,7 +231,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
 
     @Override
     protected Loader<AsyncTaskLoaderResult<TopicResultListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessTokenHack();
+        String token = BeeboApplication.getInstance().getAccessTokenHack();
         String word = this.q;
         page = 1;
         return new SearchTopicByNameLoader(getActivity(), token, word, String.valueOf(page));
@@ -239,7 +239,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
 
     @Override
     protected Loader<AsyncTaskLoaderResult<TopicResultListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessTokenHack();
+        String token = BeeboApplication.getInstance().getAccessTokenHack();
         String word = this.q;
         return new SearchTopicByNameLoader(getActivity(), token, word, String.valueOf(page + 1));
     }

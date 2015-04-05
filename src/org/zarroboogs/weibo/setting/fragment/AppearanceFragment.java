@@ -7,7 +7,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.setting.activity.SettingActivity;
@@ -122,7 +122,7 @@ public class AppearanceFragment extends PreferenceFragment implements SharedPref
 
         }
         if (key.equals(SettingActivity.LIST_HIGH_PIC_MODE)) {
-            GlobalContext.getInstance().getBitmapCache().evictAll();
+            BeeboApplication.getInstance().getBitmapCache().evictAll();
         }
     }
 

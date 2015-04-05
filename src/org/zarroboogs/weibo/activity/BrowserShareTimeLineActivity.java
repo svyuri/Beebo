@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
 import org.zarroboogs.weibo.bean.ShareListBean;
 import org.zarroboogs.weibo.fragment.base.AbsTimeLineFragment;
@@ -20,7 +20,7 @@ import android.widget.AdapterView;
 public class BrowserShareTimeLineActivity extends AbstractAppActivity {
 
     public static Intent newIntent(String url) {
-        Intent intent = new Intent(GlobalContext.getInstance(), BrowserShareTimeLineActivity.class);
+        Intent intent = new Intent(BeeboApplication.getInstance(), BrowserShareTimeLineActivity.class);
         intent.putExtra("url", url);
         return intent;
     }
@@ -133,9 +133,9 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
 
         @Override
         protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
-            startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), getDataList()
+            startActivityForResult(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(), getDataList()
                     .getItemList().get(position),
-                    GlobalContext.getInstance().getAccessToken()), 0);
+                    BeeboApplication.getInstance().getAccessToken()), 0);
         }
 
         @Override
@@ -172,7 +172,7 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
         }
 
         protected Loader<AsyncTaskLoaderResult<ShareListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getAccessToken();
+            String token = BeeboApplication.getInstance().getAccessToken();
             String sinceId = null;
             if (getDataList().getItemList().size() > 0) {
                 sinceId = getDataList().getItemList().get(0).getId();
@@ -181,7 +181,7 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
         }
 
         protected Loader<AsyncTaskLoaderResult<ShareListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getAccessToken();
+            String token = BeeboApplication.getInstance().getAccessToken();
             String maxId = null;
             if (getDataList().getItemList().size() > 0) {
                 maxId = getDataList().getItemList().get(getDataList().getItemList().size() - 1).getId();

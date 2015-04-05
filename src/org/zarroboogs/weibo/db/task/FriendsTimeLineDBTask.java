@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import org.zarroboogs.utils.AppLoggerUtils;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.GroupBean;
 import org.zarroboogs.weibo.bean.GroupListBean;
 import org.zarroboogs.weibo.bean.MessageBean;
@@ -157,7 +157,7 @@ public class FriendsTimeLineDBTask {
             updatePosition(position, accountId);
         } else {
             HomeOtherGroupTimeLineDBTask
-                    .updatePosition(position, GlobalContext.getInstance().getCurrentAccountId(), groupId);
+                    .updatePosition(position, BeeboApplication.getInstance().getCurrentAccountId(), groupId);
         }
     }
 
@@ -226,7 +226,7 @@ public class FriendsTimeLineDBTask {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                FriendsTimeLineDBTask.updateRecentGroupId(GlobalContext.getInstance().getCurrentAccountId(), groupId);
+                FriendsTimeLineDBTask.updateRecentGroupId(BeeboApplication.getInstance().getCurrentAccountId(), groupId);
             }
         };
 

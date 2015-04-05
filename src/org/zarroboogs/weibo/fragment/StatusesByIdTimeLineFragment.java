@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
@@ -76,18 +76,18 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
     public void onResume() {
         super.onResume();
         if (mUserBean != null && mUserBean.getId() != null
-                && mUserBean.getId().equals(GlobalContext.getInstance().getCurrentAccountId())) {
-            GlobalContext.getInstance().registerForAccountChangeListener(myProfileInfoChangeListener);
+                && mUserBean.getId().equals(BeeboApplication.getInstance().getCurrentAccountId())) {
+            BeeboApplication.getInstance().registerForAccountChangeListener(myProfileInfoChangeListener);
         }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        GlobalContext.getInstance().unRegisterForAccountChangeListener(myProfileInfoChangeListener);
+        BeeboApplication.getInstance().unRegisterForAccountChangeListener(myProfileInfoChangeListener);
     }
 
-    private GlobalContext.MyProfileInfoChangeListener myProfileInfoChangeListener = new GlobalContext.MyProfileInfoChangeListener() {
+    private BeeboApplication.AccountChangeListener myProfileInfoChangeListener = new BeeboApplication.AccountChangeListener() {
         @Override
         public void onChange(UserBean newUserBean) {
             for (MessageBean msg : getDataList().getItemList()) {
@@ -138,8 +138,8 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
     }
 
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
-        startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), getDataList()
-                .getItem(position), GlobalContext
+        startActivityForResult(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(), getDataList()
+                .getItem(position), BeeboApplication
                 .getInstance().getAccessToken()), 0);
     }
 

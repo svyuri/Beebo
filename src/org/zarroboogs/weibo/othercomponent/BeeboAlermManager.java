@@ -1,7 +1,7 @@
 
 package org.zarroboogs.weibo.othercomponent;
 
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.service.FetchNewMsgService;
 import org.zarroboogs.weibo.service.KeepCookieService;
@@ -65,7 +65,7 @@ public class BeeboAlermManager {
         if (clearNotification) {
             NotificationManager notificationManager = (NotificationManager) context
                     .getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.cancel(Long.valueOf(GlobalContext.getInstance().getCurrentAccountId()).intValue());
+            notificationManager.cancel(Long.valueOf(BeeboApplication.getInstance().getCurrentAccountId()).intValue());
         }
     }
 }

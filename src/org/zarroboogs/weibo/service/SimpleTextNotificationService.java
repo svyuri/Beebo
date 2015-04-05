@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.service;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.UnreadBean;
@@ -95,7 +95,7 @@ public class SimpleTextNotificationService extends NotificationServiceHelper {
 
         builder.setContentTitle(ticker);
 
-        Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(GlobalContext.getInstance(),
+        Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(BeeboApplication.getInstance(),
                 clearNotificationEventReceiver);
 
         valueWrapper.clearNotificationEventReceiver = new RecordOperationAppBroadcastReceiver() {
@@ -114,7 +114,7 @@ public class SimpleTextNotificationService extends NotificationServiceHelper {
                         } catch (WeiboException ignored) {
 
                         } finally {
-                            Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(GlobalContext.getInstance(),
+                            Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(BeeboApplication.getInstance(),
                                     clearNotificationEventReceiver);
                             if (Utility.isDebugMode()) {
                                 new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -135,11 +135,11 @@ public class SimpleTextNotificationService extends NotificationServiceHelper {
 
         IntentFilter intentFilter = new IntentFilter(RESET_UNREAD_MENTIONS_WEIBO_ACTION);
 
-        GlobalContext.getInstance().registerReceiver(valueWrapper.clearNotificationEventReceiver, intentFilter);
+        BeeboApplication.getInstance().registerReceiver(valueWrapper.clearNotificationEventReceiver, intentFilter);
 
         Intent broadcastIntent = new Intent(RESET_UNREAD_MENTIONS_WEIBO_ACTION);
 
-        PendingIntent deletedPendingIntent = PendingIntent.getBroadcast(GlobalContext.getInstance(), accountBean.getUid()
+        PendingIntent deletedPendingIntent = PendingIntent.getBroadcast(BeeboApplication.getInstance(), accountBean.getUid()
                 .hashCode(), broadcastIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setDeleteIntent(deletedPendingIntent);

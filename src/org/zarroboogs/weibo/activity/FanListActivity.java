@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.fragment.FanListFragment;
@@ -26,7 +26,7 @@ public class FanListActivity extends AbstractAppActivity {
     }
 
     public static Intent newIntent(String token, UserBean userBean) {
-        Intent intent = new Intent(GlobalContext.getInstance(), FanListActivity.class);
+        Intent intent = new Intent(BeeboApplication.getInstance(), FanListActivity.class);
         intent.putExtra(Constants.TOKEN, token);
         intent.putExtra("user", userBean);
         return intent;

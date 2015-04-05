@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
 import org.zarroboogs.weibo.bean.UserBean;
@@ -51,7 +51,7 @@ public class DMSelectUserActivity extends AbstractAppActivity {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.list_content,
-                            SelectFriendsListFragment.newInstance(GlobalContext.getInstance().getAccountBean().getInfo()))
+                            SelectFriendsListFragment.newInstance(BeeboApplication.getInstance().getAccountBean().getInfo()))
                     .commit();
         }
 
@@ -88,7 +88,7 @@ public class DMSelectUserActivity extends AbstractAppActivity {
     }
 
     public UserBean getUser() {
-        return GlobalContext.getInstance().getAccountBean().getInfo();
+        return BeeboApplication.getInstance().getAccountBean().getInfo();
     }
 
     public ProgressBar getSuggestProgressBar() {
@@ -146,7 +146,7 @@ public class DMSelectUserActivity extends AbstractAppActivity {
                             }
                         });
 
-                        SearchDao dao = new SearchDao(GlobalContext.getInstance().getAccessTokenHack(), constraint.toString());
+                        SearchDao dao = new SearchDao(BeeboApplication.getInstance().getAccessTokenHack(), constraint.toString());
 
                         try {
                             data = dao.getUserList().getUsers();
@@ -250,7 +250,7 @@ public class DMSelectUserActivity extends AbstractAppActivity {
 
         @Override
         protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateNewUserLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getAccessTokenHack();
+            String token = BeeboApplication.getInstance().getAccessTokenHack();
             String cursor = String.valueOf(0);
             return new FriendUserLoader(getActivity(), token, getCurrentUser().getId(), cursor);
         }
@@ -262,7 +262,7 @@ public class DMSelectUserActivity extends AbstractAppActivity {
                 return null;
             }
 
-            String token = GlobalContext.getInstance().getAccessTokenHack();
+            String token = BeeboApplication.getInstance().getAccessTokenHack();
             String cursor = String.valueOf(bean.getNext_cursor());
 
             return new FriendUserLoader(getActivity(), token, getCurrentUser().getId(), cursor);

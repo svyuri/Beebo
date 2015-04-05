@@ -5,7 +5,7 @@ import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.ErrorCode;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
@@ -67,7 +67,7 @@ public class UserInfoActivity extends AbstractAppActivity {
         mUserInfoToolbar = (Toolbar) findViewById(R.id.userInfoToolBar);
         
         initLayout();
-        token =  GlobalContext.getInstance().getAccessTokenHack();
+        token =  BeeboApplication.getInstance().getAccessTokenHack();
         bean = getIntent().getParcelableExtra("user");
         if (bean == null) {
             String id = getIntent().getStringExtra("id");
@@ -105,9 +105,9 @@ public class UserInfoActivity extends AbstractAppActivity {
             intent.putExtra(Constants.TOKEN, getToken());
 
             UserBean userBean = new UserBean();
-            userBean.setId(GlobalContext.getInstance().getCurrentAccountId());
+            userBean.setId(BeeboApplication.getInstance().getCurrentAccountId());
             intent.putExtra("user", bean);
-            intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+            intent.putExtra(Constants.ACCOUNT, BeeboApplication.getInstance().getAccountBean());
             startActivity(intent);
             finish();
         }
@@ -125,7 +125,7 @@ public class UserInfoActivity extends AbstractAppActivity {
 
     public String getToken() {
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getAccessTokenHack();
+            token = BeeboApplication.getInstance().getAccessTokenHack();
         }
         return token;
     }
@@ -161,9 +161,9 @@ public class UserInfoActivity extends AbstractAppActivity {
 
     private boolean isMyselfProfile() {
         boolean screenNameEqualCurrentAccount = bean.getScreen_name() != null
-                && bean.getScreen_name().equals(GlobalContext.getInstance().getCurrentAccountName());
+                && bean.getScreen_name().equals(BeeboApplication.getInstance().getCurrentAccountName());
         boolean idEqualCurrentAccount = bean.getId() != null
-                && bean.getId().equals(GlobalContext.getInstance().getCurrentAccountId());
+                && bean.getId().equals(BeeboApplication.getInstance().getCurrentAccountId());
         return screenNameEqualCurrentAccount || idEqualCurrentAccount;
     }
 
@@ -245,14 +245,14 @@ public class UserInfoActivity extends AbstractAppActivity {
 							return true;
 						} else if (itemId == R.id.menu_edit) {
 							intent = new Intent(UserInfoActivity.this, EditMyProfileActivity.class);
-							intent.putExtra(Constants.USERBEAN, GlobalContext.getInstance().getAccountBean().getInfo());
+							intent.putExtra(Constants.USERBEAN, BeeboApplication.getInstance().getAccountBean().getInfo());
 							startActivity(intent);
 							return true;
 						} else if (itemId == R.id.menu_at) {
 							intent = new Intent(UserInfoActivity.this, WriteWeiboWithAppSrcActivity.class);
 							intent.putExtra(Constants.TOKEN, getToken());
 							intent.putExtra("content", "@" + bean.getScreen_name());
-							intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, GlobalContext.getInstance().getAccountBean());
+							intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, BeeboApplication.getInstance().getAccountBean());
 							startActivity(intent);
 						} else if (itemId == R.id.menu_modify_remark) {
 							UpdateRemarkDialog dialog = new UpdateRemarkDialog();
@@ -303,7 +303,7 @@ public class UserInfoActivity extends AbstractAppActivity {
     }
 
     private void manageGroup() {
-        ManageGroupDialog dialog = new ManageGroupDialog(GlobalContext.getInstance().getGroup(), bean.getId());
+        ManageGroupDialog dialog = new ManageGroupDialog(BeeboApplication.getInstance().getGroup(), bean.getId());
         dialog.show(getSupportFragmentManager(), "");
 
     }
@@ -367,7 +367,7 @@ public class UserInfoActivity extends AbstractAppActivity {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
+            FriendshipsDao dao = new FriendshipsDao(BeeboApplication.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {
@@ -411,7 +411,7 @@ public class UserInfoActivity extends AbstractAppActivity {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
+            FriendshipsDao dao = new FriendshipsDao(BeeboApplication.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {
@@ -546,7 +546,7 @@ public class UserInfoActivity extends AbstractAppActivity {
 
         @Override
         protected UserBean loadData() throws WeiboException {
-            ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getAccessTokenHack());
+            ShowUserDao dao = new ShowUserDao(BeeboApplication.getInstance().getAccessTokenHack());
             boolean haveId = !TextUtils.isEmpty(bean.getId());
             boolean haveName = !TextUtils.isEmpty(bean.getScreen_name());
             boolean haveDomain = !TextUtils.isEmpty(bean.getDomain());

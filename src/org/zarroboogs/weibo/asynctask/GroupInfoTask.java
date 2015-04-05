@@ -2,7 +2,7 @@
 package org.zarroboogs.weibo.asynctask;
 
 import org.zarroboogs.util.net.WeiboException;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.GroupListBean;
 import org.zarroboogs.weibo.dao.FriendGroupDao;
 import org.zarroboogs.weibo.db.task.GroupDBTask;
@@ -38,8 +38,8 @@ public class GroupInfoTask extends MyAsyncTask<Void, GroupListBean, GroupListBea
         super.onPostExecute(groupListBean);
 
         GroupDBTask.update(groupListBean, accountId);
-        if (accountId.equalsIgnoreCase(GlobalContext.getInstance().getCurrentAccountId()))
-            GlobalContext.getInstance().setGroup(groupListBean);
+        if (accountId.equalsIgnoreCase(BeeboApplication.getInstance().getCurrentAccountId()))
+            BeeboApplication.getInstance().setGroup(groupListBean);
 
     }
 

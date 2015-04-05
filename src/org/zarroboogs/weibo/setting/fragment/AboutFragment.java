@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.setting.fragment;
 
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.file.FileManager;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.setting.activity.SettingActivity;
@@ -141,7 +141,7 @@ public class AboutFragment extends PreferenceFragment {
     }
 
     private void buildCacheSummary() {
-        File cachedDir = GlobalContext.getInstance().getExternalCacheDir();
+        File cachedDir = BeeboApplication.getInstance().getExternalCacheDir();
         if (cachedDir != null) {
             findPreference(SettingActivity.CACHE_PATH).setSummary(cachedDir.getAbsolutePath());
         } else {
@@ -150,7 +150,7 @@ public class AboutFragment extends PreferenceFragment {
     }
 
     private void buildLogSummary() {
-        File cachedDir = GlobalContext.getInstance().getExternalCacheDir();
+        File cachedDir = BeeboApplication.getInstance().getExternalCacheDir();
         if (cachedDir != null) {
             findPreference(SettingActivity.SAVED_LOG_PATH).setSummary(FileManager.getLogDir());
         } else {

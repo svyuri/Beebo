@@ -15,7 +15,7 @@ import android.widget.Toast;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.weibo.GlobalContext;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.WriteWeiboActivity;
 import org.zarroboogs.weibo.adapter.UserListAdapter;
@@ -84,9 +84,9 @@ public class MyFanSingleChoiceModeListener implements ActionMode.Callback {
         int itemId = item.getItemId();
 		if (itemId == R.id.menu_at) {
 			Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
 			intent.putExtra("content", "@" + bean.getScreen_name());
-			intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+			intent.putExtra(Constants.ACCOUNT, BeeboApplication.getInstance().getAccountBean());
 			getActivity().startActivity(intent);
 			listView.clearChoices();
 			mode.finish();
@@ -127,7 +127,7 @@ public class MyFanSingleChoiceModeListener implements ActionMode.Callback {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
+            FriendshipsDao dao = new FriendshipsDao(BeeboApplication.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {
@@ -170,7 +170,7 @@ public class MyFanSingleChoiceModeListener implements ActionMode.Callback {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
+            FriendshipsDao dao = new FriendshipsDao(BeeboApplication.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {
@@ -215,7 +215,7 @@ public class MyFanSingleChoiceModeListener implements ActionMode.Callback {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FanDao dao = new FanDao(GlobalContext.getInstance().getAccessToken(), bean.getId());
+            FanDao dao = new FanDao(BeeboApplication.getInstance().getAccessToken(), bean.getId());
 
             try {
                 return dao.removeFan();
