@@ -28,9 +28,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * User: qii Date: 12-11-15
- */
 public class DMConversationAdapter extends BaseAdapter {
     private List<DMBean> bean;
     private Fragment fragment;
@@ -75,7 +72,7 @@ public class DMConversationAdapter extends BaseAdapter {
         int showPosition = bean.size() - 1 - position;
 
         DMViewHolder holder = null;
-        if (convertView == null || convertView.getTag(R.drawable.beebo_launcher + getItemViewType(showPosition)) == null) {
+        if (convertView == null || convertView.getTag(R.drawable.launcher + getItemViewType(showPosition)) == null) {
             switch (getItemViewType(showPosition)) {
                 case TYPE_NORMAL:
                     convertView = initNormalSimpleLayout(parent);
@@ -87,11 +84,11 @@ public class DMConversationAdapter extends BaseAdapter {
                     throw new IllegalArgumentException("dm user type is wrong");
             }
             holder = buildHolder(convertView);
-            convertView.setTag(R.drawable.beebo_launcher + getItemViewType(showPosition), holder);
-            convertView.setTag(R.string.listview_index_tag, R.drawable.beebo_launcher + getItemViewType(showPosition));
+            convertView.setTag(R.drawable.launcher + getItemViewType(showPosition), holder);
+            convertView.setTag(R.string.listview_index_tag, R.drawable.launcher + getItemViewType(showPosition));
 
         } else {
-            holder = (DMViewHolder) convertView.getTag(R.drawable.beebo_launcher + getItemViewType(showPosition));
+            holder = (DMViewHolder) convertView.getTag(R.drawable.launcher + getItemViewType(showPosition));
         }
 
         configViewFont(holder);

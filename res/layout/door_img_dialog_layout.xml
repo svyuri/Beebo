@@ -26,7 +26,7 @@
         android:layout_height="50dp"
         android:layout_below="@id/doorTitle"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/beebo_launcher" />
+        android:src="@drawable/launcher" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/doorEditText"
