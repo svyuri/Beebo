@@ -1,4 +1,8 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.1.2'
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Beebo.iml" filepath="$PROJECT_DIR$/Beebo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Beebo-MaterialEdittext/Beebo-MaterialEdittext.iml" filepath="$PROJECT_DIR$/../Beebo-MaterialEdittext/Beebo-MaterialEdittext.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../FloatActionButton-Eclipse/FloatActionButton-Eclipse.iml" filepath="$PROJECT_DIR$/../FloatActionButton-Eclipse/FloatActionButton-Eclipse.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../SeniorSDK/SeniorSDK.iml" filepath="$PROJECT_DIR$/../SeniorSDK/SeniorSDK.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../android-support-v7-appcompat-without-multi-lang/android-support-v7-appcompat-without-multi-lang.iml" filepath="$PROJECT_DIR$/../android-support-v7-appcompat-without-multi-lang/android-support-v7-appcompat-without-multi-lang.iml" />
+    </modules>
+  </component>
+</project>
