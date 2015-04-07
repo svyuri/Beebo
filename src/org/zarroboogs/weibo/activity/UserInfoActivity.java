@@ -159,7 +159,7 @@ public class UserInfoActivity extends AbstractAppActivity {
         MobclickAgent.onResume(this);
     }
 
-    private boolean isMyselfProfile() {
+    public boolean isMyselfProfile() {
         boolean screenNameEqualCurrentAccount = bean.getScreen_name() != null
                 && bean.getScreen_name().equals(BeeboApplication.getInstance().getCurrentAccountName());
         boolean idEqualCurrentAccount = bean.getId() != null
@@ -177,13 +177,62 @@ public class UserInfoActivity extends AbstractAppActivity {
 
     private void initLayout() {
         getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
-
-        // getActionBar().setDisplayHomeAsUpEnabled(true);
-        // getActionBar().setDisplayShowHomeEnabled(false);
-        // getActionBar().setTitle(getString(R.string.personal_info));
         mUserInfoToolbar.setTitle(getString(R.string.personal_info));
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	// TODO Auto-generated method stub
+    	Intent intent;
+        int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			intent = MainTimeLineActivity.newIntent();
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			return true;
+		} else if (itemId == R.id.menu_edit) {
+			intent = new Intent(UserInfoActivity.this, EditMyProfileActivity.class);
+			intent.putExtra(Constants.USERBEAN, BeeboApplication.getInstance().getAccountBean().getInfo());
+			startActivity(intent);
+			return true;
+		} else if (itemId == R.id.menu_at) {
+			intent = new Intent(UserInfoActivity.this, WriteWeiboWithAppSrcActivity.class);
+			intent.putExtra(Constants.TOKEN, getToken());
+			intent.putExtra("content", "@" + bean.getScreen_name());
+			intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, BeeboApplication.getInstance().getAccountBean());
+			startActivity(intent);
+		} else if (itemId == R.id.menu_modify_remark) {
+			UpdateRemarkDialog dialog = new UpdateRemarkDialog();
+			dialog.show(getFragmentManager(), "");
+		} else if (itemId == R.id.menu_follow) {
+			if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+			    followOrUnfollowTask = new FollowTask();
+			    followOrUnfollowTask.execute();
+			}
+		} else if (itemId == R.id.menu_unfollow) {
+			if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+			    followOrUnfollowTask = new UnFollowTask();
+			    followOrUnfollowTask.execute();
+			}
+		} else if (itemId == R.id.menu_remove_fan) {
+			if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+			    followOrUnfollowTask = new RemoveFanTask();
+			    followOrUnfollowTask.execute();
+			}
+		} else if (itemId == R.id.menu_add_to_app_filter) {
+			if (!TextUtils.isEmpty(bean.getScreen_name())) {
+			    FilterDBTask.addFilterKeyword(FilterDBTask.TYPE_USER, bean.getScreen_name());
+			    Toast.makeText(UserInfoActivity.this, getString(R.string.filter_successfully), Toast.LENGTH_SHORT).show();
+			}
+		} else if (itemId == R.id.menu_manage_group) {
+			manageGroup();
+		} else if (itemId == R.id.menu_refresh_my_profile) {
+			userInfoFragment.refreshMyProFile();
+			return true;
+		}
+    	return super.onOptionsItemSelected(item);
+    }
     private void buildContent() {
         // if you open this activity with user id, must set title with nickname
         // again
@@ -202,96 +251,10 @@ public class UserInfoActivity extends AbstractAppActivity {
 
                 }
                 
-                
-                if (isMyselfProfile()) {
-                    mUserInfoToolbar.inflateMenu(R.menu.actionbar_menu_myinfoactivity);
-                    
-                    mUserInfoToolbar.inflateMenu(R.menu.actionbar_menu_newuserinfofragment_main_page);
-                    
-                    MenuItem edit = mUserInfoToolbar.getMenu().findItem(R.id.menu_edit);
-                    edit.setVisible(false);
-                    
-                    userInfoFragment.editMyProFile();
-                    
-                }else {
-                    mUserInfoToolbar.inflateMenu(R.menu.actionbar_menu_infofragment);
-                    Menu menu = mUserInfoToolbar.getMenu();
-                    if (bean.isFollowing()) {
-                        menu.findItem(R.id.menu_follow).setVisible(false);
-                        menu.findItem(R.id.menu_unfollow).setVisible(true);
-                        menu.findItem(R.id.menu_manage_group).setVisible(true);
-                    } else {
-                        menu.findItem(R.id.menu_follow).setVisible(true);
-                        menu.findItem(R.id.menu_unfollow).setVisible(false);
-                        menu.findItem(R.id.menu_manage_group).setVisible(false);
-                    }
-
-                    if (!bean.isFollowing() && bean.isFollow_me()) {
-                        menu.findItem(R.id.menu_remove_fan).setVisible(true);
-                    } else {
-                        menu.findItem(R.id.menu_remove_fan).setVisible(false);
-                    }
-        		}
-                mUserInfoToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-        			
-        			@Override
-        			public boolean onMenuItemClick(MenuItem item) {
-        		        Intent intent;
-        		        int itemId = item.getItemId();
-						if (itemId == android.R.id.home) {
-							intent = MainTimeLineActivity.newIntent();
-							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-							startActivity(intent);
-							return true;
-						} else if (itemId == R.id.menu_edit) {
-							intent = new Intent(UserInfoActivity.this, EditMyProfileActivity.class);
-							intent.putExtra(Constants.USERBEAN, BeeboApplication.getInstance().getAccountBean().getInfo());
-							startActivity(intent);
-							return true;
-						} else if (itemId == R.id.menu_at) {
-							intent = new Intent(UserInfoActivity.this, WriteWeiboWithAppSrcActivity.class);
-							intent.putExtra(Constants.TOKEN, getToken());
-							intent.putExtra("content", "@" + bean.getScreen_name());
-							intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, BeeboApplication.getInstance().getAccountBean());
-							startActivity(intent);
-						} else if (itemId == R.id.menu_modify_remark) {
-							UpdateRemarkDialog dialog = new UpdateRemarkDialog();
-							dialog.show(getFragmentManager(), "");
-						} else if (itemId == R.id.menu_follow) {
-							if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-							    followOrUnfollowTask = new FollowTask();
-							    followOrUnfollowTask.execute();
-							}
-						} else if (itemId == R.id.menu_unfollow) {
-							if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-							    followOrUnfollowTask = new UnFollowTask();
-							    followOrUnfollowTask.execute();
-							}
-						} else if (itemId == R.id.menu_remove_fan) {
-							if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-							    followOrUnfollowTask = new RemoveFanTask();
-							    followOrUnfollowTask.execute();
-							}
-						} else if (itemId == R.id.menu_add_to_app_filter) {
-							if (!TextUtils.isEmpty(bean.getScreen_name())) {
-							    FilterDBTask.addFilterKeyword(FilterDBTask.TYPE_USER, bean.getScreen_name());
-							    Toast.makeText(UserInfoActivity.this, getString(R.string.filter_successfully), Toast.LENGTH_SHORT).show();
-							}
-						} else if (itemId == R.id.menu_manage_group) {
-							manageGroup();
-						} else if (itemId == R.id.menu_refresh_my_profile) {
-							userInfoFragment.refreshMyProFile();
-							return true;
-						}
-        		        return false;
-        		    }
-        		});
             }
         });
 
     }
-
-    
 
     public void updateRemark(String remark) {
 

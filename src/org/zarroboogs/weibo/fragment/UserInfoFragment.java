@@ -54,6 +54,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -272,6 +273,35 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         }
 
         return result;
+    }
+    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    	// TODO Auto-generated method stub
+    	if (((UserInfoActivity)getActivity()).isMyselfProfile()) {
+    		inflater.inflate(R.menu.actionbar_menu_newuserinfofragment_main_page, menu);
+            MenuItem edit = menu.findItem(R.id.menu_edit);
+            edit.setVisible(false);
+            editMyProFile();
+		}else {
+			inflater.inflate(R.menu.actionbar_menu_infofragment, menu);
+            if (userBean.isFollowing()) {
+                menu.findItem(R.id.menu_follow).setVisible(false);
+                menu.findItem(R.id.menu_unfollow).setVisible(true);
+                menu.findItem(R.id.menu_manage_group).setVisible(true);
+            } else {
+                menu.findItem(R.id.menu_follow).setVisible(true);
+                menu.findItem(R.id.menu_unfollow).setVisible(false);
+                menu.findItem(R.id.menu_manage_group).setVisible(false);
+            }
+
+            if (!userBean.isFollowing() && userBean.isFollow_me()) {
+                menu.findItem(R.id.menu_remove_fan).setVisible(true);
+            } else {
+                menu.findItem(R.id.menu_remove_fan).setVisible(false);
+            }
+		}
+    	super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
