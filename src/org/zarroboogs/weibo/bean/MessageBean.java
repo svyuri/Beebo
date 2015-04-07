@@ -429,8 +429,73 @@ public class MessageBean extends DataItem implements Parcelable {
     private ArrayList<String> middleUrls = new ArrayList<String>();
 
     private ArrayList<String> highUrls = new ArrayList<String>();
-
+    
+    
     public ArrayList<String> getThumbnailPicUrls() {
+        if (thumbnaiUrls.size() > 0) {
+            return thumbnaiUrls;
+        }
+        ArrayList<String> value = new ArrayList<String>();
+        for (PicUrls url : pic_urls) {
+            value.add(url.thumbnail_pic);
+        }
+
+        if (value.size() == 0) {
+            String prefStr = "http://ww4.sinaimg.cn/thumbnail/";
+            for (String url : pic_ids) {
+                value.add(prefStr + url + ".jpg");
+            }
+        }
+        this.thumbnaiUrls = value;
+        return value;
+    }
+
+    public ArrayList<String> getMiddlePicUrls() {
+        if (middleUrls.size() > 0) {
+            return middleUrls;
+        }
+        ArrayList<String> value = new ArrayList<String>();
+        for (PicUrls url : pic_urls) {
+            value.add(url.thumbnail_pic.replace("thumbnail", "bmiddle"));
+        }
+
+        if (value.size() == 0) {
+            String prefStr = "http://ww4.sinaimg.cn/bmiddle/";
+            for (String url : pic_ids) {
+                value.add(prefStr + url + ".jpg");
+            }
+        }
+
+        this.middleUrls = value;
+        return value;
+    }
+
+    public ArrayList<String> getHighPicUrls() {
+        if (highUrls.size() > 0) {
+            return highUrls;
+        }
+
+        ArrayList<String> value = new ArrayList<String>();
+
+        for (PicUrls url : pic_urls) {
+            value.add(url.thumbnail_pic.replace("thumbnail", "large"));
+        }
+
+        if (value.size() == 0) {
+            String prefStr = "http://ww4.sinaimg.cn/large/";
+            for (String url : pic_ids) {
+                value.add(prefStr + url + ".jpg");
+            }
+        }
+
+        this.highUrls = value;
+
+        return value;
+    }
+
+    
+
+    public ArrayList<String> getHotThumbnailPicUrls() {
         if (thumbnaiUrls.size() > 0) {
             return thumbnaiUrls;
         }
@@ -442,7 +507,7 @@ public class MessageBean extends DataItem implements Parcelable {
         return value;
     }
 
-    public ArrayList<String> getMiddlePicUrls() {
+    public ArrayList<String> getHotMiddlePicUrls() {
         if (middleUrls.size() > 0) {
             return middleUrls;
         }
@@ -454,7 +519,7 @@ public class MessageBean extends DataItem implements Parcelable {
         return value;
     }
 
-    public ArrayList<String> getHighPicUrls() {
+    public ArrayList<String> getHotHighPicUrls() {
         if (highUrls.size() > 0) {
             return highUrls;
         }

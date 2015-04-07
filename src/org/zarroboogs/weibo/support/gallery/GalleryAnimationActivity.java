@@ -94,7 +94,7 @@ public class GalleryAnimationActivity extends FragmentActivity {
             urls.addAll(tmp);
 		}else {
 	        MessageBean msg = getIntent().getParcelableExtra("msg");
-	        ArrayList<String> tmp = msg.getThumbnailPicUrls();
+	        ArrayList<String> tmp = msg.getHotThumbnailPicUrls();
 	        for (int i = 0; i < tmp.size(); i++) {
 	            urls.add(tmp.get(i).replace("thumbnail", "large"));
 	        }
