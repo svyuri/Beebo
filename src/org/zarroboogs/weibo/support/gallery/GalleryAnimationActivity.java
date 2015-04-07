@@ -52,11 +52,17 @@ public class GalleryAnimationActivity extends FragmentActivity {
 
     private ColorDrawable backgroundColor;
 
-    public static Intent newIntent(MessageBean msg, ArrayList<AnimationRect> rectList, int initPosition) {
+    public static Intent newIntent(MessageBean msg, ArrayList<AnimationRect> rectList, int initPosition, boolean... isFromHotWeibo) {
         Intent intent = new Intent(BeeboApplication.getInstance(), GalleryAnimationActivity.class);
         intent.putExtra("msg", msg);
         intent.putExtra("rect", rectList);
         intent.putExtra("position", initPosition);
+        if (isFromHotWeibo != null && isFromHotWeibo.length > 0) {
+        	intent.putExtra("isFromHotWeibo", isFromHotWeibo[0]);
+		}else {
+	        intent.putExtra("isFromHotWeibo", false);
+		}
+
         return intent;
     }
     
@@ -96,7 +102,7 @@ public class GalleryAnimationActivity extends FragmentActivity {
 	        MessageBean msg = getIntent().getParcelableExtra("msg");
 	        ArrayList<String> tmp = msg.getHotThumbnailPicUrls();
 	        for (int i = 0; i < tmp.size(); i++) {
-	            urls.add(tmp.get(i).replace("thumbnail", "large"));
+	            urls.add(tmp.get(i).replace("thumbnail", "large").replace("webp180", "large"));
 	        }
 		}
         rectList = getIntent().getParcelableArrayListExtra("rect");

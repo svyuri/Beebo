@@ -117,63 +117,6 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 			}
 		});
 	}
-    private void displayPictures(final MessageBean msg, final GridLayout layout, WeiboDetailImageView view,
-            boolean refreshPic) {
-
-        if (!msg.isMultiPics()) {
-            view.setVisibility(View.VISIBLE);
-            if (Utility.isTaskStopped(picTask) && refreshPic) {
-                picTask = new MsgDetailReadWorker(view, msg);
-                picTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-            } else {
-                picTask.setView(view);
-            }
-        } else {
-            layout.setVisibility(View.VISIBLE);
-
-            final int count = msg.getPicCount();
-            for (int i = 0; i < count; i++) {
-                final IWeiciyuanDrawable pic = (IWeiciyuanDrawable) layout.getChildAt(i);
-                pic.setVisibility(View.VISIBLE);
-
-                if (SettingUtils.getEnableBigPic()) {
-                    TimeLineBitmapDownloader.getInstance().displayMultiPicture(pic, msg.getHighPicUrls().get(i),
-                            FileLocationMethod.picture_large);
-                } else {
-                    TimeLineBitmapDownloader.getInstance().displayMultiPicture(pic, msg.getMiddlePicUrls().get(i),
-                            FileLocationMethod.picture_bmiddle);
-                }
-
-                final int finalI = i;
-                pic.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        ArrayList<AnimationRect> animationRectArrayList = new ArrayList<AnimationRect>();
-                        for (int i = 0; i < count; i++) {
-                            final IWeiciyuanDrawable pic = (IWeiciyuanDrawable) layout.getChildAt(i);
-                            ImageView imageView = (ImageView) pic;
-                            if (imageView.getVisibility() == View.VISIBLE) {
-                                AnimationRect rect = AnimationRect.buildFromImageView(imageView);
-                                animationRectArrayList.add(rect);
-                            }
-                        }
-                        Intent intent = GalleryAnimationActivity.newIntent(msg, animationRectArrayList, finalI);
-                        getActivity().startActivity(intent);
-                    }
-                });
-
-            }
-
-            if (count < 9) {
-                for (int i = count; i < 9; i++) {
-                    ImageView pic = (ImageView) layout.getChildAt(i);
-                    pic.setVisibility(View.GONE);
-                }
-            }
-        }
-
-    }
 
 
     public void clearActionMode() {
