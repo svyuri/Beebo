@@ -1,6 +1,9 @@
 package org.zarroboogs.weibo.hot.bean.hotweibo;
 
-public class HotWeiboPicInfos {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class HotWeiboPicInfos implements Parcelable{
 	private HotWeiboPicInfo thumbnail;
 	private HotWeiboPicInfo bmiddle;
 	private HotWeiboPicInfo large;
@@ -74,4 +77,42 @@ public class HotWeiboPicInfos {
 		this.photo_tag = photo_tag;
 	}
 
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		dest.writeParcelable(thumbnail, flags);
+		dest.writeParcelable(bmiddle, flags);
+		dest.writeParcelable(large, flags);
+		dest.writeParcelable(original, flags);
+		dest.writeParcelable(largest, flags);
+		dest.writeString(object_id);
+		dest.writeString(pic_id);
+		dest.writeInt(photo_tag);
+	}
+	
+	 public static final Parcelable.Creator<HotWeiboPicInfos> CREATOR = new Parcelable.Creator<HotWeiboPicInfos>() {
+         public HotWeiboPicInfos createFromParcel(Parcel in) {
+        	 HotWeiboPicInfos picUrls = new HotWeiboPicInfos();
+             picUrls.thumbnail= in.readParcelable(HotWeiboPicInfo.class.getClassLoader());
+             picUrls.bmiddle= in.readParcelable(HotWeiboPicInfo.class.getClassLoader());
+             picUrls.large= in.readParcelable(HotWeiboPicInfo.class.getClassLoader());
+             picUrls.original= in.readParcelable(HotWeiboPicInfo.class.getClassLoader());
+             picUrls.largest= in.readParcelable(HotWeiboPicInfo.class.getClassLoader());
+             picUrls.object_id = in.readString();
+             
+             picUrls.pic_id = in.readString();
+             picUrls.photo_tag = in.readInt();
+             return picUrls;
+         }
+
+         public HotWeiboPicInfos[] newArray(int size) {
+             return new HotWeiboPicInfos[size];
+         }
+     };
 }

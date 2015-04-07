@@ -146,6 +146,8 @@ public class MessageBean extends DataItem implements Parcelable {
 
         dest.writeTypedList(pic_urls);
         dest.writeStringList(pic_ids);
+        
+        dest.writeTypedList(pic_infos);
 
     }
 
@@ -186,6 +188,10 @@ public class MessageBean extends DataItem implements Parcelable {
 
             messageBean.pic_ids = new ArrayList<String>();
             in.readStringList(messageBean.pic_ids);
+            
+            messageBean.pic_infos = new ArrayList<HotWeiboPicInfos>();
+            in.readTypedList(messageBean.pic_infos, HotWeiboPicInfos.CREATOR);
+            
             return messageBean;
         }
 
@@ -429,17 +435,10 @@ public class MessageBean extends DataItem implements Parcelable {
             return thumbnaiUrls;
         }
         ArrayList<String> value = new ArrayList<String>();
-        for (PicUrls url : pic_urls) {
-            value.add(url.thumbnail_pic);
-        }
-
-        if (value.size() == 0) {
-            String prefStr = "http://ww4.sinaimg.cn/thumbnail/";
-            for (String url : pic_ids) {
-                value.add(prefStr + url + ".jpg");
-            }
-        }
-        this.thumbnaiUrls = value;
+        for (HotWeiboPicInfos infos : pic_infos) {
+        	value.add(infos.getThumbnail().getUrl());
+		}
+        this.thumbnaiUrls.addAll(value);
         return value;
     }
 
@@ -448,18 +447,10 @@ public class MessageBean extends DataItem implements Parcelable {
             return middleUrls;
         }
         ArrayList<String> value = new ArrayList<String>();
-        for (PicUrls url : pic_urls) {
-            value.add(url.thumbnail_pic.replace("thumbnail", "bmiddle"));
-        }
-
-        if (value.size() == 0) {
-            String prefStr = "http://ww4.sinaimg.cn/bmiddle/";
-            for (String url : pic_ids) {
-                value.add(prefStr + url + ".jpg");
-            }
-        }
-
-        this.middleUrls = value;
+        for (HotWeiboPicInfos infos : pic_infos) {
+        	value.add(infos.getBmiddle().getUrl());
+		}
+        this.middleUrls.addAll(value);
         return value;
     }
 
@@ -470,18 +461,10 @@ public class MessageBean extends DataItem implements Parcelable {
 
         ArrayList<String> value = new ArrayList<String>();
 
-        for (PicUrls url : pic_urls) {
-            value.add(url.thumbnail_pic.replace("thumbnail", "large"));
-        }
-
-        if (value.size() == 0) {
-            String prefStr = "http://ww4.sinaimg.cn/large/";
-            for (String url : pic_ids) {
-                value.add(prefStr + url + ".jpg");
-            }
-        }
-
-        this.highUrls = value;
+        for (HotWeiboPicInfos infos : pic_infos) {
+        	value.add(infos.getOriginal().getUrl());
+		}
+        this.highUrls.addAll(value);
 
         return value;
     }

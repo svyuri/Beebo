@@ -2,11 +2,14 @@ package org.zarroboogs.weibo.hot.bean.hotweibo;
 
 import org.json.*;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class HotWeiboPicInfo {
+
+public class HotWeiboPicInfo implements Parcelable{
 	
     private String url;
-    private double cutType;
+    private long cutType;
     private String width;
     private String type;
     private String height;
@@ -16,15 +19,6 @@ public class HotWeiboPicInfo {
 		
 	}	
         
-    public HotWeiboPicInfo (JSONObject json) {
-    
-        this.url = json.optString("url");
-        this.cutType = json.optDouble("cut_type");
-        this.width = json.optString("width");
-        this.type = json.optString("type");
-        this.height = json.optString("height");
-
-    }
     
     public String getUrl() {
         return this.url;
@@ -34,11 +28,11 @@ public class HotWeiboPicInfo {
         this.url = url;
     }
 
-    public double getCutType() {
+    public long getCutType() {
         return this.cutType;
     }
 
-    public void setCutType(double cutType) {
+    public void setCutType(long cutType) {
         this.cutType = cutType;
     }
 
@@ -66,6 +60,37 @@ public class HotWeiboPicInfo {
         this.height = height;
     }
 
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		dest.writeString(url);
+		dest.writeLong(cutType);
+		dest.writeString(width);
+		dest.writeString(type);
+		dest.writeString(height);
+	}
+
+
+	 public static final Parcelable.Creator<HotWeiboPicInfo> CREATOR = new Parcelable.Creator<HotWeiboPicInfo>() {
+         public HotWeiboPicInfo createFromParcel(Parcel in) {
+        	 HotWeiboPicInfo picUrls = new HotWeiboPicInfo();
+        	 picUrls.url = in.readString();
+        	 picUrls.cutType = in.readLong();
+        	 picUrls.width = in.readString();
+        	 picUrls.type = in.readString();
+        	 picUrls.height = in.readString();
+             return picUrls;
+         }
+
+         public HotWeiboPicInfo[] newArray(int size) {
+             return new HotWeiboPicInfo[size];
+         }
+     };
     
 }
