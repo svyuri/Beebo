@@ -278,7 +278,8 @@ public class HotWeiboFragmentPet extends BaseHotWeiboFragment {
 	void onLoadDataSucess(String json) {
 		// TODO Auto-generated method stub
 		mPage++;
-		String jsonStr = json.replaceAll("\"geo\":\"\"", "\"geo\": {}");
+		String jsonStr = json.replaceAll("\"geo\":\"\"", "\"geo\": {}").replace("},\"mblogid\":", "],\"mblogid\":").replace("\"pic_infos\":{", "\"pic_infos\":[").replaceAll("\"[A-Za-z0-9]{32}\":", "");
+		
 		org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
 
 		Gson gson = new Gson();
