@@ -42,6 +42,7 @@ import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -125,6 +126,18 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
                 startActivity(intent);
             }
         });
+        
+        mFab.setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				Utility.stopListViewScrollingAndScrollToTop(getListView());
+				mPullToRefreshListView.setRefreshing();
+				loadNewMsg();
+				return true;
+			}
+		});
     }
 
     @Override

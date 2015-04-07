@@ -10,8 +10,6 @@ import org.zarroboogs.weibo.loader.FriendUserLoader;
 
 import android.os.Bundle;
 import android.support.v4.content.Loader;
-import android.view.View;
-import android.widget.AdapterView;
 
 public class FriendsListFragment extends AbstractFriendsFanListFragment {
 
