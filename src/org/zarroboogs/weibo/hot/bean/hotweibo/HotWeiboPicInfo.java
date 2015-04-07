@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.hot.bean.hotweibo;
 import org.json.*;
 
 
-public class Original {
+public class HotWeiboPicInfo {
 	
     private String url;
     private double cutType;
@@ -12,11 +12,11 @@ public class Original {
     private String height;
     
     
-	public Original () {
+	public HotWeiboPicInfo () {
 		
 	}	
         
-    public Original (JSONObject json) {
+    public HotWeiboPicInfo (JSONObject json) {
     
         this.url = json.optString("url");
         this.cutType = json.optDouble("cut_type");

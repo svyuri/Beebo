@@ -29,9 +29,6 @@ import pl.droidsonroids.gif.GifDrawable;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-/**
- * User: qii Date: 14-4-30
- */
 public class GifPictureFragment extends Fragment {
 
     private static final int NAVIGATION_BAR_HEIGHT_DP_UNIT = 48;

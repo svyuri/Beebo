@@ -12,6 +12,7 @@ import org.zarroboogs.weibo.adapter.HotWeiboStatusListAdapter;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.MessageListBean;
+import org.zarroboogs.weibo.hot.bean.hotweibo.HotWeiboPicInfos;
 import org.zarroboogs.weibo.hot.hean.HotWeiboBean;
 import org.zarroboogs.weibo.hot.hean.HotWeiboErrorBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
@@ -269,8 +270,8 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 	void onLoadDataSucess(String json) {
 		// TODO Auto-generated method stub
 		mPage++;
-		String jsonStr = json.replaceAll("\"geo\":\"\"", "\"geo\": {}");
-		org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
+		String jsonStr = json.replaceAll("\"geo\":\"\"", "\"geo\": {}").replace("},\"mblogid\":", "],\"mblogid\":").replace("\"pic_infos\":{", "\"pic_infos\":[").replaceAll("\"[A-Za-z0-9]{32}\":", "");
+		Utility.printLongLog("READ_JSON_DONE", jsonStr);
 		
 		Gson gson = new Gson();
 		
@@ -283,6 +284,11 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 			getDataList().addNewData(mslBean);
 			List<MessageBean> list = result.getMessageBeans();
 			
+			
+			for (MessageBean messageBean : list) {
+				List<HotWeiboPicInfos> picInfos = messageBean.getPic_infos();
+				DevLog.printLog("getOriginal_pic ", "HotWeiboPicInfos:" + picInfos.size() + "  Original: " + messageBean.getOriginal_pic() + "     Middle: " +  messageBean.getBmiddle_pic());
+			}
 			if (SettingUtils.isReadStyleEqualWeibo()) {
 				newMsgTipBar.setValue(mslBean, true);
 				adapter.addNewData(list);

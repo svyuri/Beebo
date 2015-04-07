@@ -22,9 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * User: qii Date: 14-4-30
- */
 public class BigPicContainerFragment extends Fragment {
 
     public static BigPicContainerFragment newInstance(String url, AnimationRect rect, boolean animationIn,

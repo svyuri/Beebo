@@ -2,6 +2,7 @@
 package org.zarroboogs.weibo.bean;
 
 import org.zarroboogs.weibo.bean.data.DataItem;
+import org.zarroboogs.weibo.hot.bean.hotweibo.HotWeiboPicInfos;
 import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
 import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import org.zarroboogs.weibo.support.utils.TimeUtility;
@@ -15,6 +16,7 @@ import android.text.TextUtils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class MessageBean extends DataItem implements Parcelable {
@@ -68,7 +70,17 @@ public class MessageBean extends DataItem implements Parcelable {
 
     private transient SpannableString listViewSpannableString;
 
-    public static class PicUrls implements Parcelable {
+    private List<HotWeiboPicInfos> pic_infos = new ArrayList<HotWeiboPicInfos>();
+    
+    public List<HotWeiboPicInfos> getPic_infos() {
+		return pic_infos;
+	}
+
+	public void setPic_infos(List<HotWeiboPicInfos> pic_infos) {
+		this.pic_infos = pic_infos;
+	}
+
+	public static class PicUrls implements Parcelable {
 
         public String thumbnail_pic;
 
