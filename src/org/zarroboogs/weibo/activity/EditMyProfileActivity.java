@@ -41,9 +41,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-/**
- * User: qii Date: 13-2-28
- */
 public class EditMyProfileActivity extends AbstractAppActivity implements DialogInterface.OnClickListener {
 
     private static final int CAMERA_RESULT = 0;
@@ -77,52 +74,34 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
         initLayout();
         userBean = (UserBean) getIntent().getParcelableExtra(Constants.USERBEAN);
         initValue(savedInstanceState);
-
-        mEditToolBar.inflateMenu(R.menu.actionbar_menu_editmyprofileactivity);
-        save = mEditToolBar.getMenu().findItem(R.id.menu_save);
-        mEditToolBar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                // TODO Auto-generated method stub
-                Intent intent;
-                int itemId = item.getItemId();
-				if (itemId == android.R.id.home) {
-					intent = MainTimeLineActivity.newIntent();
-					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-					startActivity(intent);
-					return true;
-				} else if (itemId == R.id.menu_save) {
-					save();
-					return true;
-				}
-                return false;
-            }
-        });
+        
+        disPlayHomeAsUp(mEditToolBar);
     }
 
-    // @Override
-    // public boolean onCreateOptionsMenu(Menu menu) {
-    // getMenuInflater().inflate(R.menu.actionbar_menu_editmyprofileactivity, menu);
-    // save = menu.findItem(R.id.menu_save);
-    // return super.onCreateOptionsMenu(menu);
-    // }
-    //
-    // @Override
-    // public boolean onOptionsItemSelected(MenuItem item) {
-    // Intent intent;
-    // switch (item.getItemId()) {
-    // case android.R.id.home:
-    // intent = MainTimeLineActivity.newIntent();
-    // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-    // startActivity(intent);
-    // return true;
-    // case R.id.menu_save:
-    // save();
-    // return true;
-    // }
-    // return false;
-    // }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.actionbar_menu_editmyprofileactivity,
+				menu);
+		save = menu.findItem(R.id.menu_save);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			intent = MainTimeLineActivity.newIntent();
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+					| Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			return true;
+		case R.id.menu_save:
+			save();
+			return true;
+		}
+		return false;
+	}
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -318,7 +297,7 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
 
         @Override
         protected UserBean doInBackground(Void... params) {
-            EditMyProfileDao dao = new EditMyProfileDao(BeeboApplication.getInstance().getAccessToken(), screenName);
+            EditMyProfileDao dao = new EditMyProfileDao(BeeboApplication.getInstance().getAccessTokenHack(), screenName);
             dao.setUrl(url);
             dao.setDescription(description);
             dao.setAvatar(picPath);
@@ -403,7 +382,7 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
         protected UserBean doInBackground(Object... params) {
             UserBean user = null;
             try {
-                ShowUserDao dao = new ShowUserDao(BeeboApplication.getInstance().getAccessToken());
+                ShowUserDao dao = new ShowUserDao(BeeboApplication.getInstance().getAccessTokenHack());
                 dao.setUid(BeeboApplication.getInstance().getAccountBean().getUid());
                 user = dao.getUserInfo();
             } catch (WeiboException e) {
