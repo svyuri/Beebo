@@ -17,15 +17,12 @@ import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.ErrorCode;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.WriteWeiboActivity;
+import org.zarroboogs.weibo.activity.WriteWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.dao.FriendshipsDao;
 import org.zarroboogs.weibo.db.task.FilterDBTask;
 
-/**
- * User: qii Date: 13-3-10
- */
 @SuppressLint("ValidFragment")
 public class UserDialog extends DialogFragment {
 
@@ -78,7 +75,7 @@ public class UserDialog extends DialogFragment {
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
                 case 0:
-                    Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
+                    Intent intent = new Intent(getActivity(), WriteWeiboWithAppSrcActivity.class);
                     intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
                     intent.putExtra("content", "@" + user.getScreen_name());
                     intent.putExtra(Constants.ACCOUNT, BeeboApplication.getInstance().getAccountBean());
@@ -102,7 +99,7 @@ public class UserDialog extends DialogFragment {
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
                 case 0:
-                    Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
+                    Intent intent = new Intent(getActivity(), WriteWeiboWithAppSrcActivity.class);
                     intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
                     intent.putExtra("content", "@" + user.getScreen_name());
                     intent.putExtra(Constants.ACCOUNT, BeeboApplication.getInstance().getAccountBean());
