@@ -84,6 +84,8 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
     
     private FavAsyncTask favTask = null;
     
+    private UnFavAsyncTask unFavTask = null;
+    
     private AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
 
     public StatusListAdapter(Fragment fragment, List<MessageBean> bean, ListView listView, boolean showOriStatus) {
@@ -256,6 +258,13 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 							}
 							break;
 						}
+						case R.id.menu_unfav:{
+								if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
+								    unFavTask = new UnFavAsyncTask(BeeboApplication.getInstance().getAccessToken(), msg.getId());
+								    unFavTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+								}
+								return true;
+							}
 						
 						case R.id.menu_copy:{
 							ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);

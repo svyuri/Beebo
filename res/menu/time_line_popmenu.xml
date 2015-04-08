@@ -18,6 +18,11 @@
         android:title="@string/do_favourite"
         app:showAsAction="ifRoom"/>
     <item
+        android:id="@+id/menu_unfav"
+        android:icon="?fav_en"
+        android:title="@string/un_favourite"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/menu_copy"
         android:icon="?share"
         android:title="@string/copy_to_clipboard"
