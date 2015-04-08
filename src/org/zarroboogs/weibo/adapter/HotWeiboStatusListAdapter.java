@@ -13,6 +13,7 @@ import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.ui.task.FavAsyncTask;
+import org.zarroboogs.weibo.ui.task.UnFavAsyncTask;
 import org.zarroboogs.weibo.widget.AutoScrollListView;
 import org.zarroboogs.weibo.widget.TopTipsView;
 import org.zarroboogs.weibo.widget.VelocityListView;
@@ -56,6 +57,8 @@ public class HotWeiboStatusListAdapter extends AbstractAppListAdapter<MessageBea
 
 	private FavAsyncTask favTask = null;
 	
+    private UnFavAsyncTask unFavTask = null;
+    
     public HotWeiboStatusListAdapter(Fragment fragment, List<MessageBean> bean, ListView listView, boolean showOriStatus) {
         this(fragment, bean, listView, showOriStatus, false);
     }
@@ -377,6 +380,14 @@ public class HotWeiboStatusListAdapter extends AbstractAppListAdapter<MessageBea
 							    favTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
 							}
 							break;
+						}
+						
+						case R.id.menu_unfav:{
+							if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
+							    unFavTask = new UnFavAsyncTask(BeeboApplication.getInstance().getAccessToken(), msg.getId());
+							    unFavTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+							}
+							return true;
 						}
 						
 						case R.id.menu_copy:{
