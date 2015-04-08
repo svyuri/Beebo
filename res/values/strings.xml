@@ -333,7 +333,7 @@
     <string name="group_name_must_less_than_ten_chinese_words">分组名限制在10个汉字内</string>
 
     <!-- fav -->
-    <string name="favourite">我的收藏</string>
+    <string name="do_favourite">收藏</string>
     <string name="un_favourite">取消收藏</string>
     <string name="fav_number">收藏数</string>
     <string name="fav_successfully">收藏成功</string>

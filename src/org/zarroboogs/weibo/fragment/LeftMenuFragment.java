@@ -315,7 +315,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 				public void onReceive(Context context, Intent intent) {
 					LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
 					if (currentIndex == FAV_INDEX) {
-						mToolbar.setTitle(R.string.favourite);
+						mToolbar.setTitle(R.string.favourite_weibo);
 						showFavPageImp();
 					}
 

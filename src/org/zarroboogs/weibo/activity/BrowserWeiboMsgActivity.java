@@ -80,8 +80,6 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
         mToolbar.setTitle(R.string.weibo_detail);
         setSupportActionBar(mToolbar);
 
-        mToolbar.inflateMenu(R.menu.actionbar_menu_browserweibomsgactivity);
-
         initLayout();
         if (savedInstanceState != null) {
             mAccountBean = savedInstanceState.getParcelable("mAccountBean");
