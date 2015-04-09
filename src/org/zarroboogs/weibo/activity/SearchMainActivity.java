@@ -170,38 +170,14 @@ public class SearchMainActivity extends SharedPreferenceActivity {
 		switch (id) {
 		case R.id.search: {
 
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			LayoutInflater lif = LayoutInflater.from(this);
-			View view = lif.inflate(R.layout.door_img_dialog_layout, null);
-			TextView tvTextView = ViewUtility.findViewById(view, R.id.doorTitle);
-			final MaterialEditText me = ViewUtility.findViewById(view, R.id.doorEditText);
-			Button mButton = ViewUtility.findViewById(view, R.id.doorCheckBtn);
-			SearchWhat sw = getSearchWhat();
-			if (sw == SearchWhat.status) {
-				tvTextView.setText("搜索微博");
-			} else {
-				tvTextView.setText("搜索用户");
-			}
-
-			builder.setView(view);
-			final AlertDialog alertDialog = builder.create();
-			alertDialog.show();
-
-			mButton.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					search(me.getText().toString().trim());
-					alertDialog.cancel();
-				}
-			});
+			showSearchDialog();
 			break;
 		}
 		case R.id.searchWeibo: {
 			changeSearchWhat(SearchWhat.status);
 			changeFragment();
 			changeTitle();
+			showSearchDialog();
 			break;
 		}
 
@@ -209,6 +185,7 @@ public class SearchMainActivity extends SharedPreferenceActivity {
 			changeSearchWhat(SearchWhat.user);
 			changeFragment();
 			changeTitle();
+			showSearchDialog();
 			break;
 		}
 
@@ -217,6 +194,35 @@ public class SearchMainActivity extends SharedPreferenceActivity {
 		}
 
 		return true;
+	}
+
+	private void showSearchDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		LayoutInflater lif = LayoutInflater.from(this);
+		View view = lif.inflate(R.layout.door_img_dialog_layout, null);
+		TextView tvTextView = ViewUtility.findViewById(view, R.id.doorTitle);
+		final MaterialEditText me = ViewUtility.findViewById(view, R.id.doorEditText);
+		Button mButton = ViewUtility.findViewById(view, R.id.doorCheckBtn);
+		SearchWhat sw = getSearchWhat();
+		if (sw == SearchWhat.status) {
+			tvTextView.setText("搜索微博");
+		} else {
+			tvTextView.setText("搜索用户");
+		}
+
+		builder.setView(view);
+		final AlertDialog alertDialog = builder.create();
+		alertDialog.show();
+
+		mButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				search(me.getText().toString().trim());
+				alertDialog.cancel();
+			}
+		});
 	}
 
 	private void changeFragment() {
