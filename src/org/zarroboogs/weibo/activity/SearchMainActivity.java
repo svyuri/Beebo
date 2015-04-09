@@ -83,7 +83,7 @@ public class SearchMainActivity extends SharedPreferenceActivity {
 			public void run() {
 				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-				if (getSupportFragmentManager().findFragmentByTag(SearchStatusFragment.class.getName()) == null) {
+				if (getSupportFragmentManager().findFragmentByTag(SearchUserFragment.class.getName()) == null) {
 					ft.add(R.id.searchContent, getSearchUserFragment(), SearchUserFragment.class.getName());
 					ft.hide(getSearchUserFragment());
 				}
