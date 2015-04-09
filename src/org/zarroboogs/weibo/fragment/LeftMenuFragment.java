@@ -36,7 +36,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -178,7 +177,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 		fragment.onViewPageSelected(0);
 		ft.show(fragment);
 		ft.commit();
-
+		((MainTimeLineActivity) getActivity()).closeRight();
 		// fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
 		//
 		// fragment.buildActionBarNav();
@@ -218,7 +217,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 		fragment.onViewPageSelected(0);
 		ft.show(fragment);
 		ft.commit();
-
+		((MainTimeLineActivity) getActivity()).closeRight();
 		// fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
 		//
 		// fragment.buildActionBarNav();
@@ -265,6 +264,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 		MainTimeLineFragment fragment = (MainTimeLineFragment) rightFragments.get(HOME_INDEX);
 		ft.show(fragment);
 		ft.commit();
+		((MainTimeLineActivity) getActivity()).openRight();
 //
 //		fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
 //
@@ -337,6 +337,8 @@ public class LeftMenuFragment extends BaseStateFragment {
 		ft.show(fragment);
 		ft.commit();
 
+		((MainTimeLineActivity) getActivity()).closeRight();
+		
 //		fragment.showMenuOnToolBar(R.menu.main_time_line_menu);
 //
 //		((MyFavListFragment) fragment).buildActionBarAndViewPagerTitles();

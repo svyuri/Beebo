@@ -125,6 +125,14 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         mDrawerLayout.closeDrawer(Gravity.START);
     }
 
+    public void closeRight(){
+    	mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
+    }
+    
+    public void openRight(){
+    	mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.END);
+    }
+    
     public void closeRightDrawer() {
         mDrawerLayout.closeDrawer(Gravity.END);
     }
