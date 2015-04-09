@@ -656,6 +656,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
             return null;
         }
 
+        public static final boolean isDebug = false;
         @Override
         public void onLoadFinished(Loader<AsyncTaskLoaderResult<T>> loader, AsyncTaskLoaderResult<T> result) {
 
@@ -668,7 +669,10 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
                     getPullToRefreshListView().onRefreshComplete();
                     refreshLayout(getDataList());
                     if (Utility.isAllNotNull(exception)) {
-                        newMsgTipBar.setError(exception.getError());
+                    	if (isDebug || !exception.getError().trim().equals("用户请求超过上限")) {
+                            newMsgTipBar.setError(exception.getError());
+                		}
+
                         newMsgLoaderFailedCallback(exception);
                     } else {
                         newMsgLoaderSuccessCallback(data, args);

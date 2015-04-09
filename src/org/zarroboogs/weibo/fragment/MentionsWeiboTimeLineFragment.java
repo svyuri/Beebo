@@ -309,8 +309,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
         startActivityForResult(
                 BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
-                        bean.getItemList().get(position), BeeboApplication
-                                .getInstance().getAccessToken()),
+                        bean.getItemList().get(position), token),
                 MainTimeLineActivity.REQUEST_CODE_UPDATE_MENTIONS_WEIBO_TIMELINE_COMMENT_REPOST_COUNT);
 
     }
@@ -388,7 +387,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
                 mPullToRefreshListView.setRefreshing();
                 loadNewMsg();
             } else {
-                new RefreshReCmtCountTask().executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+                new RefreshReCmtCountTask(token).executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
             }
 
             getLoaderManager().destroyLoader(loader.getId());
@@ -405,7 +404,6 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
 
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateNewMsgLoader(int id, Bundle args) {
         String accountId = accountBean.getUid();
-        String token = accountBean.getAccess_token();
         String sinceId = null;
         if (getDataList().getItemList().size() > 0) {
             sinceId = getDataList().getItemList().get(0).getId();
@@ -417,13 +415,11 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
             String middleBeginId, String middleEndId,
             String middleEndTag, int middlePosition) {
         String accountId = accountBean.getUid();
-        String token = accountBean.getAccess_token();
         return new MentionsWeiboMsgLoader(getActivity(), accountId, token, middleBeginId, middleEndId);
     }
 
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateOldMsgLoader(int id, Bundle args) {
         String accountId = accountBean.getUid();
-        String token = accountBean.getAccess_token();
         String maxId = null;
         if (getDataList().getItemList().size() > 0) {
             maxId = getDataList().getItemList().get(getDataList().getItemList().size() - 1).getId();
@@ -457,9 +453,17 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
 
     private class RefreshReCmtCountTask extends MyAsyncTask<Void, List<MessageReCmtCountBean>, List<MessageReCmtCountBean>> {
 
-        List<String> msgIds;
+    	private List<String> msgIds;
+    	private String mToken ;
 
-        @Override
+    	
+        public RefreshReCmtCountTask(String token) {
+			super();
+			// TODO Auto-generated constructor stub
+			mToken = token;
+		}
+
+		@Override
         protected void onPreExecute() {
             super.onPreExecute();
             msgIds = new ArrayList<String>();
@@ -474,7 +478,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
         @Override
         protected List<MessageReCmtCountBean> doInBackground(Void... params) {
             try {
-                return new TimeLineReCmtCountDao(BeeboApplication.getInstance().getAccessToken(), msgIds).get();
+                return new TimeLineReCmtCountDao(mToken, msgIds).get();
             } catch (WeiboException e) {
                 cancel(true);
             }
@@ -509,7 +513,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    new ClearUnreadDao(BeeboApplication.getInstance().getAccountBean().getAccess_token())
+                    new ClearUnreadDao(token)
                             .clearMentionStatusUnread(data, BeeboApplication
                                     .getInstance().getAccountBean().getUid());
                 } catch (WeiboException ignored) {
@@ -518,5 +522,13 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
                 return null;
             }
         }.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+    }
+    
+    @Override
+    protected void newMsgLoaderFailedCallback(WeiboException exception) {
+    	if (exception.getError().trim().equals("用户请求超过上限")) {
+    		token = accountBean.getAccess_token_hack();
+		}
+    	Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();;
     }
 }

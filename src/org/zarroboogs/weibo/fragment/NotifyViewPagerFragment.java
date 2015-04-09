@@ -16,10 +16,10 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-public class AtMeTimeLineFragment extends ViewPagerFragment {
+public class NotifyViewPagerFragment extends ViewPagerFragment {
 
-    public static AtMeTimeLineFragment newInstance() {
-        AtMeTimeLineFragment fragment = new AtMeTimeLineFragment();
+    public static NotifyViewPagerFragment newInstance() {
+        NotifyViewPagerFragment fragment = new NotifyViewPagerFragment();
         fragment.setArguments(new Bundle());
         return fragment;
     }

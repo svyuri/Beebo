@@ -356,9 +356,8 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
                 if (Utility.isTaskStopped(mDBCacheTask) && getDataList().getSize() == 0) {
                     mDBCacheTask = new DBCacheTask(this, mAccountBean.getUid());
                     mDBCacheTask.executeOnIO();
-                    GroupInfoTask groupInfoTask = new GroupInfoTask(BeeboApplication.getInstance().getAccessToken(),
-                            BeeboApplication.getInstance()
-                                    .getCurrentAccountId());
+                    GroupInfoTask groupInfoTask = new GroupInfoTask(mToken,
+                            BeeboApplication.getInstance().getCurrentAccountId());
                     groupInfoTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
                 } else {
                     getAdapter().notifyDataSetChanged();
@@ -387,9 +386,8 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
                 if (Utility.isTaskStopped(mDBCacheTask) && getDataList().getSize() == 0) {
                     mDBCacheTask = new DBCacheTask(this, mAccountBean.getUid());
                     mDBCacheTask.executeOnIO();
-                    GroupInfoTask groupInfoTask = new GroupInfoTask(BeeboApplication.getInstance().getAccessToken(),
-                            BeeboApplication.getInstance()
-                                    .getCurrentAccountId());
+                    GroupInfoTask groupInfoTask = new GroupInfoTask(mToken,
+                            BeeboApplication.getInstance().getCurrentAccountId());
                     groupInfoTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
                 } else {
                     getAdapter().notifyDataSetChanged();
@@ -505,7 +503,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
             getPullToRefreshListView().setRefreshing();
             loadNewMsg();
         } else {
-            new RefreshReCmtCountTask(MainTimeLineFragment.this, getDataList())
+            new RefreshReCmtCountTask(MainTimeLineFragment.this, getDataList(), mToken)
                     .executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
@@ -520,7 +518,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
     @Override
     public void loadNewMsg() {
         super.loadNewMsg();
-        new RefreshReCmtCountTask(MainTimeLineFragment.this, getDataList())
+        new RefreshReCmtCountTask(MainTimeLineFragment.this, getDataList(), mToken)
                 .executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -895,7 +893,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
             getAdapter().notifyDataSetChanged();
             setListViewPositionFromPositionsCache();
             saveGroupIdToDB();
-            new RefreshReCmtCountTask(this, getDataList()).executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+            new RefreshReCmtCountTask(this, getDataList(), mToken).executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -973,7 +971,10 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
 
         private WeakReference<MainTimeLineFragment> fragmentWeakReference;
 
-        private RefreshReCmtCountTask(MainTimeLineFragment friendsTimeLineFragment, MessageListBean data) {
+        private String token;
+        
+        private RefreshReCmtCountTask(MainTimeLineFragment friendsTimeLineFragment, MessageListBean data, String token) {
+        	this.token = token;
             fragmentWeakReference = new WeakReference<MainTimeLineFragment>(friendsTimeLineFragment);
             msgIds = new ArrayList<String>();
             List<MessageBean> msgList = data.getItemList();
@@ -992,7 +993,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
             }
 
             try {
-                return new TimeLineReCmtCountDao(BeeboApplication.getInstance().getAccessToken(), msgIds).get();
+                return new TimeLineReCmtCountDao(token, msgIds).get();
             } catch (WeiboException e) {
                 cancel(true);
             }
@@ -1042,29 +1043,33 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
 
     @Override
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = mAccountBean.getAccess_token();
         String sinceId = null;
         if (getDataList().getItemList().size() > 0) {
             sinceId = getDataList().getItemList().get(0).getId();
         }
-        return new MainTimeLineMsgLoader(getActivity(), token, currentGroupId, sinceId, null);
+        return new MainTimeLineMsgLoader(getActivity(), mToken, currentGroupId, sinceId, null);
     }
 
     @Override
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateMiddleMsgLoader(int id, Bundle args,
             String middleBeginId, String middleEndId,
             String middleEndTag, int middlePosition) {
-        String token = mAccountBean.getAccess_token();
-        return new MainTimeLineMsgLoader(getActivity(), token, currentGroupId, middleBeginId, middleEndId);
+        return new MainTimeLineMsgLoader(getActivity(), mToken, currentGroupId, middleBeginId, middleEndId);
     }
 
     @Override
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = mAccountBean.getAccess_token();
         String maxId = null;
         if (getDataList().getItemList().size() > 0) {
             maxId = getDataList().getItemList().get(getDataList().getItemList().size() - 1).getId();
         }
-        return new MainTimeLineMsgLoader(getActivity(), token, currentGroupId, null, maxId);
+        return new MainTimeLineMsgLoader(getActivity(), mToken, currentGroupId, null, maxId);
+    }
+    @Override
+    protected void newMsgLoaderFailedCallback(WeiboException exception) {
+    	if (exception.getError().trim().equals("用户请求超过上限")) {
+			mToken = mAccountBean.getAccess_token_hack();
+		}
+    	Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();;
     }
 }

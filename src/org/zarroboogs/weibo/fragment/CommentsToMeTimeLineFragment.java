@@ -220,10 +220,10 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     public void removeItem(int position) {
         clearActionMode();
         if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-            removeTask = new RemoveTask(BeeboApplication.getInstance().getAccessToken(), getDataList().getItemList().get(position)
+            removeTask = new RemoveTask(token, getDataList().getItemList().get(position)
                     .getId(), position);
             
-            Log.d("commentsToooME: removeItem", "toaken:" + BeeboApplication.getInstance().getAccessToken() + "  ID: "+ getDataList().getItemList().get(position)
+            Log.d("commentsToooME: removeItem", "toaken:" + token + "  ID: "+ getDataList().getItemList().get(position)
                     .getId() + "   pos:"  +position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -434,7 +434,6 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
 
     protected Loader<AsyncTaskLoaderResult<CommentListBean>> onCreateNewMsgLoader(int id, Bundle args) {
         String accountId = accountBean.getUid();
-        String token = accountBean.getAccess_token();
         String sinceId = null;
         if (getDataList().getItemList().size() > 0) {
             sinceId = getDataList().getItemList().get(0).getId();
@@ -446,13 +445,11 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
             String middleBeginId, String middleEndId,
             String middleEndTag, int middlePosition) {
         String accountId = accountBean.getUid();
-        String token = accountBean.getAccess_token();
         return new CommentsToMeMsgLoader(getActivity(), accountId, token, middleBeginId, middleEndId);
     }
 
     protected Loader<AsyncTaskLoaderResult<CommentListBean>> onCreateOldMsgLoader(int id, Bundle args) {
         String accountId = accountBean.getUid();
-        String token = accountBean.getAccess_token();
         String maxId = null;
         if (getDataList().getItemList().size() > 0) {
             maxId = getDataList().getItemList().get(getDataList().getItemList().size() - 1).getId();
@@ -490,7 +487,7 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    new ClearUnreadDao(BeeboApplication.getInstance().getAccountBean().getAccess_token()).clearCommentUnread(
+                    new ClearUnreadDao(token).clearCommentUnread(
                             data, BeeboApplication.getInstance()
                                     .getAccountBean().getUid());
                 } catch (WeiboException ignored) {
@@ -499,5 +496,13 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
                 return null;
             }
         }.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+    }
+    
+    @Override
+    protected void newMsgLoaderFailedCallback(WeiboException exception) {
+    	if (exception.getError().trim().equals("用户请求超过上限")) {
+    		token = accountBean.getAccess_token_hack();
+		}
+    	Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();;
     }
 }

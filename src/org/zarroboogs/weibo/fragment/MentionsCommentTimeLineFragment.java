@@ -218,7 +218,7 @@ public class MentionsCommentTimeLineFragment extends AbsBaseTimeLineFragment<Com
     public void removeItem(int position) {
         clearActionMode();
         if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-            removeTask = new RemoveTask(BeeboApplication.getInstance().getAccessToken(), getDataList().getItemList().get(position)
+            removeTask = new RemoveTask(token, getDataList().getItemList().get(position)
                     .getId(), position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -435,7 +435,6 @@ public class MentionsCommentTimeLineFragment extends AbsBaseTimeLineFragment<Com
 
     protected Loader<AsyncTaskLoaderResult<CommentListBean>> onCreateNewMsgLoader(int id, Bundle args) {
         String accountId = accountBean.getUid();
-        String token = accountBean.getAccess_token();
         String sinceId = null;
         if (getDataList().getItemList().size() > 0) {
             sinceId = getDataList().getItemList().get(0).getId();
@@ -447,13 +446,11 @@ public class MentionsCommentTimeLineFragment extends AbsBaseTimeLineFragment<Com
             String middleBeginId, String middleEndId,
             String middleEndTag, int middlePosition) {
         String accountId = accountBean.getUid();
-        String token = accountBean.getAccess_token();
         return new MentionsCommentMsgLoader(getActivity(), accountId, token, middleBeginId, middleEndId);
     }
 
     protected Loader<AsyncTaskLoaderResult<CommentListBean>> onCreateOldMsgLoader(int id, Bundle args) {
         String accountId = accountBean.getUid();
-        String token = accountBean.getAccess_token();
         String maxId = null;
         if (getDataList().getItemList().size() > 0) {
             maxId = getDataList().getItemList().get(getDataList().getItemList().size() - 1).getId();
@@ -491,7 +488,7 @@ public class MentionsCommentTimeLineFragment extends AbsBaseTimeLineFragment<Com
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    new ClearUnreadDao(BeeboApplication.getInstance().getAccountBean().getAccess_token())
+                    new ClearUnreadDao(token)
                             .clearMentionCommentUnread(data, BeeboApplication
                                     .getInstance().getAccountBean().getUid());
                 } catch (WeiboException ignored) {
@@ -500,5 +497,14 @@ public class MentionsCommentTimeLineFragment extends AbsBaseTimeLineFragment<Com
                 return null;
             }
         }.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+    }
+    
+    
+    @Override
+    protected void newMsgLoaderFailedCallback(WeiboException exception) {
+    	if (exception.getError().trim().equals("用户请求超过上限")) {
+    		token = accountBean.getAccess_token_hack();
+		}
+    	Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();;
     }
 }

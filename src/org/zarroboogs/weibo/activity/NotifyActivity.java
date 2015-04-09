@@ -1,7 +1,7 @@
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.fragment.AtMeTimeLineFragment;
+import org.zarroboogs.weibo.fragment.NotifyViewPagerFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,7 +34,7 @@ public class NotifyActivity extends TranslucentStatusBarActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				AtMeTimeLineFragment atme = (AtMeTimeLineFragment) getSupportFragmentManager().findFragmentByTag(AtMeTimeLineFragment.class.getName());
+				NotifyViewPagerFragment atme = (NotifyViewPagerFragment) getSupportFragmentManager().findFragmentByTag(NotifyViewPagerFragment.class.getName());
 				atme.scrollToTop();
 			}
 		});
@@ -75,9 +75,9 @@ public class NotifyActivity extends TranslucentStatusBarActivity {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                if (getSupportFragmentManager().findFragmentByTag(AtMeTimeLineFragment.class.getName()) == null) {
+                if (getSupportFragmentManager().findFragmentByTag(NotifyViewPagerFragment.class.getName()) == null) {
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.hotWeiboContent, new AtMeTimeLineFragment(),AtMeTimeLineFragment.class.getName())
+                            .replace(R.id.hotWeiboContent, new NotifyViewPagerFragment(),NotifyViewPagerFragment.class.getName())
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
                 }
