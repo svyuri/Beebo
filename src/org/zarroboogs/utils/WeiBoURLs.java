@@ -177,68 +177,6 @@ public class WeiBoURLs {
     	return url;
     }
     
-	public static String hotWeiboMeiTu(String gsid, int page) {
-		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2899", page);
-	}
-
-	// lvxing
-	public static String hotWeiboTravel(String gsid, int page) {
-		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2599", page);
-	}
-
-	// 科技
-	public static String hotWeiboKeji(String gsid, int page) {
-		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2099", page);
-	}
-
-	// 美女
-	public static String hotWeiboMeiNv(String gsid, int page) {
-		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2299", page);
-	}
-
-	// 萌宠
-	public static String hotWeiboPet(String gsid, int page) {
-		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "2799", page);
-	}
-
-	// 囧人糗事
-	public static String hotWeioJiushi(String gsid, int page) {
-		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "6199", page);
-	}
-
-	// 笑话
-	public static String hotWeiboXiaoHua(String gsid, int page) {
-		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "1899", page);
-	}
-
-	// 爆料
-	public static String hotWeiboBaoLiao(String gsid, int page) {
-		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "1799", page);
-	}
-
-	// 视频
-	public static String hotWeiboVideo(String gsid, int page) {
-		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "1199", page);
-	}
-
-	// 神最右
-	public static String hotWeiboZuiyou(String gsid, int page) {
-		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "6399", page);
-	}
-
-	public static String hotWeiboYestoday(String gsid, int page) {
-		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "8899", page);
-	}
-
-	public static String hotWeiboQianTian(String gsid, int page) {
-		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "8799", page);
-	}
-
-	// hack 小时热门微博
-	public static String hotWeiboUrl(String gsid, int page) {
-		return SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, "8999", page);
-	}
-
 	// 消费数码
 	public static String hotHuatiDigit(String gsid, int page) {
 		return SeniorUrl.hotHuaTiApi(gsid, "131", page);

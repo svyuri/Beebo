@@ -4,26 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.zarroboogs.devutils.DevLog;
-import org.zarroboogs.utils.WeiBoURLs;
-import org.zarroboogs.utils.file.FileLocationMethod;
+import org.zarroboogs.senior.sdk.SeniorParams;
+import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.adapter.HotWeiboStatusListAdapter;
-import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.MessageListBean;
 import org.zarroboogs.weibo.hot.bean.hotweibo.HotWeiboPicInfos;
 import org.zarroboogs.weibo.hot.hean.HotWeiboBean;
 import org.zarroboogs.weibo.hot.hean.HotWeiboErrorBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
-import org.zarroboogs.weibo.support.asyncdrawable.IWeiciyuanDrawable;
 import org.zarroboogs.weibo.support.asyncdrawable.MsgDetailReadWorker;
-import org.zarroboogs.weibo.support.asyncdrawable.TimeLineBitmapDownloader;
-import org.zarroboogs.weibo.support.gallery.GalleryAnimationActivity;
-import org.zarroboogs.weibo.support.lib.AnimationRect;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.widget.TopTipsView;
-import org.zarroboogs.weibo.widget.WeiboDetailImageView;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 
@@ -42,8 +36,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 public class HotWeiboFragment extends BaseHotWeiboFragment {
@@ -66,7 +58,17 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
     
     private AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
 
-    @Override
+    private String mCtg;
+    
+    
+    
+    public HotWeiboFragment(String ctg ) {
+		super();
+		// TODO Auto-generated constructor stub
+		this.mCtg = ctg;
+	}
+
+	@Override
     public void onResume() {
         super.onResume();
         getListView().setFastScrollEnabled(SettingUtils.allowFastScroll());
@@ -107,10 +109,10 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
 				
-				if (TextUtils.isEmpty(getGsid())) {
+				if (TextUtils.isEmpty(SeniorParams.GSID_Value)) {
 					loadGsid();
 				}else {
-					loadData(WeiBoURLs.hotWeiboUrl(getGsid(), mPage));
+					loadData(SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, mCtg, mPage));
 				}
 				
 				getPullToRefreshListView().setRefreshing();
@@ -286,7 +288,7 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 	@Override
 	void onGsidLoadSuccess(String gsid) {
 		// TODO Auto-generated method stub
-		loadData(WeiBoURLs.hotWeiboUrl(getGsid(), mPage));
+		loadData(SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, mCtg, mPage));
 	}
 
 	@Override
@@ -299,10 +301,10 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 	void onPageSelected() {
 		// TODO Auto-generated method stub
 		DevLog.printLog("onViewPageSelected", "onPageSelected-----");
-		if (TextUtils.isEmpty(getGsid())) {
+		if (TextUtils.isEmpty(SeniorParams.GSID_Value)) {
 			loadGsid();
 		}else {
-			loadData(WeiBoURLs.hotWeiboUrl(getGsid(), mPage));
+			loadData(SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, mCtg, mPage));
 		}
 	}
 

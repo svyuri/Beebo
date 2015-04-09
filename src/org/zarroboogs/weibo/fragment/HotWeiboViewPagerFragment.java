@@ -30,18 +30,18 @@ public class HotWeiboViewPagerFragment extends ViewPagerFragment {
     	SparseArray<ChildPage> sparseArray = new SparseArray<ChildPage>();
 		
 		Resources re = getActivity().getResources();
-		sparseArray.append(0, new ChildPage("当前", new HotWeiboFragment()) );
-		sparseArray.append(1, new ChildPage("昨天", new HotWeiboFragmentYestoday()) );
-		sparseArray.append(2, new ChildPage("前天", new HotWeiboFragmentQianTian()) );
-		sparseArray.append(3, new ChildPage("神最右", new HotWeiboFragmentZuiYou()) );
-		sparseArray.append(4, new ChildPage("视频", new HotWeiboFragmentVideo()) );
-		sparseArray.append(5, new ChildPage("爆料",new HotWeiboFragmentBaoLiao()) );
-		sparseArray.append(6, new ChildPage("笑话", new HotWeiboFragmentXiaoHua()) );
-		sparseArray.append(7, new ChildPage("萌宠", new HotWeiboFragmentPet()) );
-		sparseArray.append(8, new ChildPage("美女", new HotWeiboFragmentMeiNv()) );
-		sparseArray.append(9, new ChildPage("科技", new HotWeiboFragmentKeji()) );
-		sparseArray.append(10, new ChildPage("旅行", new HotWeiboFragmentTravel()) );
-		sparseArray.append(11, new ChildPage("美图", new HotWeiboFragmentMeiTu()) );
+		sparseArray.append(0, new ChildPage("当前", new HotWeiboFragment("8999")) );
+		sparseArray.append(1, new ChildPage("昨天", new HotWeiboFragment("8899")) );
+		sparseArray.append(2, new ChildPage("前天", new HotWeiboFragment("8799")) );
+		sparseArray.append(3, new ChildPage("神最右", new HotWeiboFragment("6399")) );
+		sparseArray.append(4, new ChildPage("视频", new HotWeiboFragment("1199")) );
+		sparseArray.append(5, new ChildPage("爆料",new HotWeiboFragment("1799")) );
+		sparseArray.append(6, new ChildPage("笑话", new HotWeiboFragment("1899")) );
+		sparseArray.append(7, new ChildPage("萌宠", new HotWeiboFragment("2799")) );
+		sparseArray.append(8, new ChildPage("美女", new HotWeiboFragment("2299")) );
+		sparseArray.append(9, new ChildPage("科技", new HotWeiboFragment("2099")) );
+		sparseArray.append(10, new ChildPage("旅行", new HotWeiboFragment("2599")) );
+		sparseArray.append(11, new ChildPage("美图", new HotWeiboFragment("2899")) );
 		
 		String[] select = SettingUtils.getHotWeiboSelected();
 		
