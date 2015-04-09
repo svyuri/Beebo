@@ -101,6 +101,9 @@ public class GalleryAnimationActivity extends FragmentActivity {
 		}else {
 	        MessageBean msg = getIntent().getParcelableExtra("msg");
 	        ArrayList<String> tmp = msg.getHotThumbnailPicUrls();
+	        if (tmp.isEmpty()) {
+				tmp = msg.getThumbnailPicUrls();
+			}
 	        for (int i = 0; i < tmp.size(); i++) {
 	            urls.add(tmp.get(i).replace("thumbnail", "large").replace("webp180", "large"));
 	        }
