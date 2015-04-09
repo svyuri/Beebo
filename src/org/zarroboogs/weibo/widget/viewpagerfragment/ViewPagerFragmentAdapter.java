@@ -22,7 +22,7 @@ public class ViewPagerFragmentAdapter extends AppFragmentPagerAdapter {
 		for (int i = 0; i < fragmentList.size(); i++) {
 			Fragment ft = this.mFragmentList.get(i).getmFragment();
 			if (!ft.isAdded()) {
-				transaction.add(viewPager.getId(), ft, ft.getClass().getName());
+				transaction.add(viewPager.getId(), ft, ft.getClass().getName() + i);
 			}
 		}
 
@@ -38,7 +38,7 @@ public class ViewPagerFragmentAdapter extends AppFragmentPagerAdapter {
 
 	@Override
 	protected String getTag(int position) {
-		return mFragmentList.get(position).getmFragment().getClass().getName();
+		return mFragmentList.get(position).getmFragment().getTag();
 	}
 
 	@Override
