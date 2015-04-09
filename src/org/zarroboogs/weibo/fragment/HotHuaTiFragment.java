@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
+import org.zarroboogs.senior.sdk.SeniorParams;
+import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
@@ -40,7 +42,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class HotHuaTiFragmentDigit extends BaseHotHuaTiFragment {
+public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 
     private MsgDetailReadWorker picTask;
     
@@ -63,7 +65,16 @@ public class HotHuaTiFragmentDigit extends BaseHotHuaTiFragment {
     private AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
 
     private PullToRefreshListView pullToRefreshListView;
-    @Override
+    
+    private String mCtg;
+    
+    public HotHuaTiFragment(String ctg) {
+		super();
+		// TODO Auto-generated constructor stub
+		this.mCtg = ctg;
+	}
+
+	@Override
     public void onResume() {
         super.onResume();
         getListView().setFastScrollEnabled(SettingUtils.allowFastScroll());
@@ -85,7 +96,7 @@ public class HotHuaTiFragmentDigit extends BaseHotHuaTiFragment {
 				if (TextUtils.isEmpty(getGsid())) {
 					loadGsid();
 				}else {
-					loadData(WeiBoURLs.hotHuatiDigit(getGsid(), mPage));
+					loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage));
 				}
 				
 				refreshView.setRefreshing();
@@ -276,7 +287,7 @@ public class HotHuaTiFragmentDigit extends BaseHotHuaTiFragment {
 		// TODO Auto-generated method stub
 		mPage++;
 		String jsonStr = json.replaceAll("\"geo\":\"\"", "\"geo\": {}");
-		org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE-GET_DATE_FROM_NET", json);
+		Utility.printLongLog("READ_JSON_DONE-GET_DATE_FROM_NET", json);
 		
 		HotHuaTi huati = new Gson().fromJson(jsonStr, new TypeToken<HotHuaTi>() {}.getType());
 		List<HotHuaTiCard> cards = huati.getCards();
@@ -314,7 +325,7 @@ public class HotHuaTiFragmentDigit extends BaseHotHuaTiFragment {
 	@Override
 	void onGsidLoadSuccess(String gsid) {
 		// TODO Auto-generated method stub
-		loadData(WeiBoURLs.hotHuatiDigit(getGsid(), mPage));
+		loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage));
 	}
 
 	@Override
@@ -329,7 +340,7 @@ public class HotHuaTiFragmentDigit extends BaseHotHuaTiFragment {
 		if (TextUtils.isEmpty(getGsid())) {
 			loadGsid();
 		}else {
-			loadData(WeiBoURLs.hotHuatiDigit(getGsid(), mPage));
+			loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage));
 		}
 	}
 

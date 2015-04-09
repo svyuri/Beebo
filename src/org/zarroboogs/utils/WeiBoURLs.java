@@ -176,43 +176,5 @@ public class WeiBoURLs {
     			+ "&lang=zh_CN&skin=default&type=0&oldwm=5311_5000";
     	return url;
     }
-    
-	// 消费数码
-	public static String hotHuatiDigit(String gsid, int page) {
-		return SeniorUrl.hotHuaTiApi(gsid, "131", page);
-	}
 
-	// it互联网
-	public static String hotHuatiIT(String gsid, int page) {
-		return SeniorUrl.hotHuaTiApi(gsid, "138", page);
-	}
-
-	// 幽默搞笑
-	public static String hotHuatiHumor(String gsid, int page) {
-		return SeniorUrl.hotHuaTiApi(gsid, "140", page);
-	}
-
-	// 动物萌宠
-	public static String hotHuatiDog(String gsid, int page) {
-		return SeniorUrl.hotHuaTiApi(gsid, "128", page);
-	}
-
-	// 创意征集
-	public static String hotHuatiOriginality(String gsid, int page) {
-		return SeniorUrl.hotHuaTiApi(gsid, "9", page);
-	}
-
-	// 摄影
-	public static String hotHuaTiShot(String gsid, int page) {
-		return SeniorUrl.hotHuaTiApi(gsid, "123", page);
-	}
-
-	// 电影
-	public static String hotHuaTiFilm(String gsid, int page) {
-		return SeniorUrl.hotHuaTiApi(gsid, "100", page);
-	}
-
-	public static String hotHuaTiOneHouOur(String gsid, int page) {
-		return SeniorUrl.hotHuaTiApi(gsid, "-1", page);
-	}
 }
