@@ -9,16 +9,20 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'eclipse'
+
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.2.1'
 }
 
-    repositories {
-    	jcenter()
-    }
+repositories {
+	jcenter()
+}
     
 dependencies {
+
+	// 如何引用第三Library-project
     compile fileTree(dir: 'libs', include: '*.jar')
     compile project(':android-support-v7-appcompat-without-multi-lang')
     compile project(':FloatActionButton-Eclipse')
