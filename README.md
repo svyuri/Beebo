@@ -3,13 +3,14 @@
 -----------------
 #iBeebo
 ##Sina Weibo Client
-#暂时不支持平板分辨率
 
-##Google Play 上架的版本叫：Beebo+；[暂停更新]
+![image](https://github.com/andforce/Beebo/blob/master/screenshot/mouse.gif)
+##一定要注意锻炼身体，代码永远写不完！
 
-##国内市场上线的叫：iBeebo；
-
-###两者唯一的区别是：iBeebo+可以智能解析微博中的视频链接，并直接播放，因此apk体积会比Beebo大一点。
+##iBeebo有两个版本
++ 国内版本的iBeebo
++ Google Play版本的iBeebo+[暂停更新]
++ 两者唯一的区别是：iBeebo+可以智能解析微博中的视频链接，并直接播放，因此apk体积会比iBeebo大一点。
 
 ************************
 ##一般情况下，【百度网盘】的版本会比市场新！
