@@ -28,8 +28,8 @@ dependencies {
     compile('com.nineoldandroids:library:2.4.0') { 
     exclude group: 'com.android.support', module: 'support-v4' exclude group: 'com.android.support', module: 'appcompat-v7' }
     
-    compile ('com.facebook.fresco:fresco:0.1.0+'){ 
-    exclude group: 'com.android.support', module: 'support-v4' exclude group: 'com.android.support', module: 'appcompat-v7' }
+    //compile ('com.facebook.fresco:fresco:0.1.0+'){ 
+    //exclude group: 'com.android.support', module: 'support-v4' exclude group: 'com.android.support', module: 'appcompat-v7' }
     
     compile 'commons-codec:commons-codec:1.10'
 }
@@ -60,6 +60,8 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
+            // 打包so
+            jniLibs.srcDirs = ['libs']
         }
 
         // Move the tests to tests/java, tests/res, etc...
