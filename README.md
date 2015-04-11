@@ -5,9 +5,9 @@
 ##Sina Weibo Client
 
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/mouse.gif)
-##一定要注意锻炼身体，代码永远写不完！
+####一定要注意锻炼身体，代码永远写不完！
 
-##iBeebo有两个版本
+####iBeebo有两个版本
 + 国内版本的iBeebo
 + Google Play版本的iBeebo+[暂停更新]
 + 两者唯一的区别是：iBeebo+可以智能解析微博中的视频链接，并直接播放，因此apk体积会比iBeebo大一点。
@@ -18,10 +18,6 @@
 
 [![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJIa.png "豌豆荚")](http://www.wandoujia.com/apps/org.zarroboogs.weibo) [![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/Baidu.png "百度网盘")](http://yun.baidu.com/s/1eQGOhKQ)
 ************************
-
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/mouse.gif)
-##一定要注意锻炼身体，代码永远写不完！
--------------------------------------------
 
 ##主页面截图
 
