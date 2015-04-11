@@ -16,7 +16,7 @@
 ##一般情况下，【百度网盘】的版本会比市场新！
 [![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/GooglePlay.png "Google Play")](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus) [![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/CoolApk.png "CoolApk")](http://coolapk.com/apk/org.zarroboogs.weibo)
 
-[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJIa.png "豌豆荚")](http://www.wandoujia.com/apps/org.zarroboogs.weibo) [![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/Baidu.png "百度网盘")](http://yun.baidu.com/s/1eQGOhKQ)
+[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJia.png "豌豆荚")](http://www.wandoujia.com/apps/org.zarroboogs.weibo) [![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/Baidu.png "百度网盘")](http://yun.baidu.com/s/1eQGOhKQ)
 ************************
 
 ##主页面截图
