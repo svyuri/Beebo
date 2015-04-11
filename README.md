@@ -24,13 +24,8 @@
 
 ##主页面截图
 
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-59.png)
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-55.png)
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-38-48.png)
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-45.png)
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-40-38.png)
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-38-57.png)
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-50.png)
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-13-17-59.png)
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-05.png)
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-41.png)
+![image](https://github.com/andforce/Beebo/blob/master/screenshot/screenshot_001.jpg)
+![image](https://github.com/andforce/Beebo/blob/master/screenshot/screenshot_002.jpg)
+![image](https://github.com/andforce/Beebo/blob/master/screenshot/screenshot_003.jpg)
+![image](https://github.com/andforce/Beebo/blob/master/screenshot/screenshot_004.jpg)
+![image](https://github.com/andforce/Beebo/blob/master/screenshot/screenshot_005.jpg)
