@@ -47,18 +47,18 @@
             android:title="@string/pref_saved_log_path_title" >
         </Preference>
     </PreferenceCategory>
-    <PreferenceCategory
-        android:key="pref_debug_info_key"
-        android:title="@string/pref_debug_title" >
-        <Preference
-            android:key="pref_mem_key"
-            android:title="@string/pref_debug_mem_title" >
-        </Preference>
-        <Preference
-            android:key="pref_crash_key"
-            android:summary="@string/pref_make_a_app_crash_summary"
-            android:title="@string/pref_make_a_app_crash_title" >
-        </Preference>
-    </PreferenceCategory>
+    <!--<PreferenceCategory-->
+        <!--android:key="pref_debug_info_key"-->
+        <!--android:title="@string/pref_debug_title" >-->
+        <!--<Preference-->
+            <!--android:key="pref_mem_key"-->
+            <!--android:title="@string/pref_debug_mem_title" >-->
+        <!--</Preference>-->
+        <!--<Preference-->
+            <!--android:key="pref_crash_key"-->
+            <!--android:summary="@string/pref_make_a_app_crash_summary"-->
+            <!--android:title="@string/pref_make_a_app_crash_title" >-->
+        <!--</Preference>-->
+    <!--</PreferenceCategory>-->
 
 </PreferenceScreen>

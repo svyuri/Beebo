@@ -216,7 +216,7 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
         String gsid = "";
         
         AccountDatabaseManager manager = new AccountDatabaseManager(getApplicationContext());
-        if (true) {
+        if (!TextUtils.isEmpty(cookie)) {
             String[] cookies = cookie.split("; ");
             for (String string : cookies) {
                 String oneLine = Uri.decode(Uri.decode(string));

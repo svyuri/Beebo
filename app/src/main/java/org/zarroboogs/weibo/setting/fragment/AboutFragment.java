@@ -80,7 +80,7 @@ public class AboutFragment extends PreferenceFragment {
             }
         });
 
-        detectDebugPreference();
+//        detectDebugPreference();
 
         buildCacheSummary();
         buildLogSummary();
@@ -211,7 +211,7 @@ public class AboutFragment extends PreferenceFragment {
             }
         }
 
-        return "@四次元App #四次元App反馈# " + android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL + ",Android "
+        return "@andforce #iBeebo#反馈 " + android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL + ",Android "
                 + android.os.Build.VERSION.RELEASE + ","
                 + network + " version:" + buildVersionInfo();
     }

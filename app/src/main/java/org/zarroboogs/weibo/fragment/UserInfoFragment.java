@@ -42,6 +42,7 @@ import org.zarroboogs.weibo.widget.TimeLineAvatarImageView;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 
 import android.animation.Animator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -535,6 +536,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         }
     };
 
+    @SuppressLint("ValidFragment")
     public UserInfoFragment(UserBean userBean, String token, Toolbar toolbar) {
     	this.mUserToolbar = toolbar;
         this.userBean = userBean;
