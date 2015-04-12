@@ -104,7 +104,7 @@ public class SettingUtils {
     }
 
     public static int getListPicMode() {
-        String value = SettingHelper.getSharedPreferences(getContext(), SettingActivity.LIST_PIC_MODE, "1");
+        String value = SettingHelper.getSharedPreferences(getContext(), SettingActivity.LIST_PIC_MODE, "3");
         return Integer.valueOf(value);
     }
 
