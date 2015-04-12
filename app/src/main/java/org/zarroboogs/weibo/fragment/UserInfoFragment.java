@@ -283,7 +283,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     		inflater.inflate(R.menu.actionbar_menu_newuserinfofragment_main_page, menu);
             MenuItem edit = menu.findItem(R.id.menu_edit);
             edit.setVisible(false);
-            editMyProFile();
+            editMyProFile(menu);
 		}else {
 			inflater.inflate(R.menu.actionbar_menu_infofragment, menu);
             if (userBean.isFollowing()) {
@@ -603,8 +603,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 	}
 	
 
-	public void editMyProFile() {
-		Menu menu = mUserToolbar.getMenu();
+	public void editMyProFile(Menu menu) {
 		MenuItem edit = menu.findItem(R.id.menu_edit);
 		edit.setVisible(BeeboApplication.getInstance().getAccountBean().isBlack_magic());
 		refreshItem = menu.findItem(R.id.menu_refresh_my_profile);

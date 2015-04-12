@@ -35,7 +35,9 @@ public class SelectImgUtil {
         };
         String orderBy = MediaStore.Images.Media.DATE_TAKEN + " DESC";
         Cursor cursor = context.getContentResolver().query(uri, proj, null, null, orderBy);
-        
+        if (cursor == null){
+            return null;
+        }
         while (cursor.moveToNext()) {
             String path = cursor.getString(0);
             list.add(new File(path).getAbsolutePath());

@@ -75,8 +75,10 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
-		mAppSrc = (WeiboWeiba) intent.getExtras().getSerializable(APP_SRC);
-		mTextContent = intent.getExtras().getString(TEXT_CONTENT);
+        if (intent != null && intent.getExtras() != null){
+            mAppSrc = (WeiboWeiba) intent.getExtras().getSerializable(APP_SRC);
+            mTextContent = intent.getExtras().getString(TEXT_CONTENT);
+        }
 		startPicCacheAndSendWeibo();
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -161,7 +163,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
     
     /**
      * @param weiboCode "ZwpYj"
-     * @param pid
+     * @param pids
      */
     protected void sendWeiboWidthPids(String weiboCode, String text, String pids) {
     	String cookie = getCookieIfHave();
