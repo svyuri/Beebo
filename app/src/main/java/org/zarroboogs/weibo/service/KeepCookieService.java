@@ -7,6 +7,7 @@ import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.weibo.othercomponent.BeeboAlermManager;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.text.TextUtils;
 
@@ -26,14 +27,24 @@ public class KeepCookieService extends AbsAsyncHttpService {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
-		mCookie = intent.getExtras().getString(COOKIE_KEEP);
-		if (!TextUtils.isEmpty(mCookie)) {
-			HeaderList headerList = new HeaderList();
-			headerList.addHeader("Cookie",mCookie);
-			asyncHttpGet(SeniorUrl.SeniorUrl_Public, headerList.build(), null);
-		}else {
-			stopSelf();
-		}
+        if (intent != null){
+            Bundle bundle = intent.getExtras();
+            if (bundle != null){
+                mCookie = bundle.getString(COOKIE_KEEP);
+                if (!TextUtils.isEmpty(mCookie)) {
+                    HeaderList headerList = new HeaderList();
+                    headerList.addHeader("Cookie",mCookie);
+                    asyncHttpGet(SeniorUrl.SeniorUrl_Public, headerList.build(), null);
+                }else {
+                    stopSelf();
+                }
+            }else {
+                stopSelf();
+            }
+
+        }else {
+            stopSelf();
+        }
 		return super.onStartCommand(intent, flags, startId);
 	}
 
