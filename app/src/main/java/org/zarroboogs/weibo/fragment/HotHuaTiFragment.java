@@ -27,6 +27,7 @@ import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -67,7 +68,11 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
     private PullToRefreshListView pullToRefreshListView;
     
     private String mCtg;
-    
+
+    public HotHuaTiFragment(){
+        super();
+    }
+    @SuppressLint("ValidFragment")
     public HotHuaTiFragment(String ctg) {
 		super();
 		// TODO Auto-generated constructor stub

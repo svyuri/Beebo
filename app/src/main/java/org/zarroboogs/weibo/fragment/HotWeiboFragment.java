@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -64,6 +65,7 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
         super();
     }
 
+    @SuppressLint("ValidFragment")
     public HotWeiboFragment(String ctg ) {
 		super();
 		// TODO Auto-generated constructor stub
