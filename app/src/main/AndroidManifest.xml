@@ -67,15 +67,17 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyA_Ozn9WNG58ImFlmOFOItHvn1JShWvIpE" />
 
-        <activity android:name="org.zarroboogs.weibo.activity.AccountActivity" />
+        <activity android:name="org.zarroboogs.weibo.activity.AccountActivity"
+            android:screenOrientation="portrait"/>
         <!-- login activity -->
 
-        <activity android:name="org.zarroboogs.weibo.activity.OAuthActivity" />
-        <activity android:name="org.zarroboogs.weibo.dialogfragment.SSOActivity" />
+        <activity android:name="org.zarroboogs.weibo.activity.OAuthActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- main activity -->
         <activity
             android:name="org.zarroboogs.weibo.activity.MainTimeLineActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -87,6 +89,7 @@
         <!-- send activity -->
         <activity
             android:name="org.zarroboogs.weibo.activity.WriteWeiboActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateVisible|adjustResize" >
 
@@ -109,39 +112,40 @@
         </activity>
         <activity
             android:name="org.zarroboogs.weibo.activity.WriteRepostActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name="org.zarroboogs.weibo.activity.WriteCommentActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name="org.zarroboogs.weibo.activity.WriteReplyToCommentActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <!-- browser activity -->
         <activity
             android:name="org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:label="@string/weibo_detail"
             android:theme="@style/AppTheme_Dummy"
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity
             android:name="org.zarroboogs.weibo.activity.BrowserCommentActivity"
+            android:screenOrientation="portrait"
             android:label="@string/comment_detail" />
-        <activity
-            android:name="org.zarroboogs.weibo.support.gallery.GalleryActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/GalleryTheme" />
+
         <activity
             android:name="org.zarroboogs.weibo.support.gallery.GalleryAnimationActivity"
+            android:screenOrientation="portrait"
             android:configChanges="screenSize|keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:theme="@style/GalleryTheme" />
-        <activity
-            android:name="org.zarroboogs.weibo.ui.browser.BrowserWriteWeiboLocalPicActivity"
-            android:launchMode="singleTop"
-            android:uiOptions="splitActionBarWhenNarrow" />
+
         <activity
             android:name="org.zarroboogs.weibo.activity.BrowserWebActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:uiOptions="splitActionBarWhenNarrow" >
             <intent-filter>
@@ -171,14 +175,17 @@
                 -->
             </intent-filter>
         </activity>
-        <activity android:name="org.zarroboogs.weibo.activity.BrowserShareTimeLineActivity" />
+        <activity android:name="org.zarroboogs.weibo.activity.BrowserShareTimeLineActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="org.zarroboogs.weibo.activity.AppMapActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
 
         <!-- topic activity -->
         <activity
             android:name="org.zarroboogs.weibo.activity.SearchTopicByNameActivity"
+            android:screenOrientation="portrait"
             android:label="@string/search_topic"
             android:uiOptions="splitActionBarWhenNarrow" >
             <intent-filter>
@@ -189,11 +196,13 @@
                 <data android:scheme="org.zarroboogs.weibo.topic" />
             </intent-filter>
         </activity>
-        <activity android:name="org.zarroboogs.weibo.activity.UserTopicListActivity" />
+        <activity android:name="org.zarroboogs.weibo.activity.UserTopicListActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- user activity -->
         <activity
             android:name="org.zarroboogs.weibo.activity.UserInfoActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme_Dummy" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -210,27 +219,34 @@
                 <data android:mimeType="application/org.zarroboogs.weibo.beam" />
             </intent-filter>
         </activity>
-        <activity android:name="org.zarroboogs.weibo.activity.UserTimeLineActivity" />
+        <activity android:name="org.zarroboogs.weibo.activity.UserTimeLineActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="org.zarroboogs.weibo.activity.MyInfoActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme_Dummy" />
         <activity
             android:name="org.zarroboogs.weibo.activity.EditMyProfileActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
         <activity
             android:name="org.zarroboogs.weibo.activity.FriendListActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
         <activity
             android:name="org.zarroboogs.weibo.activity.FanListActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
         <activity
             android:name="org.zarroboogs.weibo.activity.MyFavActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
 
         <!-- search activity -->
         <activity
             android:name="org.zarroboogs.weibo.activity.SearchMainActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -240,40 +256,54 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name="org.zarroboogs.weibo.activity.AtUserActivity" />
+        <activity android:name="org.zarroboogs.weibo.activity.AtUserActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- friend group -->
-        <activity android:name="org.zarroboogs.weibo.activity.ManageGroupActivity" />
+        <activity android:name="org.zarroboogs.weibo.activity.ManageGroupActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- nearby -->
-        <activity android:name="org.zarroboogs.weibo.activity.NearbyTimeLineActivity" />
+        <activity android:name="org.zarroboogs.weibo.activity.NearbyTimeLineActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- preference activity -->
-        <activity android:name="org.zarroboogs.weibo.setting.activity.SettingActivity" />
+        <activity android:name="org.zarroboogs.weibo.setting.activity.SettingActivity"
+            android:screenOrientation="portrait"/>
         <!-- intent-filter is used for Android-Setting-Data usage- click this app- View app Settings -->
-        <activity android:name="org.zarroboogs.weibo.setting.activity.ControlActivity" >
+        <activity android:name="org.zarroboogs.weibo.setting.activity.ControlActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="org.zarroboogs.weibo.setting.activity.NotificationActivity" />
-        <activity android:name="org.zarroboogs.weibo.setting.activity.WaterMarkPrefActivity" />
+        <activity android:name="org.zarroboogs.weibo.setting.activity.NotificationActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="org.zarroboogs.weibo.setting.activity.WaterMarkPrefActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="org.zarroboogs.weibo.setting.activity.DraftActivity"
+            android:screenOrientation="portrait"
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity
             android:name="org.zarroboogs.weibo.setting.activity.FilterActivity"
+            android:screenOrientation="portrait"
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity
             android:name="org.zarroboogs.weibo.setting.activity.AppearanceActivity"
+            android:screenOrientation="portrait"
             android:uiOptions="splitActionBarWhenNarrow" />
-        <activity android:name="org.zarroboogs.weibo.setting.activity.PerformanceActivity" />
-        <activity android:name="org.zarroboogs.weibo.setting.activity.OtherActivity" />
-        <activity android:name="org.zarroboogs.weibo.setting.activity.AboutActivity" />
+        <activity android:name="org.zarroboogs.weibo.setting.activity.PerformanceActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="org.zarroboogs.weibo.setting.activity.OtherActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="org.zarroboogs.weibo.setting.activity.AboutActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="org.zarroboogs.weibo.setting.activity.LicenseActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.DialogWhenLarge" />
 
         <!-- service -->
@@ -286,11 +316,7 @@
         <service android:name="org.zarroboogs.weibo.service.SendRepostService" />
         <service android:name="org.zarroboogs.weibo.service.SendCommentService" />
         <service android:name="org.zarroboogs.weibo.service.SendReplyToCommentService" />
-        <service android:name="org.zarroboogs.weibo.othercomponent.unreadnotification.JBMentionsWeiboNotificationServiceHelper" />
-        <service android:name="org.zarroboogs.weibo.othercomponent.unreadnotification.JBMentionsCommentNotificationServiceHelper" />
-        <service android:name="org.zarroboogs.weibo.othercomponent.unreadnotification.JBCommentsToMeNotificationServiceHelper" />
         <service android:name="org.zarroboogs.weibo.service.BigTextNotificationService" />
-        <service android:name="org.zarroboogs.weibo.othercomponent.SimpleTextNotificationService" />
 
         <receiver
             android:name="org.zarroboogs.weibo.othercomponent.UnreadMsgReceiver"
@@ -314,45 +340,62 @@
             android:exported="false" />
 
         <!-- black magic -->
-        <activity android:name="org.zarroboogs.weibo.activity.BlackMagicActivity" />
+        <activity android:name="org.zarroboogs.weibo.activity.BlackMagicActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- dm -->
-        <activity android:name="org.zarroboogs.weibo.activity.DMActivity" />
-        <activity android:name="org.zarroboogs.weibo.activity.DMUserListActivity" />
-        <activity android:name="org.zarroboogs.weibo.activity.DMSelectUserActivity" />
+        <activity android:name="org.zarroboogs.weibo.activity.DMActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="org.zarroboogs.weibo.activity.DMUserListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="org.zarroboogs.weibo.activity.DMSelectUserActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="org.zarroboogs.weibo.activity.WriteWeiboWithAppSrcActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
             android:name="org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" >
         </activity>
-        <activity android:name="org.zarroboogs.weibo.WebViewActivity" />
-        <activity android:name="org.zarroboogs.weibo.JSWebViewActivity" />
-        <activity android:name="org.zarroboogs.weibo.GSIDWebViewActivity" />
+        <activity android:name="org.zarroboogs.weibo.WebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="org.zarroboogs.weibo.JSWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="org.zarroboogs.weibo.GSIDWebViewActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="org.zarroboogs.weibo.selectphoto.ImgFileListActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="org.zarroboogs.weibo.selectphoto.ImgsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="org.zarroboogs.weibo.activity.ChangeWeibaActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
-        <activity android:name="org.zarroboogs.weibo.widget.galleryview.ViewPagerActivity" />
+        <activity android:name="org.zarroboogs.weibo.widget.galleryview.ViewPagerActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name="org.zarroboogs.weibo.activity.NotifyActivity" />
+        <activity android:name="org.zarroboogs.weibo.activity.NotifyActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 热门微博Activity -->
-        <activity android:name="org.zarroboogs.weibo.activity.HotWeiboActivity" />
-        <activity android:name="org.zarroboogs.weibo.activity.HotHuaTiActivity" />
-        <activity android:name="org.zarroboogs.weibo.activity.HotModelActivity" />
+        <activity android:name="org.zarroboogs.weibo.activity.HotWeiboActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="org.zarroboogs.weibo.activity.HotHuaTiActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="org.zarroboogs.weibo.activity.HotModelActivity"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name="com.umeng.update.net.DownloadingService"
@@ -361,6 +404,7 @@
 
         <activity
             android:name="com.umeng.update.UpdateDialogActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         <activity
