@@ -179,7 +179,7 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
                 String gsid = "";
                 
                 AccountDatabaseManager manager = new AccountDatabaseManager(mContext);
-                if (true) {
+                if (!TextUtils.isEmpty(cookie)) {
                     String[] cookies = cookie.split("; ");
                     for (String string : cookies) {
                         String oneLine = Uri.decode(Uri.decode(string));
