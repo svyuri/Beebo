@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 public class BeeboAlermManager {
 
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	
     private static final int REQUEST_CODE = 195;
 
