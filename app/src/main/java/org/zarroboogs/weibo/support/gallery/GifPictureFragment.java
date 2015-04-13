@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.support.gallery;
 
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
@@ -24,10 +25,12 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.DraweeView;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.File;
 import java.io.IOException;
@@ -83,14 +86,97 @@ public class GifPictureFragment extends Fragment {
 
         File gifFile = new File(path);
 
-        final DraweeView photoView = ViewUtility.findViewById(view,R.id.cover);////(ClipImageView) view.findViewById(R.id.cover);
+        final Bitmap bitmap = ImageUtility.decodeBitmapFromSDCard(path, IMAGEVIEW_SOFT_LAYER_MAX_WIDTH,
+                IMAGEVIEW_SOFT_LAYER_MAX_HEIGHT);
+
+        gifImageView.setImageBitmap(bitmap);
+        DevLog.printLog("GifPictureFragment ","" + bitmap.getWidth() + " * " + bitmap.getHeight());
+
+        final Runnable endAction = new Runnable() {
+            @Override
+            public void run() {
+                Bundle bundle = getArguments();
+                bundle.putBoolean("animationIn", false);
+            }
+        };
+
+        SimpleDraweeView photoView = ViewUtility.findViewById(view,R.id.cover);////(ClipImageView) view.findViewById(R.id.cover);
         DraweeController controller = Fresco.newDraweeControllerBuilder()
                 .setUri(Uri.fromFile(gifFile)).setAutoPlayAnimations(true).build();
         photoView.setController(controller);
+        photoView.setAspectRatio(bitmap.getWidth()/ bitmap.getHeight());
+        photoView.setVisibility(View.INVISIBLE);
 
         gifImageView.setImageDrawable(photoView.getDrawable());
+        int w = Utility.getScreenWidth();
+        int h = bitmap.getHeight() * w / bitmap.getWidth();
 
+        DevLog.printLog("GifPictureFragment ","" + bitmap.getWidth() + " * " + bitmap.getHeight() + "  " + w + "  " + h);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(w,h);
+        gifImageView.setLayoutParams(layoutParams);
 
+        // w * h1 = h * w1
+
+        photoView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+
+                if (rect == null) {
+                    gifImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    endAction.run();
+                    return true;
+                }
+
+                final Rect startBounds = new Rect(rect.scaledBitmapRect);
+                final Rect finalBounds = AnimationUtility.getBitmapRectFromImageView(gifImageView);
+
+                if (finalBounds == null) {
+                    gifImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    endAction.run();
+                    return true;
+                }
+
+                float startScale = (float) finalBounds.width() / startBounds.width();
+
+                if (startScale * startBounds.height() > finalBounds.height()) {
+                    startScale = (float) finalBounds.height() / startBounds.height();
+                }
+
+                int deltaTop = startBounds.top - finalBounds.top;
+                int deltaLeft = startBounds.left - finalBounds.left;
+
+                gifImageView.setPivotY((gifImageView.getHeight() - finalBounds.height()) / 2);
+                gifImageView.setPivotX((gifImageView.getWidth() - finalBounds.width()) / 2);
+
+                gifImageView.setScaleX(1 / startScale);
+                gifImageView.setScaleY(1 / startScale);
+
+                gifImageView.setTranslationX(deltaLeft);
+                gifImageView.setTranslationY(deltaTop);
+
+                gifImageView.animate().translationY(0).translationX(0).scaleY(1).scaleX(1).setDuration(ANIMATION_DURATION)
+                        .setInterpolator(new AccelerateDecelerateInterpolator())
+                        .setListener(new MyAnimationListener(endAction));
+
+                AnimatorSet animationSet = new AnimatorSet();
+                animationSet.setDuration(ANIMATION_DURATION);
+                animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
+
+                animationSet.playTogether(ObjectAnimator.ofFloat(gifImageView, "clipBottom",
+                        AnimationRect.getClipBottom(rect, finalBounds), 0));
+                animationSet.playTogether(ObjectAnimator.ofFloat(gifImageView, "clipRight",
+                        AnimationRect.getClipRight(rect, finalBounds), 0));
+                animationSet.playTogether(ObjectAnimator.ofFloat(gifImageView, "clipTop",
+                        AnimationRect.getClipTop(rect, finalBounds), 0));
+                animationSet.playTogether(ObjectAnimator.ofFloat(gifImageView, "clipLeft",
+                        AnimationRect.getClipLeft(rect, finalBounds), 0));
+
+                animationSet.start();
+
+                gifImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                return true;
+            }
+        });
         return view;
     }
 

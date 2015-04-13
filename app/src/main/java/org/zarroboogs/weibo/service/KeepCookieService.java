@@ -59,7 +59,7 @@ public class KeepCookieService extends AbsAsyncHttpService {
 		// TODO Auto-generated method stub
 		DevLog.printLog(TAG, arg0);
 		if (arg0.contains("sina_name")) {
-			BeeboAlermManager.keepCookie(this.getApplicationContext(), mCookie);
+//			BeeboAlermManager.keepCookie(this.getApplicationContext(), mCookie);
 			stopSelf();
 		}else {
 			stopSelf();
