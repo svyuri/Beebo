@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -77,6 +78,7 @@ public final class BeeboApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fresco.initialize(this);
         globalContext = (BeeboApplication) getApplicationContext();
         instance = (BeeboApplication) getApplicationContext();
 

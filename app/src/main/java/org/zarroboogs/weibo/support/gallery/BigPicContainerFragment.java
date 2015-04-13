@@ -175,7 +175,7 @@ public class BigPicContainerFragment extends Fragment {
             child.animationExit(backgroundAnimator);
         } else if (fragment instanceof GifPictureFragment) {
             GifPictureFragment child = (GifPictureFragment) fragment;
-            child.animationExit(backgroundAnimator);
+//            child.animationExit(backgroundAnimator);
         }
     }
 
