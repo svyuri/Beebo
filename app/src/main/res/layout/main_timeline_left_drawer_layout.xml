@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white" xmlns:tools="http://schemas.android.com/tools">
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,7 +17,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="8dp"
-        android:showDividers="middle" >
+        android:showDividers="middle">
 
         <org.zarroboogs.weibo.widget.BlurImageView
             android:id="@+id/coverBlureImage"
@@ -25,7 +27,6 @@
             android:scaleType="centerCrop" />
 
 
-        
         <LinearLayout
             android:id="@+id/coverLayout"
             android:layout_width="match_parent"
@@ -36,17 +37,45 @@
             android:layout_marginTop="16dp"
             android:background="@null"
             android:orientation="vertical"
-            android:visibility="visible" >
+            android:visibility="visible">
 
-            <ImageView
+            <org.zarroboogs.weibo.widget.TimeLineAvatarView
                 android:id="@+id/avatar"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
                 android:background="@color/white"
-                android:padding="6dp"
-                android:src="#ff2f2f2f" />
+                android:fitsSystemWindows="true"
+                android:padding="0dp">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/userAvatar"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="2.5dp"
+                    android:padding="3dp"
+                    fresco:placeholderImage="@color/white" />
+
+                <ImageView
+                    android:id="@+id/vFlag"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:scaleType="centerCrop" />
+
+            </org.zarroboogs.weibo.widget.TimeLineAvatarView>
+
+            <!--            <ImageView
+                            android:id="@+id/avatar"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/white"
+                            android:padding="6dp"
+                            android:src="#ff2f2f2f" />-->
 
             <TextView
                 android:id="@+id/nickname"
@@ -60,10 +89,10 @@
         </LinearLayout>
 
         <include
+            layout="@layout/left_drawer_contents"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/coverLayout"
-            layout="@layout/left_drawer_contents" />
+            android:layout_below="@id/coverLayout" />
     </RelativeLayout>
 
 </ScrollView>

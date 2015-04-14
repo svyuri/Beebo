@@ -20,11 +20,13 @@ import org.zarroboogs.weibo.support.utils.AppEventAction;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.BlurImageView;
+import org.zarroboogs.weibo.widget.TimeLineAvatarView;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -100,8 +102,10 @@ public class LeftMenuFragment extends BaseStateFragment {
 
 		layout.nickname.setText(BeeboApplication.getInstance().getCurrentAccountName());
 
-		TimeLineBitmapDownloader.getInstance().display(layout.avatar, -1, -1, BeeboApplication.getInstance().getAccountBean().getInfo().getAvatar_large(),
-				FileLocationMethod.avatar_large);
+//		TimeLineBitmapDownloader.getInstance().display(layout.avatar, -1, -1, BeeboApplication.getInstance().getAccountBean().getInfo().getAvatar_large(),
+//				FileLocationMethod.avatar_large);
+        layout.avatar.setDraweeUri(Uri.parse( BeeboApplication.getInstance().getAccountBean().getInfo().getAvatar_large()));
+        layout.avatar.checkVerified(BeeboApplication.getInstance().getAccountBean().getInfo());
 		layout.avatar.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -369,7 +373,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 
 		layout = new LeftDrawerViewHolder();
 
-		layout.avatar = (ImageView) view.findViewById(R.id.avatar);
+		layout.avatar = ViewUtility.findViewById(view, R.id.avatar);//(ImageView) view.findViewById(R.id.avatar);
 		layout.nickname = (TextView) view.findViewById(R.id.nickname);
 
 		layout.home = (LinearLayout) view.findViewById(R.id.btn_home);
@@ -496,7 +500,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 
 	private class LeftDrawerViewHolder {
 
-		ImageView avatar;
+		TimeLineAvatarView avatar;
 
 		TextView nickname;
 
