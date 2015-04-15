@@ -353,16 +353,6 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
     	return initNormalLayout(parent);
     }
 
-    private View initMylayout(ViewGroup parent) {
-        View convertView;
-        if (SettingUtils.getEnableBigPic()) {
-            convertView = inflater.inflate(R.layout.timeline_listview_item_layout, parent, false);
-        } else {
-            convertView = inflater.inflate(R.layout.timeline_listview_item_layout, parent, false);
-        }
-        return convertView;
-    }
-
     private View initNormalLayout(ViewGroup parent) {
         return inflater.inflate(R.layout.timeline_listview_item_layout, parent, false);
     }
