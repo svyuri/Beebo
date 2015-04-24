@@ -118,6 +118,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         return fragment;
     }
 
+    @SuppressLint("ValidFragment")
     public MainTimeLineFragment(AccountBean accountBean, UserBean userBean, String token) {
         this.mAccountBean = accountBean;
         this.mUserBean = userBean;
