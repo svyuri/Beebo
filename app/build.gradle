@@ -27,11 +27,13 @@ android {
         }
     }
 
+//      release
+//      gradle assembleRelease
     signingConfigs {
         releaseConfig {
             keyAlias System.console().readLine("\nkeyAlias:")
             keyPassword System.console().readLine("\nPassword:")
-            
+
             storeFile file('ibeebo.keystore')
             storePassword System.console().readLine("\nPassword:")
         }
