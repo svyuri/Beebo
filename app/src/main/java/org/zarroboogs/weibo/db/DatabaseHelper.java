@@ -58,7 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + HomeTable.ACCOUNTID + " text," + HomeTable.TIMELINEDATA + " text," + HomeTable.RECENT_GROUP_ID + " text"
             + ");";
 
-    static final String CREATE_HOME_DATA_TABLE_SQL = "create table " + HomeTable.HomeDataTable.TABLE_NAME + "("
+    static final String CREATE_HOME_DATA_TABLE_SQL = "create table " + HomeTable.HomeDataTable.HOME_DATA_TABLE + "("
             + HomeTable.HomeDataTable.ID
             + " integer primary key autoincrement," + HomeTable.HomeDataTable.ACCOUNTID + " text,"
             + HomeTable.HomeDataTable.MBLOGID + " text,"
@@ -177,8 +177,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + DownloadPicturesTable.SIZE + " integer,"
             + DownloadPicturesTable.TIME + " integer," + DownloadPicturesTable.TYPE + " integer" + ");";
 
-    private static final String CREATE_HOME_INDEX_SQL = "CREATE INDEX idx_" + HomeTable.HomeDataTable.TABLE_NAME + " ON "
-            + HomeTable.HomeDataTable.TABLE_NAME
+    private static final String CREATE_HOME_INDEX_SQL = "CREATE INDEX idx_" + HomeTable.HomeDataTable.HOME_DATA_TABLE + " ON "
+            + HomeTable.HomeDataTable.HOME_DATA_TABLE
             + " ( " + HomeTable.HomeDataTable.ACCOUNTID + " ) ";
 
     private static final String CREATE_HOME_OTHER_GROUP_INDEX_SQL = "CREATE INDEX idx_"
@@ -325,7 +325,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + GroupTable.TABLE_NAME);
 
         db.execSQL("DROP TABLE IF EXISTS " + HomeTable.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + HomeTable.HomeDataTable.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + HomeTable.HomeDataTable.HOME_DATA_TABLE);
 
         db.execSQL("DROP TABLE IF EXISTS " + HomeOtherGroupTable.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + HomeOtherGroupTable.HomeOtherGroupDataTable.TABLE_NAME);

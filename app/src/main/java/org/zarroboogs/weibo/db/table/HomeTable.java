@@ -18,7 +18,7 @@ public class HomeTable {
 
     public static class HomeDataTable {
 
-        public static final String TABLE_NAME = "home_data_table";
+        public static final String HOME_DATA_TABLE = "home_data_table";
         // support multi user,so primary key can't be message id
         public static final String ID = "_id";
         // support mulit user

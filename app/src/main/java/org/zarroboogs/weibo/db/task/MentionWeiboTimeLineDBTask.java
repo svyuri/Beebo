@@ -140,10 +140,10 @@ public class MentionWeiboTimeLineDBTask {
         // if (needDeletedNumber > 0) {
         // AppLogger.e("" + needDeletedNumber);
         // String sql = " delete from " +
-        // RepostsTable.RepostDataTable.TABLE_NAME + " where " +
+        // RepostsTable.RepostDataTable.HOME_DATA_TABLE + " where " +
         // RepostsTable.RepostDataTable.ID + " in "
         // + "( select " + RepostsTable.RepostDataTable.ID + " from " +
-        // RepostsTable.RepostDataTable.TABLE_NAME + " where "
+        // RepostsTable.RepostDataTable.HOME_DATA_TABLE + " where "
         // + RepostsTable.RepostDataTable.ACCOUNTID
         // + " in " + "(" + accountId + ") order by " +
         // RepostsTable.RepostDataTable.ID + " asc limit " + needDeletedNumber +
@@ -159,7 +159,7 @@ public class MentionWeiboTimeLineDBTask {
 
         // need modification
         // wsd.execSQL("DROP TABLE IF EXISTS " +
-        // RepostsTable.RepostDataTable.TABLE_NAME);
+        // RepostsTable.RepostDataTable.HOME_DATA_TABLE);
         // wsd.execSQL(DatabaseHelper.CREATE_REPOSTS_TABLE_SQL);
 
         addRepostLineMsg(list, accountId);

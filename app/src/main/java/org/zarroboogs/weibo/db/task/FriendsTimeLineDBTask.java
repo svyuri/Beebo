@@ -59,7 +59,7 @@ public class FriendsTimeLineDBTask {
 
         Gson gson = new Gson();
         List<MessageBean> msgList = list.getItemList();
-        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(getWsd(), HomeTable.HomeDataTable.TABLE_NAME);
+        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(getWsd(), HomeTable.HomeDataTable.HOME_DATA_TABLE);
         final int mblogidColumn = ih.getColumnIndex(HomeTable.HomeDataTable.MBLOGID);
         final int accountidColumn = ih.getColumnIndex(HomeTable.HomeDataTable.ACCOUNTID);
         final int jsondataColumn = ih.getColumnIndex(HomeTable.HomeDataTable.JSONDATA);
@@ -91,7 +91,7 @@ public class FriendsTimeLineDBTask {
 
     private static void reduceHomeTable(String accountId) {
         String searchCount = "select count(" + HomeTable.HomeDataTable.ID + ") as total" + " from "
-                + HomeTable.HomeDataTable.TABLE_NAME + " where "
+                + HomeTable.HomeDataTable.HOME_DATA_TABLE + " where "
                 + HomeTable.HomeDataTable.ACCOUNTID + " = " + accountId;
         int total = 0;
         Cursor c = getWsd().rawQuery(searchCount, null);
@@ -108,10 +108,10 @@ public class FriendsTimeLineDBTask {
         //
         // if (needDeletedNumber > 0) {
         // AppLogger.e("" + needDeletedNumber);
-        // String sql = " delete from " + HomeTable.HomeDataTable.TABLE_NAME +
+        // String sql = " delete from " + HomeTable.HomeDataTable.HOME_DATA_TABLE +
         // " where " + HomeTable.HomeDataTable.ID + " in "
         // + "( select " + HomeTable.HomeDataTable.ID + " from " +
-        // HomeTable.HomeDataTable.TABLE_NAME + " where "
+        // HomeTable.HomeDataTable.HOME_DATA_TABLE + " where "
         // + HomeTable.HomeDataTable.ACCOUNTID
         // + " in " + "(" + accountId + ") order by " +
         // HomeTable.HomeDataTable.ID + " desc limit " + needDeletedNumber +
@@ -258,7 +258,7 @@ public class FriendsTimeLineDBTask {
     }
 
     static void deleteAllHomes(String accountId) {
-        String sql = "delete from " + HomeTable.HomeDataTable.TABLE_NAME + " where " + HomeTable.HomeDataTable.ACCOUNTID
+        String sql = "delete from " + HomeTable.HomeDataTable.HOME_DATA_TABLE + " where " + HomeTable.HomeDataTable.ACCOUNTID
                 + " in " + "(" + accountId + ")";
 
         getWsd().execSQL(sql);
@@ -277,7 +277,7 @@ public class FriendsTimeLineDBTask {
     }
 
     private static void updateCount(String msgId, int commentCount, int repostCount) {
-        String sql = "select * from " + HomeTable.HomeDataTable.TABLE_NAME + " where " + HomeTable.HomeDataTable.MBLOGID
+        String sql = "select * from " + HomeTable.HomeDataTable.HOME_DATA_TABLE + " where " + HomeTable.HomeDataTable.MBLOGID
                 + "  = " + msgId + " order by "
                 + HomeTable.HomeDataTable.ID + " asc limit 50";
         Cursor c = getRsd().rawQuery(sql, null);
@@ -295,7 +295,7 @@ public class FriendsTimeLineDBTask {
                     };
                     ContentValues cv = new ContentValues();
                     cv.put(HomeTable.HomeDataTable.JSONDATA, gson.toJson(value));
-                    getWsd().update(HomeTable.HomeDataTable.TABLE_NAME, cv, HomeTable.HomeDataTable.ID + "=?", args);
+                    getWsd().update(HomeTable.HomeDataTable.HOME_DATA_TABLE, cv, HomeTable.HomeDataTable.ID + "=?", args);
                 } catch (JsonSyntaxException e) {
 
                 }
@@ -361,7 +361,7 @@ public class FriendsTimeLineDBTask {
         MessageListBean result = new MessageListBean();
         int limit = limitCount > AppConfig.DEFAULT_MSG_COUNT_50 ? limitCount : AppConfig.DEFAULT_MSG_COUNT_50;
         List<MessageBean> msgList = new ArrayList<MessageBean>();
-        String sql = "select * from " + HomeTable.HomeDataTable.TABLE_NAME + " where " + HomeTable.HomeDataTable.ACCOUNTID
+        String sql = "select * from " + HomeTable.HomeDataTable.HOME_DATA_TABLE + " where " + HomeTable.HomeDataTable.ACCOUNTID
                 + "  = " + accountId + " order by "
                 + HomeTable.HomeDataTable.ID + " asc limit " + limit;
         Cursor c = getRsd().rawQuery(sql, null);

@@ -136,10 +136,10 @@ public class CommentToMeTimeLineDBTask {
         // if (needDeletedNumber > 0) {
         // AppLogger.e("" + needDeletedNumber);
         // String sql = " delete from " +
-        // CommentsTable.CommentsDataTable.TABLE_NAME + " where " +
+        // CommentsTable.CommentsDataTable.HOME_DATA_TABLE + " where " +
         // CommentsTable.CommentsDataTable.ID + " in "
         // + "( select " + CommentsTable.CommentsDataTable.ID + " from " +
-        // CommentsTable.CommentsDataTable.TABLE_NAME + " where "
+        // CommentsTable.CommentsDataTable.HOME_DATA_TABLE + " where "
         // + CommentsTable.CommentsDataTable.ACCOUNTID
         // + " in " + "(" + accountId + ") order by " +
         // CommentsTable.CommentsDataTable.ID + " asc limit " +
@@ -155,7 +155,7 @@ public class CommentToMeTimeLineDBTask {
 
         // need modification
         // wsd.execSQL("DROP TABLE IF EXISTS " +
-        // CommentsTable.CommentsDataTable.TABLE_NAME);
+        // CommentsTable.CommentsDataTable.HOME_DATA_TABLE);
         // wsd.execSQL(DatabaseHelper.CREATE_COMMENTS_TABLE_SQL);
 
         addCommentLineMsg(list, accountId);

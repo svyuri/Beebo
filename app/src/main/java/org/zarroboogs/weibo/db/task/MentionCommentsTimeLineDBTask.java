@@ -116,7 +116,7 @@ public class MentionCommentsTimeLineDBTask {
     private static void reduceCommentTable(String accountId) {
         // String searchCount = "select count(" +
         // MentionCommentsTable.MentionCommentsDataTable.ID + ") as total" +
-        // " from " + MentionCommentsTable.MentionCommentsDataTable.TABLE_NAME +
+        // " from " + MentionCommentsTable.MentionCommentsDataTable.HOME_DATA_TABLE +
         // " where " + MentionCommentsTable.MentionCommentsDataTable.ACCOUNTID
         // + " = " + accountId;
         // int total = 0;
@@ -135,10 +135,10 @@ public class MentionCommentsTimeLineDBTask {
         // if (needDeletedNumber > 0) {
         // AppLogger.e("" + needDeletedNumber);
         // String sql = " delete from " +
-        // MentionCommentsTable.MentionCommentsDataTable.TABLE_NAME + " where "
+        // MentionCommentsTable.MentionCommentsDataTable.HOME_DATA_TABLE + " where "
         // + MentionCommentsTable.MentionCommentsDataTable.ID + " in "
         // + "( select " + MentionCommentsTable.MentionCommentsDataTable.ID +
-        // " from " + MentionCommentsTable.MentionCommentsDataTable.TABLE_NAME +
+        // " from " + MentionCommentsTable.MentionCommentsDataTable.HOME_DATA_TABLE +
         // " where "
         // + MentionCommentsTable.MentionCommentsDataTable.ACCOUNTID
         // + " in " + "(" + accountId + ") order by " +
