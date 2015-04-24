@@ -37,13 +37,13 @@ public class MainTimeLineMsgLoader extends AbstractAsyncNetRequestTaskLoader<Mes
 
     public MessageListBean loadData() throws WeiboException {
         MessageListBean result = null;
-        MessageListBean tmp = get(token, currentGroupId, sinceId, maxId);
+        MessageListBean tmp = getMessageListBean(token, currentGroupId, sinceId, maxId);
         result = tmp;
         if (isLoadNewData() && Utility.isWifi(getContext()) && SettingUtils.isWifiUnlimitedMsgCount()) {
             int retryCount = 0;
             while (tmp.getReceivedCount() >= Integer.valueOf(SettingUtils.getMsgCount()) && retryCount < MAX_RETRY_COUNT) {
                 String tmpMaxId = tmp.getItemList().get(tmp.getItemList().size() - 1).getId();
-                tmp = get(token, currentGroupId, sinceId, tmpMaxId);
+                tmp = getMessageListBean(token, currentGroupId, sinceId, tmpMaxId);
                 result.addOldData(tmp);
                 retryCount++;
             }
@@ -61,7 +61,7 @@ public class MainTimeLineMsgLoader extends AbstractAsyncNetRequestTaskLoader<Mes
         return !TextUtils.isEmpty(sinceId) && TextUtils.isEmpty(maxId);
     }
 
-    private MessageListBean get(String token, String groupId, String sinceId, String maxId) throws WeiboException {
+    private MessageListBean getMessageListBean(String token, String groupId, String sinceId, String maxId) throws WeiboException {
         MainTimeLineDao dao;
         if (currentGroupId.equals(Constants.BILATERAL_GROUP_ID)) {
             dao = new BilateralTimeLineDao(token);

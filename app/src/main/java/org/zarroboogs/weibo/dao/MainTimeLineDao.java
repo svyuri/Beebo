@@ -18,6 +18,28 @@ import java.util.Map;
 
 public class MainTimeLineDao {
 
+    protected String access_token;
+
+    protected String since_id;
+
+    protected String max_id;
+
+    protected String count;
+
+    protected String page;
+
+    protected String base_app;
+
+    protected String feature;
+
+    protected String trim_user;
+
+    public MainTimeLineDao(String access_token) {
+
+        this.access_token = access_token;
+        this.count = SettingUtils.getMsgCount();
+    }
+
     protected String getUrl() {
         return WeiBoURLs.FRIENDS_TIMELINE;
     }
@@ -65,27 +87,7 @@ public class MainTimeLineDao {
         return value;
     }
 
-    protected String access_token;
 
-    protected String since_id;
-
-    protected String max_id;
-
-    protected String count;
-
-    protected String page;
-
-    protected String base_app;
-
-    protected String feature;
-
-    protected String trim_user;
-
-    public MainTimeLineDao(String access_token) {
-
-        this.access_token = access_token;
-        this.count = SettingUtils.getMsgCount();
-    }
 
     public MainTimeLineDao setSince_id(String since_id) {
         this.since_id = since_id;
