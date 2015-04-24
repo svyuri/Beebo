@@ -8,8 +8,9 @@ android {
         applicationId "org.zarroboogs.weibo"
         minSdkVersion 16
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+
+        versionCode 35
+        versionName "3.1.0"
     }
 
     packagingOptions {
@@ -26,10 +27,21 @@ android {
         }
     }
 
+    signingConfigs {
+        releaseConfig {
+            keyAlias System.console().readLine("\nkeyAlias:")
+            keyPassword System.console().readLine("\nPassword:")
+            
+            storeFile file('ibeebo.keystore')
+            storePassword System.console().readLine("\nPassword:")
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
         }
     }
 }
