@@ -1,7 +1,6 @@
 
 package org.zarroboogs.weibo.adapter;
 
-import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.file.FileLocationMethod;
@@ -28,13 +27,11 @@ import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.ListViewMiddleMsgLoadingView;
 import org.zarroboogs.weibo.widget.TimeLineAvatarImageView;
-import org.zarroboogs.weibo.widget.TimeLineAvatarView;
 import org.zarroboogs.weibo.widget.TimeTextView;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -52,8 +49,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -162,10 +157,9 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
                     ViewHolder holder = (ViewHolder) view.getTag(tag);
 
                     if (holder != null) {
-//                        Drawable drawable = holder.avatar.getImageView().getDrawable();
-//                        clearAvatarBitmap(holder, drawable);
-
-                        Drawable drawable = holder.content_pic.getImageView().getDrawable();
+                        Drawable drawable = holder.avatar.getImageView().getDrawable();
+                        clearAvatarBitmap(holder, drawable);
+                        drawable = holder.content_pic.getImageView().getDrawable();
                         clearPictureBitmap(holder, drawable);
                         drawable = holder.repost_content_pic.getImageView().getDrawable();
                         clearRepostPictureBitmap(holder, drawable);
@@ -195,10 +189,10 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
             }
 
             void clearAvatarBitmap(ViewHolder holder, Drawable drawable) {
-//                if (!(drawable instanceof PictureBitmapDrawable)) {
-//                    holder.avatar.setImageDrawable(null);
-//                    holder.avatar.getImageView().clearAnimation();
-//                }
+                if (!(drawable instanceof PictureBitmapDrawable)) {
+                    holder.avatar.setImageDrawable(null);
+                    holder.avatar.getImageView().clearAnimation();
+                }
             }
 
             void clearPictureBitmap(ViewHolder holder, Drawable drawable) {
@@ -353,6 +347,16 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
     	return initNormalLayout(parent);
     }
 
+    private View initMylayout(ViewGroup parent) {
+        View convertView;
+        if (SettingUtils.getEnableBigPic()) {
+            convertView = inflater.inflate(R.layout.timeline_listview_item_layout, parent, false);
+        } else {
+            convertView = inflater.inflate(R.layout.timeline_listview_item_layout, parent, false);
+        }
+        return convertView;
+    }
+
     private View initNormalLayout(ViewGroup parent) {
         return inflater.inflate(R.layout.timeline_listview_item_layout, parent, false);
     }
@@ -372,9 +376,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         holder.weiboTextContent = ViewUtility.findViewById(convertView, R.id.weibo_text_content);
         holder.repost_content = ViewUtility.findViewById(convertView, R.id.repost_content);
         holder.time = ViewUtility.findViewById(convertView, R.id.time);
-        holder.avatar = ViewUtility.findViewById(convertView, R.id.avatar);
-        int count = holder.avatar.getChildCount();
-        DevLog.printLog("Holder_count","" + count);
+        holder.avatar = (TimeLineAvatarImageView) convertView.findViewById(R.id.avatar);
 
         holder.repost_content_pic = (IWeiciyuanDrawable) convertView.findViewById(R.id.repost_content_pic);
         holder.repost_content_pic_multi = ViewUtility.findViewById(convertView, R.id.repost_content__pic_multi);
@@ -504,7 +506,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         }
     }
 
-    protected void buildAvatar(TimeLineAvatarView view, int position, final UserBean user) {
+    protected void buildAvatar(IWeiciyuanDrawable view, int position, final UserBean user) {
         view.setVisibility(View.VISIBLE);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -524,12 +526,20 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
             }
         });
         view.checkVerified(user);
-
-        String image_url = user.getProfile_image_url();
-        view.setDraweeUri(Uri.parse(image_url));
+        buildAvatar(view.getImageView(), position, user);
     }
 
+    protected void buildAvatar(ImageView view, int position, final UserBean user) {
+        String image_url = user.getProfile_image_url();
+        if (!TextUtils.isEmpty(image_url)) {
+            view.setVisibility(View.VISIBLE);
+            TimeLineBitmapDownloader.getInstance().downloadAvatar(view, user, (AbsBaseTimeLineFragment) fragment);
+        } else {
+            view.setVisibility(View.GONE);
+        }
+    }
 
+    
     protected void buildMultiPic(final MessageBean msg, final GridLayout gridLayout) {
         if (SettingUtils.isEnablePic()) {
             gridLayout.setVisibility(View.VISIBLE);
@@ -736,7 +746,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
 
         TimeTextView time;
 
-        TimeLineAvatarView avatar;
+        IWeiciyuanDrawable avatar;
 
         IWeiciyuanDrawable content_pic;
 
