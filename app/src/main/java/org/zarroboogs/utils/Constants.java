@@ -25,7 +25,7 @@ public final class Constants {
     public static final String APPSRC = "http://appsrc.sinaapp.com/appsrc_v3.txt";
     
     public static final boolean isBeeboPlus = false;
-    public static final boolean isEnableAppsrc = true;
+    public static final boolean isEnableAppsrc = false;
     
     public static class Extra {
         public static final String KEY = "LIST_COURSES";
