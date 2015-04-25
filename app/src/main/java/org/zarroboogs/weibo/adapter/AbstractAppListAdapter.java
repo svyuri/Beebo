@@ -258,7 +258,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         ViewHolder holder = null;
         PrefView prefView = null;
 
-        if (convertView == null || convertView.getTag(R.drawable.launcher + getItemViewType(position)) == null) {
+        if (convertView == null || convertView.getTag(R.string.app_name + getItemViewType(position)) == null) {
             int itemViewType = getItemViewType(position);
             View view = null;
             switch (itemViewType) {
@@ -298,13 +298,13 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
                 } else {
                     holder = prefView.holder;
                 }
-                convertView.setTag(R.drawable.launcher + getItemViewType(position), holder);
-                convertView.setTag(R.string.listview_index_tag, R.drawable.launcher + getItemViewType(position));
-                tagIndexList.add(R.drawable.launcher + getItemViewType(position));
+                convertView.setTag(R.string.app_name + getItemViewType(position), holder);
+                convertView.setTag(R.string.listview_index_tag, R.string.app_name + getItemViewType(position));
+                tagIndexList.add(R.string.app_name + getItemViewType(position));
             }
 
         } else {
-            holder = (ViewHolder) convertView.getTag(R.drawable.launcher + getItemViewType(position));
+            holder = (ViewHolder) convertView.getTag(R.string.app_name + getItemViewType(position));
         }
 
         if (getItemViewType(position) != TYPE_MIDDLE) {
@@ -868,7 +868,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         }
 
         View wantedView = listView.getChildAt(wantedChild);
-        ViewHolder holder = (ViewHolder) wantedView.getTag(R.drawable.launcher + getItemViewType(wantedPosition));
+        ViewHolder holder = (ViewHolder) wantedView.getTag(R.string.app_name + getItemViewType(wantedPosition));
         return holder;
 
     }

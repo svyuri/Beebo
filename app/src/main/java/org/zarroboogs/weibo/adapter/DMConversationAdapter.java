@@ -72,7 +72,7 @@ public class DMConversationAdapter extends BaseAdapter {
         int showPosition = bean.size() - 1 - position;
 
         DMViewHolder holder = null;
-        if (convertView == null || convertView.getTag(R.drawable.launcher + getItemViewType(showPosition)) == null) {
+        if (convertView == null || convertView.getTag(R.string.app_name + getItemViewType(showPosition)) == null) {
             switch (getItemViewType(showPosition)) {
                 case TYPE_NORMAL:
                     convertView = initNormalSimpleLayout(parent);
@@ -84,11 +84,11 @@ public class DMConversationAdapter extends BaseAdapter {
                     throw new IllegalArgumentException("dm user type is wrong");
             }
             holder = buildHolder(convertView);
-            convertView.setTag(R.drawable.launcher + getItemViewType(showPosition), holder);
-            convertView.setTag(R.string.listview_index_tag, R.drawable.launcher + getItemViewType(showPosition));
+            convertView.setTag(R.string.app_name + getItemViewType(showPosition), holder);
+            convertView.setTag(R.string.listview_index_tag, R.string.app_name + getItemViewType(showPosition));
 
         } else {
-            holder = (DMViewHolder) convertView.getTag(R.drawable.launcher + getItemViewType(showPosition));
+            holder = (DMViewHolder) convertView.getTag(R.string.app_name + getItemViewType(showPosition));
         }
 
         configViewFont(holder);

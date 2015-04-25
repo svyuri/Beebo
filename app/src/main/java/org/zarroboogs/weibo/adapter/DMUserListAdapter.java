@@ -66,7 +66,7 @@ public class DMUserListAdapter extends BaseAdapter {
 
             convertView = initSimpleLayout(parent);
             holder = buildHolder(convertView);
-            convertView.setTag(R.drawable.launcher + getItemViewType(position), holder);
+            convertView.setTag(R.string.app_name + getItemViewType(position), holder);
 
         } else {
             holder = (DMViewHolder) convertView.getTag();
@@ -282,7 +282,7 @@ public class DMUserListAdapter extends BaseAdapter {
         }
 
         View wantedView = listView.getChildAt(wantedChild);
-        DMViewHolder holder = (DMViewHolder) wantedView.getTag(R.drawable.launcher + getItemViewType(position));
+        DMViewHolder holder = (DMViewHolder) wantedView.getTag(R.string.app_name + getItemViewType(position));
         return holder;
 
     }
