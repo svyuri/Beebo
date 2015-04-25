@@ -37,23 +37,6 @@ public abstract class BaseHotWeiboFragment extends AbsBaseTimeLineFragment<Messa
 		
 	}
 	
-	public void loadGsid(){
-		mAsyncHttoClient.get(WeiBoURLs.GSID, new AsyncHttpResponseHandler() {
-
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-				// TODO Auto-generated method stub
-				mSharedPreference.edit().putString("gsid", new String(responseBody)).commit();
-				onGsidLoadSuccess(new String(responseBody));
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
-				onGsidLoadFailed(error.getLocalizedMessage());
-			}
-		});
-	}
 
 	@Override
 	public void scrollToTop() {

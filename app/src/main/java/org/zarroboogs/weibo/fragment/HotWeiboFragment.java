@@ -112,12 +112,8 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
-				
-				if (TextUtils.isEmpty(SeniorParams.GSID_Value)) {
-					loadGsid();
-				}else {
-					loadData(SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, mCtg, mPage));
-				}
+
+                loadData(SeniorUrl.hotWeiboApi(BeeboApplication.getInstance().getAccountBean().getGsid(), mCtg, mPage));
 				
 				getPullToRefreshListView().setRefreshing();
 			}
@@ -247,7 +243,7 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 			}
 
 		}else {
-			Log.d("===========after_READ_JSON_DONE:", "-----------"+ error.getErrmsg());
+            DevLog.printLog("ERROR", error.getErrmsg());
 		}
 		
 		getPullToRefreshListView().onRefreshComplete();
@@ -292,7 +288,7 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 	@Override
 	void onGsidLoadSuccess(String gsid) {
 		// TODO Auto-generated method stub
-		loadData(SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, mCtg, mPage));
+		loadData(SeniorUrl.hotWeiboApi(BeeboApplication.getInstance().getAccountBean().getGsid(), mCtg, mPage));
 	}
 
 	@Override
@@ -305,11 +301,7 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 	void onPageSelected() {
 		// TODO Auto-generated method stub
 		DevLog.printLog("onViewPageSelected", "onPageSelected-----");
-		if (TextUtils.isEmpty(SeniorParams.GSID_Value)) {
-			loadGsid();
-		}else {
-			loadData(SeniorUrl.hotWeiboApi(SeniorParams.GSID_Value, mCtg, mPage));
-		}
+        loadData(SeniorUrl.hotWeiboApi(BeeboApplication.getInstance().getAccountBean().getGsid(), mCtg, mPage));
 	}
 
 

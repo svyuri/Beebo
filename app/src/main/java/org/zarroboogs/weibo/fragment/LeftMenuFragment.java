@@ -4,7 +4,6 @@ import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.HotModelActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.activity.MyInfoActivity;
 import org.zarroboogs.weibo.activity.NearbyTimeLineActivity;
@@ -450,8 +449,8 @@ public class LeftMenuFragment extends BaseStateFragment {
 //				Intent intent = new Intent(getActivity(), HotHuaTiActivity.class);
 //				startActivity(intent);
 			} else if (id == R.id.btnHotModel) {
-				Intent intent = new Intent(getActivity(), HotModelActivity.class);
-				startActivity(intent);
+//				Intent intent = new Intent(getActivity(), HotModelActivity.class);
+//				startActivity(intent);
 			}
 			((MainTimeLineActivity) getActivity()).closeLeftDrawer();
 		}

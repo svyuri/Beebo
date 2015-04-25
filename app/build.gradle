@@ -31,13 +31,12 @@ android {
 //      gradle assembleRelease
     signingConfigs {
         releaseConfig {
-            def console = System.console();
-            if (console != null){
-                keyAlias console.readLine("\nkeyAlias:")
-                keyPassword console.readLine("\nPassword:")
-                storeFile file('ibeebo.keystore')
-                storePassword console.readLine("\nPassword:")
-            }
+//            if (System.console() != null){
+//                keyAlias System.console().readLine("\nkeyAlias:")
+//                keyPassword System.console().readLine("\nPassword:")
+//                storeFile file('/home/andforce/Desktop/ibeebo.keystore')
+//                storePassword System.console().readLine("\nPassword:")
+//            }
 
         }
     }
