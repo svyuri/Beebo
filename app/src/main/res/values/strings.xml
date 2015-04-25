@@ -17,7 +17,7 @@
     <string name="send_wei_success">分享成功</string>
     <string name="send_wei_failed">分享失败</string>
     <string name="send_wei_ing">带你装逼，带你飞！</string>
-    <string name="send_tomanay_pics">最多同时发送9张图片</string>
+    <string name="send_tomanay_pics">最多同时发送1张图片</string>
     <string name="fetch_new_weiba">获取最新尾巴！</string>
     <string name="send_weibo">发送</string>
     <string name="drawer_open">打开</string>

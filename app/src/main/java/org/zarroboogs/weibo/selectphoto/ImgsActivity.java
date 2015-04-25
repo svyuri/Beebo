@@ -163,7 +163,7 @@ public class ImgsActivity extends TranslucentStatusBarActivity {
                 mSendImgData.removeSendImg(filapath);
             } else {
                 try {
-                    if (mSendImgData.getSendImgs().size() >= 9) {
+                    if (mSendImgData.getSendImgs().size() >= 1) {
                         Toast.makeText(getApplicationContext(), R.string.send_tomanay_pics, Toast.LENGTH_SHORT).show();
                     } else {
                         checkBox.setChecked(true);
