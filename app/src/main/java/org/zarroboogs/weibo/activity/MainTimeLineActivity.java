@@ -5,6 +5,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
 import org.zarroboogs.utils.Constants;
+import org.zarroboogs.utils.RootUtils;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
@@ -57,6 +58,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainTimeLineActivity extends AbstractAppActivity {
 
@@ -118,7 +120,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 			startActivity(start);
 			finish();
 		}
-
 	}
 
     public void closeLeftDrawer() {
