@@ -34,7 +34,7 @@
         </Preference>
 
         <Preference
-            android:summary="@string/pref_special_thanks_new_icon"
+            android:summary="@string/pref_special_thanks_new_icon_suanshuangde"
             android:title="@string/pref_special_thanks" >
         </Preference>
 
