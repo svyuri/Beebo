@@ -99,13 +99,8 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
-				if (TextUtils.isEmpty(getGsid())) {
-					loadGsid();
-				}else {
-					loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
-				}
-				
-				refreshView.setRefreshing();
+                loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
+                refreshView.setRefreshing();
 			}
         	
 		});
@@ -343,11 +338,8 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 	@Override
 	void onPageSelected() {
 		// TODO Auto-generated method stub
-		if (TextUtils.isEmpty(getGsid())) {
-			loadGsid();
-		}else {
-			loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
-		}
-	}
+        loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
+
+    }
 
 }
