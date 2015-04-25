@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-	<release version="v3.0.0" versioncode="32">
-	    <change>Beebo正式改名为iBeebo</change>
-	    <change>不再提供改变尾巴功能</change>
-	    <change>添加通知中心页面</change>
-	    <change>改变主题为蓝色</change>
-	    <change>去掉点赞</change>
-	    <change>修改评论和转发数的位置</change>
-	    <change>不再要求用户输入密码</change>
-	    <change>简化授权流程</change>
-	    <change>修改热门的位置</change>
-	    <change>修改左侧抽屉菜单</change>
-	    <change>修改搜索位置</change>
-	    <change>在显著位置添加提醒铃铛</change>
-	    <change>其他性能方面的优化</change>
-    </release>
+	<release version="v3.1.0" versioncode="35">
+	    <change>更换全新图标</change>
+	    <change>修正搜索问题</change>
+	    <change>浏览方式设置</change>
+	    <change>左侧抽屉只能在主页显示</change>
+	    <change>修正收藏问题</change>
+	    <change>长安底部红色按钮可刷新</change>
+	    <change>添加关注和取消关注</change>
+	    <change>修正gif播放问题</change>
+	    <change>去掉多图发送</change>
+		<change>修正热门微博无法显示</change>
+		<change>修正其他崩溃问题</change>
+	</release>
 </changelog>
