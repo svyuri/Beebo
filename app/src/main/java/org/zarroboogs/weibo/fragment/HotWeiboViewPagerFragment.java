@@ -30,7 +30,7 @@ public class HotWeiboViewPagerFragment extends ViewPagerFragment {
     	SparseArray<ChildPage> sparseArray = new SparseArray<ChildPage>();
 		
 		Resources re = getActivity().getResources();
-		sparseArray.append(0, new ChildPage("当前", new HotWeiboFragment("8999")) );
+		sparseArray.append(0, new ChildPage("当前", new HotWeiboFragment("-1")) );
 		sparseArray.append(1, new ChildPage("昨天", new HotWeiboFragment("8899")) );
 		sparseArray.append(2, new ChildPage("前天", new HotWeiboFragment("8799")) );
 		sparseArray.append(3, new ChildPage("神最右", new HotWeiboFragment("6399")) );

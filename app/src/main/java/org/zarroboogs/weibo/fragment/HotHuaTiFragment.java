@@ -7,6 +7,7 @@ import org.apache.http.Header;
 import org.zarroboogs.senior.sdk.SeniorParams;
 import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.utils.WeiBoURLs;
+import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.SearchTopicByNameActivity;
@@ -101,7 +102,7 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 				if (TextUtils.isEmpty(getGsid())) {
 					loadGsid();
 				}else {
-					loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage));
+					loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
 				}
 				
 				refreshView.setRefreshing();
@@ -330,7 +331,7 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 	@Override
 	void onGsidLoadSuccess(String gsid) {
 		// TODO Auto-generated method stub
-		loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage));
+		loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
 	}
 
 	@Override
@@ -345,7 +346,7 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 		if (TextUtils.isEmpty(getGsid())) {
 			loadGsid();
 		}else {
-			loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage));
+			loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
 		}
 	}
 

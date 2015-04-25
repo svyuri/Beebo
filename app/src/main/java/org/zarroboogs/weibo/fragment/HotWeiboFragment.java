@@ -70,6 +70,9 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 		super();
 		// TODO Auto-generated constructor stub
 		this.mCtg = ctg;
+        if (this.mCtg.equals("8999")){
+            this.mCtg = "-1";
+        }
 	}
 
 	@Override
@@ -112,8 +115,10 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
-
-                loadData(SeniorUrl.hotWeiboApi(BeeboApplication.getInstance().getAccountBean().getGsid(), mCtg, mPage));
+                long uid = Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid());
+                String url = SeniorUrl.hotWeiboApi(BeeboApplication.getInstance().getAccountBean().getGsid(), mCtg, mPage, uid);
+                DevLog.printLog("HotWeiboFragment_get: ", url);
+                loadData(url);
 				
 				getPullToRefreshListView().setRefreshing();
 			}
@@ -288,7 +293,8 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 	@Override
 	void onGsidLoadSuccess(String gsid) {
 		// TODO Auto-generated method stub
-		loadData(SeniorUrl.hotWeiboApi(BeeboApplication.getInstance().getAccountBean().getGsid(), mCtg, mPage));
+        long uid = Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid());
+		loadData(SeniorUrl.hotWeiboApi(BeeboApplication.getInstance().getAccountBean().getGsid(), mCtg, mPage, uid));
 	}
 
 	@Override
@@ -301,7 +307,8 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 	void onPageSelected() {
 		// TODO Auto-generated method stub
 		DevLog.printLog("onViewPageSelected", "onPageSelected-----");
-        loadData(SeniorUrl.hotWeiboApi(BeeboApplication.getInstance().getAccountBean().getGsid(), mCtg, mPage));
+        long uid = Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid());
+        loadData(SeniorUrl.hotWeiboApi(BeeboApplication.getInstance().getAccountBean().getGsid(), mCtg, mPage, uid));
 	}
 
 

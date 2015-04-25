@@ -37,7 +37,6 @@ android {
 //                storeFile file('/home/andforce/Desktop/ibeebo.keystore')
 //                storePassword System.console().readLine("\nPassword:")
 //            }
-
         }
     }
 
