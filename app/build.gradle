@@ -37,7 +37,10 @@ android {
 //                storeFile file('/home/andforce/Desktop/ibeebo.keystore')
 //                storePassword System.console().readLine("\nPassword:")
 //            }
-
+            keyAlias 'andforce'
+            keyPassword 'andforce'
+            storeFile file('/home/andforce/Desktop/ibeebo.keystore')
+            storePassword 'andforce'
         }
     }
 
