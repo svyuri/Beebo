@@ -15,9 +15,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
@@ -31,9 +29,6 @@ public class SettingsFragment extends PreferenceFragment {
     private Preference mRootPreference;
 
     private ProgressDialog progressDialog;
-
-    private RootAsyncTask rootTask;
-
 
     private static final String TAG = "SettingsFragment";
 
@@ -59,7 +54,13 @@ public class SettingsFragment extends PreferenceFragment {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 if (CommUtils.isInstalled(getActivity(), "com.sina.weibo")) {
-                                    new RootAsyncTask().execute();
+                                    boolean isRoot = RootUtils.haveRoot();
+                                    if (isRoot){
+                                        showProgressDialog();
+                                    }else {
+                                        dissmissProgressDialog();
+
+                                    }
 
                                 } else {
                                     showSinaWeiboNotInstalledDialog();
@@ -85,7 +86,6 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
     private void showProgressDialog(){
-        Looper.prepare();
         if (progressDialog == null){
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("正在获取高级授权...");
@@ -93,111 +93,64 @@ public class SettingsFragment extends PreferenceFragment {
 
         progressDialog.show();
 
-        Thread t = getGsidUid();
-        t.start();
+        String gsid = "";
+        String uid = "";
+
+        String cmd = "cat " + SINA_PREF_PATH;
+        DevLog.printLog(TAG + "_ROOT_CMD", cmd);
+        String result = RootUtils.execRootCmd(cmd);
+
+        String GSID_P = "<string name=\"key.gsid\">.*";
+        Pattern p = Pattern.compile(GSID_P);
+        Matcher m = p.matcher(result);
+        if (m.find()){
+            gsid = result.substring(m.start(), m.end()).replace("</string>","").replace("<string name=\"key.gsid\">","");
+            DevLog.printLog(TAG + "_ROOT_CMD", gsid);
+        }
+
+        String UID_P = "<long name=\"key.uid.new\" value=.*";
+        Pattern uidPattern = Pattern.compile(UID_P);
+        Matcher uidMatcher = uidPattern.matcher(result);
+        if (uidMatcher.find()){
+            uid = result.substring(uidMatcher.start(), uidMatcher.end()).replace("\" />","").replace("<long name=\"key.uid.new\" value=\"","");
+            DevLog.printLog(TAG + "_ROOT_CMD", uid);
+        }
+
+        String accountUID = BeeboApplication.getInstance().getAccountBean().getUid();
+        if (!accountUID.equals(uid)){
+            showAuthFailed();
+
+        }else {
+            AccountDatabaseManager manager = new AccountDatabaseManager(getActivity().getApplicationContext());
+            manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.GSID, accountUID);
+            showAuthSuccess();
+        }
 
 
-        Looper.loop();
     }
 
-    private Thread getGsidUid() {
-
-
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-
-                String gsid = "";
-                String uid = "";
-
-                String cmd = "cat " + SINA_PREF_PATH;
-                DevLog.printLog(TAG + "_ROOT_CMD", cmd);
-                String result = RootUtils.execRootCmd(cmd);
-
-                String GSID_P = "<string name=\"key.gsid\">.*";
-                Pattern p = Pattern.compile(GSID_P);
-                Matcher m = p.matcher(result);
-                if (m.find()){
-                    gsid = result.substring(m.start(), m.end()).replace("</string>","").replace("<string name=\"key.gsid\">","");
-                    DevLog.printLog(TAG + "_ROOT_CMD", gsid);
-                }
-
-                String UID_P = "<long name=\"key.uid.new\" value=.*";
-                Pattern uidPattern = Pattern.compile(UID_P);
-                Matcher uidMatcher = uidPattern.matcher(result);
-                if (uidMatcher.find()){
-                    uid = result.substring(uidMatcher.start(), uidMatcher.end()).replace("\" />","").replace("<long name=\"key.uid.new\" value=\"","");
-                    DevLog.printLog(TAG + "_ROOT_CMD", uid);
-                }
-
-                String accountUID = BeeboApplication.getInstance().getAccountBean().getUid();
-                if (!accountUID.equals(uid)){
-                    showAuthFailed();
-
-                }else {
-                    AccountDatabaseManager manager = new AccountDatabaseManager(getActivity().getApplicationContext());
-                    manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.GSID, accountUID);
-                    showAuthSuccess();
-                }
-
-                rootTask.cancel(true);
-            }
-        };
-        return new Thread(r);
-    }
 
     private void showAuthSuccess(){
-        Looper.prepare();
         progressDialog.dismiss();
         Toast.makeText(getActivity().getApplicationContext(),"授权成功!!", Toast.LENGTH_LONG).show();
-        Looper.loop();
     }
 
     private void showAuthFailed(){
-        Looper.prepare();
         progressDialog.dismiss();
         Toast.makeText(getActivity().getApplicationContext(),"当前登录帐号和官方客户端登录的帐号不一致!", Toast.LENGTH_LONG).show();
-        Looper.loop();
     }
     private void dissmissProgressDialog(){
-
-        Looper.prepare();
         if (progressDialog == null || !progressDialog.isShowing()){
             return;
         }
         Toast.makeText(getActivity().getApplicationContext(), "的手机没有Root或者你不信任iBeebo",Toast.LENGTH_LONG).show();
         progressDialog.dismiss();
-        Looper.loop();
     }
 
     private void showSinaWeiboNotInstalledDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("错误").setMessage("你没有安装官方客户端，但这不是广告，只是为了获取官方的高级授权，授权完成之后可以卸载官方客户端，请安装并登录")
                 .setPositiveButton("确定", null).create().show();
-    }
-
-//_2A254ONmkDeTxGeRM4lYQ9C_JwjiIHXVZbGpsrDV6PUJbrdAKLU3tkWqQw68bwe8plnmT60PLmoKDzKF7lA..
-
-    class RootAsyncTask extends AsyncTask<Void, Void, Void> {
-
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            this.cancel(true);
-        }
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            if (RootUtils.canRunRootCommands()){
-                showProgressDialog();
-            }else {
-                dissmissProgressDialog();
-
-            }
-            return null;
-        }
     }
 
 

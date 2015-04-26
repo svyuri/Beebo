@@ -13,6 +13,61 @@ public class RootUtils {
 
     private static final String TAG = "RootUtils";
 
+
+
+
+    public static boolean haveRoot() {
+
+        boolean mHaveRoot = false;
+
+        if (!mHaveRoot) {
+            int ret = execRootCmdSilent("echo test"); // 通过执行测试命令来检测
+            if (ret != -1) {
+                Log.i(TAG, "have root!");
+                mHaveRoot = true;
+            } else {
+                Log.i(TAG, "not root!");
+            }
+        } else {
+            Log.i(TAG, "mHaveRoot = true, have root!");
+        }
+        return mHaveRoot;
+    }
+
+    public static int execRootCmdSilent(String cmd) {
+        int result = -1;
+        DataOutputStream dos = null;
+        Process p = null;
+
+        try {
+            p = Runtime.getRuntime().exec("su");
+            dos = new DataOutputStream(p.getOutputStream());
+
+            Log.i(TAG, cmd);
+            dos.writeBytes(cmd + "\n");
+            dos.writeBytes("exit\n");
+            dos.flush();
+            p.waitFor();
+            result = p.exitValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (dos != null) {
+                try {
+                    dos.close();
+                    dos = null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (p != null) {
+                p.destroy();
+                p = null;
+            }
+        }
+        return result;
+    }
+
     // 执行命令并且输出结果
     public static String execRootCmd(String cmd) {
         String result = "";
