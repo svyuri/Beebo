@@ -23,6 +23,7 @@ import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.hack.like.LikeBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
+import org.zarroboogs.weibo.setting.fragment.SettingsFragment;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import org.zarroboogs.weibo.support.utils.Utility;
@@ -41,6 +42,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
@@ -92,11 +94,16 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 
     private AccountBean mAccountBean;
 
+    private String ua = "";
+
     public StatusListAdapter(Fragment fragment, List<MessageBean> bean, ListView listView, boolean showOriStatus) {
         this(fragment, bean, listView, showOriStatus, false);
         if (mAccountBean == null){
             mAccountBean = BeeboApplication.getInstance().getAccountBean();
         }
+
+        SharedPreferences sharedPreferences = BeeboApplication.getInstance().getSharedPreferences(getActivity().getPackageName(),Context.MODE_PRIVATE);
+        ua = sharedPreferences.getString(SettingsFragment.APP_UA, "");
     }
 
 
@@ -105,6 +112,10 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
         if (mAccountBean == null){
             mAccountBean = BeeboApplication.getInstance().getAccountBean();
         }
+
+
+        SharedPreferences sharedPreferences = BeeboApplication.getInstance().getSharedPreferences(getActivity().getPackageName(),Context.MODE_PRIVATE);
+        ua = sharedPreferences.getString(SettingsFragment.APP_UA, "");
     }
 
     public void setTopTipBar(TopTipsView bar) {
@@ -160,7 +171,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
     }
 
     public void unlike(String gsid, String id){
-        String url = SeniorUrl.unlike(gsid,id);//WeiBoURLs.like(gsid, id);
+        String url = SeniorUrl.unlike(gsid,id, ua);//WeiBoURLs.like(gsid, id);
         DevLog.printLog("Like_doInBackground", "" + url);
 
         mAsyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
@@ -188,7 +199,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 
 
     public void like(String gsid, String id){
-    	String url = SeniorUrl.like(gsid,id);//WeiBoURLs.like(gsid, id);
+    	String url = SeniorUrl.like(gsid,id, ua);//WeiBoURLs.like(gsid, id);
     	DevLog.printLog("Like_doInBackground", "" + url);
     	
     	mAsyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {

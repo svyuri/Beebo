@@ -13,8 +13,10 @@ import org.zarroboogs.weibo.setting.activity.SettingActivity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -33,6 +35,10 @@ public class SettingsFragment extends PreferenceFragment {
     private static final String TAG = "SettingsFragment";
 
     private static final String SINA_PREF_PATH = "/data/data/com.sina.weibo/shared_prefs/sina_push_pref.xml";
+    private static final String SINA_APP_SETTING = "/data/data/com.sina.weibo/shared_prefs/app_setting.xml";
+
+    public static final String APP_UA = "app_ua";
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,6 +98,23 @@ public class SettingsFragment extends PreferenceFragment {
         }
 
         progressDialog.show();
+
+        String app_ua = "";
+        String cat_app_ua = "cat " + SINA_APP_SETTING;
+        String cmdResult = RootUtils.execRootCmd(cat_app_ua);
+        String APP_UA_P = "<string name=\"app_ua\">.*";
+        Pattern uaPattern = Pattern.compile(APP_UA_P);
+        Matcher uaMather = uaPattern.matcher(cmdResult);
+        if (uaMather.find()){
+            Context context = BeeboApplication.getAppContext();
+
+            app_ua = cmdResult.substring(uaMather.start(), uaMather.end()).replace("</string>","").replace("<string name=\"app_ua\">","");
+            SharedPreferences preferences = context.getSharedPreferences(context.getPackageName(),Context.MODE_PRIVATE);
+            preferences.edit().putString(APP_UA,app_ua).apply();
+
+        }
+
+
 
         String gsid = "";
         String uid = "";

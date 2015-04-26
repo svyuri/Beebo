@@ -156,16 +156,5 @@ public class WeiBoURLs {
 		DevLog.printLog("buildUA", "" + result);
 		return result;
 	}
-    
-
-    public static String unLike(String gsid, String id){
-    	String url = "http://api.weibo.cn/2/like/cancel_like?sourcetype=feed&uicode=10000001&fromlog=100012294141594&featurecode=10000001&c=android&i=8764dac&s=033439fa&"
-    			+ "id=" + id
-    			+ "&ua=" + buildUA()
-    			+ "&wm=5311_5000&ext=rid%3A0_0_2598665452757778956&v_f=2&from=1051295010&"
-    			+ "gsid=" + gsid
-    			+ "&lang=zh_CN&skin=default&type=0&oldwm=5311_5000";
-    	return url;
-    }
 
 }
