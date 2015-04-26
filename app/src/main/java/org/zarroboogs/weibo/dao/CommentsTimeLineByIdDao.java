@@ -19,10 +19,47 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-/**
- * User: Jiang Qi Date: 12-8-13
- */
 public class CommentsTimeLineByIdDao {
+
+
+    private String access_token;
+    private String id;
+    private String since_id;
+    private String max_id;
+    private String count;
+    private String page;
+    private String filter_by_author;
+
+
+    public CommentsTimeLineByIdDao(String token, String id) {
+
+        this.access_token = token;
+        this.id = id;
+        this.count = SettingUtils.getMsgCount();
+    }
+
+
+    public void setSince_id(String since_id) {
+        this.since_id = since_id;
+    }
+
+    public void setMax_id(String max_id) {
+        this.max_id = max_id;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
+    }
+
+    public void setFilter_by_author(String filter_by_author) {
+        this.filter_by_author = filter_by_author;
+    }
+
+
 
     public CommentListBean getGSONMsgList() throws WeiboException {
 
@@ -67,40 +104,5 @@ public class CommentsTimeLineByIdDao {
 
         return value;
     }
-
-    public CommentsTimeLineByIdDao(String token, String id) {
-
-        this.access_token = token;
-        this.id = id;
-        this.count = SettingUtils.getMsgCount();
-    }
-
-    public void setSince_id(String since_id) {
-        this.since_id = since_id;
-    }
-
-    public void setMax_id(String max_id) {
-        this.max_id = max_id;
-    }
-
-    public void setCount(String count) {
-        this.count = count;
-    }
-
-    public void setPage(String page) {
-        this.page = page;
-    }
-
-    public void setFilter_by_author(String filter_by_author) {
-        this.filter_by_author = filter_by_author;
-    }
-
-    private String access_token;
-    private String id;
-    private String since_id;
-    private String max_id;
-    private String count;
-    private String page;
-    private String filter_by_author;
 
 }

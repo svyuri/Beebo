@@ -4,6 +4,7 @@ package org.zarroboogs.weibo.adapter;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.zarroboogs.devutils.DevLog;
+import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.util.net.HttpUtility;
 import org.zarroboogs.util.net.HttpUtility.HttpMethod;
 import org.zarroboogs.util.net.WeiboException;
@@ -17,6 +18,7 @@ import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.activity.WriteCommentActivity;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
+import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.hack.like.LikeBean;
@@ -88,12 +90,21 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
     
     private AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
 
+    private AccountBean mAccountBean;
+
     public StatusListAdapter(Fragment fragment, List<MessageBean> bean, ListView listView, boolean showOriStatus) {
         this(fragment, bean, listView, showOriStatus, false);
+        if (mAccountBean == null){
+            mAccountBean = BeeboApplication.getInstance().getAccountBean();
+        }
     }
+
 
     public StatusListAdapter(Fragment fragment, List<MessageBean> bean, ListView listView, boolean showOriStatus, boolean pre) {
         super(fragment, bean, listView, showOriStatus, pre);
+        if (mAccountBean == null){
+            mAccountBean = BeeboApplication.getInstance().getAccountBean();
+        }
     }
 
     public void setTopTipBar(TopTipsView bar) {
@@ -148,17 +159,39 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
         });
     }
 
+    public void unlike(String gsid, String id){
+        String url = SeniorUrl.unlike(gsid,id);//WeiBoURLs.like(gsid, id);
+        DevLog.printLog("Like_doInBackground", "" + url);
+
+        mAsyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+                // TODO Auto-generated method stub
+                String result = new String(arg2);
+
+                if (result.startsWith("<html>")) {
+                    Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if(result.equals("{\"result\":true}")){
+                    Toast.makeText(getActivity(), "取消点赞成功", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
+                // TODO Auto-generated method stub
+                Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     public void like(String gsid, String id){
-    	RequestParams params = new RequestParams();
-    	Header[] headers = new Header[]{
-    		new BasicHeader("Accept-Encoding", "gzip,deflate"),
-    		new BasicHeader("Host", "api.weibo.cn"),
-    		new BasicHeader("Connection", "Keep-Alive"),
-    	};
-    	String url = WeiBoURLs.like(gsid, id);
+    	String url = SeniorUrl.like(gsid,id);//WeiBoURLs.like(gsid, id);
     	DevLog.printLog("Like_doInBackground", "" + url);
     	
-    	mAsyncHttpClient.get(getActivity(), url, headers, params, new AsyncHttpResponseHandler() {
+    	mAsyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
 			
 			@Override
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
@@ -170,7 +203,6 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 					return;
 				}
 				
-				saveLikeLog(result);
 				DevLog.printLog("Like_doInBackground", "" + result);
 				LikeBean likeBean = new Gson().fromJson(result, LikeBean.class);
 				
@@ -229,6 +261,11 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 				// TODO Auto-generated method stub
 				PopupMenu popupMenu = new PopupMenu(getActivity(), holder.popupMenuIb);
 				popupMenu.inflate(R.menu.time_line_popmenu);
+
+                if (TextUtils.isEmpty(mAccountBean.getGsid())){
+                    popupMenu.getMenu().removeItem(R.id.menu_like);
+                    popupMenu.getMenu().removeItem(R.id.menu_unlike);
+                }
 				popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 					
 					@Override
@@ -236,6 +273,14 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 						// TODO Auto-generated method stub
 						int id = arg0.getItemId();
 						switch (id) {
+                            case R.id.menu_like:{
+                                like(mAccountBean.getGsid(), msg.getId());
+                                break;
+                            }
+                            case R.id.menu_unlike:{
+                                unlike(mAccountBean.getGsid(), msg.getId());
+                                break;
+                            }
 						case R.id.menu_repost:{
 							Intent intent = new Intent(getActivity(), RepostWeiboWithAppSrcActivity.class);
 			                intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
@@ -536,27 +581,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
         }
     }
 
-	private void saveLikeLog(String likeresult) {
-		final Date now = new Date();
-		final Writer result = new StringWriter();
-		try {
-		    String logDir = FileManager.getLogDir();
 
-		    String filename = "LOG";
-		    String path = logDir + File.separator + filename + "_crash.txt";
-
-		    BufferedWriter write = new BufferedWriter(new FileWriter(path));
-		    write.write(likeresult);
-		    write.write("Date: " + now + "\n");
-		    write.write("\n");
-		    write.write(result.toString());
-		    write.flush();
-		    write.close();
-		} catch (Exception another) {
-		} finally {
-		}
-	}
-	
 	
     public void addNewData(List<MessageBean> newValue) {
 

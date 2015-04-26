@@ -122,7 +122,7 @@ public class SettingsFragment extends PreferenceFragment {
 
         }else {
             AccountDatabaseManager manager = new AccountDatabaseManager(getActivity().getApplicationContext());
-            manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.GSID, accountUID);
+            manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.GSID, gsid);
             showAuthSuccess();
         }
 

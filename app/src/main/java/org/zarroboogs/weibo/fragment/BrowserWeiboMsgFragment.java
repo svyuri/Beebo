@@ -41,6 +41,7 @@ import org.zarroboogs.weibo.widget.WeiboDetailImageView;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -169,6 +170,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
     public BrowserWeiboMsgFragment() {
     }
 
+    @SuppressLint("ValidFragment")
     public BrowserWeiboMsgFragment(MessageBean msg) {
         this.msg = msg;
     }
@@ -400,7 +402,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
+                intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessTokenHack());
                 intent.putExtra("user", msg.getUser());
                 startActivity(intent);
             }
@@ -632,7 +634,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
             return;
         }
         if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-            removeTask = new RemoveTask(BeeboApplication.getInstance().getAccessToken(), commentList.getItemList()
+            removeTask = new RemoveTask(BeeboApplication.getInstance().getAccessTokenHack(), commentList.getItemList()
                     .get(position).getId(), position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -679,7 +681,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
             if (isNotLink && !isDeleted) {
                 startActivity(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
                         msg.getRetweeted_status(), BeeboApplication
-                                .getInstance().getAccessToken()));
+                                .getInstance().getAccessTokenHack()));
             } else if (isNotLink && isDeleted) {
                 Toast.makeText(getActivity(), getString(R.string.cant_open_deleted_weibo), Toast.LENGTH_SHORT).show();
             }
@@ -725,7 +727,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
                     && position >= listView.getHeaderViewsCount()) {
                 startActivity(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
                         repostList.getItemList().get(position - listView.getHeaderViewsCount()), BeeboApplication.getInstance()
-                                .getAccessToken()));
+                                .getAccessTokenHack()));
             } else {
                 loadOldRepostData();
             }
@@ -932,11 +934,12 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
         getLoaderManager().restartLoader(OLD_REPOST_LOADER_ID, null, repostMsgCallback);
     }
 
-    protected LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<CommentListBean>> commentMsgCallback = new LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<CommentListBean>>() {
+    protected LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<CommentListBean>> commentMsgCallback = 
+            new LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<CommentListBean>>() {
 
         @Override
         public Loader<AsyncTaskLoaderResult<CommentListBean>> onCreateLoader(int id, Bundle args) {
-            String token = BeeboApplication.getInstance().getAccessToken();
+            String token = BeeboApplication.getInstance().getAccessTokenHack();
 
             switch (id) {
                 case NEW_COMMENT_LOADER_ID:

@@ -12,6 +12,19 @@
         android:icon="?comment"
         android:title="@string/comments"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_like"
+        android:icon="?comment"
+        android:title="@string/status_like"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_unlike"
+        android:icon="?comment"
+        android:title="@string/status_unlike"
+        app:showAsAction="ifRoom"/>
+
     <item
         android:id="@+id/menu_fav"
         android:icon="?fav_un"

@@ -140,6 +140,8 @@
     <!-- main category -->
     <string name="mentions_me">与我相关</string>
     <string name="comments">评论</string>
+    <string name="status_like">点赞</string>
+    <string name="status_unlike">取消点赞</string>
     <string name="comments_weibo">评论微博</string>
     <string name="discover">探索</string>
     <string name="private_message">微博私信</string>
