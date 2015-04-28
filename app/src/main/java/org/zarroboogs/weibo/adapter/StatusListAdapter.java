@@ -171,7 +171,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
     }
 
     public void unlike(String gsid, String id){
-        String url = SeniorUrl.unlike(gsid,id, ua);//WeiBoURLs.like(gsid, id);
+        String url = SeniorUrl.unlike(mAccountBean.getUid(),gsid,id, ua);//WeiBoURLs.like(gsid, id);
         DevLog.printLog("Like_doInBackground", "" + url);
 
         mAsyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
@@ -199,7 +199,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 
 
     public void like(String gsid, String id){
-    	String url = SeniorUrl.like(gsid,id, ua);//WeiBoURLs.like(gsid, id);
+    	String url = SeniorUrl.like(mAccountBean.getUid(),gsid,id, ua);//WeiBoURLs.like(gsid, id);
     	DevLog.printLog("Like_doInBackground", "" + url);
     	
     	mAsyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
