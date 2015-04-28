@@ -121,4 +121,9 @@
 		<change>修正热门微博无法显示</change>
 		<change>修正其他崩溃问题</change>
 	</release>
+
+    <release version="v3.1.2" versioncode="37">
+        <change>修正热门微博空白问题</change>
+        <change>修正热门话题崩溃问题</change>
+    </release>
 </changelog>

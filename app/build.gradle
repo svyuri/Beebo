@@ -9,8 +9,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 21
 
-        versionCode 35
-        versionName "3.1.0"
+        versionCode 37
+        versionName "3.1.2"
     }
 
     packagingOptions {
@@ -31,12 +31,12 @@ android {
 //      gradle assembleRelease
     signingConfigs {
         releaseConfig {
-//            if (System.console() != null){
-//                keyAlias System.console().readLine("\nkeyAlias:")
-//                keyPassword System.console().readLine("\nPassword:")
-//                storeFile file('/home/andforce/Desktop/ibeebo.keystore')
-//                storePassword System.console().readLine("\nPassword:")
-//            }
+            if (System.console() != null){
+                keyAlias System.console().readLine("\nkeyAlias:")
+                keyPassword System.console().readLine("\nPassword:")
+                storeFile file('/home/wangdiyuan/Desktop/ibeebo.keystore')
+                storePassword System.console().readLine("\nPassword:")
+            }
 //            keyAlias ''
 //            keyPassword ''
 //            storeFile file('')
@@ -51,7 +51,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-//            signingConfig signingConfigs.releaseConfig
+            signingConfig signingConfigs.releaseConfig
         }
     }
 }

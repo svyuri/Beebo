@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-	<release version="v3.1.0" versioncode="35">
-	    <change>更换全新图标</change>
-	    <change>修正搜索问题</change>
-	    <change>浏览方式设置</change>
-	    <change>左侧抽屉只能在主页显示</change>
-	    <change>修正收藏问题</change>
-	    <change>长安底部红色按钮可刷新</change>
-	    <change>添加关注和取消关注</change>
-	    <change>修正gif播放问题</change>
-	    <change>去掉多图发送</change>
-		<change>修正热门微博无法显示</change>
-		<change>修正其他崩溃问题</change>
+	<release version="v3.1.2" versioncode="37">
+	    <change>修正热门微博空白问题</change>
+        <change>修正热门话题崩溃问题</change>
 	</release>
 </changelog>
