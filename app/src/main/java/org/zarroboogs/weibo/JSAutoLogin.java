@@ -163,16 +163,13 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
 
         	DevLog.printLog("JSAutoLogin onPageStarted", url);
         	
-            if (url.startsWith(SeniorUrl.SeniorUrl_SendWeibo_Appsrc)) {
+            if (url.startsWith(SeniorUrl.SeniorUrl_Public)) {
                 view.stopLoading();
 
                 CookieManager cookieManager = CookieManager.getInstance();
 
                 String cookie = cookieManager.getCookie(url);
-                String pubCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Appsrc);
-                String longInCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Login);
 
-                Log.d("Weibo-CookieStr", cookie + " \r\n\r\n PubCookie:" + pubCookie + "  \r\n\r\r LogInCookie:" + longInCookie);
                 String uid = "";
                 String uname = "";
                 
@@ -207,7 +204,7 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
                 	if (mListener != null) {
 						mListener.onAutoLonin(true);
 					}
-                    manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, pubCookie);
+                    manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, cookie);
                     BeeboApplication.getInstance().updateAccountBean();
                 } else if (!TextUtils.isEmpty(uid)) {
                     mWebView.loadUrl(url);

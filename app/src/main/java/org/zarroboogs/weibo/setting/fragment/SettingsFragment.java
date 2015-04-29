@@ -48,35 +48,39 @@ public class SettingsFragment extends PreferenceFragment {
 			addPreferencesFromResource(R.xml.setting_activity_pref);
 		}
 
-        mRootPreference = findPreference("root_request_key");
-        mRootPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("高级授权");
-                builder.setMessage("如果有任何疑问请不要使用该功能，点击确定开始授权，点击取消不进行任何操作！")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+        if (false){
+            mRootPreference = findPreference("root_request_key");
 
-                                if (CommUtils.isInstalled(getActivity(), "com.sina.weibo")) {
-                                    boolean isRoot = RootUtils.haveRoot();
-                                    if (isRoot){
-                                        showProgressDialog();
-                                    }else {
-                                        dissmissProgressDialog();
+            mRootPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("高级授权");
+                    builder.setMessage("如果有任何疑问请不要使用该功能，点击确定开始授权，点击取消不进行任何操作！")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
+                                    if (CommUtils.isInstalled(getActivity(), "com.sina.weibo")) {
+                                        boolean isRoot = RootUtils.haveRoot();
+                                        if (isRoot){
+                                            showProgressDialog();
+                                        }else {
+                                            dissmissProgressDialog();
+
+                                        }
+
+                                    } else {
+                                        showSinaWeiboNotInstalledDialog();
                                     }
 
-                                } else {
-                                    showSinaWeiboNotInstalledDialog();
                                 }
+                            }).setNegativeButton("取消",null).create().show();
+                    return false;
+                }
+            });
+        }
 
-                            }
-                        }).setNegativeButton("取消",null).create().show();
-                return false;
-            }
-        });
 
 		Preference myPref = (Preference) findPreference(SettingActivity.CHANGE_WEIBO_ACCOUNT);
 		myPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {

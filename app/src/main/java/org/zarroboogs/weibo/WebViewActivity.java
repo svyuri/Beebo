@@ -146,10 +146,6 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
         CookieManager cookieManager = CookieManager.getInstance();
 
         String cookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SeniorLogin);
-        String pubCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Appsrc);
-        String longInCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Login);
-
-        Log.d("Weibo-CookieStr", cookie + " \r\n\r\n PubCookie:" + pubCookie + "  \r\n\r\r LogInCookie:" + longInCookie);
 
 //         setWeiboCookie(CookieStr);
         String uid = "";
@@ -211,7 +207,7 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
             showProgress();
-            if (url.startsWith(SeniorUrl.SeniorUrl_SendWeibo_Appsrc)) {
+            if (url.startsWith(SeniorUrl.SeniorUrl_Public)) {
                 view.stopLoading();
                 handleRedirectUrl(view, url, WebViewActivity.this);
                 return;

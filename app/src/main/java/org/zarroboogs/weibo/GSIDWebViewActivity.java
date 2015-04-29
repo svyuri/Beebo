@@ -134,8 +134,11 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
         mInjectJS.replaceDocument("<a href=\"javascript:;\" class=\"btn btnRed\" id = \"loginAction\">登录</a>", 
         		"<a href=\"javascript:doAutoLogIn();\" class=\"btn btnRed\" id = \"loginAction\">登录</a>");
         mInjectJS.removeDocument("<a href=\"javascript:history.go(-1);\" class=\"close\">关闭</a>");
+        mInjectJS.removeDocument("<a href=\"http://m.weibo.cn/reg/index?&vt=4&wm=3349&backURL=http%3A%2F%2Fm.weibo.cn\">注册帐号</a><a href=\"http://m.weibo.cn/setting/forgotpwd?vt=4\">忘记密码</a>");
+
+        mInjectJS.removeDocument("<a href=\"https://passport.weibo.cn/signin/other?r=http%3A%2F%2Fm.weibo.cn\">第三方帐号</a>");
+
         mInjectJS.removeDocument("使用其他方式登录");
-        mInjectJS.removeDocument("<a href=\"http://m.weibo.cn/reg/index?&vt=4&wm=3349&backURL=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">注册帐号</a><a href=\"http://m.weibo.cn/setting/forgotpwd?vt=4\">忘记密码</a>");
         mInjectJS.injectUrl(SeniorUrl.SeniorUrl_SeniorLogin, new AssertLoader(this).loadJs("inject.js"), "gb2312");
         
 
@@ -204,18 +207,17 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
         CookieManager cookieManager = CookieManager.getInstance();
 
         String cookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SeniorLogin);
-        String pubCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Appsrc);
-        String longInCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Login);
+        String pubCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_Public);
 
-        Log.d("Weibo-CookieStr", cookie + " \r\n\r\n PubCookie:" + pubCookie + "  \r\n\r\r LogInCookie:" + longInCookie);
+        String passPortCookie = cookieManager.getCookie("https://passport.weibo.cn");
 
-//         setWeiboCookie(CookieStr);
+        DevLog.printLog("Weibo-CookieStr cookie: ", cookie);
+        DevLog.printLog("Weibo-CookieStr pubCookie: ", pubCookie);
+        DevLog.printLog("Weibo-CookieStr passPortCookie: ", passPortCookie);
+
         String uid = "";
-        String uname = "";
-        
         String gsid = "";
         
-        AccountDatabaseManager manager = new AccountDatabaseManager(getApplicationContext());
         if (!TextUtils.isEmpty(cookie)) {
             String[] cookies = cookie.split("; ");
             for (String string : cookies) {
@@ -226,26 +228,17 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
 					gsid = oneLine.split("SUB=")[1];
 				}
                 
-                String uidtmp = PatternUtils.macthUID(oneLine);
-                if (!TextUtils.isEmpty(uidtmp)) {
-                    uid = uidtmp;
-                }
-                uname = PatternUtils.macthUname(oneLine);
-                if (!TextUtils.isEmpty(uname)) {
-                    manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.USER_NAME, uname);
+                if (oneLine.contains("SSOLoginState")){
+                    uid = oneLine.split("=")[1];
+                    DevLog.printLog("GSID-UID", uid);
                 }
             }
         }
 
-        Log.d("Weibo-Cookie", "after for : " + uid);
-        if (mAccountBean == null) {
-        	Toast.makeText(getApplicationContext(), "登陆遇上一次不一致！", Toast.LENGTH_LONG)
-            .show();
-			return;
-		}
-        if (uid.equals(mAccountBean.getUid())) {
-            manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, pubCookie);
-            manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.GSID, gsid);
+        if (!TextUtils.isEmpty(uid)) {
+            AccountDatabaseManager manager = new AccountDatabaseManager(getApplicationContext());
+            manager.updateAccount(AccountTable.ACCOUNT_TABLE, mAccountBean.getUid(), AccountTable.COOKIE, pubCookie);
+            manager.updateAccount(AccountTable.ACCOUNT_TABLE, mAccountBean.getUid(), AccountTable.GSID, gsid);
             BeeboApplication.getInstance().updateAccountBean();
             
             finish();
@@ -280,7 +273,7 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
             showProgress();
-            if (url.startsWith(SeniorUrl.SeniorUrl_SendWeibo_Appsrc)) {
+            if (url.startsWith(SeniorUrl.SeniorUrl_Public)) {
                 view.stopLoading();
                 handleRedirectUrl(view, url, GSIDWebViewActivity.this);
                 return;

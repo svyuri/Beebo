@@ -215,10 +215,6 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
         CookieManager cookieManager = CookieManager.getInstance();
 
         String cookie = cookieManager.getCookie(url);
-        String pubCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Appsrc);
-        String longInCookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SendWeibo_Login);
-
-        Log.d("Weibo-CookieStr", cookie + " \r\n\r\n PubCookie:" + pubCookie + "  \r\n\r\r LogInCookie:" + longInCookie);
 
 //         setWeiboCookie(CookieStr);
         String uid = "";
@@ -246,7 +242,7 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
 
         Log.d("Weibo-Cookie", "after for : " + uid);
         if (uid.equals(mAccountBean.getUid())) {
-            manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, pubCookie);
+            manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, cookie);
             BeeboApplication.getInstance().updateAccountBean();
             finish();
         } else if (!TextUtils.isEmpty(uid)) {
@@ -280,7 +276,7 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
             showProgress();
-            if (url.startsWith(SeniorUrl.SeniorUrl_SendWeibo_Appsrc)) {
+            if (url.startsWith(SeniorUrl.SeniorUrl_Public)) {
                 view.stopLoading();
                 handleRedirectUrl(view, url, JSWebViewActivity.this);
                 return;
