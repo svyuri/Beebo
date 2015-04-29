@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-	<release version="v3.1.2" versioncode="37">
+	<release version="v3.1.3" versioncode="38">
 	    <change>修正热门微博空白问题</change>
         <change>修正热门话题崩溃问题</change>
+        <change>去掉3.1.2Root授权</change>
+        <change>增加【点赞】功能，无需Root</change>
 	</release>
 </changelog>
