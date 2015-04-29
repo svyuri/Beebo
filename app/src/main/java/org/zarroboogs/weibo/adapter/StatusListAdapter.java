@@ -4,6 +4,7 @@ package org.zarroboogs.weibo.adapter;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.zarroboogs.devutils.DevLog;
+import org.zarroboogs.devutils.http.request.HeaderList;
 import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.util.net.HttpUtility;
 import org.zarroboogs.util.net.HttpUtility.HttpMethod;
@@ -171,22 +172,42 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
     }
 
     public void unlike(String gsid, String id){
-        String url = SeniorUrl.unlike(gsid,id, ua);//WeiBoURLs.like(gsid, id);
+        String url = SeniorUrl.unlike(id);//WeiBoURLs.like(gsid, id);
         DevLog.printLog("Like_doInBackground", "" + url);
 
-        mAsyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
+        String cookie = SeniorUrl.geCookie(gsid, mAccountBean.getUsernick());
+        HeaderList headerList = new HeaderList();
+        headerList.addHost("m.weibo.cn");
+        headerList.addAccept("application/json, text/javascript, */*; q=0.01");
+        headerList.addOrigin("http://m.weibo.cn");
+        headerList.addHeader("X-Requested-With","XMLHttpRequest");
+        headerList.addUserAgent("Mozilla/5.0 (Linux; Android 5.0.1; Nexus 5 Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36");
+        headerList.addHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
+        headerList.addReferer("http://m.weibo.cn/");
+        headerList.addAcceptEncoding("gzip, deflate");
+        headerList.addAcceptLanguage("zh-CN,zh;q=0.8");
+        headerList.addHeader("Cookie",cookie);
+        DevLog.printLog("Like_doInBackground", "" + cookie);
+
+        mAsyncHttpClient.get(getActivity(), url,headerList.build(),null, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
                 // TODO Auto-generated method stub
                 String result = new String(arg2);
+                DevLog.printLog("Like_doInBackground", " Like CallBack:" + result);
 
-                if (result.startsWith("<html>")) {
-                    Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
-                    return;
-                }else if(result.equals("{\"result\":true}")){
+                if ("{\"ok\":1,\"msg\":\"succ\",\"data\":{\"result\":true}}".equals(result)){
                     Toast.makeText(getActivity(), "取消点赞成功", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
                 }
+//                if (result.startsWith("<html>")) {
+//                    Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }else if(result.equals("{\"result\":true}")){
+//                    Toast.makeText(getActivity(), "取消点赞成功", Toast.LENGTH_SHORT).show();
+//                }
             }
 
             @Override
@@ -199,37 +220,53 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 
 
     public void like(String gsid, String id){
-    	String url = SeniorUrl.like(gsid,id, ua);//WeiBoURLs.like(gsid, id);
+    	String url = SeniorUrl.like(id);//.like(gsid,id, ua);//WeiBoURLs.like(gsid, id);
     	DevLog.printLog("Like_doInBackground", "" + url);
-    	
-    	mAsyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
-			
-			@Override
-			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
-				// TODO Auto-generated method stub
-				String result = new String(arg2);
-				
-				if (result.startsWith("<html>")) {
-					Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				
-				DevLog.printLog("Like_doInBackground", "" + result);
-				LikeBean likeBean = new Gson().fromJson(result, LikeBean.class);
-				
-				if (likeBean != null && !TextUtils.isEmpty(likeBean.getAttitude())) {
-					Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
-				}else {
-					Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
-				}
-			}
-			
-			@Override
-			public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
-				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
-			}
-		});
+
+        String cookie = SeniorUrl.geCookie(gsid, mAccountBean.getUsernick());
+        HeaderList headerList = new HeaderList();
+        headerList.addHost("m.weibo.cn");
+        headerList.addAccept("application/json, text/javascript, */*; q=0.01");
+        headerList.addOrigin("http://m.weibo.cn");
+        headerList.addHeader("X-Requested-With","XMLHttpRequest");
+        headerList.addUserAgent("Mozilla/5.0 (Linux; Android 5.0.1; Nexus 5 Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36");
+        headerList.addHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
+        headerList.addReferer("http://m.weibo.cn/");
+        headerList.addAcceptEncoding("gzip, deflate");
+        headerList.addAcceptLanguage("zh-CN,zh;q=0.8");
+        headerList.addHeader("Cookie",cookie);
+        DevLog.printLog("Like_doInBackground", "" + cookie);
+
+    	mAsyncHttpClient.get(getActivity(), url,headerList.build(),null, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+                // TODO Auto-generated method stub
+                String result = new String(arg2);
+//
+//                DevLog.printLog("Like_doInBackground", "" + result);
+//
+//                if (result.startsWith("<html>")) {
+//                    Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//
+//                DevLog.printLog("Like_doInBackground", "" + result);
+//                LikeBean likeBean = new Gson().fromJson(result, LikeBean.class);
+
+                if ("{\"ok\":1,\"msg\":\"succ\"}".equals(result)) {
+                    Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
+                // TODO Auto-generated method stub
+                Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     @Override
     protected void bindViewData(final ViewHolder holder, int position) {
