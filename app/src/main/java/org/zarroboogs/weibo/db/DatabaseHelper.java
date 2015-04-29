@@ -32,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "weibo.db";
 
-    private static final int DATABASE_VERSION = 40;
+    private static final int DATABASE_VERSION = 41;
 
     static final String CREATE_ACCOUNT_TABLE_SQL = "create table " + AccountTable.ACCOUNT_TABLE + "(" +
             AccountTable.UID + " integer primary key autoincrement,"
@@ -261,6 +261,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             onCreate(db);
 		}
 
+        if (oldVersion <= 41) {
+            deleteAllTable(db);
+            onCreate(db);
+        }
     }
 
     public static synchronized DatabaseHelper getInstance() {
