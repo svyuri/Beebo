@@ -173,6 +173,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 
     public void unlike(String gsid, String id){
         String url = SeniorUrl.unlike(id);//WeiBoURLs.like(gsid, id);
+
         DevLog.printLog("Like_doInBackground", "" + url);
 
         String cookie = SeniorUrl.geCookie(gsid, mAccountBean.getUsernick());
