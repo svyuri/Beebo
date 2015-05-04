@@ -5,13 +5,12 @@ import java.lang.ref.WeakReference;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
-import org.zarroboogs.weibo.activity.BlackMagicActivity;
 import org.zarroboogs.weibo.activity.BlackMagicActivity.ProgressFragment;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.dao.BMOAuthDao;
 import org.zarroboogs.weibo.dao.OAuthDao;
-import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.support.utils.Utility;
 
 import android.app.Activity;
@@ -68,7 +67,7 @@ public class BlackMagicLoginTask extends MyAsyncTask<Void, Void, String[]> {
             account.setPwd(password);
             account.setUname(username);
 
-            AccountDBTask.addOrUpdateAccount(account, true);
+            AccountDao.addOrUpdateAccount(account, true);
             AppLoggerUtils.e("token expires in " + Utility.calcTokenExpiresInDays(account) + " days");
             return result;
         } catch (WeiboException e) {

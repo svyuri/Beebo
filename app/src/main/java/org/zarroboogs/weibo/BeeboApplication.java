@@ -9,12 +9,11 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import org.zarroboogs.utils.crashmanager.CrashManager;
 import org.zarroboogs.utils.crashmanager.CrashManagerConstants;
-import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.GroupListBean;
 import org.zarroboogs.weibo.bean.MusicInfoBean;
 import org.zarroboogs.weibo.bean.UserBean;
-import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.db.task.GroupDBTask;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.Utility;
@@ -150,9 +149,9 @@ public final class BeeboApplication extends Application {
     public void updateAccountBean(){
     	String id = SettingUtils.getDefaultAccountId();
         if (!TextUtils.isEmpty(id)) {
-            accountBean = AccountDBTask.getAccount(id);
+            accountBean = AccountDao.getAccount(id);
         } else {
-            List<AccountBean> accountList = AccountDBTask.getAccountList();
+            List<AccountBean> accountList = AccountDao.getAccountList();
             if (accountList != null && accountList.size() > 0) {
                 accountBean = accountList.get(0);
             }
@@ -162,9 +161,9 @@ public final class BeeboApplication extends Application {
         if (accountBean == null) {
             String id = SettingUtils.getDefaultAccountId();
             if (!TextUtils.isEmpty(id)) {
-                accountBean = AccountDBTask.getAccount(id);
+                accountBean = AccountDao.getAccount(id);
             } else {
-                List<AccountBean> accountList = AccountDBTask.getAccountList();
+                List<AccountBean> accountList = AccountDao.getAccountList();
                 if (accountList != null && accountList.size() > 0) {
                     accountBean = accountList.get(0);
                 }

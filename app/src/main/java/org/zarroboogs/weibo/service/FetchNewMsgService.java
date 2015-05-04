@@ -12,7 +12,7 @@ import org.zarroboogs.weibo.dao.MainCommentsTimeLineDao;
 import org.zarroboogs.weibo.dao.MentionsCommentTimeLineDao;
 import org.zarroboogs.weibo.dao.MentionsWeiboTimeLineDao;
 import org.zarroboogs.weibo.dao.UnreadDao;
-import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.db.task.CommentToMeTimeLineDBTask;
 import org.zarroboogs.weibo.db.task.MentionCommentsTimeLineDBTask;
 import org.zarroboogs.weibo.db.task.MentionWeiboTimeLineDBTask;
@@ -52,7 +52,7 @@ public class FetchNewMsgService extends IntentService {
             return;
         }
 
-        List<AccountBean> accountBeanList = AccountDBTask.getAccountList();
+        List<AccountBean> accountBeanList = AccountDao.getAccountList();
         if (accountBeanList.size() == 0) {
             return;
         }

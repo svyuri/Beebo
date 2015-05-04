@@ -26,7 +26,7 @@ import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.SendWeiboResultBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
-import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
@@ -118,7 +118,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
             text = getString(R.string.default_text_pic_weibo);
         }
 
-        UserBean userBean = AccountDBTask.getUserBean(mAccountBean.getUid());
+        UserBean userBean = AccountDao.getUserBean(mAccountBean.getUid());
         String url = "";
         if (!TextUtils.isEmpty(userBean.getDomain())) {
             url = "weibo.com/" + userBean.getDomain();

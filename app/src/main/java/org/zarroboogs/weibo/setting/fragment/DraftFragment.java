@@ -17,7 +17,7 @@ import org.zarroboogs.weibo.bean.RepostDraftBean;
 import org.zarroboogs.weibo.bean.StatusDraftBean;
 import org.zarroboogs.weibo.db.DraftDBManager;
 import org.zarroboogs.weibo.db.table.DraftTable;
-import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.support.utils.ThemeUtility;
 
 import android.app.ListFragment;
@@ -96,7 +96,7 @@ public class DraftFragment extends ListFragment {
                 Intent intent;
                 switch (item.getType()) {
                     case DraftTable.TYPE_WEIBO:
-                        AccountBean accountBean = AccountDBTask.getAccount(item.getStatusDraftBean().getAccountId());
+                        AccountBean accountBean = AccountDao.getAccount(item.getStatusDraftBean().getAccountId());
                         intent = new Intent(getActivity(), WriteWeiboActivity.class);
                         intent.setAction(WriteWeiboActivity.ACTION_DRAFT);
                         intent.putExtra("draft", item.getStatusDraftBean());
@@ -105,7 +105,7 @@ public class DraftFragment extends ListFragment {
                         break;
 
                     case DraftTable.TYPE_REPOST:
-                        accountBean = AccountDBTask.getAccount(item.getRepostDraftBean().getAccountId());
+                        accountBean = AccountDao.getAccount(item.getRepostDraftBean().getAccountId());
                         RepostDraftBean repostDraftBean = list.get(position).getRepostDraftBean();
                         intent = new Intent(getActivity(), WriteRepostActivity.class);
                         intent.setAction(WriteRepostActivity.ACTION_DRAFT);

@@ -5,7 +5,6 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.utils.RootUtils;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
@@ -15,7 +14,7 @@ import org.zarroboogs.weibo.bean.MessageListBean;
 import org.zarroboogs.weibo.bean.UnreadBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.db.DatabaseManager;
-import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.fragment.MainTimeLineFragment;
 import org.zarroboogs.weibo.fragment.HotHuaTiViewPagerFragment;
 import org.zarroboogs.weibo.fragment.HotWeiboViewPagerFragment;
@@ -58,7 +57,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainTimeLineActivity extends AbstractAppActivity {
 
@@ -448,7 +446,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         // }
         int result = navPosition + second;
         BeeboApplication.getInstance().getAccountBean().setNavigationPosition(result);
-        AccountDBTask.updateNavigationPosition(BeeboApplication.getInstance().getAccountBean(), result);
+        AccountDao.updateNavigationPosition(BeeboApplication.getInstance().getAccountBean(), result);
     }
 
     public LeftMenuFragment getLeftMenuFragment() {

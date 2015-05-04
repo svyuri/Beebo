@@ -10,7 +10,7 @@ import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.dao.EditMyProfileDao;
 import org.zarroboogs.weibo.dao.ShowUserDao;
-import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.dialogfragment.SelectProfilePictureDialog;
 import org.zarroboogs.weibo.support.asyncdrawable.ProfileAvatarReadWorker;
 import org.zarroboogs.weibo.support.utils.Utility;
@@ -28,7 +28,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -390,7 +389,7 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
                 cancel(true);
             }
             if (user != null) {
-                AccountDBTask.updateMyProfile(BeeboApplication.getInstance().getAccountBean(), user);
+                AccountDao.updateMyProfile(BeeboApplication.getInstance().getAccountBean(), user);
             } else {
                 cancel(true);
             }

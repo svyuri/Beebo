@@ -1,7 +1,7 @@
 
 package org.zarroboogs.weibo.bean;
 
-import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
 
 import android.os.Parcel;
@@ -70,7 +70,7 @@ public class AccountBean implements Parcelable {
     }
 
     public String getCookieInDB() {
-        return AccountDBTask.getAccount(getUid()).getCookie();
+        return AccountDao.getAccount(getUid()).getCookie();
     }
 
     public void setCookie(String cookie) {

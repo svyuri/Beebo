@@ -6,9 +6,7 @@ import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
-import org.zarroboogs.weibo.db.AccountDatabaseManager;
-import org.zarroboogs.weibo.db.table.AccountTable;
-import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.ThemeUtility;
@@ -27,9 +25,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,12 +33,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -254,7 +247,7 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
         for (long id : ids) {
             set.add(String.valueOf(id));
         }
-        accountList = AccountDBTask.removeAndGetNewAccountList(set);
+        accountList = AccountDao.removeAndGetNewAccountList(set);
         listAdapter.notifyDataSetChanged();
     }
 
@@ -271,7 +264,7 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
         }
 
         public List<AccountBean> loadInBackground() {
-            return AccountDBTask.getAccountList();
+            return AccountDao.getAccountList();
         }
     }
 

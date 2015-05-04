@@ -20,9 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-public class AccountDBTask {
+public class AccountDao {
 
-    private AccountDBTask() {
+    private AccountDao() {
 
     }
 

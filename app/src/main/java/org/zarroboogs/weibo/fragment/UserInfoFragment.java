@@ -25,7 +25,7 @@ import org.zarroboogs.weibo.bean.TimeLinePosition;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.dao.ShowUserDao;
 import org.zarroboogs.weibo.dao.UserTopicListDao;
-import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.db.task.MyStatusDBTask;
 import org.zarroboogs.weibo.db.task.TopicDBTask;
 import org.zarroboogs.weibo.dialogfragment.UserAvatarDialog;
@@ -987,7 +987,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
             }
             if (isMyself()) {
                 BeeboApplication.getInstance().updateUserInfo(o);
-                AccountDBTask.asyncUpdateMyProfile(BeeboApplication.getInstance().getAccountBean(), o);
+                AccountDao.asyncUpdateMyProfile(BeeboApplication.getInstance().getAccountBean(), o);
             }
             getAdapter().notifyDataSetChanged();
             stopRefreshMenuAnimationIfPossible();

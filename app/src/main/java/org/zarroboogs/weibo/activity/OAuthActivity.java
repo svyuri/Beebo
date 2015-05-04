@@ -17,7 +17,7 @@ import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.dao.OAuthDao;
 import org.zarroboogs.weibo.db.AccountDatabaseManager;
 import org.zarroboogs.weibo.db.table.AccountTable;
-import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 
@@ -352,10 +352,10 @@ public class OAuthActivity extends AbstractAppActivity {
             	if (taskIsAuthPro) {
             		
             		if (activity.mAccountBean != null) {
-            			return AccountDBTask.updateAccountHackToken(activity.mAccountBean, token, System.currentTimeMillis() + expiresInSeconds * 1000);
+            			return AccountDao.updateAccountHackToken(activity.mAccountBean, token, System.currentTimeMillis() + expiresInSeconds * 1000);
 					}
                     AccountBean account = BeeboApplication.getInstance().getAccountBean();
-                    return AccountDBTask.updateAccountHackToken(account, token, System.currentTimeMillis() + expiresInSeconds * 1000);
+                    return AccountDao.updateAccountHackToken(account, token, System.currentTimeMillis() + expiresInSeconds * 1000);
 				}else {
 	                UserBean user = new OAuthDao(token).getOAuthUserInfo();
 	                AccountBean account = new AccountBean();
@@ -370,7 +370,7 @@ public class OAuthActivity extends AbstractAppActivity {
 					}
 
 	                AppLoggerUtils.e("token expires in " + Utility.calcTokenExpiresInDays(account) + " days");
-	                return AccountDBTask.addOrUpdateAccount(account, false);
+	                return AccountDao.addOrUpdateAccount(account, false);
 				}
 
             } catch (WeiboException e) {
