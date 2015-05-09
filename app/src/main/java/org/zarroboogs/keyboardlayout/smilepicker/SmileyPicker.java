@@ -1,25 +1,19 @@
 
-package org.zarroboogs.weibo.widget;
+package org.zarroboogs.keyboardlayout.smilepicker;
 
-import org.zarroboogs.weibo.BeeboApplication;
-import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
-import org.zarroboogs.weibo.support.utils.TimeLineUtility;
-import org.zarroboogs.weibo.support.utils.Utility;
-
-import android.animation.LayoutTransition;
-import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -27,27 +21,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
+import org.zarroboogs.weibo.R;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-/**
- * User: qii Date: 13-1-18
- */
 public class SmileyPicker extends LinearLayout {
-
-    private int mPickerHeight;
 
     private EditText mEditText;
 
-    private LayoutInflater mInflater;
 
-    private Activity activity;
+    private Context mContext;
 
-    private final LayoutTransition transitioner = new LayoutTransition();
-
-    private ViewPager viewPager;
 
     private ImageView centerPoint;
 
@@ -55,20 +45,27 @@ public class SmileyPicker extends LinearLayout {
 
     private ImageView rightPoint;
 
+    public static final Pattern EMOTION_URL = Pattern.compile("\\[(\\S+?)\\]");
+
+
     public SmileyPicker(Context paramContext) {
         super(paramContext);
+
     }
 
     public SmileyPicker(Context paramContext, AttributeSet paramAttributeSet) {
         super(paramContext, paramAttributeSet);
-        this.mInflater = LayoutInflater.from(paramContext);
-        View view = this.mInflater.inflate(R.layout.writeweiboactivity_smileypicker, null);
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        mContext = paramContext;
+        LayoutInflater mInflater = LayoutInflater.from(paramContext);
+        View view = mInflater.inflate(R.layout.writeweiboactivity_smileypicker, null);
+
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         viewPager.setAdapter(new SmileyPagerAdapter());
         leftPoint = (ImageView) view.findViewById(R.id.left_point);
         centerPoint = (ImageView) view.findViewById(R.id.center_point);
         rightPoint = (ImageView) view.findViewById(R.id.right_point);
-        if (Utility.isKK()) {
+
+        if (true) {
             rightPoint.setVisibility(View.VISIBLE);
         } else {
             rightPoint.setVisibility(View.GONE);
@@ -101,38 +98,11 @@ public class SmileyPicker extends LinearLayout {
         addView(view);
     }
 
-    public void setEditText(Activity activity, ViewGroup rootLayout, EditText paramEditText) {
+    public void setEditText( EditText paramEditText) {
         this.mEditText = paramEditText;
-        this.activity = activity;
-        rootLayout.setLayoutTransition(transitioner);
-        setupAnimations(transitioner);
 
     }
 
-    public void show(Activity paramActivity, boolean showAnimation) {
-        if (showAnimation) {
-            transitioner.setDuration(200);
-        } else {
-            transitioner.setDuration(0);
-        }
-        this.mPickerHeight = SmileyPickerUtility.getKeyboardHeight(paramActivity);
-        SmileyPickerUtility.hideSoftInput(this.mEditText);
-        getLayoutParams().height = this.mPickerHeight;
-        setVisibility(View.VISIBLE);
-        // open smilepicker, press home, press app switcher to return to write
-        // weibo interface,
-        // softkeyboard will be opened by android system when smilepicker is
-        // showing,
-        // this method is used to fix this issue
-        paramActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-    }
-
-    public void hide(Activity paramActivity) {
-        setVisibility(View.GONE);
-        paramActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
-    }
 
     private class SmileyPagerAdapter extends PagerAdapter {
 
@@ -140,17 +110,17 @@ public class SmileyPicker extends LinearLayout {
         public void destroyItem(ViewGroup container, int position, Object object) {
             View view = (View) object;
             container.removeView(view);
-
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-
-            View view = activity.getLayoutInflater().inflate(R.layout.smileypicker_gridview, container, false);
+            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.smileypicker_gridview, container, false);
 
             GridView gridView = (GridView) view.findViewById(R.id.smiley_grid);
 
-            gridView.setAdapter(new SmileyAdapter(activity, position));
+            gridView.setAdapter(new SmileyAdapter(mContext, position));
+
             container.addView(view, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
 
@@ -165,7 +135,7 @@ public class SmileyPicker extends LinearLayout {
 
         @Override
         public int getCount() {
-            return Utility.isKK() ? 3 : 2;
+            return 3;
         }
 
         @Override
@@ -180,50 +150,51 @@ public class SmileyPicker extends LinearLayout {
 
         private List<String> keys;
 
-        private Map<String, Bitmap> bitmapMap;
+        private Map<String, Integer> mSmiles;
 
         private int emotionPosition;
 
         private int count;
 
+
         public SmileyAdapter(Context context, int emotionPosition) {
             this.emotionPosition = emotionPosition;
             this.mInflater = LayoutInflater.from(context);
             this.keys = new ArrayList<String>();
+
             Set<String> keySet;
             switch (emotionPosition) {
                 case SmileyMap.GENERAL_EMOTION_POSITION:
-                    keySet = BeeboApplication.getInstance().getEmotionsPics().keySet();
+                    keySet = SmileyMap.getInstance().getGeneral().keySet();
                     keys.addAll(keySet);
-                    bitmapMap = BeeboApplication.getInstance().getEmotionsPics();
-                    count = bitmapMap.size();
+                    mSmiles = SmileyMap.getInstance().getGeneral();
+                    count = mSmiles.size();
                     break;
                 case SmileyMap.EMOJI_EMOTION_POSITION:
                     keySet = EmojiMap.getInstance().getMap().keySet();
                     keys.addAll(keySet);
-                    bitmapMap = null;
+                    mSmiles = null;
                     count = keys.size();
                     break;
                 case SmileyMap.HUAHUA_EMOTION_POSITION:
-                    keySet = BeeboApplication.getInstance().getHuahuaPics().keySet();
+                    keySet = SmileyMap.getInstance().getHuahua().keySet();
                     keys.addAll(keySet);
-                    bitmapMap = BeeboApplication.getInstance().getHuahuaPics();
-                    count = bitmapMap.size();
+                    mSmiles = SmileyMap.getInstance().getHuahua();
+                    count = mSmiles.size();
                     break;
                 default:
                     throw new IllegalArgumentException("emotion position is invalid");
             }
-
         }
 
         private void bindView(final int position, View contentView) {
             ImageView imageView = ((ImageView) contentView.findViewById(R.id.smiley_item));
             TextView textView = (TextView) contentView.findViewById(R.id.smiley_text_item);
+
             if (emotionPosition != SmileyMap.EMOJI_EMOTION_POSITION) {
                 imageView.setVisibility(View.VISIBLE);
                 textView.setVisibility(View.INVISIBLE);
-                imageView.setImageBitmap(bitmapMap.get(keys.get(position)));
-
+                    imageView.setImageResource(mSmiles.get(keys.get(position)));
             } else {
                 imageView.setVisibility(View.INVISIBLE);
                 textView.setVisibility(View.VISIBLE);
@@ -242,24 +213,30 @@ public class SmileyPicker extends LinearLayout {
                         edit.insert(index, text);// 光标所在位置插入文字
                     }
                     String content = mEditText.getText().toString();
-                    TimeLineUtility.addEmotions(mEditText, content);
+                    addEmotions(mEditText, content, SmileyMap.getInstance().getSmiles());
                     mEditText.setSelection(index + text.length());
                 }
             });
         }
 
+
+
+        @Override
         public int getCount() {
             return count;
         }
 
+        @Override
         public Object getItem(int paramInt) {
             return null;
         }
 
+        @Override
         public long getItemId(int paramInt) {
             return 0L;
         }
 
+        @Override
         public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
             if (paramView == null) {
                 paramView = this.mInflater.inflate(R.layout.writeweiboactivity_smileypicker_item, null);
@@ -269,17 +246,41 @@ public class SmileyPicker extends LinearLayout {
         }
     }
 
-    private void setupAnimations(LayoutTransition transition) {
+    public void addEmotions(EditText et, String txt, Map<String, Integer> smiles) {
+        String hackTxt;
+        if (txt.startsWith("[") && txt.endsWith("]")) {
+            hackTxt = txt + " ";
+        } else {
+            hackTxt = txt;
+        }
+        SpannableString value = SpannableString.valueOf(hackTxt);
+        addEmotions(value, smiles);
+        et.setText(value);
+    }
 
-        ObjectAnimator animIn = ObjectAnimator.ofFloat(null, "translationY",
-                SmileyPickerUtility.getScreenHeight(this.activity), mPickerHeight).setDuration(
-                transition.getDuration(LayoutTransition.APPEARING));
-        transition.setAnimator(LayoutTransition.APPEARING, animIn);
 
-        ObjectAnimator animOut = ObjectAnimator.ofFloat(null, "translationY", mPickerHeight,
-                SmileyPickerUtility.getScreenHeight(this.activity)).setDuration(
-                transition.getDuration(LayoutTransition.DISAPPEARING));
-        transition.setAnimator(LayoutTransition.DISAPPEARING, animOut);
+    private void addEmotions(SpannableString value, Map<String, Integer> smiles) {
+        Paint.FontMetrics fontMetrics = mEditText.getPaint().getFontMetrics();
+        int size = (int)(fontMetrics.descent-fontMetrics.ascent);
 
+
+        Matcher localMatcher = EMOTION_URL.matcher(value);
+        while (localMatcher.find()) {
+            String key = localMatcher.group(0);
+            if (smiles.containsKey(key)){
+                int k = localMatcher.start();
+                int m = localMatcher.end();
+                if (m - k < 8) {
+                    Drawable drawable = mContext.getResources().getDrawable(smiles.get(key));
+                    drawable.setBounds(0, 0, size, size);
+                    if (key.equals("[doge]")){
+                        drawable.setBounds(0,0,size * 5, size * 5);
+                    }
+                    ImageSpan localImageSpan = new ImageSpan(drawable);
+                    value.setSpan(localImageSpan, k, m, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            }
+
+        }
     }
 }

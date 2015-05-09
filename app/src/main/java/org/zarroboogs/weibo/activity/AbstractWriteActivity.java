@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.activity;
 
+import org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileLocationMethod;
@@ -13,7 +14,6 @@ import org.zarroboogs.weibo.dialogfragment.ClearContentDialog;
 import org.zarroboogs.weibo.dialogfragment.SaveDraftDialog;
 import org.zarroboogs.weibo.support.lib.CheatSheet;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
-import org.zarroboogs.weibo.widget.SmileyPicker;
 
 import android.content.Context;
 import android.content.Intent;
@@ -145,7 +145,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
         CheatSheet.setup(AbstractWriteActivity.this, findViewById(R.id.menu_send), R.string.send);
 
         smiley = (SmileyPicker) findViewById(R.id.smiley_picker);
-        smiley.setEditText(AbstractWriteActivity.this, ((RelativeLayout) findViewById(R.id.root_layout)), et);
+        smiley.setEditText(et);
         container = (RelativeLayout) findViewById(R.id.container);
         et.setOnClickListener(new OnClickListener() {
             @Override
@@ -157,7 +157,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
 
     private void showSmileyPicker(boolean showAnimation) {
         lockContainerHeight(SmileyPickerUtility.getAppContentHeight(AbstractWriteActivity.this));
-        this.smiley.show(AbstractWriteActivity.this, showAnimation);
+//        this.smiley.show(AbstractWriteActivity.this, showAnimation);
 
     }
 
@@ -169,7 +169,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
                         .getLayoutParams();
                 localLayoutParams.height = smiley.getTop();
 
-                this.smiley.hide(AbstractWriteActivity.this);
+//                this.smiley.hide(AbstractWriteActivity.this);
 
                 SmileyPickerUtility.showKeyBoard(et);
                 et.postDelayed(new Runnable() {
@@ -179,7 +179,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
                     }
                 }, 200L);
             } else {
-                this.smiley.hide(AbstractWriteActivity.this);
+//                this.smiley.hide(AbstractWriteActivity.this);
                 unlockContainerHeightDelayed();
             }
         }

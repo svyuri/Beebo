@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.activity;
 
+import org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.ImageEditUtility;
@@ -29,7 +30,6 @@ import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.KeyboardControlEditText;
-import org.zarroboogs.weibo.widget.SmileyPicker;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -504,7 +504,7 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
         CheatSheet.setup(WriteWeiboActivity.this, findViewById(R.id.menu_send), R.string.send);
 
         smiley = (SmileyPicker) findViewById(R.id.smiley_picker);
-        smiley.setEditText(WriteWeiboActivity.this, ((LinearLayout) findViewById(R.id.root_layout)), content);
+        smiley.setEditText(content);
         container = (RelativeLayout) findViewById(R.id.container);
         content.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -764,7 +764,7 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
     }
 
     private void showSmileyPicker(boolean showAnimation) {
-        this.smiley.show(WriteWeiboActivity.this, showAnimation);
+//        this.smiley.show(WriteWeiboActivity.this, showAnimation);
         lockContainerHeight(SmileyPickerUtility.getAppContentHeight(WriteWeiboActivity.this));
 
     }
@@ -776,7 +776,7 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
                 LinearLayout.LayoutParams localLayoutParams = (LinearLayout.LayoutParams) this.container.getLayoutParams();
                 localLayoutParams.height = smiley.getTop();
                 localLayoutParams.weight = 0.0F;
-                this.smiley.hide(WriteWeiboActivity.this);
+//                this.smiley.hide(WriteWeiboActivity.this);
 
                 SmileyPickerUtility.showKeyBoard(content);
                 content.postDelayed(new Runnable() {
@@ -786,7 +786,7 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
                     }
                 }, 200L);
             } else {
-                this.smiley.hide(WriteWeiboActivity.this);
+//                this.smiley.hide(WriteWeiboActivity.this);
                 unlockContainerHeightDelayed();
             }
         }

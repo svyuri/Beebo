@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.fragment;
 
+import org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.BeeboApplication;
@@ -17,7 +18,6 @@ import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.loader.DMConversationLoader;
 import org.zarroboogs.weibo.support.utils.AppConfig;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
-import org.zarroboogs.weibo.widget.SmileyPicker;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
 
@@ -194,7 +194,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
         });
 
         smiley = (SmileyPicker) view.findViewById(R.id.smiley_picker);
-        smiley.setEditText(getActivity(), (ViewGroup) view.findViewById(R.id.root_layout), et);
+        smiley.setEditText(et);
         mContainer = (LinearLayout) view.findViewById(R.id.container);
         et.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,7 +208,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
     }
 
     private void showSmileyPicker(boolean showAnimation) {
-        this.smiley.show(getActivity(), showAnimation);
+//        this.smiley.show(getActivity(), showAnimation);
         lockContainerHeight(SmileyPickerUtility.getAppContentHeight(getActivity()));
 
     }
@@ -231,7 +231,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
                 // this.mContainer.getLayoutParams();
                 // localLayoutParams.height = smiley.getTop();
                 // localLayoutParams.weight = 0.0F;
-                this.smiley.hide(getActivity());
+//                this.smiley.hide(getActivity());
 
                 SmileyPickerUtility.showKeyBoard(et);
                 et.postDelayed(new Runnable() {
@@ -241,7 +241,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
                     }
                 }, 200L);
             } else {
-                this.smiley.hide(getActivity());
+//                this.smiley.hide(getActivity());
                 unlockContainerHeightDelayed();
             }
         }

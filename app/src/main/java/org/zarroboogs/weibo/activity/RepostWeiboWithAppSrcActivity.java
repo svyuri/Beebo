@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.List;
 
+import org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
@@ -12,7 +13,6 @@ import org.zarroboogs.weibo.ChangeWeibaAdapter;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
-import org.zarroboogs.weibo.activity.WriteWeiboWithAppSrcActivity.MyDrawerToggle;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.RepostDraftBean;
@@ -24,7 +24,6 @@ import org.zarroboogs.weibo.service.RepostWithAppSrcServices;
 import org.zarroboogs.weibo.service.SendRepostService;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
-import org.zarroboogs.weibo.widget.SmileyPicker;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
@@ -169,7 +168,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         mEditText.addTextChangedListener(watcher);
 
         mSmileyPicker = (SmileyPicker) findViewById(R.id.smileLayout_ref);
-        mSmileyPicker.setEditText(this, mRootView, mEditText);
+        mSmileyPicker.setEditText(mEditText);
         mEditText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,7 +215,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     }
 
     private void showSmileyPicker(boolean showAnimation) {
-        this.mSmileyPicker.show(this, showAnimation);
+//        this.mSmileyPicker.show(this, showAnimation);
     }
 
     public void hideSmileyPicker(boolean showKeyBoard) {
@@ -226,7 +225,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
                 RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams) this.mEditText
                         .getLayoutParams();
                 localLayoutParams.height = mSmileyPicker.getTop();
-                this.mSmileyPicker.hide(this);
+//                this.mSmileyPicker.hide(this);
 
                 SmileyPickerUtility.showKeyBoard(mEditText);
                 mEditText.postDelayed(new Runnable() {
@@ -236,7 +235,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
                     }
                 }, 200L);
             } else {
-                this.mSmileyPicker.hide(this);
+//                this.mSmileyPicker.hide(this);
                 // unlockContainerHeightDelayed();
             }
         }

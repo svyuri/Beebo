@@ -1,59 +1,44 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.zarroboogs.keyboardlayout.KeyboardRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/keyboardLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="org.weibo.demo.MainActivity" >
+    android:fitsSystemWindows="true">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/writeWeiboToolBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="?attr/colorPrimary"
-        app:title="@string/write_weibo"
         android:minHeight="48dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="@string/write_weibo" />
 
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/writeWeiboDrawerL"
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:background="@drawable/card_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/writeWeiboToolBar" >
+        android:layout_below="@id/writeWeiboToolBar"
+        android:fillViewport="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <org.zarroboogs.weibo.widget.SmileyPicker
-                android:id="@+id/smileLayout_ref"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_alignParentBottom="true"
-                android:visibility="gone" />
-
-            <!--
-                 <include
-                android:id="@+id/smileLayout_ref"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_alignParentBottom="true"
-                layout="@layout/smile_layout"
-                android:visibility="gone" />
-            -->
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:id="@+id/action_layout"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_above="@+id/smileLayout_ref"
+                android:layout_alignParentBottom="true"
                 android:layout_alignWithParentIfMissing="true"
                 android:layout_marginBottom="-5dp"
                 android:layout_marginLeft="-5dp"
                 android:layout_marginRight="-5dp"
-                android:background="@drawable/bottom_action_bg" >
+                android:background="@drawable/bottom_action_bg">
 
                 <ImageButton
                     android:id="@+id/sendWeiBoBtn"
@@ -88,19 +73,19 @@
                     tools:ignore="ContentDescription" />
 
                 <ImageButton
-                   android:layout_toRightOf="@id/smileImgButton"
                     android:id="@+id/menu_topic"
-                    android:background="@drawable/bottom_selector"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/smileImgButton"
+                    android:background="@drawable/bottom_selector"
                     android:src="?topic" />
 
                 <ImageButton
-                    android:background="@drawable/bottom_selector"
-                    android:layout_toRightOf="@id/menu_topic"
                     android:id="@+id/menu_at"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/menu_topic"
+                    android:background="@drawable/bottom_selector"
                     android:src="?at" />
 
                 <TextView
@@ -114,126 +99,45 @@
                     android:textSize="10sp" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/mainBoady"
+            <GridView
+                android:visibility="gone"
+                android:layout_above="@+id/action_layout"
+                android:id="@+id/ninePicGridView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/action_layout"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_height="200dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/card_bg"
-                android:orientation="vertical" >
+                android:listSelector="@drawable/button_background_selector"
+                android:numColumns="3" />
 
-                <RelativeLayout
-                    android:id="@+id/editAppSrc"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@drawable/bottom_selector"
-                    android:orientation="vertical" >
 
-                    <Button
-                        android:id="@+id/appSrcBtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/bottom_selector" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:contentDescription="@null"
-                        android:paddingRight="5dp"
-                        android:src="@drawable/edit_dark" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:contentDescription="@null"
-                        android:paddingLeft="5dp"
-                        android:src="@drawable/pet_gray" />
-
-                    <View
-                        android:id="@+id/devider"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_above="@id/appSrcBtn"
-                        android:background="#FFCDCDCD" />
-                </RelativeLayout>
-
-                <ScrollView
-                    android:id="@+id/scrollView1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@id/editAppSrc"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignWithParentIfMissing="true"
-                    android:focusable="true" >
-
-                    <RelativeLayout
-                        android:id="@+id/editTextLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical" >
-
-                        <com.rengwuxian.materialedittext.MaterialEditText
-                            android:id="@+id/weiboContentET"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="#00000000"
-                            android:ems="10"
-                            android:gravity="top"
-                            android:inputType="textMultiLine"
-                            android:minHeight="180dp"
-                            android:padding="10dp"
-                            app:met_hideUnderline="true" >
-                        </com.rengwuxian.materialedittext.MaterialEditText>
-
-                        <GridView
-                            android:id="@+id/ninePicGridView"
-                            android:layout_alignParentBottom="true"
-                            android:layout_below="@id/weiboContentET"
-                            android:layout_centerHorizontal="true"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp"
-                            android:listSelector="@drawable/button_background_selector"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="20dp"
-                            android:layout_marginLeft="40dp"
-                            android:layout_marginRight="40dp"
-                            android:layout_gravity="bottom"
-                            android:numColumns="3" />
-                        
-                    </RelativeLayout>
-                </ScrollView>
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/drawerLeft"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="start"
-            android:background="#EFEFEF"
-            android:orientation="vertical" >
-
-            <org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView
-                android:id="@+id/left_menu_list_view"
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/weiboContentET"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:fastScrollEnabled="false"
-                android:overScrollMode="never"
-                android:scrollingCache="true"
-                android:smoothScrollbar="true"
-                android:visibility="visible" />
-        </LinearLayout>
-    </android.support.v4.widget.DrawerLayout>
+                android:layout_above="@+id/ninePicGridView"
+                android:background="#00000000"
+                android:layout_alignParentTop="true"
+                android:ems="10"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                app:met_hideUnderline="true" />
 
-</RelativeLayout>
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker
+        android:id="@+id/smileLayout_ref"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/scrollview"
+        android:visibility="gone" />
+
+
+</org.zarroboogs.keyboardlayout.KeyboardRelativeLayout>
