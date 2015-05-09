@@ -134,10 +134,11 @@
     <org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker
         android:id="@+id/smileLayout_ref"
         android:layout_width="match_parent"
+        android:background="@android:color/white"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_below="@id/scrollview"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 
 </org.zarroboogs.keyboardlayout.KeyboardRelativeLayout>
