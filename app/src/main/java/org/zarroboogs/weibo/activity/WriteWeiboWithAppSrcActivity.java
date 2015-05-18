@@ -398,13 +398,6 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 		} else if (id == R.id.menu_at) {
 			Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
 			startActivityForResult(intent, AT_USER);
-		} else if (id == R.id.editTextLayout) {
-			mEditText.performClick();
-		} else if (id == R.id.scrollView1) {
-			mEditText.performClick();
-		} else if (id == R.id.appSrcBtn) {
-
-
 		} else if (id == R.id.sendWeiBoBtn) {
 			if (isMoreThan140()) {
 				Toast.makeText(getApplicationContext(), R.string.weibo_text_large_error, Toast.LENGTH_SHORT).show();

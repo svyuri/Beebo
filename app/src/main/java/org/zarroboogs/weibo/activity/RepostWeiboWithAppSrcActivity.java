@@ -3,36 +3,29 @@ package org.zarroboogs.weibo.activity;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.List;
 
+import org.zarroboogs.keyboardlayout.KeyboardRelativeLayout;
+import org.zarroboogs.keyboardlayout.OnKeyboardStateChangeListener;
 import org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
-import org.zarroboogs.weibo.ChangeWeibaAdapter;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.RepostDraftBean;
-import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.dao.RepostNewMsgDao;
-import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.service.RepostWithAppSrcServices;
 import org.zarroboogs.weibo.service.SendRepostService;
-import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.umeng.analytics.MobclickAgent;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,30 +33,25 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements  OnClickListener, OnGlobalLayoutListener, OnItemClickListener {
+public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements  OnClickListener, OnItemClickListener {
 
     public static final int AT_USER = 0x1000;
     public static final String TAG = "RepostWeiboMainActivity ";
@@ -71,31 +59,22 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     private SmileyPicker mSmileyPicker = null;
     private MessageBean msg;
 
-    private InputMethodManager imm = null;
     private MaterialEditText mEditText;
-    private RelativeLayout mRootView;
 
-    private RelativeLayout editTextLayout;
     private ImageButton mSelectPhoto;
     private ImageButton mSendBtn;
     private ImageButton smileButton;
     private ImageButton mTopicBtn;
     private ImageButton mAtButton;
 
-    private Button appSrcBtn;
     private AccountBean mAccountBean;
     private ScrollView mEditPicScrollView;
 
     private TextView weiTextCountTV;
 
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
 
-    private AppsrcDatabaseManager mDBmanager = null;
-    private PullToRefreshListView listView;
-    private ChangeWeibaAdapter listAdapter;
-    
+    private KeyboardRelativeLayout keyboardLayout;
     private CheckBox mComments;
 
     public static Intent startBecauseSendFailed(Context context, AccountBean accountBean, String content,
@@ -114,41 +93,36 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        setContentView(R.layout.repost_weibo_with_appsrc_activity_layout);
+        setContentView(R.layout.repost_weibo_activity_layout_new);
 
         mComments = (CheckBox) findViewById(R.id.repostCommentsCheck);
         
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
         mToolbar = (Toolbar) findViewById(R.id.writeWeiboToolBar);
 
-        if (Constants.isEnableAppsrc) {
-            mDrawerToggle = new MyDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
-            mDrawerToggle.syncState();
-            mDrawerLayout.setDrawerListener(mDrawerToggle);
-		}else {
-	        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-	        disPlayHomeAsUp(mToolbar);
-	        RelativeLayout editAppSrc = ViewUtility.findViewById(this, R.id.editAppSrc);
-	        editAppSrc.setVisibility(View.GONE);
-		}
+        keyboardLayout = ViewUtility.findViewById(this, R.id.keyboardLayout);
+        keyboardLayout.setOnKeyboardStateListener(new OnKeyboardStateChangeListener() {
+            @Override
+            public void onKeyBoardShow(int height) {
 
+            }
+
+            @Override
+            public void onKeyBoardHide() {
+
+            }
+        });
+        disPlayHomeAsUp(mToolbar);
 
         mAccountBean = BeeboApplication.getInstance().getAccountBean();
         // mAccountBean = getAccount();
         Log.d("RpostWeiBo_activity", "AccountBean == null ? : " + (mAccountBean == null));
 
-        mEditPicScrollView = (ScrollView) findViewById(R.id.scrollView1);
-        editTextLayout = (RelativeLayout) findViewById(R.id.editTextLayout);
+        mEditPicScrollView = (ScrollView) findViewById(R.id.scrollview);
 
         weiTextCountTV = (TextView) findViewById(R.id.weiTextCountTV);
 
-        appSrcBtn = (Button) findViewById(R.id.appSrcBtn);
-        appSrcBtn.setText(getWeiba().getText());
-
         mSelectPhoto = (ImageButton) findViewById(R.id.imageButton1);
         mSelectPhoto.setVisibility(View.GONE);
-        mRootView = (RelativeLayout) findViewById(R.id.container);
         mEditText = (MaterialEditText) findViewById(R.id.weiboContentET);
         smileButton = (ImageButton) findViewById(R.id.smileImgButton);
         mSendBtn = (ImageButton) findViewById(R.id.sendWeiBoBtn);
@@ -162,21 +136,11 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         mSelectPhoto.setOnClickListener(this);
         smileButton.setOnClickListener(this);
         mSendBtn.setOnClickListener(this);
-        appSrcBtn.setOnClickListener(this);
         mEditPicScrollView.setOnClickListener(this);
-        editTextLayout.setOnClickListener(this);
         mEditText.addTextChangedListener(watcher);
 
         mSmileyPicker = (SmileyPicker) findViewById(R.id.smileLayout_ref);
         mSmileyPicker.setEditText(mEditText);
-        mEditText.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideSmileyPicker(true);
-            }
-        });
-
-        mRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
         Intent intent = getIntent();
         if (WriteRepostActivity.ACTION_SEND_FAILED.equals(intent.getAction())) {
@@ -187,120 +151,9 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 	        handleNormalOperation(intent);
 		}
 
-        mDBmanager = new AppsrcDatabaseManager(getApplicationContext());
-        listAdapter = new ChangeWeibaAdapter(this);
-        listView = (PullToRefreshListView) findViewById(R.id.left_menu_list_view);
-        listView.setOnRefreshListener(new OnRefreshListener<ListView>() {
-
-            @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-                    listView.setRefreshing();
-                    fetchAppSrc();
-                } else {
-                    listView.post(new Runnable() {
-                        public void run() {
-                            listView.onRefreshComplete();
-                        }
-                    });
-                    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-        listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener(this);
-        
-        
-    }
-
-    private void showSmileyPicker(boolean showAnimation) {
-//        this.mSmileyPicker.show(this, showAnimation);
-    }
-
-    public void hideSmileyPicker(boolean showKeyBoard) {
-        if (this.mSmileyPicker.isShown()) {
-            if (showKeyBoard) {
-                // this time softkeyboard is hidden
-                RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams) this.mEditText
-                        .getLayoutParams();
-                localLayoutParams.height = mSmileyPicker.getTop();
-//                this.mSmileyPicker.hide(this);
-
-                SmileyPickerUtility.showKeyBoard(mEditText);
-                mEditText.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // unlockContainerHeightDelayed();
-                    }
-                }, 200L);
-            } else {
-//                this.mSmileyPicker.hide(this);
-                // unlockContainerHeightDelayed();
-            }
-        }
 
     }
 
-    class MyDrawerToggle extends ActionBarDrawerToggle {
-
-        public MyDrawerToggle(Activity activity, DrawerLayout drawerLayout, Toolbar toolbar, int openDrawerContentDescRes,
-                int closeDrawerContentDescRes) {
-            super(activity, drawerLayout, toolbar, openDrawerContentDescRes, closeDrawerContentDescRes);
-        }
-
-        @Override
-        public void onDrawerClosed(View drawerView) {
-            super.onDrawerClosed(drawerView);
-        }
-
-        @Override
-        public void onDrawerOpened(View drawerView) {
-            super.onDrawerOpened(drawerView);
-
-            List<WeiboWeiba> list = mDBmanager.fetchAllAppsrc();
-            /*
-             * if (isKeyBoardShowed) { imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,
-             * InputMethodManager.HIDE_NOT_ALWAYS); }
-             */
-            if (list.size() == 0) {
-                if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-                    fetchAppSrc();
-                } else {
-                    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                listAdapter.setWeibas(list);
-            }
-        }
-    }
-
-    protected void fetchAppSrc() {
-        fetchWeiBa(new OnFetchAppSrcListener() {
-
-            @Override
-            public void onSuccess(List<WeiboWeiba> appsrcs) {
-                for (WeiboWeiba weiboWeiba : appsrcs) {
-                    if (mDBmanager.searchAppsrcByCode(weiboWeiba.getCode()) == null) {
-                        mDBmanager.insertCategoryTree(0, weiboWeiba.getCode(), weiboWeiba.getText());
-                    }
-                }
-                listView.onRefreshComplete();
-                listAdapter.setWeibas(mDBmanager.fetchAllAppsrc());
-                hideDialogForWeiBo();
-            }
-
-            @Override
-            public void onStart() {
-                showDialogForWeiBo();
-            }
-
-            @Override
-            public void onFailure() {
-                hideDialogForWeiBo();
-            }
-        });
-    }
 
     @Override
     protected void onResume() {
@@ -368,7 +221,6 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-        mRootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
         ImageLoader.getInstance().stop();
     }
 
@@ -376,7 +228,6 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == ChangeWeibaActivity.REQUEST) {
-            appSrcBtn.setText(getWeiba().getText());
         } else if (resultCode == RESULT_OK && requestCode == AT_USER && data != null) {
             String name = data.getStringExtra("name");
             String ori = mEditText.getText().toString();
@@ -405,7 +256,6 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         super.onSharedPreferenceChanged(sharedPreferences, key);
-        appSrcBtn.setText(getWeiba().getText());
     }
 
     protected void insertTopic() {
@@ -423,16 +273,6 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 		} else if (id == R.id.menu_at) {
 			Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccountBean().getAccess_token());
 			startActivityForResult(intent, AT_USER);
-		} else if (id == R.id.editTextLayout) {
-			mEditText.performClick();
-		} else if (id == R.id.scrollView1) {
-			mEditText.performClick();
-		} else if (id == R.id.appSrcBtn) {
-			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-			    mDrawerLayout.openDrawer(Gravity.START);
-			} else {
-			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-			}
 		} else if (id == R.id.sendWeiBoBtn) {
 			if (isMoreThan140()) {
 				Toast.makeText(getApplicationContext(), "字数超出限制", Toast.LENGTH_SHORT).show();
@@ -444,16 +284,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
 			}
 		} else if (id == R.id.smileImgButton) {
-			imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-			mHandler.postDelayed(new Runnable() {
-			    public void run() {
-			        if (mSmileyPicker.isShown()) {
-			            hideSmileyPicker(true);
-			        } else {
-			            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(RepostWeiboWithAppSrcActivity.this));
-			        }
-			    }
-			}, 100);
+            // show or hide Keyboard
 		} else if (id == R.id.imageButton1) {
 			Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
 			startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
@@ -483,24 +314,6 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 	            startService(intent);
 	            finish();
 			}
-    }
-
-    @Override
-    public void onGlobalLayout() {
-        // TODO Auto-generated method stub
-        //
-        // Rect r = new Rect();
-        // mEmotionRelativeLayout.getWindowVisibleDisplayFrame(r);
-        //
-        // int heightDiff = mEmotionRelativeLayout.getRootView().getHeight() - (r.bottom - r.top);
-        // if (heightDiff > 100) {
-        // // if more than 100 pixels, its probably a keyboard...
-        // Log.d("WEIBO_INPUT", "++++++++");
-        // mEmotionRelativeLayout.setVisibility(View.GONE);
-        // } else {
-        // Log.d("WEIBO_INPUT", "---------");
-        // }
-
     }
 
     class WeiBaCacheFile implements FilenameFilter {
@@ -546,10 +359,6 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        WeiboWeiba weiba = ((WeiboWeiba) parent.getItemAtPosition(position));
-        Log.d("CLICK", "" + weiba);
-        saveWeiba(weiba);
-        // menu.toggle();
-        mDrawerLayout.closeDrawer(findViewById(R.id.drawerLeft));
+
     }
 }
