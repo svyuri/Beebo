@@ -61,17 +61,15 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
     public static final int AT_USER = 0x1000;
 
-    public static final String LOGIN_TAG = "START_SEND_WEIBO ";
     protected static final String TAG = "WeiboMainActivity  ";
+
     private SmileyPicker mSmileyPicker;
 
     private InputMethodManager imm = null;
+
     private MaterialEditText mEditText;
 
-
     private AccountBean mAccountBean;
-
-    private boolean isKeyBoardShowed = false;
 
     private boolean isSmileClicked = false;
 
@@ -80,12 +78,13 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     private TextView weiTextCountTV;
 
     private Toast mEmptyToast;
+
     private String atContent = "";
 
-    private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
 
     private GridView mNinePicGridView;
+
     private NinePicGriViewAdapter mNinePicAdapter;
 
     private KeyboardRelativeLayout keyboardLayout;

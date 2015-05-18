@@ -41,6 +41,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -60,7 +62,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     private MessageBean msg;
 
     private MaterialEditText mEditText;
-
+    private boolean isSmileClicked = false;
     private ImageButton mSelectPhoto;
     private ImageButton mSendBtn;
     private ImageButton smileButton;
@@ -103,12 +105,19 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         keyboardLayout.setOnKeyboardStateListener(new OnKeyboardStateChangeListener() {
             @Override
             public void onKeyBoardShow(int height) {
+                if (isSmileClicked){
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mEditPicScrollView.getLayoutParams();
+                    params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+                    mEditPicScrollView.requestLayout();
 
+                }
             }
 
             @Override
             public void onKeyBoardHide() {
-
+                if (isSmileClicked){
+                    showViewWithAnim(mSmileyPicker);
+                }
             }
         });
         disPlayHomeAsUp(mToolbar);
@@ -124,6 +133,9 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         mSelectPhoto = (ImageButton) findViewById(R.id.imageButton1);
         mSelectPhoto.setVisibility(View.GONE);
         mEditText = (MaterialEditText) findViewById(R.id.weiboContentET);
+        mSmileyPicker = (SmileyPicker) findViewById(R.id.smileLayout_ref);
+        mSmileyPicker.setEditText(mEditText);
+
         smileButton = (ImageButton) findViewById(R.id.smileImgButton);
         mSendBtn = (ImageButton) findViewById(R.id.sendWeiBoBtn);
 
@@ -139,9 +151,6 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         mEditPicScrollView.setOnClickListener(this);
         mEditText.addTextChangedListener(watcher);
 
-        mSmileyPicker = (SmileyPicker) findViewById(R.id.smileLayout_ref);
-        mSmileyPicker.setEditText(mEditText);
-
         Intent intent = getIntent();
         if (WriteRepostActivity.ACTION_SEND_FAILED.equals(intent.getAction())) {
 			mAccountBean = intent.getParcelableExtra(Constants.ACCOUNT);
@@ -154,6 +163,17 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 
     }
 
+    private void showViewWithAnim(View view) {
+        mSmileyPicker.setVisibility(View.VISIBLE);
+
+        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0);
+        animation.setDuration(150);
+//        animation.setFillAfter(true);
+
+        view.startAnimation(animation);
+
+    }
 
     @Override
     protected void onResume() {
@@ -285,6 +305,19 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 			}
 		} else if (id == R.id.smileImgButton) {
             // show or hide Keyboard
+            isSmileClicked = true;
+
+            if (keyboardLayout.getKeyBoardHelper().isKeyboardShow()) {
+
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mEditPicScrollView.getLayoutParams();
+                params.height = mEditPicScrollView.getHeight();
+                mEditPicScrollView.requestLayout();
+
+                keyboardLayout.getKeyBoardHelper().hideKeyboard();
+
+            } else {
+                keyboardLayout.getKeyBoardHelper().showKeyboard(mEditText);
+            }
 		} else if (id == R.id.imageButton1) {
 			Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
 			startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
