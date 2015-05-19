@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.support.utils;
 
+import org.zarroboogs.keyboardlayout.smilepicker.SmileyMap;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.WeiboPatterns;
 import org.zarroboogs.weibo.BeeboApplication;
@@ -18,6 +19,8 @@ import org.zarroboogs.weibo.support.lib.LongClickableLinkMovementMethod;
 import org.zarroboogs.weibo.support.lib.MyURLSpan;
 
 import android.graphics.Bitmap;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -30,7 +33,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * User: qii Date: 12-8-29 build emotions and clickable string in other threads except UI thread,
@@ -317,24 +322,30 @@ public class TimeLineUtility {
         return false;
     }
 
-    private static void addEmotions(SpannableString value) {
-        Matcher localMatcher = WeiboPatterns.EMOTION_URL.matcher(value);
-        while (localMatcher.find()) {
-            String str2 = localMatcher.group(0);
-            int k = localMatcher.start();
-            int m = localMatcher.end();
-            if (m - k < 8) {
-                Bitmap bitmap = BeeboApplication.getInstance().getEmotionsPics().get(str2);
-                if (bitmap == null) {
-                    bitmap = BeeboApplication.getInstance().getHuahuaPics().get(str2);
-                }
-                if (bitmap != null) {
-                    ImageSpan localImageSpan = new ImageSpan(BeeboApplication.getInstance().getActivity(), bitmap,
-                            ImageSpan.ALIGN_BASELINE);
-                    value.setSpan(localImageSpan, k, m, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
 
+
+    public static final Pattern EMOTION_URL = Pattern.compile("\\[(\\S+?)\\]");
+    private static void addEmotions( SpannableString value) {
+//        Paint.FontMetrics fontMetrics = mEditText.getPaint().getFontMetrics();
+//        int size = (int)(fontMetrics.descent-fontMetrics.ascent);
+        int size = 50;
+
+        Map<String, Integer> smiles = SmileyMap.getInstance().getSmiles();
+
+        Matcher localMatcher = EMOTION_URL.matcher(value);
+        while (localMatcher.find()) {
+            String key = localMatcher.group(0);
+            if (smiles.containsKey(key)){
+                int k = localMatcher.start();
+                int m = localMatcher.end();
+                if (m - k < 8) {
+                    Drawable drawable = BeeboApplication.getAppContext().getResources().getDrawable(smiles.get(key));
+                    drawable.setBounds(0, 0, size, size);
+                    ImageSpan localImageSpan = new ImageSpan(drawable);
+                    value.setSpan(localImageSpan, k, m, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                }
             }
+
         }
     }
 }
