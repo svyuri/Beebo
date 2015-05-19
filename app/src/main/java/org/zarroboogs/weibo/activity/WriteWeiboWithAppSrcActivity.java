@@ -44,6 +44,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
@@ -346,13 +347,43 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
     @Override
     public void onBackPressed() {
-        if (keyboardLayout.getKeyBoardHelper().isKeyboardShow()) {
-            keyboardLayout.getKeyBoardHelper().hideKeyboard();
+        if (mSmileyPicker.isShown()) {
+//            keyboardLayout.getKeyBoardHelper().hideKeyboard();
+            removeViewWithAnim(mSmileyPicker);
         } else {
             super.onBackPressed();
         }
     }
 
+    private void removeViewWithAnim(View view){
+        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 1);
+        animation.setDuration(200);
+        animation.setFillAfter(true);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+//                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mEditPicScrollView.getLayoutParams();
+                params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+                mEditPicScrollView.setLayoutParams(params);
+                mSmileyPicker.setVisibility(View.GONE);
+                mSmileyPicker.requestLayout();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.startAnimation(animation);
+
+    }
     @Override
     public void onLonginWeiboCallback(boolean isSuccess) {
         if (!isSuccess) {

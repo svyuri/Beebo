@@ -262,7 +262,42 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     @Override
     public void onBackPressed() {
         // TODO Auto-generated method stub
-        super.onBackPressed();
+        if (mSmileyPicker.isShown()){
+            removeViewWithAnim(mSmileyPicker);
+        }else{
+            super.onBackPressed();
+        }
+
+    }
+
+    private void removeViewWithAnim(View view){
+        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 1);
+        animation.setDuration(200);
+        animation.setFillAfter(true);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+//                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mEditPicScrollView.getLayoutParams();
+                params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+                mEditPicScrollView.setLayoutParams(params);
+                mSmileyPicker.setVisibility(View.GONE);
+                mSmileyPicker.requestLayout();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.startAnimation(animation);
+
     }
 
     public void startWebLogin() {
