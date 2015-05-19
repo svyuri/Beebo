@@ -27,6 +27,9 @@ public class SmileyMap {
         /**
          * general emotion
          */
+        general.put("[doge]", R.drawable.d_doge);
+
+        general.put("[喵喵]", R.drawable.d_miao);
         general.put("[挖鼻屎]", R.drawable.d_wabishi);
         general.put("[泪]", R.drawable.d_lei);
         general.put("[亲亲]", R.drawable.d_qinqin);
@@ -80,9 +83,6 @@ public class SmileyMap {
         general.put("[拜拜]", R.drawable.d_baibai);
         general.put("[疑问]", R.drawable.d_yiwen);
 
-        general.put("[doge]", R.drawable.d_doge);
-
-        general.put("[喵喵]", R.drawable.d_miao);
         general.put("[神马]", R.drawable.f_shenma);
         general.put("[最右]", R.drawable.d_zuiyou);
 

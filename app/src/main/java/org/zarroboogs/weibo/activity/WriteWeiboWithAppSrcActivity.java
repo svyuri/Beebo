@@ -346,8 +346,8 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
     @Override
     public void onBackPressed() {
-        if (mSmileyPicker.isShown()) {
-//            hideSmileyPicker(false);
+        if (keyboardLayout.getKeyBoardHelper().isKeyboardShow()) {
+            keyboardLayout.getKeyBoardHelper().hideKeyboard();
         } else {
             super.onBackPressed();
         }
