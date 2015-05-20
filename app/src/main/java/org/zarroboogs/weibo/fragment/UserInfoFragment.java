@@ -279,7 +279,9 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     	// TODO Auto-generated method stub
-    	if (((UserInfoActivity)getActivity()).isMyselfProfile()) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+    	if (userBean.getId().equals(BeeboApplication.getInstance().getAccountBean().getUid())) {
     		inflater.inflate(R.menu.actionbar_menu_newuserinfofragment_main_page, menu);
             MenuItem edit = menu.findItem(R.id.menu_edit);
             edit.setVisible(false);
@@ -302,7 +304,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
                 menu.findItem(R.id.menu_remove_fan).setVisible(false);
             }
 		}
-    	super.onCreateOptionsMenu(menu, inflater);
+
     }
 
     @Override
