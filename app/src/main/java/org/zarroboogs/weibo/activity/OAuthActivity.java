@@ -411,10 +411,10 @@ public class OAuthActivity extends AbstractAppActivity {
             }
             switch (dbResult) {
                 case add_successfuly:
-                    Toast.makeText(activity, activity.getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(activity, activity.getString(R.string.login_success), Toast.LENGTH_SHORT).show();
                     break;
                 case update_successfully:
-                    Toast.makeText(activity, activity.getString(R.string.update_account_success), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(activity, activity.getString(R.string.update_account_success), Toast.LENGTH_SHORT).show();
                     break;
             }
 
