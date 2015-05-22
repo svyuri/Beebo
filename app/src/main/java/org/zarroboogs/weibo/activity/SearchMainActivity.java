@@ -95,9 +95,11 @@ public class SearchMainActivity extends SharedPreferenceActivity {
 
 				SearchWhat sw = getSearchWhat();
 				if (sw == SearchWhat.status) {
+					ft.hide(getSearchStatusFragment());
 					ft.show(getSearchUserFragment());
 					
 				} else {
+					ft.hide(getSearchUserFragment());
 					ft.show(getSearchStatusFragment());
 				}
 				
@@ -169,7 +171,7 @@ public class SearchMainActivity extends SharedPreferenceActivity {
 		int id = item.getItemId();
 		switch (id) {
 		case R.id.search: {
-
+			changeFragment();
 			showSearchDialog();
 			break;
 		}
