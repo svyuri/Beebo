@@ -92,7 +92,7 @@
         android:visibility="gone" />
 
     <ImageView
-        android:id="@+id/repost_flag"
+        android:id="@+id/timeLineRepostRootLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone" />

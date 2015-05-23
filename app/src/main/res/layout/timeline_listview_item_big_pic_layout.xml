@@ -107,7 +107,7 @@
             android:textSize="15sp" />
 
         <View
-            android:id="@+id/repost_flag"
+            android:id="@+id/timeLineRepostRootLayout"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/weibo_text_content"
@@ -121,7 +121,7 @@
             android:id="@+id/repost_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/repost_flag"
+            android:layout_below="@id/timeLineRepostRootLayout"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="3dp"
             android:clickable="false"

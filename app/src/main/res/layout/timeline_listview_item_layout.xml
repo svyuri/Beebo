@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_tacos"
+        android:background="@drawable/time_line_item_bg"
         android:paddingBottom="8dp"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
@@ -46,14 +46,16 @@
                 android:layout_marginTop="-5dp"
                 android:clickable="true" />
 
-            <View
-                android:id="@+id/repost_flag_invisile"
+            <TextView
+                android:id="@+id/weibo_text_content"
                 android:layout_width="match_parent"
-                android:layout_height="0.66dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/avatar"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/divider"
-                android:visibility="invisible" />
+                android:clickable="true"
+                android:lineSpacingMultiplier="1.1"
+                android:textColor="@color/timeline_item_text_color_light"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/username"
@@ -89,16 +91,6 @@
                 android:textColor="?android:textColorTertiary"
                 tools:ignore="RtlHardcoded" />
 
-            <TextView
-                android:id="@+id/weibo_text_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/repost_flag_invisile"
-                android:layout_marginTop="3dp"
-                android:clickable="true"
-                android:lineSpacingMultiplier="1.1"
-                android:textColor="@color/timeline_item_text_color_light"
-                android:textSize="15sp" />
 
             <!-- android:layout_width="@dimen/timeline_pic_thumbnail_width" -->
 
@@ -132,14 +124,14 @@
             </GridLayout>
 
             <RelativeLayout
-                android:id="@+id/repost_flag"
+                android:id="@+id/timeLineRepostRootLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/weibo_text_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="3dp"
                 android:background="@drawable/repost_bg"
                 android:padding="10dp" >
 

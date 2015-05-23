@@ -386,7 +386,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
 
         holder.listview_root = ViewUtility.findViewById(convertView, R.id.listview_root);
         holder.repost_layout = ViewUtility.findViewById(convertView, R.id.repost_layout);
-        holder.repost_flag = ViewUtility.findViewById(convertView, R.id.repost_flag);
+        holder.repost_flag = ViewUtility.findViewById(convertView, R.id.timeLineRepostRootLayout);
         holder.count_layout = ViewUtility.findViewById(convertView, R.id.count_layout);
         holder.repost_count = ViewUtility.findViewById(convertView, R.id.repost_count);
         holder.comment_count = ViewUtility.findViewById(convertView, R.id.comment_count);
