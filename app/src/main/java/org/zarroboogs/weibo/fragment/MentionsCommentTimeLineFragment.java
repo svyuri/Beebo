@@ -395,7 +395,7 @@ public class MentionsCommentTimeLineFragment extends AbsBaseTimeLineFragment<Com
     private LoaderManager.LoaderCallbacks<CommentTimeLineData> dbCallback = new LoaderManager.LoaderCallbacks<CommentTimeLineData>() {
         @Override
         public Loader<CommentTimeLineData> onCreateLoader(int id, Bundle args) {
-            getPullToRefreshListView().setVisibility(View.INVISIBLE);
+            getListView().setVisibility(View.INVISIBLE);
             return new MentionsCommentDBLoader(getActivity(), BeeboApplication.getInstance().getCurrentAccountId());
         }
 
@@ -408,7 +408,7 @@ public class MentionsCommentTimeLineFragment extends AbsBaseTimeLineFragment<Com
 
             }
 
-            getPullToRefreshListView().setVisibility(View.VISIBLE);
+            getListView().setVisibility(View.VISIBLE);
             getAdapter().notifyDataSetChanged();
             setListViewPositionFromPositionsCache();
 
@@ -418,7 +418,8 @@ public class MentionsCommentTimeLineFragment extends AbsBaseTimeLineFragment<Com
              * from server automally
              */
             if (getDataList().getSize() == 0) {
-                getPullToRefreshListView().setRefreshing();
+//                getPullToRefreshListView().setRefreshing();
+                getSwipeRefreshLayout().setRefreshing(true);
                 loadNewMsg();
             }
 

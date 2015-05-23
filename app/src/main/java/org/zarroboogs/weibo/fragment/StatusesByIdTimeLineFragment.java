@@ -114,7 +114,8 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
                     @Override
                     public void run() {
                         if (getActivity() != null) {
-                            getPullToRefreshListView().setRefreshing();
+                            getSwipeRefreshLayout().setRefreshing(true);
+//                            getPullToRefreshListView().setRefreshing();
                             loadNewMsg();
                         }
 
@@ -147,7 +148,8 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 		if (itemId == R.id.menu_refresh) {
-			getPullToRefreshListView().setRefreshing();
+//			getPullToRefreshListView().setRefreshing();
+            getSwipeRefreshLayout().setRefreshing(true);
 			loadNewMsg();
 			return true;
 		}

@@ -140,7 +140,7 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            getPullToRefreshListView().setVisibility(View.INVISIBLE);
+            getListView().setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -154,12 +154,13 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
             if (result != null) {
                 getDataList().addNewData(result);
             }
-            getPullToRefreshListView().setVisibility(View.VISIBLE);
+            getListView().setVisibility(View.VISIBLE);
             getAdapter().notifyDataSetChanged();
             refreshLayout(getDataList());
 
             if (getDataList().getSize() == 0) {
-                getPullToRefreshListView().setRefreshing();
+//                getPullToRefreshListView().setRefreshing();
+                getSwipeRefreshLayout().setRefreshing(true);
                 loadNewMsg();
             }
         }

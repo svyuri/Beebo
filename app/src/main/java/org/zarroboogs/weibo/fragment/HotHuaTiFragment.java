@@ -3,36 +3,28 @@ package org.zarroboogs.weibo.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.Header;
-import org.zarroboogs.senior.sdk.SeniorParams;
 import org.zarroboogs.senior.sdk.SeniorUrl;
-import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.SearchTopicByNameActivity;
 import org.zarroboogs.weibo.adapter.HotHuaTiAdapter;
-import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
 import org.zarroboogs.weibo.hot.bean.huati.HotHuaTi;
 import org.zarroboogs.weibo.hot.bean.huati.HotHuaTiCard;
 import org.zarroboogs.weibo.hot.bean.huati.HotHuaTiCardGroup;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.asyncdrawable.MsgDetailReadWorker;
 import org.zarroboogs.weibo.support.utils.Utility;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +42,8 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
     
     private ListView listView;
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     private HotHuaTiAdapter adapter;
 
     private List<HotHuaTiCardGroup> repostList = new ArrayList<HotHuaTiCardGroup>();
@@ -66,8 +60,6 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
     
     private AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
 
-    private PullToRefreshListView pullToRefreshListView;
-    
     private String mCtg;
 
     public HotHuaTiFragment(){
@@ -89,22 +81,30 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RelativeLayout swipeFrameLayout = (RelativeLayout) inflater.inflate(R.layout.hotweibo_fragment_layout,container, false);
-        
-        pullToRefreshListView = (PullToRefreshListView) swipeFrameLayout.findViewById(R.id.pullToFreshView);
 
-        pullToRefreshListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
-        pullToRefreshListView.setOnScrollListener(listViewOnScrollListener);
-        pullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+        mSwipeRefreshLayout = ViewUtility.findViewById(swipeFrameLayout,R.id.hotWeiboSRL);
 
-			@Override
-			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				// TODO Auto-generated method stub
+        listView = (ListView) swipeFrameLayout.findViewById(R.id.pullToFreshView);
+
+//        pullToRefreshListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
+        listView.setOnScrollListener(listViewOnScrollListener);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
                 loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
-                refreshView.setRefreshing();
-			}
-        	
-		});
-        listView = pullToRefreshListView.getRefreshableView();
+            }
+        });
+
+//        pullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+//
+//			@Override
+//			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+//				// TODO Auto-generated method stub
+//                loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
+//                refreshView.setRefreshing();
+//			}
+//
+//		});
 
 
         footerView = inflater.inflate(R.layout.listview_footer_layout, null);
@@ -211,15 +211,15 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 
 
 
-
-    private PullToRefreshBase.OnLastItemVisibleListener onLastItemVisibleListener = new PullToRefreshBase.OnLastItemVisibleListener() {
-        @Override
-        public void onLastItemVisible() {
-//        	if (msg.getReposts_count() > 0 && repostList.size() > 0) {
-//                loadOldRepostData();
-//            }
-        }
-    };
+//
+//    private PullToRefreshBase.OnLastItemVisibleListener onLastItemVisibleListener = new PullToRefreshBase.OnLastItemVisibleListener() {
+//        @Override
+//        public void onLastItemVisible() {
+////        	if (msg.getReposts_count() > 0 && repostList.size() > 0) {
+////                loadOldRepostData();
+////            }
+//        }
+//    };
 
     private AbsListView.OnScrollListener listViewOnScrollListener = new AbsListView.OnScrollListener() {
         @Override
@@ -308,7 +308,7 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 			addNewDataAndRememberPosition(result);
 		}
 		
-		pullToRefreshListView.onRefreshComplete();
+        mSwipeRefreshLayout.setRefreshing(false);
 	}
 
 	@Override

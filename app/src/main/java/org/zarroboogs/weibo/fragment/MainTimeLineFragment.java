@@ -491,7 +491,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
             positionCache.put(recentData.groupId, recentData.position);
             currentGroupId = recentData.groupId;
         }
-        getPullToRefreshListView().setVisibility(View.VISIBLE);
+        getListView().setVisibility(View.VISIBLE);
         getAdapter().notifyDataSetChanged();
         setListViewPositionFromPositionsCache();
 
@@ -501,7 +501,8 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
          * server automally
          */
         if (getDataList().getSize() == 0) {
-            getPullToRefreshListView().setRefreshing();
+//            getPullToRefreshListView().setRefreshing();
+            getSwipeRefreshLayout().setRefreshing(true);
             loadNewMsg();
         } else {
             new RefreshReCmtCountTask(MainTimeLineFragment.this, getDataList(), mToken)
@@ -539,7 +540,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
             super.onPreExecute();
             MainTimeLineFragment fragment = fragmentWeakReference.get();
             if (fragment != null) {
-                fragment.getPullToRefreshListView().setVisibility(View.INVISIBLE);
+                fragment.getListView().setVisibility(View.INVISIBLE);
             }
         }
 
@@ -872,7 +873,8 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         getLoaderManager().destroyLoader(NEW_MSG_LOADER_ID);
         getLoaderManager().destroyLoader(MIDDLE_MSG_LOADER_ID);
         getLoaderManager().destroyLoader(OLD_MSG_LOADER_ID);
-        getPullToRefreshListView().onRefreshComplete();
+//        getPullToRefreshListView().onRefreshComplete();
+        getSwipeRefreshLayout().setRefreshing(false);
         dismissFooterView();
         savedCurrentLoadingMsgViewPositon = -1;
         if (timeLineAdapter instanceof AbstractAppListAdapter) {
@@ -886,7 +888,8 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         if (groupDataCache.get(currentGroupId) == null || groupDataCache.get(currentGroupId).getSize() == 0) {
             getDataList().getItemList().clear();
             getAdapter().notifyDataSetChanged();
-            getPullToRefreshListView().setRefreshing();
+//            getPullToRefreshListView().setRefreshing();
+            getSwipeRefreshLayout().setRefreshing(true);
             loadNewMsg();
 
         } else {

@@ -35,11 +35,10 @@ import org.zarroboogs.weibo.support.lib.ClickableTextViewMentionLinkOnTouchListe
 import org.zarroboogs.weibo.support.utils.AppEventAction;
 import org.zarroboogs.weibo.support.utils.ThemeUtility;
 import org.zarroboogs.weibo.support.utils.Utility;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.ProfileTopAvatarImageView;
 import org.zarroboogs.weibo.widget.SwipeFrameLayout;
 import org.zarroboogs.weibo.widget.WeiboDetailImageView;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -52,6 +51,7 @@ import android.os.Handler;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.ActionMode;
@@ -87,6 +87,8 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
     private Handler handler = new Handler();
 
     private ListView listView;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private BrowserWeiboMsgCommentAndRepostAdapter adapter;
 
@@ -311,14 +313,15 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         SwipeFrameLayout swipeFrameLayout = (SwipeFrameLayout) inflater.inflate(R.layout.browser_weibo_msg_layout,
                 container, false);
-        PullToRefreshListView pullToRefreshListView = (PullToRefreshListView) swipeFrameLayout
-                .findViewById(R.id.pullToFreshView);
 
-        pullToRefreshListView.setMode(PullToRefreshBase.Mode.DISABLED);
-        pullToRefreshListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
-        pullToRefreshListView.setOnScrollListener(listViewOnScrollListener);
+        mSwipeRefreshLayout = ViewUtility.findViewById(swipeFrameLayout, R.id.browserWeiboMsgSRL);
 
-        listView = pullToRefreshListView.getRefreshableView();
+        listView = ViewUtility.findViewById(swipeFrameLayout, R.id.pullToFreshView);
+
+//        pullToRefreshListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
+        listView.setOnScrollListener(listViewOnScrollListener);
+
+//        listView = pullToRefreshListView.getRefreshableView();
 
         View header = inflater.inflate(R.layout.browserweibomsgfragment_layout, listView, false);
         listView.addHeaderView(header);
@@ -757,20 +760,20 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
         }
     };
 
-    private PullToRefreshBase.OnLastItemVisibleListener onLastItemVisibleListener = new PullToRefreshBase.OnLastItemVisibleListener() {
-        @Override
-        public void onLastItemVisible() {
-            if (isCommentList) {
-                if (msg.getComments_count() > 0 && commentList.getSize() > 0) {
-                    loadOldCommentData();
-                }
-            } else {
-                if (msg.getReposts_count() > 0 && repostList.getSize() > 0) {
-                    loadOldRepostData();
-                }
-            }
-        }
-    };
+//    private PullToRefreshBase.OnLastItemVisibleListener onLastItemVisibleListener = new PullToRefreshBase.OnLastItemVisibleListener() {
+//        @Override
+//        public void onLastItemVisible() {
+//            if (isCommentList) {
+//                if (msg.getComments_count() > 0 && commentList.getSize() > 0) {
+//                    loadOldCommentData();
+//                }
+//            } else {
+//                if (msg.getReposts_count() > 0 && repostList.getSize() > 0) {
+//                    loadOldRepostData();
+//                }
+//            }
+//        }
+//    };
 
     private AbsListView.OnScrollListener listViewOnScrollListener = new AbsListView.OnScrollListener() {
         @Override

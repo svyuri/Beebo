@@ -21,12 +21,11 @@ import org.zarroboogs.weibo.support.lib.LongClickableLinkMovementMethod;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
+import org.zarroboogs.weibo.widget.AutoScrollListView;
 import org.zarroboogs.weibo.widget.ListViewMiddleMsgLoadingView;
 import org.zarroboogs.weibo.widget.TopTipsView;
 import org.zarroboogs.weibo.widget.VelocityListView;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
-import org.zarroboogs.weibo.widget.pulltorefresh.SoundPullEventListener;
+
 
 import com.melnykov.fab.FloatingActionButton;
 import com.umeng.analytics.MobclickAgent;
@@ -37,6 +36,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -53,7 +53,8 @@ import android.widget.TextView;
 
 public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> extends BaseStateFragment {
 
-    protected PullToRefreshListView mPullToRefreshListView;
+    protected SwipeRefreshLayout mTimeLineSwipeRefreshLayout;
+    protected AutoScrollListView mPullToRefreshListView;
 
     protected TextView empty;
 
@@ -93,6 +94,8 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     }
 
     protected void buildLayout(LayoutInflater inflater, View view) {
+        mTimeLineSwipeRefreshLayout = ViewUtility.findViewById(view,R.id.timeLineSRL);
+
         empty = ViewUtility.findViewById(view, R.id.empty);
         progressBar = ViewUtility.findViewById(view, R.id.progressbar);
         progressBar.setVisibility(View.GONE);
@@ -133,7 +136,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
 			public boolean onLongClick(View v) {
 				// TODO Auto-generated method stub
 				Utility.stopListViewScrollingAndScrollToTop(getListView());
-				mPullToRefreshListView.setRefreshing();
+                mTimeLineSwipeRefreshLayout.setRefreshing(true);
 				loadNewMsg();
 				return true;
 			}
@@ -143,11 +146,12 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPullToRefreshListView.setOnRefreshListener(listViewOnRefreshListener);
-        mPullToRefreshListView.setOnLastItemVisibleListener(listViewOnLastItemVisibleListener);
+        mTimeLineSwipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+
+//        mPullToRefreshListView.setOnLastItemVisibleListener(listViewOnLastItemVisibleListener);
         mPullToRefreshListView.setOnScrollListener(listViewOnScrollListener);
         mPullToRefreshListView.setOnItemClickListener(listViewOnItemClickListener);
-        mPullToRefreshListView.setOnPullEventListener(getPullEventListener());
+//        mPullToRefreshListView.setOnPullEventListener(getPullEventListener());
         buildListAdapter();
         if (savedInstanceState != null) {
             savedCurrentLoadingMsgViewPositon = savedInstanceState.getInt("savedCurrentLoadingMsgViewPositon",
@@ -177,12 +181,12 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         return listViewScrollState;
     }
 
-    public PullToRefreshListView getPullToRefreshListView() {
-        return mPullToRefreshListView;
-    }
 
-    public ListView getListView() {
-        return mPullToRefreshListView.getRefreshableView();
+    public SwipeRefreshLayout getSwipeRefreshLayout(){
+        return  this.mTimeLineSwipeRefreshLayout;
+    }
+    public AutoScrollListView getListView() {
+        return mPullToRefreshListView;
     }
 
     public BaseAdapter getAdapter() {
@@ -228,7 +232,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         }
 
         getLoaderManager().destroyLoader(NEW_MSG_LOADER_ID);
-        getPullToRefreshListView().onRefreshComplete();
+        mTimeLineSwipeRefreshLayout.setRefreshing(false);
         getLoaderManager().destroyLoader(MIDDLE_MSG_LOADER_ID);
         getLoaderManager().restartLoader(OLD_MSG_LOADER_ID, null, msgAsyncTaskLoaderCallback);
     }
@@ -236,7 +240,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     public void loadMiddleMsg(String beginId, String endId, int position) {
         getLoaderManager().destroyLoader(NEW_MSG_LOADER_ID);
         getLoaderManager().destroyLoader(OLD_MSG_LOADER_ID);
-        getPullToRefreshListView().onRefreshComplete();
+        mTimeLineSwipeRefreshLayout.setRefreshing(false);
         dismissFooterView();
 
         Bundle bundle = new Bundle();
@@ -255,24 +259,24 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         outState.putInt("savedCurrentLoadingMsgViewPositon", savedCurrentLoadingMsgViewPositon);
     }
 
-    private PullToRefreshBase.OnLastItemVisibleListener listViewOnLastItemVisibleListener = new PullToRefreshBase.OnLastItemVisibleListener() {
+//    private PullToRefreshBase.OnLastItemVisibleListener listViewOnLastItemVisibleListener = new PullToRefreshBase.OnLastItemVisibleListener() {
+//        @Override
+//        public void onLastItemVisible() {
+//            if (getActivity() == null) {
+//                return;
+//            }
+//
+//            if (getLoaderManager().getLoader(OLD_MSG_LOADER_ID) != null) {
+//                return;
+//            }
+//
+//            loadOldMsg(null);
+//        }
+//    };
+
+    private SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
-        public void onLastItemVisible() {
-            if (getActivity() == null) {
-                return;
-            }
-
-            if (getLoaderManager().getLoader(OLD_MSG_LOADER_ID) != null) {
-                return;
-            }
-
-            loadOldMsg(null);
-        }
-    };
-
-    private PullToRefreshBase.OnRefreshListener<ListView> listViewOnRefreshListener = new PullToRefreshBase.OnRefreshListener<ListView>() {
-        @Override
-        public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+        public void onRefresh() {
             if (getActivity() == null) {
                 return;
             }
@@ -285,16 +289,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         }
     };
 
-    private SoundPullEventListener<ListView> getPullEventListener() {
-        SoundPullEventListener<ListView> listener = new SoundPullEventListener<ListView>(getActivity());
-        if (SettingUtils.getEnableSound()) {
-            listener.addSoundEvent(PullToRefreshBase.State.RELEASE_TO_REFRESH, R.raw.psst1);
-            // listener.addSoundEvent(PullToRefreshBase.State.GIVE_UP,
-            // R.raw.psst2);
-            listener.addSoundEvent(PullToRefreshBase.State.RESET, R.raw.pop);
-        }
-        return listener;
-    }
+
 
     private AdapterView.OnItemClickListener listViewOnItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
@@ -497,7 +492,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
 
     protected boolean allowRefresh() {
         boolean isNewMsgLoaderLoading = getLoaderManager().getLoader(NEW_MSG_LOADER_ID) != null;
-        return getPullToRefreshListView().getVisibility() == View.VISIBLE && !isNewMsgLoaderLoading;
+        return getListView().getVisibility() == View.VISIBLE && !isNewMsgLoaderLoading;
     }
 
     @Override
@@ -666,7 +661,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
 
             switch (loader.getId()) {
                 case NEW_MSG_LOADER_ID:
-                    getPullToRefreshListView().onRefreshComplete();
+                    mTimeLineSwipeRefreshLayout.setRefreshing(false);
                     refreshLayout(getDataList());
                     if (Utility.isAllNotNull(exception)) {
                     	if (isDebug || !exception.getError().trim().equals("用户请求超过上限")) {

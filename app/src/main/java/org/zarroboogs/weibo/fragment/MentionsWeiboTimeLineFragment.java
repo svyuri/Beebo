@@ -361,13 +361,13 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
     private LoaderManager.LoaderCallbacks<MentionTimeLineData> dbCallback = new LoaderManager.LoaderCallbacks<MentionTimeLineData>() {
         @Override
         public Loader<MentionTimeLineData> onCreateLoader(int id, Bundle args) {
-            getPullToRefreshListView().setVisibility(View.INVISIBLE);
+            getListView().setVisibility(View.INVISIBLE);
             return new MentionsWeiboTimeDBLoader(getActivity(), BeeboApplication.getInstance().getCurrentAccountId());
         }
 
         @Override
         public void onLoadFinished(Loader<MentionTimeLineData> loader, MentionTimeLineData result) {
-            getPullToRefreshListView().setVisibility(View.VISIBLE);
+            getListView().setVisibility(View.VISIBLE);
 
             if (result != null) {
                 getDataList().replaceData(result.msgList);
@@ -384,7 +384,8 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
              */
 
             if (bean.getSize() == 0) {
-                mPullToRefreshListView.setRefreshing();
+//                mPullToRefreshListView.setRefreshing();
+                getSwipeRefreshLayout().setRefreshing(true);
                 loadNewMsg();
             } else {
                 new RefreshReCmtCountTask(token).executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);

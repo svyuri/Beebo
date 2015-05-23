@@ -121,7 +121,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 
     public void setTopTipBar(TopTipsView bar) {
         this.topTipBar = bar;
-        AutoScrollListView autoScrollListView = (AutoScrollListView) listView;
+        ListView autoScrollListView = listView;
         autoScrollListView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             @Override
@@ -130,7 +130,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                VelocityListView velocityListView = (VelocityListView) view;
+//                VelocityListView velocityListView = (VelocityListView) view;
                 // if (velocityListView.getVelocity() < 0) {
                 // topTipBar.hideCount();
                 // } else if (velocityListView.getVelocity() > 0) {

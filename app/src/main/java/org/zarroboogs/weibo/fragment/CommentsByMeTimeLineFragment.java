@@ -274,7 +274,7 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     private LoaderManager.LoaderCallbacks<CommentTimeLineData> dbCallback = new LoaderManager.LoaderCallbacks<CommentTimeLineData>() {
         @Override
         public Loader<CommentTimeLineData> onCreateLoader(int id, Bundle args) {
-            getPullToRefreshListView().setVisibility(View.INVISIBLE);
+            getListView().setVisibility(View.INVISIBLE);
             return new CommentsByMeDBLoader(getActivity(), BeeboApplication.getInstance().getCurrentAccountId());
         }
 
@@ -285,7 +285,7 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
                 timeLinePosition = result.position;
             }
 
-            getPullToRefreshListView().setVisibility(View.VISIBLE);
+            getListView().setVisibility(View.VISIBLE);
             getAdapter().notifyDataSetChanged();
             setListViewPositionFromPositionsCache();
 
@@ -295,7 +295,8 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
              * from server automally
              */
             if (getDataList().getSize() == 0) {
-                getPullToRefreshListView().setRefreshing();
+//                getPullToRefreshListView().setRefreshing();
+                getSwipeRefreshLayout().setRefreshing(true);
                 loadNewMsg();
             }
 

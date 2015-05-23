@@ -18,8 +18,7 @@ import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.loader.DMConversationLoader;
 import org.zarroboogs.weibo.support.utils.AppConfig;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -28,6 +27,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,11 +54,15 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     private DMListBean bean = new DMListBean();
 
+    private ListView mPullToRefreshListView;
+
     private MaterialEditText et;
 
     private SmileyPicker smiley;
 
     private LinearLayout mContainer;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private ProgressBar dmProgressBar;
 
@@ -152,19 +156,27 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
         // refactored at 0.50 version
         progressBar = new ProgressBar(getActivity());
         dmProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
-        mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.listView);
-        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
-        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+        mSwipeRefreshLayout = ViewUtility.findViewById(view,R.id.dmConversationSRL);
+
+        mPullToRefreshListView = (ListView) view.findViewById(R.id.listView);
+//        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onRefresh() {
                 loadOldMsg(null);
             }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                loadNewMsg();
-            }
         });
+//        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+//            @Override
+//            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+//                loadOldMsg(null);
+//            }
+//
+//            @Override
+//            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+//                loadNewMsg();
+//            }
+//        });
         getListView().setScrollingCacheEnabled(false);
         getListView().setHeaderDividersEnabled(false);
         getListView().setStackFromBottom(true);
@@ -386,7 +398,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
     @Override
     protected void loadOldMsg(View view) {
         getLoaderManager().destroyLoader(NEW_MSG_LOADER_ID);
-        getPullToRefreshListView().onRefreshComplete();
+        mSwipeRefreshLayout.setRefreshing(false);
         getLoaderManager().destroyLoader(MIDDLE_MSG_LOADER_ID);
         getLoaderManager().restartLoader(OLD_MSG_LOADER_ID, null, msgAsyncTaskLoaderCallback);
     }

@@ -210,7 +210,8 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 		if (itemId == R.id.menu_refresh) {
-			getPullToRefreshListView().setRefreshing();
+//			getPullToRefreshListView().setRefreshing();
+            getSwipeRefreshLayout().setRefreshing(true);
 			loadNewMsg();
 		}
         return super.onOptionsItemSelected(item);
@@ -304,7 +305,7 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            getPullToRefreshListView().setVisibility(View.INVISIBLE);
+            getListView().setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -319,7 +320,7 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
             if (getActivity() == null) {
                 return;
             }
-            getPullToRefreshListView().setVisibility(View.VISIBLE);
+            getListView().setVisibility(View.VISIBLE);
 
             if (result != null) {
                 bean.replaceData(result.favList);
@@ -333,7 +334,8 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
             refreshLayout(getDataList());
 
             if (getDataList().getSize() == 0) {
-                getPullToRefreshListView().setRefreshing();
+//                getPullToRefreshListView().setRefreshing();
+                getSwipeRefreshLayout().setRefreshing(true);
                 loadNewMsg();
             } else {
                 new RefreshReCmtCountTask().executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);

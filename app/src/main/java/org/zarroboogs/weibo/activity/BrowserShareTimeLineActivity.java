@@ -115,7 +115,8 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
             super.onActivityCreated(savedInstanceState);
             switch (getCurrentState(savedInstanceState)) {
                 case FIRST_TIME_START:
-                    getPullToRefreshListView().setRefreshing();
+//                    getPullToRefreshListView().setRefreshing();
+                    getSwipeRefreshLayout().setRefreshing(true);
                     loadNewMsg();
                     break;
                 case SCREEN_ROTATE:
@@ -166,7 +167,8 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
         @Override
         protected void loadOldMsg(View view) {
             getLoaderManager().destroyLoader(NEW_MSG_LOADER_ID);
-            getPullToRefreshListView().onRefreshComplete();
+//            getPullToRefreshListView().onRefreshComplete();
+            getSwipeRefreshLayout().setRefreshing(false);
             getLoaderManager().destroyLoader(MIDDLE_MSG_LOADER_ID);
             getLoaderManager().restartLoader(OLD_MSG_LOADER_ID, null, msgAsyncTaskLoaderCallback);
         }

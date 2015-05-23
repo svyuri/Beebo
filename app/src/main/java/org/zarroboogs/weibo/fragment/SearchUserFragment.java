@@ -27,7 +27,8 @@ public class SearchUserFragment extends AbstractUserListFragment {
     public void search(String searchKey) {
     	this.searchKey = searchKey;
     	
-        pullToRefreshListView.setRefreshing();
+//        pullToRefreshListView.setRefreshing();
+        mSwipeRefreshLayout.setRefreshing(true);
         loadNewMsg();
     }
 

@@ -16,14 +16,13 @@ import org.zarroboogs.weibo.loader.DummyLoader;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.Utility;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
-import org.zarroboogs.weibo.widget.pulltorefresh.SoundPullEventListener;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,14 +37,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * User: qii Date: 12-8-18
- */
+
 public abstract class AbstractUserListFragment extends BaseStateFragment {
 
     protected View footerView;
 
-    protected PullToRefreshListView pullToRefreshListView;
+    protected ListView pullToRefreshListView;
+
+    protected SwipeRefreshLayout mSwipeRefreshLayout;
 
     protected TextView empty;
 
@@ -93,13 +92,17 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
 
         empty = (TextView) view.findViewById(R.id.empty);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
-        pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.listView);
-        pullToRefreshListView.setOnRefreshListener(new UserListOnRefreshListener());
-        pullToRefreshListView.setOnLastItemVisibleListener(new UserListOnLastItemVisibleListener());
-        pullToRefreshListView.setOnPullEventListener(getPullEventListener());
+        mSwipeRefreshLayout = ViewUtility.findViewById(view,R.id.userListSRL);
+
+        pullToRefreshListView = (ListView) view.findViewById(R.id.listView);
+
+        mSwipeRefreshLayout.setOnRefreshListener(userOnRefreshListener);
+
+//        pullToRefreshListView.setOnLastItemVisibleListener(new UserListOnLastItemVisibleListener());
+//        pullToRefreshListView.setOnPullEventListener(getPullEventListener());
         pullToRefreshListView.setOnScrollListener(new UserListOnScrollListener());
         pullToRefreshListView.setOnItemClickListener(new UserListOnItemClickListener());
-        pullToRefreshListView.getRefreshableView().setFooterDividersEnabled(false);
+        pullToRefreshListView.setFooterDividersEnabled(false);
 
         footerView = inflater.inflate(R.layout.listview_footer_layout, null);
         getListView().addFooterView(footerView);
@@ -112,7 +115,7 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
     }
 
     public ListView getListView() {
-        return pullToRefreshListView.getRefreshableView();
+        return pullToRefreshListView;
     }
 
     // public Toolbar getBaseToolbar(){
@@ -145,16 +148,16 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
         getListView().setFastScrollEnabled(SettingUtils.allowFastScroll());
     }
 
-    private SoundPullEventListener<ListView> getPullEventListener() {
-        SoundPullEventListener<ListView> listener = new SoundPullEventListener<ListView>(getActivity());
-        if (SettingUtils.getEnableSound()) {
-            listener.addSoundEvent(PullToRefreshBase.State.RELEASE_TO_REFRESH, R.raw.psst1);
-            // listener.addSoundEvent(PullToRefreshBase.State.GIVE_UP,
-            // R.raw.psst2);
-            listener.addSoundEvent(PullToRefreshBase.State.RESET, R.raw.pop);
-        }
-        return listener;
-    }
+//    private SoundPullEventListener<ListView> getPullEventListener() {
+//        SoundPullEventListener<ListView> listener = new SoundPullEventListener<ListView>(getActivity());
+//        if (SettingUtils.getEnableSound()) {
+//            listener.addSoundEvent(PullToRefreshBase.State.RELEASE_TO_REFRESH, R.raw.psst1);
+//            // listener.addSoundEvent(PullToRefreshBase.State.GIVE_UP,
+//            // R.raw.psst2);
+//            listener.addSoundEvent(PullToRefreshBase.State.RESET, R.raw.pop);
+//        }
+//        return listener;
+//    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -238,7 +241,7 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
         }
 
         getLoaderManager().destroyLoader(NEW_USER_LOADER_ID);
-        getPullToRefreshListView().onRefreshComplete();
+        mSwipeRefreshLayout.setRefreshing(false);
         getLoaderManager().restartLoader(OLD_USER_LOADER_ID, null, userAsyncTaskLoaderCallback);
     }
 
@@ -253,7 +256,7 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 		if (itemId == R.id.loading_progressbar) {
-			pullToRefreshListView.setRefreshing();
+            mSwipeRefreshLayout.setRefreshing(true);
 			loadNewMsg();
 		}
         return super.onOptionsItemSelected(item);
@@ -265,9 +268,6 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
         progressBar.setVisibility(View.INVISIBLE);
     }
 
-    private PullToRefreshListView getPullToRefreshListView() {
-        return this.pullToRefreshListView;
-    }
 
     public void clearActionMode() {
         if (actionMode != null) {
@@ -283,21 +283,22 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
         }
     }
 
-    private class UserListOnLastItemVisibleListener implements PullToRefreshBase.OnLastItemVisibleListener {
+//    private class UserListOnLastItemVisibleListener implements PullToRefreshBase.OnLastItemVisibleListener {
+//
+//        @Override
+//        public void onLastItemVisible() {
+//            listViewFooterViewClick(null);
+//        }
+//    }
 
+    private SwipeRefreshLayout.OnRefreshListener userOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
-        public void onLastItemVisible() {
-            listViewFooterViewClick(null);
-        }
-    }
-
-    private class UserListOnRefreshListener implements PullToRefreshBase.OnRefreshListener<ListView> {
-
-        @Override
-        public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+        public void onRefresh() {
             loadNewMsg();
         }
-    }
+    };
+
+
 
     private class UserListOnItemClickListener implements AdapterView.OnItemClickListener {
 
@@ -401,7 +402,7 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
 
             switch (loader.getId()) {
                 case NEW_USER_LOADER_ID:
-                    getPullToRefreshListView().onRefreshComplete();
+                    mSwipeRefreshLayout.setRefreshing(false);
                     refreshLayout(getList());
                     if (Utility.isAllNotNull(exception)) {
                         Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();

@@ -39,7 +39,6 @@ import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.BlurImageView;
 import org.zarroboogs.weibo.widget.SwipeFrameLayout;
 import org.zarroboogs.weibo.widget.TimeLineAvatarImageView;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 
 import android.animation.Animator;
 import android.annotation.SuppressLint;
@@ -310,11 +309,11 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getPullToRefreshListView().setMode(PullToRefreshBase.Mode.DISABLED);
-        getPullToRefreshListView().setPullToRefreshOverScrollEnabled(false);
-        
-        getPullToRefreshListView().setOnLastItemVisibleListener(null);
-        getPullToRefreshListView().getRefreshableView().setOverScrollMode(View.OVER_SCROLL_ALWAYS);
+//        getPullToRefreshListView().setMode(PullToRefreshBase.Mode.DISABLED);
+//        getPullToRefreshListView().setPullToRefreshOverScrollEnabled(false);
+//
+//        getPullToRefreshListView().setOnLastItemVisibleListener(null);
+//        getPullToRefreshListView().getRefreshableView().setOverScrollMode(View.OVER_SCROLL_ALWAYS);
         viewPager.setOnTouchListener(new View.OnTouchListener() {
 
             float rawX;

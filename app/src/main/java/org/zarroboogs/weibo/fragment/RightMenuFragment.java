@@ -9,9 +9,8 @@ import org.zarroboogs.weibo.bean.GroupBean;
 import org.zarroboogs.weibo.bean.GroupListBean;
 import org.zarroboogs.weibo.db.task.GroupDBTask;
 import org.zarroboogs.weibo.support.utils.AppEventAction;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
+
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
@@ -19,6 +18,7 @@ import com.loopj.android.http.RequestParams;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +36,8 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 	private boolean firstStart = true;
 
 	public static final String SWITCH_GROUP_KEY = "switch_group";
-	private PullToRefreshListView mPullToRefreshListView;
+	private ListView mPullToRefreshListView;
+    private SwipeRefreshLayout mSwitchRefreshLayout;
 	private FriendsTimeLineListNavAdapter mBaseAdapter;
 
 	public static RightMenuFragment newInstance() {
@@ -92,18 +93,17 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.right_slidingdrawer_contents, container, false);
 
-		mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.rightGroupListView);
+        mSwitchRefreshLayout = ViewUtility.findViewById(view,R.id.rightMenuGroupSRL);
+
+		mPullToRefreshListView = ViewUtility.findViewById(view,R.id.rightGroupListView);
 		mPullToRefreshListView.setAdapter(mBaseAdapter);
-		mPullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+        mSwitchRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadGroup();
+            }
+        });
 
-			@Override
-			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				// TODO Auto-generated method stub
-
-				loadGroup();
-			}
-
-		});
 		mPullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -152,7 +152,7 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 			String[] newGroup = buildListNavData(groupBeans);
 			mBaseAdapter.refresh(newGroup);
 		}
-		mPullToRefreshListView.onRefreshComplete();
+        mSwitchRefreshLayout.setRefreshing(false);
 
 	}
 
@@ -160,13 +160,13 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 	void onLoadDataFailed(String errorStr) {
 		// TODO Auto-generated method stub
 		Log.d("FETCH_GROUP ", "onLoadDataFailed");
-		mPullToRefreshListView.onRefreshComplete();
+        mSwitchRefreshLayout.setRefreshing(false);
 	}
 
 	@Override
 	void onLoadDataStart() {
 		// TODO Auto-generated method stub
 		Log.d("FETCH_GROUP ", "onLoadDataStart");
-		mPullToRefreshListView.setRefreshing();
+        mSwitchRefreshLayout.setRefreshing(true);
 	}
 }

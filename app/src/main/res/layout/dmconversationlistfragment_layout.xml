@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:background="#FFEDEDED"
     android:fitsSystemWindows="true"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <org.zarroboogs.weibo.widget.SmileyPicker
         android:id="@+id/smiley_picker"
@@ -20,12 +20,12 @@
         android:layout_height="match_parent"
         android:layout_above="@id/smiley_picker"
         android:layout_weight="1.0"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/empty"
@@ -41,19 +41,25 @@
                because it is pull to refresh listview
             -->
 
-            <org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView
-                android:id="@+id/listView"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center"
-                android:divider="@null"
-                android:dividerHeight="0dp"
-                android:fadeScrollbars="false"
-                android:fastScrollEnabled="false"
-                android:overScrollMode="never"
-                android:scrollingCache="true"
-                android:smoothScrollbar="true"
-                android:visibility="visible" />
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/dmConversationSRL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ListView
+                    android:id="@+id/listView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    android:fadeScrollbars="false"
+                    android:fastScrollEnabled="false"
+                    android:overScrollMode="never"
+                    android:scrollingCache="true"
+                    android:smoothScrollbar="true"
+                    android:visibility="visible" />
+            </android.support.v4.widget.SwipeRefreshLayout>
 
             <ProgressBar
                 android:id="@+id/progressbar"
@@ -74,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/emoticon"

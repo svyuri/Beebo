@@ -73,7 +73,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
 
         switch (getCurrentState(savedInstanceState)) {
             case FIRST_TIME_START:
-                getPullToRefreshListView().setRefreshing();
+                getSwipeRefreshLayout().setRefreshing(true);
                 loadNewMsg();
                 break;
             case SCREEN_ROTATE:
@@ -125,7 +125,8 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
 			intent.putExtra("content", "#" + q + "#");
 			startActivity(intent);
 		} else if (itemId == R.id.menu_refresh) {
-			mPullToRefreshListView.setRefreshing();
+//			mPullToRefreshListView.setRefreshing();
+            getSwipeRefreshLayout().setRefreshing(true);
 			loadNewMsg();
 		} else if (itemId == R.id.menu_follow_topic) {
 			if (Utility.isTaskStopped(followTopicTask)) {

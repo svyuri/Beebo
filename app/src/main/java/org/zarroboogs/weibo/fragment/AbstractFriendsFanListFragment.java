@@ -72,7 +72,7 @@ public abstract class AbstractFriendsFanListFragment extends AbstractUserListFra
                     @Override
                     public void run() {
                         if (getActivity() != null) {
-                            pullToRefreshListView.setRefreshing();
+                            mSwipeRefreshLayout.setRefreshing(true);
                             loadNewMsg();
                         }
 

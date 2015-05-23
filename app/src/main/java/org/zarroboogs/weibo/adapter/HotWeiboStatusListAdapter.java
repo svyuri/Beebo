@@ -78,7 +78,7 @@ public class HotWeiboStatusListAdapter extends AbstractAppListAdapter<MessageBea
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                VelocityListView velocityListView = (VelocityListView) view;
+//                VelocityListView velocityListView = (VelocityListView) view;
                 // if (velocityListView.getVelocity() < 0) {
                 // topTipBar.hideCount();
                 // } else if (velocityListView.getVelocity() > 0) {

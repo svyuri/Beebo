@@ -5,7 +5,7 @@
     android:background="#EFEFEF"
     android:orientation="vertical" >
 
-    <org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView
+    <ListView
         android:id="@+id/left_menu_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

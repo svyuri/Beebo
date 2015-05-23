@@ -223,8 +223,8 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
             removeTask = new RemoveTask(token, getDataList().getItemList().get(position)
                     .getId(), position);
             
-            Log.d("commentsToooME: removeItem", "toaken:" + token + "  ID: "+ getDataList().getItemList().get(position)
-                    .getId() + "   pos:"  +position);
+//            Log.d("commentsToooME: removeItem", "toaken:" + token + "  ID: "+ getDataList().getItemList().get(position)
+//                    .getId() + "   pos:"  +position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
@@ -397,7 +397,7 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     private LoaderManager.LoaderCallbacks<CommentTimeLineData> dbCallback = new LoaderManager.LoaderCallbacks<CommentTimeLineData>() {
         @Override
         public Loader<CommentTimeLineData> onCreateLoader(int id, Bundle args) {
-            getPullToRefreshListView().setVisibility(View.INVISIBLE);
+            getListView().setVisibility(View.INVISIBLE);
             return new CommentsToMeDBLoader(getActivity(), BeeboApplication.getInstance().getCurrentAccountId());
         }
 
@@ -408,7 +408,7 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
                 timeLinePosition = result.position;
             }
 
-            getPullToRefreshListView().setVisibility(View.VISIBLE);
+            getListView().setVisibility(View.VISIBLE);
             getAdapter().notifyDataSetChanged();
             setListViewPositionFromPositionsCache();
 
@@ -418,7 +418,8 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
              * from server automally
              */
             if (getDataList().getSize() == 0) {
-                getPullToRefreshListView().setRefreshing();
+//                getPullToRefreshListView().setRefreshing();
+                getSwipeRefreshLayout().setRefreshing(true);
                 loadNewMsg();
             }
             getLoaderManager().destroyLoader(loader.getId());
