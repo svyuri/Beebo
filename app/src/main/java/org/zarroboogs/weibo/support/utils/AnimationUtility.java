@@ -18,9 +18,7 @@ import android.widget.ImageView;
 
 import java.lang.reflect.Method;
 
-/**
- * User: qii Date: 14-1-24
- */
+
 public class AnimationUtility {
 
     public static void translateFragmentY(UserInfoFragment fragment, int from, int to,
