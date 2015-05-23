@@ -53,7 +53,7 @@
                 android:layout_below="@id/avatar"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/divider"
-                android:visibility="visible" />
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/username"
