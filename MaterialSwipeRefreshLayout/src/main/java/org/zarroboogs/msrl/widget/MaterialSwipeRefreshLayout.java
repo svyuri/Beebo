@@ -17,6 +17,7 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
     private ListView mListView;
     private OnRefreshLoadMoreListener mOnRefreshLoadMoreListener;
     private View mListViewFooter;
+    private boolean isEnableLoadmore = true;
 
     private int mYDown;
     private int mLastY;
@@ -52,6 +53,16 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
         ensureListView();
     }
 
+    public void disableLoadmore(){
+        isEnableLoadmore = false;
+        if (mListViewFooter != null){
+            mListViewFooter.setVisibility(View.GONE);
+        }
+    }
+
+    public void enableLoadmoew(){
+        isEnableLoadmore = true;
+    }
     private void ensureListView() {
         if (mListView == null){
             for (int i = 0; i < getChildCount(); i++) {
@@ -119,6 +130,7 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
     }
 
     private void loadMore() {
+        if (!isEnableLoadmore) return;
         if (mOnRefreshLoadMoreListener != null) {
             setLoading(true);
             mOnRefreshLoadMoreListener.onLoadMore();
