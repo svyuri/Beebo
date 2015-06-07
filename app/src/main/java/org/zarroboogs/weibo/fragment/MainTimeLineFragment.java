@@ -133,34 +133,6 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
 
     }
     
-    public void showMenuOnToolBar(int menu){
-    	showMenuOnToolBar(mToolbar, menu);
-    	
-    	mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			
-			@Override
-			public boolean onMenuItemClick(MenuItem arg0) {
-				int id = arg0.getItemId();
-				switch (id) {
-				case R.id.search_menu:{
-					Intent intent = new Intent(getActivity(), SearchMainActivity.class);
-					startActivity(intent);
-					break;
-				}
-				case R.id.notify_menu:{
-					Intent intent = new Intent(getActivity(), NotifyActivity.class);
-					startActivity(intent);
-					
-					break;
-				}
-
-				default:
-					break;
-				}
-				return false;
-			}
-		});
-    }
 
     @Override
     public MessageListBean getDataList() {

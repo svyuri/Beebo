@@ -36,7 +36,7 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
     //set the footer of the ListView with a ProgressBar in it
     public void setFooterView(int layoutId) {
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-        mListViewFooter = LayoutInflater.from(getContext()).inflate(layoutId, null,false);
+        mListViewFooter = LayoutInflater.from(getContext()).inflate(layoutId, null, false);
         ensureListView();
         mListView.addFooterView(mListViewFooter);
         mListView.setFooterDividersEnabled(false);
@@ -53,27 +53,28 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
         ensureListView();
     }
 
-    public void noMore(){
+    public void noMore() {
         isEnableLoadmore = false;
-       View view = mListViewFooter.findViewById(R.id.noMoreTips);
+        View view = mListViewFooter.findViewById(R.id.noMoreTips);
         view.setVisibility(VISIBLE);
         View progress = mListViewFooter.findViewById(R.id.loadMoreProgressBar);
         progress.setVisibility(INVISIBLE);
 
     }
 
-    public void disableLoadmore(){
+    public void disableLoadmore() {
         isEnableLoadmore = false;
-        if (mListViewFooter != null){
+        if (mListViewFooter != null) {
             mListViewFooter.setVisibility(View.GONE);
         }
     }
 
-    public void enableLoadmoew(){
+    public void enableLoadmoew() {
         isEnableLoadmore = true;
     }
+
     private void ensureListView() {
-        if (mListView == null){
+        if (mListView == null) {
             for (int i = 0; i < getChildCount(); i++) {
                 View child = getChildAt(i);
                 if (child instanceof ListView) {
@@ -139,22 +140,32 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
     }
 
     private void loadMore() {
-        if (!isEnableLoadmore) return;
+        if (!isEnableLoadmore) {
+            return;
+        }
         if (mOnRefreshLoadMoreListener != null) {
             setLoading(true);
             mOnRefreshLoadMoreListener.onLoadMore();
         }
     }
 
+    private void showMaterialProgressBar(){
+        if (mListViewFooter != null){
+            mListViewFooter.findViewById(R.id.loadMoreProgressBar).setVisibility(VISIBLE);
+        }
+    }
     public void setLoading(boolean loading) {
         isLoading = loading;
         if (isLoading) {
-            if (isRefreshing()) setRefreshing(false);
+            if (isRefreshing()) {
+                setRefreshing(false);
+            }
             if (mListView.getFooterViewsCount() == 0) {
                 mListView.addFooterView(mListViewFooter);
                 mListView.setSelection(mListView.getAdapter().getCount() - 1);
             } else {
                 mListViewFooter.setVisibility(VISIBLE);
+                showMaterialProgressBar();
                 //mListView.addFooterView(mListViewFooter);
             }
         } else {
