@@ -2,6 +2,7 @@
 package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.devutils.DevLog;
+import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.file.FileLocationMethod;
@@ -51,7 +52,6 @@ import android.os.Handler;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.ActionMode;
@@ -88,7 +88,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
     private ListView listView;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private MaterialSwipeRefreshLayout mSwipeRefreshLayout;
 
     private BrowserWeiboMsgCommentAndRepostAdapter adapter;
 

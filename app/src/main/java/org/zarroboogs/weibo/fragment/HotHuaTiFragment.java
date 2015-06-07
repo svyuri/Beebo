@@ -3,6 +3,7 @@ package org.zarroboogs.weibo.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
 import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.MyAnimationListener;
@@ -24,7 +25,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +42,7 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
     
     private ListView listView;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private MaterialSwipeRefreshLayout mSwipeRefreshLayout;
 
     private HotHuaTiAdapter adapter;
 
@@ -88,12 +88,25 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 
 //        pullToRefreshListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
         listView.setOnScrollListener(listViewOnScrollListener);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+        mSwipeRefreshLayout.setOnRefreshLoadMoreListener(new MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener() {
             @Override
             public void onRefresh() {
                 loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
             }
+
+            @Override
+            public void onLoadMore() {
+
+            }
         });
+
+//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
+//            }
+//        });
 
 //        pullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 //

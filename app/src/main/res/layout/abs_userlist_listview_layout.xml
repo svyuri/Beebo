@@ -18,7 +18,7 @@
        because it is pull to refresh listview
     -->
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout
         android:id="@+id/userListSRL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -33,7 +33,7 @@
             android:scrollingCache="true"
             android:smoothScrollbar="true"
             android:visibility="visible" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/progressbar"

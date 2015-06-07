@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.fragment.base;
 
+import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.BeeboApplication;
@@ -36,7 +37,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -53,7 +53,7 @@ import android.widget.TextView;
 
 public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> extends BaseStateFragment {
 
-    protected SwipeRefreshLayout mTimeLineSwipeRefreshLayout;
+    protected MaterialSwipeRefreshLayout mTimeLineSwipeRefreshLayout;
     protected AutoScrollListView mPullToRefreshListView;
 
     protected TextView empty;
@@ -146,8 +146,9 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mTimeLineSwipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+//        mTimeLineSwipeRefreshLayout.setOnRefreshListener(onRefreshListener);
 
+        mTimeLineSwipeRefreshLayout.setOnRefreshLoadMoreListener(onRefreshListener);
 //        mPullToRefreshListView.setOnLastItemVisibleListener(listViewOnLastItemVisibleListener);
         mPullToRefreshListView.setOnScrollListener(listViewOnScrollListener);
         mPullToRefreshListView.setOnItemClickListener(listViewOnItemClickListener);
@@ -182,7 +183,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     }
 
 
-    public SwipeRefreshLayout getSwipeRefreshLayout(){
+    public MaterialSwipeRefreshLayout getSwipeRefreshLayout(){
         return  this.mTimeLineSwipeRefreshLayout;
     }
     public AutoScrollListView getListView() {
@@ -274,7 +275,8 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
 //        }
 //    };
 
-    private SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+
+    private MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener onRefreshListener = new MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener() {
         @Override
         public void onRefresh() {
             if (getActivity() == null) {
@@ -287,7 +289,34 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
 
             loadNewMsg();
         }
+
+        @Override
+        public void onLoadMore() {
+            if (getActivity() == null) {
+                return;
+            }
+
+            if (getLoaderManager().getLoader(OLD_MSG_LOADER_ID) != null) {
+                return;
+            }
+
+            loadOldMsg(null);
+        }
     };
+//    private SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+//        @Override
+//        public void onRefresh() {
+//            if (getActivity() == null) {
+//                return;
+//            }
+//
+//            if (getLoaderManager().getLoader(NEW_MSG_LOADER_ID) != null) {
+//                return;
+//            }
+//
+//            loadNewMsg();
+//        }
+//    };
 
 
 

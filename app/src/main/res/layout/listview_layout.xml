@@ -19,7 +19,7 @@
        use overScrollMode to disable blue boundaries at the top and the bottom of listview
        because it is pull to refresh listview
     -->
-    <android.support.v4.widget.SwipeRefreshLayout
+    <org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout
         android:layout_width="match_parent"
         android:id="@+id/timeLineSRL"
         android:layout_height="wrap_content">
@@ -34,7 +34,7 @@
             android:scrollingCache="true"
             android:smoothScrollbar="true"
             android:visibility="visible" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout>
 
 
     <ProgressBar

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout
         android:id="@+id/hotWeiboSRL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -20,6 +20,6 @@
             android:scrollingCache="true"
             android:smoothScrollbar="true"
             android:visibility="visible" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout>
 
 </RelativeLayout>

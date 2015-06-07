@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.zarroboogs.devutils.DevLog;
+import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
 import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
@@ -25,7 +26,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -34,7 +34,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 
 public class HotWeiboFragment extends BaseHotWeiboFragment {
 
@@ -97,17 +96,17 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 		
         getListView().setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				
-				Intent intent = BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(), 
-						(MessageBean)adapter.getItem(position - 1), BeeboApplication.getInstance().getAccessToken());
-				startActivity(intent);
-			}
-		});
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
 
-        getSwipeRefreshLayout().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                Intent intent = BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
+                        (MessageBean) adapter.getItem(position - 1), BeeboApplication.getInstance().getAccessToken());
+                startActivity(intent);
+            }
+        });
+
+        getSwipeRefreshLayout().setOnRefreshLoadMoreListener(new MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener() {
             @Override
             public void onRefresh() {
                 long uid = Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid());
@@ -115,7 +114,23 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
                 DevLog.printLog("HotWeiboFragment_get: ", url);
                 loadData(url);
             }
+
+            @Override
+            public void onLoadMore() {
+//                if (msg.getReposts_count() > 0 && repostList.size() > 0) {
+//                    loadOldRepostData();
+//                }
+            }
         });
+//        getSwipeRefreshLayout().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                long uid = Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid());
+//                String url = SeniorUrl.hotWeiboApi(BeeboApplication.getInstance().getAccountBean().getGsid(), mCtg, mPage, uid);
+//                DevLog.printLog("HotWeiboFragment_get: ", url);
+//                loadData(url);
+//            }
+//        });
 //        getPullToRefreshListView().setOnRefreshListener(new OnRefreshListener<ListView>() {
 //
 //			@Override

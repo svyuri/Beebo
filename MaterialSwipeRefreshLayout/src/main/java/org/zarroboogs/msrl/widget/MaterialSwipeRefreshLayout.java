@@ -9,6 +9,8 @@ import android.view.ViewConfiguration;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
+import org.zarroboogs.msrl.R;
+
 public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
 
     private int mTouchSlop;
@@ -59,6 +61,11 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
                     break;
                 }
             }
+            setFooterView(R.layout.listview_footer);
+            setColorSchemeResources(R.color.google_blue,
+                    R.color.google_green,
+                    R.color.google_red,
+                    R.color.google_yellow);
         }
     }
 

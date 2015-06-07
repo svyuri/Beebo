@@ -1,5 +1,6 @@
 package org.zarroboogs.weibo.fragment;
 
+import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
@@ -18,7 +19,6 @@ import com.loopj.android.http.RequestParams;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +37,7 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 
 	public static final String SWITCH_GROUP_KEY = "switch_group";
 	private ListView mPullToRefreshListView;
-    private SwipeRefreshLayout mSwitchRefreshLayout;
+    private MaterialSwipeRefreshLayout mSwitchRefreshLayout;
 	private FriendsTimeLineListNavAdapter mBaseAdapter;
 
 	public static RightMenuFragment newInstance() {
@@ -97,12 +97,23 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 
 		mPullToRefreshListView = ViewUtility.findViewById(view,R.id.rightGroupListView);
 		mPullToRefreshListView.setAdapter(mBaseAdapter);
-        mSwitchRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadGroup();
-            }
-        });
+		mSwitchRefreshLayout.setOnRefreshLoadMoreListener(new MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener() {
+			@Override
+			public void onRefresh() {
+				loadGroup();
+			}
+
+			@Override
+			public void onLoadMore() {
+
+			}
+		});
+//        mSwitchRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                loadGroup();
+//            }
+//        });
 
 		mPullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 

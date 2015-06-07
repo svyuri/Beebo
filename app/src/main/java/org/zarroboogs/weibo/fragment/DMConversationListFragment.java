@@ -2,6 +2,7 @@
 package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker;
+import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.BeeboApplication;
@@ -27,7 +28,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -62,7 +62,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     private LinearLayout mContainer;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private MaterialSwipeRefreshLayout mSwipeRefreshLayout;
 
     private ProgressBar dmProgressBar;
 
@@ -160,12 +160,26 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
         mPullToRefreshListView = (ListView) view.findViewById(R.id.listView);
 //        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+
+        mSwipeRefreshLayout.setOnRefreshLoadMoreListener(new MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener() {
             @Override
             public void onRefresh() {
                 loadOldMsg(null);
             }
+
+            @Override
+            public void onLoadMore() {
+                loadOldMsg(null);
+            }
         });
+
+//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                loadOldMsg(null);
+//            }
+//        });
 //        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
 //            @Override
 //            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {

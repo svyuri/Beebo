@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.fragment;
 
+import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.BeeboApplication;
@@ -22,7 +23,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -44,7 +44,7 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
 
     protected ListView pullToRefreshListView;
 
-    protected SwipeRefreshLayout mSwipeRefreshLayout;
+    protected MaterialSwipeRefreshLayout mSwipeRefreshLayout;
 
     protected TextView empty;
 
@@ -96,7 +96,9 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
 
         pullToRefreshListView = (ListView) view.findViewById(R.id.listView);
 
-        mSwipeRefreshLayout.setOnRefreshListener(userOnRefreshListener);
+//        mSwipeRefreshLayout.setOnRefreshListener(userOnRefreshListener);
+
+        mSwipeRefreshLayout.setOnRefreshLoadMoreListener(userOnRefreshListener);
 
 //        pullToRefreshListView.setOnLastItemVisibleListener(new UserListOnLastItemVisibleListener());
 //        pullToRefreshListView.setOnPullEventListener(getPullEventListener());
@@ -291,13 +293,24 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
 //        }
 //    }
 
-    private SwipeRefreshLayout.OnRefreshListener userOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+//    private SwipeRefreshLayout.OnRefreshListener userOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+//        @Override
+//        public void onRefresh() {
+//            loadNewMsg();
+//        }
+//    };
+
+    private MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener userOnRefreshListener = new MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener() {
         @Override
         public void onRefresh() {
             loadNewMsg();
         }
-    };
 
+        @Override
+        public void onLoadMore() {
+
+        }
+    };
 
 
     private class UserListOnItemClickListener implements AdapterView.OnItemClickListener {
