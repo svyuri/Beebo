@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.zarroboogs.weibo" >
 
     <uses-feature
@@ -16,6 +17,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
+        tools:replace="android:icon,android:theme"
         android:name="org.zarroboogs.weibo.BeeboApplication"
         android:allowBackup="true"
         android:icon="@drawable/launcher_circle"
