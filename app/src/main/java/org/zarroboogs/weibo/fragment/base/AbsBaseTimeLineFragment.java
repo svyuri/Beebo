@@ -47,8 +47,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> extends BaseStateFragment {
@@ -57,8 +55,6 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     protected AutoScrollListView mPullToRefreshListView;
 
     protected TextView empty;
-
-    protected ProgressBar progressBar;
 
     protected TopTipsView newMsgTipBar;
 
@@ -97,8 +93,6 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         mTimeLineSwipeRefreshLayout = ViewUtility.findViewById(view,R.id.timeLineSRL);
 
         empty = ViewUtility.findViewById(view, R.id.empty);
-        progressBar = ViewUtility.findViewById(view, R.id.progressbar);
-        progressBar.setVisibility(View.GONE);
         mPullToRefreshListView = ViewUtility.findViewById(view, R.id.listView);
         newMsgTipBar = ViewUtility.findViewById(view, R.id.tv_unread_new_message_count_tip_bar);
 
@@ -201,15 +195,15 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     protected void refreshLayout(T bean) {
         if (bean != null && bean.getSize() > 0) {
             // empty.setVisibility(View.INVISIBLE);
-            progressBar.setVisibility(View.INVISIBLE);
+//            progressBar.setVisibility(View.INVISIBLE);
             // listView.setVisibility(View.VISIBLE);
         } else if (bean == null || bean.getSize() == 0) {
             // empty.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.INVISIBLE);
+//            progressBar.setVisibility(View.INVISIBLE);
             // listView.setVisibility(View.VISIBLE);
         } else if (bean.getSize() == bean.getTotal_number()) {
             // empty.setVisibility(View.INVISIBLE);
-            progressBar.setVisibility(View.INVISIBLE);
+//            progressBar.setVisibility(View.INVISIBLE);
             // listView.setVisibility(View.VISIBLE);
         }
     }
@@ -568,7 +562,6 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     }
 
     protected void showListView() {
-        progressBar.setVisibility(View.INVISIBLE);
     }
 
     private volatile boolean enableRefreshTime = true;

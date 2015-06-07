@@ -9,7 +9,7 @@
               android:layout_height="wrap_content">
 
 
-    <ProgressBar android:id="@+id/progressbar"
+    <ProgressBar android:id="@+id/listLoadMoreProgress"
                  android:layout_gravity="center_horizontal"
                  android:layout_width="30dp"
                  android:layout_height="30dp"

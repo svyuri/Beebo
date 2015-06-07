@@ -48,8 +48,6 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
 
     protected TextView empty;
 
-    protected ProgressBar progressBar;
-
     private UserListAdapter userListAdapter;
 
     protected UserListBean bean = new UserListBean();
@@ -91,7 +89,6 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
         // mToolbar = (Toolbar) view.findViewById(R.id.baseToolBar);
 
         empty = (TextView) view.findViewById(R.id.empty);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
         mSwipeRefreshLayout = ViewUtility.findViewById(view,R.id.userListSRL);
 
         pullToRefreshListView = (ListView) view.findViewById(R.id.listView);
@@ -191,11 +188,9 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
     protected void refreshLayout(UserListBean bean) {
         if (bean.getUsers().size() > 0) {
             empty.setVisibility(View.INVISIBLE);
-            progressBar.setVisibility(View.INVISIBLE);
             // listView.setVisibility(View.VISIBLE);
         } else {
             empty.setVisibility(View.INVISIBLE);
-            progressBar.setVisibility(View.INVISIBLE);
             // listView.setVisibility(View.INVISIBLE);
         }
     }
@@ -267,7 +262,6 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
     private void showListView() {
         empty.setVisibility(View.INVISIBLE);
         // listView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.INVISIBLE);
     }
 
 

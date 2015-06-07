@@ -337,7 +337,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
         });
 
         View progressHeaderLayout = inflater.inflate(R.layout.browserweibomsgfragment_progress_header, listView, false);
-        progressHeader = progressHeaderLayout.findViewById(R.id.progressbar);
+        progressHeader = progressHeaderLayout.findViewById(R.id.listLoadMoreProgress);
         progressHeader.setVisibility(View.GONE);
         listView.addHeaderView(progressHeaderLayout);
 

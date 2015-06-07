@@ -64,7 +64,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     private MaterialSwipeRefreshLayout mSwipeRefreshLayout;
 
-    private ProgressBar dmProgressBar;
+//    private ProgressBar dmProgressBar;
 
     private Comparator<DMBean> comparator = new Comparator<DMBean>() {
         @Override
@@ -154,8 +154,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
         // local data; but in this list,
         // use a progressbar to indicate loading new data first time, maybe be
         // refactored at 0.50 version
-        progressBar = new ProgressBar(getActivity());
-        dmProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
+//        progressBar = new ProgressBar(getActivity());
         mSwipeRefreshLayout = ViewUtility.findViewById(view,R.id.dmConversationSRL);
 
         mPullToRefreshListView = (ListView) view.findViewById(R.id.listView);
@@ -305,7 +304,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     @Override
     protected void newMsgLoaderSuccessCallback(DMListBean newValue, Bundle loaderArgs) {
-        dmProgressBar.setVisibility(View.INVISIBLE);
+//        dmProgressBar.setVisibility(View.INVISIBLE);
 
         if (newValue != null && newValue.getSize() > 0 && getActivity() != null) {
             getDataList().addNewData(newValue);
@@ -400,7 +399,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
     public void loadNewMsg() {
 
         if (bean.getSize() == 0) {
-            dmProgressBar.setVisibility(View.VISIBLE);
+//            dmProgressBar.setVisibility(View.VISIBLE);
         }
 
         getLoaderManager().destroyLoader(MIDDLE_MSG_LOADER_ID);

@@ -14,7 +14,7 @@
         android:layout_alignTop="@id/webView"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:id="@+id/progressbar"
+        android:id="@+id/listLoadMoreProgress"
         android:indeterminate="false"
         android:max="100"
         style="@style/progressBarStyleHorizontal"

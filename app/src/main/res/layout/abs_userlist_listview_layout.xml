@@ -35,12 +35,12 @@
             android:visibility="visible" />
     </org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout>
 
-    <ProgressBar
-        android:id="@+id/progressbar"
+<!--    <ProgressBar
+        android:id="@+id/listLoadMoreProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="visible" />
+        android:visibility="visible" />-->
 
     <org.zarroboogs.weibo.widget.TopTipsView
         android:id="@+id/tv_unread_new_message_count_tip_bar"

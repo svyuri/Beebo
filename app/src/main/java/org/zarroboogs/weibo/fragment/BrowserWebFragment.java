@@ -47,9 +47,7 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
-/**
- * User: qii Date: 13-2-19
- */
+
 @SuppressLint("ValidFragment")
 public class BrowserWebFragment extends Fragment {
 
@@ -111,7 +109,7 @@ public class BrowserWebFragment extends Fragment {
             mWebView.destroy();
         }
         mWebView = (WebView) view.findViewById(R.id.webView);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.listLoadMoreProgress);
         mWebView.setOnKeyListener(new View.OnKeyListener() {
 
             @Override
