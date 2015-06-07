@@ -53,6 +53,15 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
         ensureListView();
     }
 
+    public void noMore(){
+        isEnableLoadmore = false;
+       View view = mListViewFooter.findViewById(R.id.noMoreTips);
+        view.setVisibility(VISIBLE);
+        View progress = mListViewFooter.findViewById(R.id.loadMoreProgressBar);
+        progress.setVisibility(INVISIBLE);
+
+    }
+
     public void disableLoadmore(){
         isEnableLoadmore = false;
         if (mListViewFooter != null){
