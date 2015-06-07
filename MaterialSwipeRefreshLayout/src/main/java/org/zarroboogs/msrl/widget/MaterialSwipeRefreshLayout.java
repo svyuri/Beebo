@@ -55,19 +55,14 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
 
     public void noMore() {
         isEnableLoadmore = false;
-        View view = mListViewFooter.findViewById(R.id.noMoreTips);
-        view.setVisibility(VISIBLE);
-        View progress = mListViewFooter.findViewById(R.id.loadMoreProgressBar);
-        progress.setVisibility(INVISIBLE);
-
-    }
-
-    public void disableLoadmore() {
-        isEnableLoadmore = false;
-        if (mListViewFooter != null) {
-            mListViewFooter.setVisibility(View.GONE);
+        if (mListViewFooter != null){
+            View view = mListViewFooter.findViewById(R.id.noMoreTips);
+            view.setVisibility(VISIBLE);
+            View progress = mListViewFooter.findViewById(R.id.loadMoreProgressBar);
+            progress.setVisibility(INVISIBLE);
         }
     }
+
 
     public void enableLoadmoew() {
         isEnableLoadmore = true;
@@ -82,7 +77,6 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
                     break;
                 }
             }
-            setFooterView(R.layout.listview_footer);
             setColorSchemeResources(R.color.google_blue,
                     R.color.google_green,
                     R.color.google_red,

@@ -117,33 +117,12 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
 
             @Override
             public void onLoadMore() {
-//                if (msg.getReposts_count() > 0 && repostList.size() > 0) {
-//                    loadOldRepostData();
-//                }
+
             }
         });
-//        getSwipeRefreshLayout().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                long uid = Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid());
-//                String url = SeniorUrl.hotWeiboApi(BeeboApplication.getInstance().getAccountBean().getGsid(), mCtg, mPage, uid);
-//                DevLog.printLog("HotWeiboFragment_get: ", url);
-//                loadData(url);
-//            }
-//        });
-//        getPullToRefreshListView().setOnRefreshListener(new OnRefreshListener<ListView>() {
-//
-//			@Override
-//			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-//				// TODO Auto-generated method stub
-//                long uid = Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid());
-//                String url = SeniorUrl.hotWeiboApi(BeeboApplication.getInstance().getAccountBean().getGsid(), mCtg, mPage, uid);
-//                DevLog.printLog("HotWeiboFragment_get: ", url);
-//                loadData(url);
-//
-//				getPullToRefreshListView().setRefreshing();
-//			}
-//		});
+
+        getSwipeRefreshLayout().noMore();
+
 	}
 
 

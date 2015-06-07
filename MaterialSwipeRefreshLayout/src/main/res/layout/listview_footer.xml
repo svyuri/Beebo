@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:visibility="gone">
+    android:visibility="visible">
 
 
-    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -24,12 +24,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="没有新内容了"
-            android:visibility="gone" />
+            android:text="没有更早内容了"
+            android:visibility="invisible" />
 
         <org.zarroboogs.msrl.widget.CircleProgressBar
             android:id="@+id/loadMoreProgressBar"
-            android:visibility="invisible"
+            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

@@ -90,6 +90,8 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     protected void buildLayout(LayoutInflater inflater, View view) {
         mTimeLineSwipeRefreshLayout = ViewUtility.findViewById(view,R.id.timeLineSRL);
 
+        mTimeLineSwipeRefreshLayout.setFooterView(R.layout.listview_footer);
+
         empty = ViewUtility.findViewById(view, R.id.empty);
         mPullToRefreshListView = ViewUtility.findViewById(view, R.id.listView);
         newMsgTipBar = ViewUtility.findViewById(view, R.id.tv_unread_new_message_count_tip_bar);
