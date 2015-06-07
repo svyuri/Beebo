@@ -101,7 +101,7 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
                                     int position, long id) {
 
                 Intent intent = BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
-                        (MessageBean) adapter.getItem(position - 1), BeeboApplication.getInstance().getAccessToken());
+                        (MessageBean) adapter.getItem(position), BeeboApplication.getInstance().getAccessToken());
                 startActivity(intent);
             }
         });
