@@ -194,8 +194,6 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
         getListView().setHeaderDividersEnabled(false);
         getListView().setStackFromBottom(true);
 
-        footerView = inflater.inflate(R.layout.listview_footer_layout, null);
-        getListView().addFooterView(footerView);
         dismissFooterView();
 
         et = (MaterialEditText) view.findViewById(R.id.content);

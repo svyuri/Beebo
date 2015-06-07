@@ -62,8 +62,6 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
 
     public FloatingActionButton mFab;
 
-    protected View footerView;
-
     protected static final int DB_CACHE_LOADER_ID = 0;
 
     protected static final int NEW_MSG_LOADER_ID = 1;
@@ -80,7 +78,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
 
     private int listViewScrollState = -1;
 
-    private boolean canLoadOldData = true;
+    private boolean mCanLoadOldData = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,8 +97,6 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         getListView().setHeaderDividersEnabled(false);
         getListView().setScrollingCacheEnabled(false);
 
-        footerView = inflater.inflate(R.layout.listview_footer_layout, null);
-        getListView().addFooterView(footerView);
         dismissFooterView();
         mFab = ViewUtility.findViewById(view, R.id.absTimeLineFab);
 
@@ -213,7 +209,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     protected abstract void onTimeListViewItemClick(AdapterView<?> parent, View view, int position, long id);
 
     public void loadNewMsg() {
-        canLoadOldData = true;
+        mCanLoadOldData = true;
         getLoaderManager().destroyLoader(MIDDLE_MSG_LOADER_ID);
         getLoaderManager().destroyLoader(OLD_MSG_LOADER_ID);
         dismissFooterView();
@@ -222,7 +218,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
 
     protected void loadOldMsg(View view) {
 
-        if (getLoaderManager().getLoader(OLD_MSG_LOADER_ID) != null || !canLoadOldData) {
+        if (getLoaderManager().getLoader(OLD_MSG_LOADER_ID) != null || !mCanLoadOldData) {
             return;
         }
 
@@ -454,31 +450,15 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     }
 
     protected void showFooterView() {
-        View view = footerView.findViewById(R.id.loading_progressbar);
-        view.setVisibility(View.VISIBLE);
-        view.setScaleX(1.0f);
-        view.setScaleY(1.0f);
-        view.setAlpha(1.0f);
-        footerView.findViewById(R.id.laod_failed).setVisibility(View.GONE);
+
     }
 
     protected void dismissFooterView() {
-        final View progressbar = footerView.findViewById(R.id.loading_progressbar);
-        progressbar.animate().scaleX(0).scaleY(0).alpha(0.5f).setDuration(300)
-                .setListener(new MyAnimationListener(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressbar.setVisibility(View.GONE);
-                    }
-                }));
-        footerView.findViewById(R.id.laod_failed).setVisibility(View.GONE);
+
     }
 
     protected void showErrorFooterView() {
-        View view = footerView.findViewById(R.id.loading_progressbar);
-        view.setVisibility(View.GONE);
-        TextView tv = ((TextView) footerView.findViewById(R.id.laod_failed));
-        tv.setVisibility(View.VISIBLE);
+
     }
 
     public void clearActionMode() {
@@ -720,12 +700,12 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
                         showErrorFooterView();
                         oldMsgLoaderFailedCallback(exception);
                     } else if (data != null) {
-                        canLoadOldData = data.getSize() > 1;
+                        mCanLoadOldData = data.getSize() > 1;
                         oldMsgLoaderSuccessCallback(data);
                         getAdapter().notifyDataSetChanged();
                         dismissFooterView();
                     } else {
-                        canLoadOldData = false;
+                        mCanLoadOldData = false;
                         dismissFooterView();
                     }
                     break;

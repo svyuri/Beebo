@@ -190,7 +190,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         header = inflater.inflate(R.layout.newuserinfofragment_header_layout, getListView(), false);
         getListView().addHeaderView(header);
 
-        footerView.setVisibility(View.GONE);
+//        footerView.setVisibility(View.GONE);
 
         progressFooter = inflater.inflate(R.layout.newuserinfofragment_progress_footer, getListView(), false);
         progressFooter.setVisibility(View.GONE);

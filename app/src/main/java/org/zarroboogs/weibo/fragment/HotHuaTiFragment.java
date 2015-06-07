@@ -50,8 +50,6 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 
     private static final int OLD_REPOST_LOADER_ID = 4;
 
-    private View footerView;
-
     private ActionMode actionMode;
 
     private boolean canLoadOldRepostData = true;
@@ -120,8 +118,6 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 //		});
 
 
-        footerView = inflater.inflate(R.layout.listview_footer_layout, null);
-        listView.addFooterView(footerView);
         dismissFooterView();
 
 //        repostTab.setOnClickListener(new RepostTabOnClickListener());
@@ -156,31 +152,15 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
     }
 
     protected void showFooterView() {
-        View view = footerView.findViewById(R.id.loading_progressbar);
-        view.setVisibility(View.VISIBLE);
-        view.setScaleX(1.0f);
-        view.setScaleY(1.0f);
-        view.setAlpha(1.0f);
-        footerView.findViewById(R.id.laod_failed).setVisibility(View.GONE);
+
     }
 
     protected void dismissFooterView() {
-        final View progressbar = footerView.findViewById(R.id.loading_progressbar);
-        progressbar.animate().scaleX(0).scaleY(0).alpha(0.5f).setDuration(300)
-                .setListener(new MyAnimationListener(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressbar.setVisibility(View.GONE);
-                    }
-                }));
-        footerView.findViewById(R.id.laod_failed).setVisibility(View.GONE);
+
     }
 
     protected void showErrorFooterView() {
-        View view = footerView.findViewById(R.id.loading_progressbar);
-        view.setVisibility(View.GONE);
-        TextView tv = ((TextView) footerView.findViewById(R.id.laod_failed));
-        tv.setVisibility(View.VISIBLE);
+
     }
 
     public void clearActionMode() {

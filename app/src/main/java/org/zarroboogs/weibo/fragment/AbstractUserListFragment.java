@@ -40,8 +40,6 @@ import android.widget.Toast;
 
 public abstract class AbstractUserListFragment extends BaseStateFragment {
 
-    protected View footerView;
-
     protected ListView pullToRefreshListView;
 
     protected MaterialSwipeRefreshLayout mSwipeRefreshLayout;
@@ -103,8 +101,6 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
         pullToRefreshListView.setOnItemClickListener(new UserListOnItemClickListener());
         pullToRefreshListView.setFooterDividersEnabled(false);
 
-        footerView = inflater.inflate(R.layout.listview_footer_layout, null);
-        getListView().addFooterView(footerView);
         dismissFooterView();
 
         userListAdapter = new UserListAdapter(AbstractUserListFragment.this, bean.getUsers(), getListView());
@@ -196,31 +192,12 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
     }
 
     protected void showFooterView() {
-        View view = footerView.findViewById(R.id.loading_progressbar);
-        view.setVisibility(View.VISIBLE);
-        view.setScaleX(1.0f);
-        view.setScaleY(1.0f);
-        view.setAlpha(1.0f);
-        footerView.findViewById(R.id.laod_failed).setVisibility(View.GONE);
     }
 
     protected void dismissFooterView() {
-        final View progressbar = footerView.findViewById(R.id.loading_progressbar);
-        progressbar.animate().scaleX(0).scaleY(0).alpha(0.5f).setDuration(300)
-                .setListener(new MyAnimationListener(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressbar.setVisibility(View.GONE);
-                    }
-                }));
-        footerView.findViewById(R.id.laod_failed).setVisibility(View.GONE);
     }
 
     protected void showErrorFooterView() {
-        View view = footerView.findViewById(R.id.loading_progressbar);
-        view.setVisibility(View.GONE);
-        TextView tv = ((TextView) footerView.findViewById(R.id.laod_failed));
-        tv.setVisibility(View.VISIBLE);
     }
 
     public void loadNewMsg() {
@@ -252,10 +229,10 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-		if (itemId == R.id.loading_progressbar) {
-            mSwipeRefreshLayout.setRefreshing(true);
-			loadNewMsg();
-		}
+//		if (itemId == R.id.loading_progressbar) {
+//            mSwipeRefreshLayout.setRefreshing(true);
+//			loadNewMsg();
+//		}
         return super.onOptionsItemSelected(item);
     }
 
