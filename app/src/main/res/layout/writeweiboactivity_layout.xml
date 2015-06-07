@@ -93,7 +93,7 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <org.zarroboogs.weibo.widget.SmileyPicker
+    <org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker
         android:id="@+id/smiley_picker"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
