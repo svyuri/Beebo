@@ -837,7 +837,8 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
             FriendsTimeLineDBTask.asyncReplace(getDataList(), mAccountBean.getUid(), currentGroupId);
 
         } else if (Utility.isAllNotNull(getActivity())) {
-            Toast.makeText(getActivity(), getString(R.string.older_message_empty), Toast.LENGTH_SHORT).show();
+            mTimeLineSwipeRefreshLayout.noMore();
+//            Toast.makeText(getActivity(), getString(R.string.older_message_empty), Toast.LENGTH_SHORT).show();
         }
     }
 

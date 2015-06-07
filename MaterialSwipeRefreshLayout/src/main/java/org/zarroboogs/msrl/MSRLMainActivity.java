@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import org.zarroboogs.msrl.widget.SwipeRefreshLayout;
 import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -62,7 +61,7 @@ public class MSRLMainActivity extends ActionBarActivity {
                     public void run() {
                         values.add("Swipe Up to Load More " + values.size());
                         mArrayAdapter.notifyDataSetChanged();
-                        mRefreshLayout.setLoading(false);
+                        mRefreshLayout.setLoadingMore(false);
                     }
                 }, 2000);
             }

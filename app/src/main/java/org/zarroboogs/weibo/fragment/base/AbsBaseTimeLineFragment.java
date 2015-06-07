@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.fragment.base;
 
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
@@ -225,7 +226,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         }
 
         getLoaderManager().destroyLoader(NEW_MSG_LOADER_ID);
-        mTimeLineSwipeRefreshLayout.setRefreshing(false);
+        mTimeLineSwipeRefreshLayout.setLoadingMore(false);
         getLoaderManager().destroyLoader(MIDDLE_MSG_LOADER_ID);
         getLoaderManager().restartLoader(OLD_MSG_LOADER_ID, null, msgAsyncTaskLoaderCallback);
     }
@@ -284,6 +285,8 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
 
         @Override
         public void onLoadMore() {
+
+            DevLog.printLog("TimeLineLoadMore ","loadMore");
             if (getActivity() == null) {
                 return;
             }

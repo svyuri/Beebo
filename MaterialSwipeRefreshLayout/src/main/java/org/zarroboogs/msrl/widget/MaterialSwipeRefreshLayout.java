@@ -2,6 +2,7 @@ package org.zarroboogs.msrl.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,10 +43,6 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
         mListView.setFooterDividersEnabled(false);
     }
 
-    @Override
-    public void setRefreshing(boolean refreshing) {
-        super.setRefreshing(refreshing);
-    }
 
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -104,6 +101,7 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
                 break;
 
             case MotionEvent.ACTION_UP:
+                Log.d("MaterialSwipeRefreshLayout","MotionEvent.ACTION_UP" + canLoad());
                 if (canLoad()) {
                     loadMore();
                 }
@@ -138,7 +136,7 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
             return;
         }
         if (mOnRefreshLoadMoreListener != null) {
-            setLoading(true);
+            setLoadingMore(true);
             mOnRefreshLoadMoreListener.onLoadMore();
         }
     }
@@ -148,26 +146,42 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
             mListViewFooter.findViewById(R.id.loadMoreProgressBar).setVisibility(VISIBLE);
         }
     }
-    public void setLoading(boolean loading) {
+
+    @Override
+    public void setRefreshing(boolean refreshing) {
+        super.setRefreshing(refreshing);
+    }
+
+    public void setLoadingMore(boolean loading) {
         isLoading = loading;
-        if (isLoading) {
-            if (isRefreshing()) {
-                setRefreshing(false);
+        if (loading) {
+
+            if (isRefreshing()){
+                return;
             }
-            if (mListView.getFooterViewsCount() == 0) {
+            if (mListView.getFooterViewsCount() == 0){
                 mListView.addFooterView(mListViewFooter);
-                mListView.setSelection(mListView.getAdapter().getCount() - 1);
-            } else {
-                mListViewFooter.setVisibility(VISIBLE);
-                showMaterialProgressBar();
-                //mListView.addFooterView(mListViewFooter);
             }
+            mListView.setSelection(mListView.getAdapter().getCount() - 1);
+            showMaterialProgressBar();
+//            if (isRefreshing()) {
+//                setRefreshing(false);
+//            }
+//            if (mListView.getFooterViewsCount() == 0) {
+//                mListView.addFooterView(mListViewFooter);
+//                mListView.setSelection(mListView.getAdapter().getCount() - 1);
+//            } else {
+//                mListViewFooter.setVisibility(VISIBLE);
+//                showMaterialProgressBar();
+//                //mListView.addFooterView(mListViewFooter);
+//            }
         } else {
-            if (mListView.getAdapter() instanceof HeaderViewListAdapter) {
-                mListView.removeFooterView(mListViewFooter);
-            } else {
-                mListViewFooter.setVisibility(View.GONE);
-            }
+//            if (mListView.getAdapter() instanceof HeaderViewListAdapter) {
+//                mListView.removeFooterView(mListViewFooter);
+//            } else {
+//                mListViewFooter.setVisibility(View.GONE);
+//            }
+            mListView.removeFooterView(mListViewFooter);
             mYDown = 0;
             mLastY = 0;
         }

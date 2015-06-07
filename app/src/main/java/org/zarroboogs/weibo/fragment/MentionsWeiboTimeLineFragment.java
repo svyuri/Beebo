@@ -254,7 +254,8 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
             getDataList().addOldData(newValue);
             MentionWeiboTimeLineDBTask.asyncReplace(getDataList(), accountBean.getUid());
         } else {
-            Toast.makeText(getActivity(), getString(R.string.older_message_empty), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), getString(R.string.older_message_empty), Toast.LENGTH_SHORT).show();
+            mTimeLineSwipeRefreshLayout.noMore();
         }
     }
 
