@@ -194,8 +194,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         });
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        boolean isPhoneDevice = findViewById(R.id.left_drawer_layout) == null;
-
         if (savedInstanceState == null) {
             initFragments();
             FragmentTransaction secondFragmentTransaction = getSupportFragmentManager().beginTransaction();

@@ -11,44 +11,31 @@ import org.zarroboogs.utils.crashmanager.CrashManager;
 import org.zarroboogs.utils.crashmanager.CrashManagerConstants;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.GroupListBean;
-import org.zarroboogs.weibo.bean.MusicInfoBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.db.task.GroupDBTask;
 import org.zarroboogs.weibo.setting.SettingUtils;
-import org.zarroboogs.weibo.support.utils.Utility;
-import org.zarroboogs.weibo.widget.SmileyMap;
 
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.LruCache;
 import android.view.Display;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public final class BeeboApplication extends Application {
-    public static BeeboApplication instance;
 
-    public final static String SLEEP_INTENT = "org.videolan.vlc.SleepIntent";
 
-    // singleton
-    public static BeeboApplication globalContext = null;
+    public static BeeboApplication instance = null;
 
     // image size
     public Activity activity = null;
@@ -63,11 +50,9 @@ public final class BeeboApplication extends Application {
     // current account info
     public AccountBean accountBean = null;
 
-    public LinkedHashMap<Integer, LinkedHashMap<String, Bitmap>> emotionsPic = null;
 
     public GroupListBean group = null;
 
-    public MusicInfoBean musicInfo = null;
 
     public Handler handler;
 
@@ -76,11 +61,9 @@ public final class BeeboApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        globalContext = (BeeboApplication) getApplicationContext();
         instance = (BeeboApplication) getApplicationContext();
 
         handler = new Handler();
-        emotionsPic = new LinkedHashMap<Integer, LinkedHashMap<String, Bitmap>>();
 
         initImageLoader(getApplicationContext());
 
@@ -91,7 +74,7 @@ public final class BeeboApplication extends Application {
     }
 
     public static BeeboApplication getInstance() {
-        return globalContext;
+        return instance;
     }
 
     public Handler getUIHandler() {
@@ -252,70 +235,7 @@ public final class BeeboApplication extends Application {
         };
     }
 
-    public synchronized Map<String, Bitmap> getEmotionsPics() {
-        if (emotionsPic != null && emotionsPic.size() > 0) {
-            return emotionsPic.get(SmileyMap.GENERAL_EMOTION_POSITION);
-        } else {
-            getEmotionsTask();
-            return emotionsPic.get(SmileyMap.GENERAL_EMOTION_POSITION);
-        }
-    }
 
-    public synchronized Map<String, Bitmap> getHuahuaPics() {
-        if (emotionsPic != null && emotionsPic.size() > 0) {
-            return emotionsPic.get(SmileyMap.HUAHUA_EMOTION_POSITION);
-        } else {
-            getEmotionsTask();
-            return emotionsPic.get(SmileyMap.HUAHUA_EMOTION_POSITION);
-        }
-    }
-
-    private void getEmotionsTask() {
-        Map<String, String> general = SmileyMap.getInstance().getGeneral();
-        emotionsPic.put(SmileyMap.GENERAL_EMOTION_POSITION, getEmotionsTask(general));
-        Map<String, String> huahua = SmileyMap.getInstance().getHuahua();
-        emotionsPic.put(SmileyMap.HUAHUA_EMOTION_POSITION, getEmotionsTask(huahua));
-    }
-
-    private LinkedHashMap<String, Bitmap> getEmotionsTask(Map<String, String> emotionMap) {
-        List<String> index = new ArrayList<String>();
-        index.addAll(emotionMap.keySet());
-        LinkedHashMap<String, Bitmap> bitmapMap = new LinkedHashMap<String, Bitmap>();
-        for (String str : index) {
-            String name = emotionMap.get(str);
-            AssetManager assetManager = BeeboApplication.getInstance().getAssets();
-            InputStream inputStream;
-            try {
-                inputStream = assetManager.open(name);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                if (bitmap != null) {
-                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,
-                            Utility.dip2px(getResources().getInteger(R.integer.emotion_size)),
-                            Utility.dip2px(getResources().getInteger(R.integer.emotion_size)), true);
-                    if (bitmap != scaledBitmap) {
-                        bitmap.recycle();
-                        bitmap = scaledBitmap;
-                    }
-                    bitmapMap.put(str, bitmap);
-                }
-            } catch (IOException ignored) {
-
-            }
-        }
-
-        return bitmapMap;
-    }
-
-    public void updateMusicInfo(MusicInfoBean musicInfo) {
-        if (musicInfo == null) {
-            musicInfo = new MusicInfoBean();
-        }
-        this.musicInfo = musicInfo;
-    }
-
-    public MusicInfoBean getMusicInfo() {
-        return musicInfo;
-    }
 
     public boolean checkUserIsLogin() {
         return getInstance().getAccountBean() != null;

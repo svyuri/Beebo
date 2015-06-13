@@ -14,7 +14,6 @@ import org.zarroboogs.weibo.adapter.AutoCompleteAdapter;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.GeoBean;
-import org.zarroboogs.weibo.bean.MusicInfoBean;
 import org.zarroboogs.weibo.bean.StatusDraftBean;
 import org.zarroboogs.weibo.dao.BaiduGeoCoderDao;
 import org.zarroboogs.weibo.dao.GoogleGeoCoderDao;
@@ -595,13 +594,6 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
             menu.findItem(R.id.menu_clear).setVisible(false);
         }
 
-        MusicInfoBean musicInfo = BeeboApplication.getInstance().getMusicInfo();
-        if (!musicInfo.isEmpty()) {
-            MenuItem musicMenu = menu.findItem(R.id.menu_add_now_playing);
-            musicMenu.setVisible(true);
-            musicMenu.setTitle(musicInfo.toString());
-        }
-
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -632,11 +624,6 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
 			clearContentMenu();
 		} else if (itemId == R.id.menu_add_gps) {
 			addLocation();
-		} else if (itemId == R.id.menu_add_now_playing) {
-			MusicInfoBean musicInfo = BeeboApplication.getInstance().getMusicInfo();
-			if (!musicInfo.isEmpty()) {
-			    content.append(musicInfo.toString());
-			}
 		}
         return true;
     }
