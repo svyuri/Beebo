@@ -30,18 +30,12 @@ import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.Utility;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
@@ -56,6 +50,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+
+import java.lang.ref.WeakReference;
 
 public class MainTimeLineActivity extends AbstractAppActivity {
 
@@ -140,9 +136,9 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
             @Override
             public void run() {
-            	toolbar.getMenu().clear();
-            	toolbar.inflateMenu(menuRes);
-            	notifcationMenu = toolbar.getMenu().findItem(R.id.notify_menu);
+                toolbar.getMenu().clear();
+                toolbar.inflateMenu(menuRes);
+                notifcationMenu = toolbar.getMenu().findItem(R.id.notify_menu);
             }
         }, 200);
     }
@@ -151,30 +147,30 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     	showMenuOnToolBar(mToolbar, menu);
     	
     	mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			
-			@Override
-			public boolean onMenuItemClick(MenuItem arg0) {
-				int id = arg0.getItemId();
-				switch (id) {
-				case R.id.search_menu:{
-					Intent intent = new Intent(MainTimeLineActivity.this, SearchMainActivity.class);
-					startActivity(intent);
-					break;
-				}
-				case R.id.notify_menu:{
-					notify.sendEmptyMessage(NOTIFY_STOP);
-					Intent intent = new Intent(MainTimeLineActivity.this, NotifyActivity.class);
-					startActivity(intent);
-					
-					break;
-				}
 
-				default:
-					break;
-				}
-				return false;
-			}
-		});
+            @Override
+            public boolean onMenuItemClick(MenuItem arg0) {
+                int id = arg0.getItemId();
+                switch (id) {
+                    case R.id.search_menu: {
+                        Intent intent = new Intent(MainTimeLineActivity.this, SearchMainActivity.class);
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.notify_menu: {
+                        notifyHandler.sendEmptyMessage(NOTIFY_STOP);
+                        Intent intent = new Intent(MainTimeLineActivity.this, NotifyActivity.class);
+                        startActivity(intent);
+
+                        break;
+                    }
+
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
     }
     
     private void buildInterface(Bundle savedInstanceState) {
@@ -203,7 +199,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         boolean isPhoneDevice = findViewById(R.id.left_drawer_layout) == null;
-        Log.d("MainTimeLine-buildInterface", "isPhoneDevice: " + isPhoneDevice);
 
         if (savedInstanceState == null) {
             initFragments();
@@ -333,73 +328,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
     }
 
-    private void readClipboard() {
-        ClipboardManager cm = (ClipboardManager) getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData cmContent = cm.getPrimaryClip();
-        if (cmContent == null) {
-            return;
-        }
-        ClipData.Item item = cmContent.getItemAt(0);
-        if (item != null) {
-            String url = item.coerceToText(this).toString();
-            boolean a = !TextUtils.isEmpty(url) && !url.equals(SettingUtils.getLastFoundWeiboAccountLink());
-            boolean b = Utility.isWeiboAccountIdLink(url) || Utility.isWeiboAccountDomainLink(url);
-            if (a && b) {
-                OpenWeiboAccountLinkDialog dialog = new OpenWeiboAccountLinkDialog(url);
-                dialog.show(getSupportFragmentManager(), "");
-                SettingUtils.setLastFoundWeiboAccountLink(url);
-            }
-        }
-    }
-
-    public static class OpenWeiboAccountLinkDialog extends DialogFragment {
-
-        private String url;
-
-        public OpenWeiboAccountLinkDialog() {
-
-        }
-
-        public OpenWeiboAccountLinkDialog(String url) {
-            this.url = url;
-        }
-
-        @Override
-        public void onSaveInstanceState(Bundle outState) {
-            super.onSaveInstanceState(outState);
-            outState.putString("url", url);
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            if (savedInstanceState != null) {
-                this.url = savedInstanceState.getString("url");
-            }
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(R.string.find_weibo_account_link).setMessage(url)
-                    .setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (Utility.isWeiboAccountIdLink(url)) {
-                                Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                                intent.putExtra("id", Utility.getIdFromWeiboAccountLink(url));
-                                startActivity(intent);
-                            } else if (Utility.isWeiboAccountDomainLink(url)) {
-                                Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                                intent.putExtra("domain", Utility.getDomainFromWeiboAccountLink(url));
-                                startActivity(intent);
-                            }
-                        }
-                    }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-            return builder.create();
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -413,8 +341,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         newMsgInterruptBroadcastReceiver = new NewMsgInterruptBroadcastReceiver();
         Utility.registerReceiverIgnoredReceiverHasRegisteredHereException(this, newMsgInterruptBroadcastReceiver, filter);
 
-
-        readClipboard();
         // ensure timeline picture type is correct
         ConnectionChangeReceiver.judgeNetworkStatus(this, false);
     }
@@ -513,7 +439,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
                         + (mentionsComment != null ? mentionsComment.getSize() : 0)
                         + (commentsToMe != null ? commentsToMe.getSize() : 0);
                 if (!inNotify) {
-                    notify.sendEmptyMessage(NOTIFY_ON);
+                    notifyHandler.sendEmptyMessage(NOTIFY_ON);
 				}
 
 //                String tip = String.format(context.getString(R.string.you_have_new_unread_count),
@@ -528,37 +454,40 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     private static final int NOTIFY_OFF = 0x1001;
     private static final int NOTIFY_STOP = 0x2000;
     private static boolean inNotify = false;
-    
-    private static Handler notify = new Handler(){
-    	public void handleMessage(android.os.Message msg) {
-    		super.handleMessage(msg);
-    		switch (msg.what) {
-			case NOTIFY_ON:{
-				inNotify = true;
-				notifcationMenu.setIcon(R.drawable.ic_notifications_on_white_24dp);
-				this.sendEmptyMessageDelayed(NOTIFY_OFF, 1000);
-				break;
-			}
-			case NOTIFY_OFF:{
-				inNotify = true;
-				notifcationMenu.setIcon(R.drawable.ic_notifications_none_white_24dp);
-				this.sendEmptyMessageDelayed(NOTIFY_ON, 1000);
-				break;
-			}
-			case NOTIFY_STOP:{
-				inNotify = false;
-				notify.removeMessages(NOTIFY_ON);
-				notify.removeMessages(NOTIFY_OFF);
-				notifcationMenu.setIcon(R.drawable.ic_notifications_none_white_24dp);
-				break;
-			}
 
-			default:
-				break;
-			}
-    	};
-    };
-    
+    private NotifyHandler notifyHandler = new NotifyHandler(this);
+    private static class NotifyHandler extends Handler{
+        private WeakReference<MainTimeLineActivity> mActivity;
+        public NotifyHandler(MainTimeLineActivity activity){
+            this.mActivity = new WeakReference<MainTimeLineActivity>(activity);
+        }
+        public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case NOTIFY_ON:{
+                    inNotify = true;
+                    notifcationMenu.setIcon(R.drawable.ic_notifications_on_white_24dp);
+                    this.sendEmptyMessageDelayed(NOTIFY_OFF, 1000);
+                    break;
+                }
+                case NOTIFY_OFF:{
+                    inNotify = true;
+                    notifcationMenu.setIcon(R.drawable.ic_notifications_none_white_24dp);
+                    this.sendEmptyMessageDelayed(NOTIFY_ON, 1000);
+                    break;
+                }
+                case NOTIFY_STOP:{
+                    inNotify = false;
+                    this.removeMessages(NOTIFY_ON);
+                    this.removeMessages(NOTIFY_OFF);
+                    notifcationMenu.setIcon(R.drawable.ic_notifications_none_white_24dp);
+                    break;
+                }
+            }
+        };
+
+    }
+
     public static interface ScrollableListFragment {
 
         public void scrollToTop();
