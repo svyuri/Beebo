@@ -330,7 +330,7 @@ public class UserInfoActivity extends AbstractAppActivity {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(BeeboApplication.getInstance().getAccessToken());
+            FriendshipsDao dao = new FriendshipsDao(BeeboApplication.getInstance().getAccessTokenHack());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {
@@ -374,7 +374,7 @@ public class UserInfoActivity extends AbstractAppActivity {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(BeeboApplication.getInstance().getAccessToken());
+            FriendshipsDao dao = new FriendshipsDao(BeeboApplication.getInstance().getAccessTokenHack());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {
