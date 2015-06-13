@@ -43,13 +43,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 
@@ -65,8 +63,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
     private ScrollableListFragment currentFragment;
 
-    private TextView titleText;
-
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -74,63 +70,63 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     private static MenuItem notifcationMenu;
 
     @Override
-	public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
-		WeiBoURLs.buildUA();
+        super.onCreate(savedInstanceState);
+        WeiBoURLs.buildUA();
 
-		if (!Constants.isBeeboPlus) {
-			UmengUpdateAgent.update(this);
-		}
-		if (savedInstanceState != null) {
-			mAccountBean = savedInstanceState.getParcelable(Constants.ACCOUNT);
-		} else {
-			Intent intent = getIntent();
-			mAccountBean = intent.getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
-		}
+        if (!Constants.isBeeboPlus) {
+            UmengUpdateAgent.update(this);
+        }
+        if (savedInstanceState != null) {
+            mAccountBean = savedInstanceState.getParcelable(Constants.ACCOUNT);
+        } else {
+            Intent intent = getIntent();
+            mAccountBean = intent.getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
+        }
 
-		if (mAccountBean == null) {
-			mAccountBean = BeeboApplication.getInstance().getAccountBean();
-		}
+        if (mAccountBean == null) {
+            mAccountBean = BeeboApplication.getInstance().getAccountBean();
+        }
 
-		if (mAccountBean != null) {
-			BeeboApplication.getInstance().setGroup(null);
-			BeeboApplication.getInstance().setAccountBean(mAccountBean);
-			SettingUtils.setDefaultAccountId(mAccountBean.getUid());
+        if (mAccountBean != null) {
+            BeeboApplication.getInstance().setGroup(null);
+            BeeboApplication.getInstance().setAccountBean(mAccountBean);
+            SettingUtils.setDefaultAccountId(mAccountBean.getUid());
 
-			setContentView(R.layout.main_time_line_activity);
+            setContentView(R.layout.main_time_line_activity);
 
-			buildInterface(savedInstanceState);
+            buildInterface(savedInstanceState);
 
-			if (BeeboAlermManager.DEBUG) {
-				BeeboAlermManager.startAlarm(BeeboAlermManager.DEBUG,getApplicationContext(), true);
-			}
-			BeeboAlermManager.keepCookie(getApplicationContext(), mAccountBean.getCookie());
-		}else {
-			Intent start = new Intent(this, AccountActivity.class);
-			startActivity(start);
-			finish();
-		}
-	}
+            if (BeeboAlermManager.DEBUG) {
+                BeeboAlermManager.startAlarm(BeeboAlermManager.DEBUG, getApplicationContext(), true);
+            }
+            BeeboAlermManager.keepCookie(getApplicationContext(), mAccountBean.getCookie());
+        } else {
+            Intent start = new Intent(this, AccountActivity.class);
+            startActivity(start);
+            finish();
+        }
+    }
 
     public void closeLeftDrawer() {
         mDrawerLayout.closeDrawer(Gravity.START);
     }
 
-    public void closeRight(){
-    	mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
+    public void closeRight() {
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
     }
-    
-    public void openRight(){
-    	mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.END);
+
+    public void openRight() {
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.END);
     }
-    
+
     public void closeRightDrawer() {
         mDrawerLayout.closeDrawer(Gravity.END);
     }
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    
+
     public void showMenuOnToolBar(final Toolbar toolbar, final int menuRes) {
         mHandler.postDelayed(new Runnable() {
 
@@ -142,11 +138,11 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             }
         }, 200);
     }
-    
-    public void showMenuOnToolBar(int menu){
-    	showMenuOnToolBar(mToolbar, menu);
-    	
-    	mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+
+    public void showMenuOnToolBar(int menu) {
+        showMenuOnToolBar(mToolbar, menu);
+
+        mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
             @Override
             public boolean onMenuItemClick(MenuItem arg0) {
@@ -172,18 +168,18 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             }
         });
     }
-    
+
     private void buildInterface(Bundle savedInstanceState) {
-        
+
         mToolbar = (Toolbar) findViewById(R.id.mainTimeLineToolBar);
         mToolbar.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				scrollCurrentListViewToTop();
-			}
-		});
-        
+
+            @Override
+            public void onClick(View v) {
+                scrollCurrentListViewToTop();
+            }
+        });
+
         showMenuOnToolBar(R.menu.main_time_line_menu);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
@@ -204,7 +200,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             initFragments();
             FragmentTransaction secondFragmentTransaction = getSupportFragmentManager().beginTransaction();
             secondFragmentTransaction.replace(R.id.left_drawer_layout, getLeftMenuFragment(), LeftMenuFragment.class.getName());
-            // getSlidingMenu().showContent();
             secondFragmentTransaction.commit();
 
             FragmentTransaction mainTransaction = getSupportFragmentManager().beginTransaction();
@@ -216,7 +211,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     class MyDrawerToggle extends ActionBarDrawerToggle {
 
         public MyDrawerToggle(Activity activity, DrawerLayout drawerLayout, Toolbar toolbar, int openDrawerContentDescRes,
-                int closeDrawerContentDescRes) {
+                              int closeDrawerContentDescRes) {
             super(activity, drawerLayout, toolbar, openDrawerContentDescRes, closeDrawerContentDescRes);
         }
 
@@ -244,29 +239,29 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         Fragment favFragment = getFavFragment();
 
         Fragment hotWeiboFragment = getHotWeiboViewPagerFragment();
-        
+
         Fragment hotHuatiFragment = getHotHuaTiViewPagerFragment();
-        
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (!timeLineFragment.isAdded()) {
             fragmentTransaction.add(R.id.center_frame_layout, timeLineFragment, MainTimeLineFragment.class.getName());
             fragmentTransaction.hide(timeLineFragment);
         }
-        
+
         if (!favFragment.isAdded()) {
             fragmentTransaction.add(R.id.center_frame_layout, favFragment, MyFavListFragment.class.getName());
             fragmentTransaction.hide(favFragment);
         }
-        
+
         if (!hotWeiboFragment.isAdded()) {
-        	fragmentTransaction.add(R.id.center_frame_layout, hotWeiboFragment, HotWeiboViewPagerFragment.class.getName());
+            fragmentTransaction.add(R.id.center_frame_layout, hotWeiboFragment, HotWeiboViewPagerFragment.class.getName());
             fragmentTransaction.hide(hotWeiboFragment);
-		}
-        
+        }
+
         if (!hotHuatiFragment.isAdded()) {
-        	fragmentTransaction.add(R.id.center_frame_layout, hotHuatiFragment, HotHuaTiViewPagerFragment.class.getName());
+            fragmentTransaction.add(R.id.center_frame_layout, hotHuatiFragment, HotHuaTiViewPagerFragment.class.getName());
             fragmentTransaction.hide(hotHuatiFragment);
-		}
+        }
 
         if (!fragmentTransaction.isEmpty()) {
             fragmentTransaction.commit();
@@ -336,8 +331,8 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
         IntentFilter filter = new IntentFilter(AppEventAction.UnRead_Message_Action);
         filter.setPriority(1);
-        
-        
+
+
         newMsgInterruptBroadcastReceiver = new NewMsgInterruptBroadcastReceiver();
         Utility.registerReceiverIgnoredReceiverHasRegisteredHereException(this, newMsgInterruptBroadcastReceiver, filter);
 
@@ -360,11 +355,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
     public void saveNavigationPositionToDB() {
         int navPosition = getLeftMenuFragment().getCurrentIndex() * 10;
-        // ActionBar actionBar = getActionBar();
         int second = 0;
-        // if (actionBar.getNavigationMode() != ActionBar.NAVIGATION_MODE_STANDARD) {
-        // second = actionBar.getSelectedNavigationIndex();
-        // }
         int result = navPosition + second;
         BeeboApplication.getInstance().getAccountBean().setNavigationPosition(result);
         AccountDao.updateNavigationPosition(BeeboApplication.getInstance().getAccountBean(), result);
@@ -398,23 +389,23 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     }
 
     public HotWeiboViewPagerFragment getHotWeiboViewPagerFragment() {
-    	HotWeiboViewPagerFragment fragment = ((HotWeiboViewPagerFragment) getSupportFragmentManager().findFragmentByTag(
-    			HotWeiboViewPagerFragment.class.getName()));
+        HotWeiboViewPagerFragment fragment = ((HotWeiboViewPagerFragment) getSupportFragmentManager().findFragmentByTag(
+                HotWeiboViewPagerFragment.class.getName()));
         if (fragment == null) {
             fragment = HotWeiboViewPagerFragment.newInstance();
         }
         return fragment;
     }
-    
+
     public HotHuaTiViewPagerFragment getHotHuaTiViewPagerFragment() {
-    	HotHuaTiViewPagerFragment fragment = ((HotHuaTiViewPagerFragment) getSupportFragmentManager().findFragmentByTag(
-    			HotHuaTiViewPagerFragment.class.getName()));
+        HotHuaTiViewPagerFragment fragment = ((HotHuaTiViewPagerFragment) getSupportFragmentManager().findFragmentByTag(
+                HotHuaTiViewPagerFragment.class.getName()));
         if (fragment == null) {
             fragment = HotHuaTiViewPagerFragment.newInstance();
         }
         return fragment;
     }
-    
+
 
     public MyFavListFragment getFavFragment() {
         MyFavListFragment fragment = ((MyFavListFragment) getSupportFragmentManager().findFragmentByTag(
@@ -440,11 +431,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
                         + (commentsToMe != null ? commentsToMe.getSize() : 0);
                 if (!inNotify) {
                     notifyHandler.sendEmptyMessage(NOTIFY_ON);
-				}
-
-//                String tip = String.format(context.getString(R.string.you_have_new_unread_count),
-//                        String.valueOf(unreadCount));
-//                Toast.makeText(MainTimeLineActivity.this, tip, Toast.LENGTH_LONG).show();
+                }
                 abortBroadcast();
             }
         }
@@ -456,27 +443,30 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     private static boolean inNotify = false;
 
     private NotifyHandler notifyHandler = new NotifyHandler(this);
-    private static class NotifyHandler extends Handler{
+
+    private static class NotifyHandler extends Handler {
         private WeakReference<MainTimeLineActivity> mActivity;
-        public NotifyHandler(MainTimeLineActivity activity){
-            this.mActivity = new WeakReference<MainTimeLineActivity>(activity);
+
+        public NotifyHandler(MainTimeLineActivity activity) {
+            this.mActivity = new WeakReference<>(activity);
         }
+
         public void handleMessage(android.os.Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case NOTIFY_ON:{
+                case NOTIFY_ON: {
                     inNotify = true;
                     notifcationMenu.setIcon(R.drawable.ic_notifications_on_white_24dp);
                     this.sendEmptyMessageDelayed(NOTIFY_OFF, 1000);
                     break;
                 }
-                case NOTIFY_OFF:{
+                case NOTIFY_OFF: {
                     inNotify = true;
                     notifcationMenu.setIcon(R.drawable.ic_notifications_none_white_24dp);
                     this.sendEmptyMessageDelayed(NOTIFY_ON, 1000);
                     break;
                 }
-                case NOTIFY_STOP:{
+                case NOTIFY_STOP: {
                     inNotify = false;
                     this.removeMessages(NOTIFY_ON);
                     this.removeMessages(NOTIFY_OFF);
@@ -484,7 +474,9 @@ public class MainTimeLineActivity extends AbstractAppActivity {
                     break;
                 }
             }
-        };
+        }
+
+        ;
 
     }
 
@@ -505,6 +497,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
     /**
      * 未读信息的Intent
+     *
      * @param accountBean
      * @param mentionsWeiboData
      * @param mentionsCommentData
@@ -513,15 +506,15 @@ public class MainTimeLineActivity extends AbstractAppActivity {
      * @return
      */
     public static Intent unReadIntent(AccountBean accountBean, MessageListBean mentionsWeiboData,
-            CommentListBean mentionsCommentData,
-            CommentListBean commentsToMeData, UnreadBean unreadBean) {
+                                      CommentListBean mentionsCommentData,
+                                      CommentListBean commentsToMeData, UnreadBean unreadBean) {
         Intent intent = new Intent(BeeboApplication.getInstance(), NotifyActivity.class);
         intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, accountBean);
         intent.putExtra(BundleArgsConstants.MENTIONS_WEIBO_EXTRA, mentionsWeiboData);
         intent.putExtra(BundleArgsConstants.MENTIONS_COMMENT_EXTRA, mentionsCommentData);
         intent.putExtra(BundleArgsConstants.COMMENTS_TO_ME_EXTRA, commentsToMeData);
         intent.putExtra(BundleArgsConstants.UNREAD_EXTRA, unreadBean);
-        
+
         intent.putExtra(BundleArgsConstants.FromUnReadIntent, true);
         return intent;
     }
@@ -530,18 +523,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         return mAccountBean.getAccess_token();
     }
 
-    public void setTitle(String title) {
-        if (TextUtils.isEmpty(title)) {
-            titleText.setVisibility(View.GONE);
-        } else {
-            titleText.setText(title);
-            titleText.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void setTitle(int res) {
-        setTitle(getString(res));
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
