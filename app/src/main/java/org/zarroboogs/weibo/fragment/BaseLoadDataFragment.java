@@ -1,6 +1,7 @@
 package org.zarroboogs.weibo.fragment;
 
 import org.apache.http.Header;
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -49,7 +50,9 @@ public abstract class BaseLoadDataFragment extends BaseStateFragment {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 				// TODO Auto-generated method stub
-				onLoadDataSucess(new String(responseBody));
+				String groups = new String(responseBody);
+				DevLog.printLog("LOAD_GROUPS: " , groups);
+				onLoadDataSucess(groups);
 			}
 
 			@Override

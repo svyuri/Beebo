@@ -36,7 +36,7 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 	private boolean firstStart = true;
 
 	public static final String SWITCH_GROUP_KEY = "switch_group";
-	private ListView mPullToRefreshListView;
+
     private MaterialSwipeRefreshLayout mSwitchRefreshLayout;
 	private FriendsTimeLineListNavAdapter mBaseAdapter;
 
@@ -82,7 +82,9 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 		name.add(getString(R.string.bilateral));
 
 		for (GroupBean b : list) {
-			name.add(b.getName());
+            if (b.getMember_count() != 0) {
+                name.add(b.getName());
+            }
 		}
 
 		String[] valueArray = name.toArray(new String[name.size()]);
@@ -95,8 +97,7 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 
         mSwitchRefreshLayout = ViewUtility.findViewById(view,R.id.rightMenuGroupSRL);
 		mSwitchRefreshLayout.setOnlyPullRefersh();
-
-		mPullToRefreshListView = ViewUtility.findViewById(view,R.id.rightGroupListView);
+        ListView mPullToRefreshListView  = ViewUtility.findViewById(view,R.id.rightGroupListView);
 		mPullToRefreshListView.setAdapter(mBaseAdapter);
 		mSwitchRefreshLayout.setOnRefreshLoadMoreListener(new MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener() {
 			@Override

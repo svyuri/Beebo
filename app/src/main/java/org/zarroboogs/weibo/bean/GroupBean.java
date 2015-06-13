@@ -6,14 +6,12 @@ import android.os.Parcelable;
 
 import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
 
-/**
- * User: qii Date: 12-10-17
- */
 public class GroupBean implements Parcelable {
 
     private String id;
     private String idstr;
     private String name;
+    private int member_count;
 
     @Override
     public int describeContents() {
@@ -25,6 +23,7 @@ public class GroupBean implements Parcelable {
         dest.writeString(id);
         dest.writeString(idstr);
         dest.writeString(name);
+        dest.writeInt(member_count);
     }
 
     public static final Creator<GroupBean> CREATOR = new Creator<GroupBean>() {
@@ -33,6 +32,7 @@ public class GroupBean implements Parcelable {
             groupBean.id = in.readString();
             groupBean.idstr = in.readString();
             groupBean.name = in.readString();
+            groupBean.member_count = in.readInt();
             return groupBean;
         }
 
@@ -40,6 +40,14 @@ public class GroupBean implements Parcelable {
             return new GroupBean[size];
         }
     };
+
+    public int getMember_count() {
+        return member_count;
+    }
+
+    public void setMember_count(int member_count) {
+        this.member_count = member_count;
+    }
 
     public String getId() {
         return id;
