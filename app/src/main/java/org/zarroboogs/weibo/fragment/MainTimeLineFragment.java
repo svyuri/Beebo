@@ -285,7 +285,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
     BroadcastReceiver switchReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            List<GroupBean> list = new ArrayList<GroupBean>();
+            List<GroupBean> list = new ArrayList<>();
             if (BeeboApplication.getInstance().getGroup() != null) {
                 list = BeeboApplication.getInstance().getGroup().getLists();
             } else {

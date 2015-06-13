@@ -24,7 +24,7 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
     private int mLastY;
 
     private boolean isLoading = false;
-
+    private boolean isOnlyPullRefersh = false;
 
     public MaterialSwipeRefreshLayout(Context context) {
         this(context, null);
@@ -81,8 +81,16 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
         }
     }
 
+    public void setOnlyPullRefersh(){
+        this.isOnlyPullRefersh = true;
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+        if (isOnlyPullRefersh){
+            super.dispatchTouchEvent(event);
+            return true;
+        }
         final int action = event.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:

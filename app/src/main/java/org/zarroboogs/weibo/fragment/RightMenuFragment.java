@@ -94,6 +94,7 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 		final RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.right_slidingdrawer_contents, container, false);
 
         mSwitchRefreshLayout = ViewUtility.findViewById(view,R.id.rightMenuGroupSRL);
+		mSwitchRefreshLayout.setOnlyPullRefersh();
 
 		mPullToRefreshListView = ViewUtility.findViewById(view,R.id.rightGroupListView);
 		mPullToRefreshListView.setAdapter(mBaseAdapter);
@@ -108,22 +109,15 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 
 			}
 		});
-//        mSwitchRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                loadGroup();
-//            }
-//        });
 
 		mPullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				((MainTimeLineActivity) getActivity()).closeRightDrawer();
-
-				mBaseAdapter.setSelectId(position - 1);
+				mBaseAdapter.setSelectId(position);
 				Intent mIntent = new Intent(AppEventAction.SWITCH_WEIBO_GROUP_BROADCAST);
-				mIntent.putExtra(SWITCH_GROUP_KEY, position - 1);
+				mIntent.putExtra(SWITCH_GROUP_KEY, position);
 				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(mIntent);
 			}
 
