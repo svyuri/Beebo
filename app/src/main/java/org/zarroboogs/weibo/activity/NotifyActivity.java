@@ -15,15 +15,13 @@ import android.view.View.OnClickListener;
 
 public class NotifyActivity extends TranslucentStatusBarActivity {
 
-    private Toolbar mToolbar;
-    
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	// TODO Auto-generated method stub
     	super.onCreate(savedInstanceState);
     	 setContentView(R.layout.hotweibo_activity_layout);
-         mToolbar = (Toolbar) findViewById(R.id.hotWeiboToolbar);
+         Toolbar mToolbar = (Toolbar) findViewById(R.id.hotWeiboToolbar);
          
          buildContent();
          mToolbar.setTitle(R.string.mentions_me);

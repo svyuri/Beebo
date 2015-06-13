@@ -70,10 +70,10 @@ public class MentionsCommentTimeLineFragment extends AbsBaseTimeLineFragment<Com
 
     }
 
-    public MentionsCommentTimeLineFragment(AccountBean accountBean, UserBean userBean, String token) {
+    public MentionsCommentTimeLineFragment(AccountBean accountBean, UserBean userBean) {
         this.accountBean = accountBean;
         this.userBean = userBean;
-        this.token = token;
+        this.token = accountBean.getAccess_token_hack();
     }
 
     protected void clearAndReplaceValue(CommentListBean value) {

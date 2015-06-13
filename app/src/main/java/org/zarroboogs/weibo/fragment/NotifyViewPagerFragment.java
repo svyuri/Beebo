@@ -30,17 +30,17 @@ public class NotifyViewPagerFragment extends ViewPagerFragment {
 		ArrayList<ChildPage> sparseArray = new ArrayList<ChildPage>();
 		
 		Resources re = getActivity().getResources();
-		
+
+        sparseArray.add(new ChildPage(
+                re.getString(R.string.all_people_send_to_me), getCommentsToMeTimeLineFragment()));
+
 		sparseArray.add(new ChildPage(
 				re.getString(R.string.mentions_weibo),getMentionsWeiboTimeLineFragment()));
 		
 		sparseArray.add(new ChildPage(
 				re.getString(R.string.mentions_to_me), getMentionsCommentTimeLineFragment()));
         
-		sparseArray.add(new ChildPage(
-				re.getString(R.string.all_people_send_to_me), getCommentsToMeTimeLineFragment()));
-		
-		
+
 		sparseArray.add( new ChildPage(
 				re.getString(R.string.private_message), getDMFragment()));
 		
@@ -70,7 +70,7 @@ public class NotifyViewPagerFragment extends ViewPagerFragment {
                         MentionsCommentTimeLineFragment.class.getName()));
         if (fragment == null) {
             fragment = new MentionsCommentTimeLineFragment(BeeboApplication.getInstance().getAccountBean(),
-                    BeeboApplication.getInstance().getAccountBean().getInfo(), BeeboApplication.getInstance().getAccessToken());
+                    BeeboApplication.getInstance().getAccountBean().getInfo());
         }
 
         return fragment;
@@ -82,8 +82,7 @@ public class NotifyViewPagerFragment extends ViewPagerFragment {
                         MentionsWeiboTimeLineFragment.class.getName()));
         if (fragment == null) {
             fragment = new MentionsWeiboTimeLineFragment(BeeboApplication.getInstance().getAccountBean(), BeeboApplication
-                    .getInstance().getAccountBean().getInfo(),
-                    BeeboApplication.getInstance().getAccessToken());
+                    .getInstance().getAccountBean().getInfo());
         }
 
         return fragment;
@@ -94,8 +93,7 @@ public class NotifyViewPagerFragment extends ViewPagerFragment {
                 CommentsToMeTimeLineFragment.class.getName()));
         if (fragment == null) {
             fragment = new CommentsToMeTimeLineFragment(BeeboApplication.getInstance().getAccountBean(), BeeboApplication
-                    .getInstance().getAccountBean().getInfo(),
-                    BeeboApplication.getInstance().getAccessToken());
+                    .getInstance().getAccountBean().getInfo());
         }
 
         return fragment;
@@ -115,8 +113,7 @@ public class NotifyViewPagerFragment extends ViewPagerFragment {
                 CommentsByMeTimeLineFragment.class.getName()));
         if (fragment == null) {
             fragment = new CommentsByMeTimeLineFragment(BeeboApplication.getInstance().getAccountBean(), BeeboApplication
-                    .getInstance().getAccountBean().getInfo(),
-                    BeeboApplication.getInstance().getAccessToken());
+                    .getInstance().getAccountBean().getInfo());
         }
         return fragment;
     }

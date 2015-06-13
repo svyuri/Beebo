@@ -108,8 +108,7 @@ public class CommentsTimeLineFragment extends BaseStateFragment implements MainT
                 CommentsToMeTimeLineFragment.class.getName()));
         if (fragment == null) {
             fragment = new CommentsToMeTimeLineFragment(BeeboApplication.getInstance().getAccountBean(), BeeboApplication
-                    .getInstance().getAccountBean().getInfo(),
-                    BeeboApplication.getInstance().getAccessToken());
+                    .getInstance().getAccountBean().getInfo());
         }
 
         return fragment;
@@ -120,8 +119,7 @@ public class CommentsTimeLineFragment extends BaseStateFragment implements MainT
                 CommentsByMeTimeLineFragment.class.getName()));
         if (fragment == null) {
             fragment = new CommentsByMeTimeLineFragment(BeeboApplication.getInstance().getAccountBean(), BeeboApplication
-                    .getInstance().getAccountBean().getInfo(),
-                    BeeboApplication.getInstance().getAccessToken());
+                    .getInstance().getAccountBean().getInfo());
         }
 
         return fragment;

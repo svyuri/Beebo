@@ -67,10 +67,10 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
 
     }
 
-    public CommentsToMeTimeLineFragment(AccountBean accountBean, UserBean userBean, String token) {
+    public CommentsToMeTimeLineFragment(AccountBean accountBean, UserBean userBean) {
         this.accountBean = accountBean;
         this.userBean = userBean;
-        this.token = token;
+        this.token = accountBean.getAccess_token_hack();
     }
 
     public void setCurrentGroupId(int positoin) {

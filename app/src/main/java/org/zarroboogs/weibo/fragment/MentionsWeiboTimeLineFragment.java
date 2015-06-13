@@ -76,10 +76,10 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
 
     }
 
-    public MentionsWeiboTimeLineFragment(AccountBean accountBean, UserBean userBean, String token) {
+    public MentionsWeiboTimeLineFragment(AccountBean accountBean, UserBean userBean) {
         this.accountBean = accountBean;
         this.userBean = userBean;
-        this.token = token;
+        this.token = accountBean.getAccess_token_hack();
     }
 
     @Override
