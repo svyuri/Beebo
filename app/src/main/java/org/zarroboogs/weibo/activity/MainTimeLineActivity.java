@@ -23,7 +23,6 @@ import org.zarroboogs.weibo.fragment.MyFavListFragment;
 import org.zarroboogs.weibo.fragment.RightMenuFragment;
 import org.zarroboogs.weibo.othercomponent.BeeboAlermManager;
 import org.zarroboogs.weibo.othercomponent.ConnectionChangeReceiver;
-import org.zarroboogs.weibo.othercomponent.MusicReceiver;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.lib.RecordOperationAppBroadcastReceiver;
 import org.zarroboogs.weibo.support.utils.AppEventAction;
@@ -67,8 +66,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     public static final int REQUEST_CODE_UPDATE_MY_FAV_TIMELINE_COMMENT_REPOST_COUNT = 2;
 
     private NewMsgInterruptBroadcastReceiver newMsgInterruptBroadcastReceiver;
-
-    private MusicReceiver musicReceiver;
 
     private ScrollableListFragment currentFragment;
 
@@ -415,9 +412,8 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         
         newMsgInterruptBroadcastReceiver = new NewMsgInterruptBroadcastReceiver();
         Utility.registerReceiverIgnoredReceiverHasRegisteredHereException(this, newMsgInterruptBroadcastReceiver, filter);
-        musicReceiver = new MusicReceiver();
-        Utility.registerReceiverIgnoredReceiverHasRegisteredHereException(this, musicReceiver,
-                AppEventAction.getSystemMusicBroadcastFilterAction());
+
+
         readClipboard();
         // ensure timeline picture type is correct
         ConnectionChangeReceiver.judgeNetworkStatus(this, false);
@@ -430,7 +426,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         MobclickAgent.onPause(this);
 
         Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(this, newMsgInterruptBroadcastReceiver);
-        Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(this, musicReceiver);
 
         if (isFinishing()) {
             saveNavigationPositionToDB();
