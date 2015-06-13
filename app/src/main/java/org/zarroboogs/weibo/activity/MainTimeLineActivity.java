@@ -225,7 +225,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         public void onDrawerOpened(View drawerView) {
             super.onDrawerOpened(drawerView);
             Log.d("onOptionsItemSelected", " onDrawerOpened");
-            if (mDrawerLayout.isDrawerOpen(findViewById(R.id.right_drawer_layout))) {
+            if (mDrawerLayout.isDrawerOpen(findViewById(R.id.left_drawer_layout))) {
                 mDrawerLayout.closeDrawer(Gravity.END);
             }
             getLeftMenuFragment().displayCover();
