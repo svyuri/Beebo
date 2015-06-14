@@ -25,6 +25,7 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
 
     private boolean isLoading = false;
     private boolean isOnlyPullRefersh = false;
+    private boolean isOnlyLoadMore = false;
 
     public MaterialSwipeRefreshLayout(Context context) {
         this(context, null);
@@ -83,6 +84,19 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
 
     public void setOnlyPullRefersh(){
         this.isOnlyPullRefersh = true;
+    }
+
+    public void setOnlyLoadMore(){
+        this.isOnlyLoadMore = true;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (isOnlyLoadMore){
+            return false;
+        }else {
+            return super.onInterceptTouchEvent(ev);
+        }
     }
 
     @Override

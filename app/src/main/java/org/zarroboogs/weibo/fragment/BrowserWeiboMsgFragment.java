@@ -314,6 +314,8 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
         mSwipeRefreshLayout = ViewUtility.findViewById(swipeFrameLayout, R.id.browserWeiboMsgSRL);
 
+        mSwipeRefreshLayout.setOnlyLoadMore();
+
         listView = ViewUtility.findViewById(swipeFrameLayout, R.id.pullToFreshView);
 
 //        pullToRefreshListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
