@@ -7,12 +7,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
+import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.BeeboApplication;
+import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.UserListBean;
 import org.zarroboogs.weibo.loader.SearchUserLoader;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import java.util.List;
 
@@ -49,6 +52,8 @@ public class SearchUserFragment extends AbstractUserListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // getBaseToolbar().setVisibility(View.GONE);
+        MaterialSwipeRefreshLayout materialSwipeRefreshLayout = ViewUtility.findViewById(view, R.id.userListSRL);
+        materialSwipeRefreshLayout.noMore();
     }
 
     @Override

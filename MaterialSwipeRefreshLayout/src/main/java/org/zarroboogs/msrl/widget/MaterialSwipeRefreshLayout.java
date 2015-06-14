@@ -58,6 +58,7 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
             view.setVisibility(VISIBLE);
             View progress = mListViewFooter.findViewById(R.id.loadMoreProgressBar);
             progress.setVisibility(INVISIBLE);
+            mListViewFooter.setVisibility(GONE);
         }
     }
 

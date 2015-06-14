@@ -1,13 +1,16 @@
 
 package org.zarroboogs.weibo.fragment;
 
+import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.BeeboApplication;
+import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
 import org.zarroboogs.weibo.bean.data.SearchStatusListBean;
 import org.zarroboogs.weibo.fragment.base.AbsTimeLineFragment;
 import org.zarroboogs.weibo.loader.SearchStatusLoader;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import android.os.Bundle;
 import android.support.v4.content.Loader;
@@ -65,6 +68,8 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        MaterialSwipeRefreshLayout materialSwipeRefreshLayout = ViewUtility.findViewById(view, R.id.timeLineSRL);
+        materialSwipeRefreshLayout.noMore();
     }
 
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
