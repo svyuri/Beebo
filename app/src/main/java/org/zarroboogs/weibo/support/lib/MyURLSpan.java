@@ -20,9 +20,7 @@ import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
-/**
- * User: qii Date: 12-8-20
- */
+
 public class MyURLSpan extends ClickableSpan implements ParcelableSpan {
 
     private final String mURL;
@@ -53,6 +51,7 @@ public class MyURLSpan extends ClickableSpan implements ParcelableSpan {
 
     public void onClick(View widget) {
         Uri uri = Uri.parse(getURL());
+
         final Context context = widget.getContext();
         if (uri.getScheme().startsWith("http")) {
             String url = uri.toString();

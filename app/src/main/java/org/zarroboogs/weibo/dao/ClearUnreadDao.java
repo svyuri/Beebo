@@ -13,9 +13,6 @@ import org.zarroboogs.weibo.bean.UnreadBean;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: qii Date: 12-9-26
- */
 public class ClearUnreadDao {
 
     public static final String STATUS = "app_message";
@@ -24,6 +21,20 @@ public class ClearUnreadDao {
     public static final String DM = "dm";
     public static final String MENTION_STATUS = "mention_status";
     public static final String MENTION_CMT = "mention_cmt";
+
+    private String access_token;
+    private String type;
+
+    public ClearUnreadDao(String access_token) {
+
+        this.access_token = access_token;
+    }
+
+    public ClearUnreadDao(String access_token, String type) {
+
+        this.access_token = access_token;
+        this.type = type;
+    }
 
     protected String getUrl() {
         return WeiBoURLs.UNREAD_CLEAR;
@@ -91,18 +102,6 @@ public class ClearUnreadDao {
         return new ClearUnreadDao(access_token, ClearUnreadDao.CMT).clearUnread();
     }
 
-    private String access_token;
-    private String type;
 
-    public ClearUnreadDao(String access_token) {
-
-        this.access_token = access_token;
-    }
-
-    public ClearUnreadDao(String access_token, String type) {
-
-        this.access_token = access_token;
-        this.type = type;
-    }
 
 }
