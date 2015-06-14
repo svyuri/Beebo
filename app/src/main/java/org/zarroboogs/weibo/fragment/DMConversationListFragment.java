@@ -311,6 +311,43 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     }
 
+    public boolean isSmileShown(){
+        return smiley.isShown();
+    }
+    public void removeSmile(){
+        removeViewWithAnim(smiley);
+    }
+
+    private void removeViewWithAnim(View view){
+        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 1);
+        animation.setDuration(200);
+        animation.setFillAfter(true);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+//                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mContainer.getLayoutParams();
+                params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+                mContainer.setLayoutParams(params);
+                smiley.setVisibility(View.GONE);
+                smiley.requestLayout();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.startAnimation(animation);
+
+    }
+
     private void lockContainerHeight(int paramInt) {
         // RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams)
         // this.mContainer.getLayoutParams();

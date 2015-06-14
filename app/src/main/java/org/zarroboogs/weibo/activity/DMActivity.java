@@ -70,8 +70,8 @@ public class DMActivity extends AbstractAppActivity {
         DMConversationListFragment fragment = (DMConversationListFragment) getSupportFragmentManager().findFragmentByTag(
                 DMConversationListFragment.class.getName());
         if (fragment != null) {
-            if (!fragment.isSmileyPanelClosed()) {
-                fragment.closeSmileyPanel();
+            if (fragment.isSmileShown()) {
+                fragment.removeSmile();
             } else {
                 super.onBackPressed();
             }
