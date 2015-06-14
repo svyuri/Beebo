@@ -106,7 +106,7 @@ public class BrowserCommentFragment extends Fragment {
     private void buildViewData() {
         if (msg.getUser() != null) {
             username.setText(msg.getUser().getScreen_name());
-            String url = msg.getUser().getProfile_image_url();
+            String url = msg.getUser().getAvatar_large();
             Bitmap bitmap = BeeboApplication.getInstance().getBitmapCache().get(url);
             if (bitmap != null) {
                 avatar.setImageBitmap(bitmap);

@@ -132,7 +132,7 @@ public class TimeLineBitmapDownloader {
             url = user.getAvatar_large();
             method = FileLocationMethod.avatar_large;
         } else {
-            url = user.getProfile_image_url();
+            url = user.getAvatar_large();
             method = FileLocationMethod.avatar_small;
         }
         displayImageView(view, url, method, isFling, false);

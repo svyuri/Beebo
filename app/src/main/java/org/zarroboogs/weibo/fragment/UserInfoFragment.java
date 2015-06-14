@@ -423,7 +423,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
                 String path = FileManager.getFilePathFromUrl(userBean.getAvatar_large(), FileLocationMethod.avatar_large);
                 if (!ImageUtility.isThisBitmapCanRead(path)) {
 
-                    path = FileManager.getFilePathFromUrl(userBean.getProfile_image_url(), FileLocationMethod.avatar_small);
+                    path = FileManager.getFilePathFromUrl(userBean.getAvatar_large(), FileLocationMethod.avatar_small);
 
                     if (!ImageUtility.isThisBitmapCanRead(path)) {
                         return;

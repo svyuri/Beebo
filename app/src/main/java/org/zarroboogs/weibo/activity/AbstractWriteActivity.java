@@ -115,7 +115,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
                 avatarWidth, avatarHeight,
                 FileLocationMethod.avatar_large);
         if (bitmap == null) {
-            bitmap = ImageUtility.getWriteWeiboRoundedCornerPic(getCurrentAccountBean().getInfo().getProfile_image_url(),
+            bitmap = ImageUtility.getWriteWeiboRoundedCornerPic(getCurrentAccountBean().getInfo().getAvatar_large(),
                     avatarWidth, avatarHeight,
                     FileLocationMethod.avatar_small);
         }

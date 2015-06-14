@@ -207,7 +207,7 @@ public class DMUserListAdapter extends BaseAdapter {
 
     protected void buildAvatar(ImageView view, int position, final UserBean user) {
         ((IWeiciyuanDrawable) view).checkVerified(user);
-        String image_url = user.getProfile_image_url();
+        String image_url = user.getAvatar_large();
         if (!TextUtils.isEmpty(image_url)) {
             view.setVisibility(View.VISIBLE);
             commander.downloadAvatar(view, user, (AbsBaseTimeLineFragment) fragment);

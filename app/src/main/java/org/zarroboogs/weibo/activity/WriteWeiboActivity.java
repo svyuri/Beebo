@@ -426,7 +426,7 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
                 avatarHeight, FileLocationMethod.avatar_large);
         if (bitmap == null) {
             bitmap = ImageUtility.getWriteWeiboRoundedCornerPic(BeeboApplication.getInstance().getAccountBean().getInfo()
-                    .getProfile_image_url(), avatarWidth,
+                    .getAvatar_large(), avatarWidth,
                     avatarHeight, FileLocationMethod.avatar_small);
         }
         if (bitmap != null) {

@@ -122,7 +122,7 @@ public class UserListAdapter extends BaseAdapter {
         holder.avatar.checkVerified(user);
         holder.avatar.setPressesStateVisibility(false);
         holder.username.setText(user.getScreen_name());
-        String image_url = user.getProfile_image_url();
+        String image_url = user.getAvatar_large();
         if (!TextUtils.isEmpty(image_url)) {
             commander.downloadAvatar(holder.avatar.getImageView(), user, false);
         }

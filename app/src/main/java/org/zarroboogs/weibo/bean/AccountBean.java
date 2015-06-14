@@ -86,7 +86,7 @@ public class AccountBean implements Parcelable {
     }
 
     public String getAvatar_url() {
-        return (info != null ? info.getProfile_image_url() : "");
+        return (info != null ? info.getAvatar_large() : "");
     }
 
     public String getAccess_token() {
