@@ -82,8 +82,6 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
     private String atContent = "";
 
-    private Toolbar mToolbar;
-
     private GridView mNinePicGridView;
 
     private NinePicGriViewAdapter mNinePicAdapter;
@@ -123,6 +121,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
                     mEditPicScrollView.requestLayout();
 
                 }
+                mNinePicGridView.setVisibility(View.GONE);
             }
 
             @Override
@@ -131,6 +130,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
                 if (isSmileClicked){
                     showViewWithAnim(mSmileyPicker);
                 }
+                mNinePicGridView.setVisibility(View.VISIBLE);
 
             }
         });
@@ -138,9 +138,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
 
         // drawerLayout
-        mToolbar = (Toolbar) findViewById(R.id.writeWeiboToolBar);
-
-        disPlayHomeAsUp(mToolbar);
+        disPlayHomeAsUp((Toolbar) findViewById(R.id.writeWeiboToolBar));
 
 
         mAccountBean = getIntent().getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);

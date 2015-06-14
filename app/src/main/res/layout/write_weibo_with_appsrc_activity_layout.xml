@@ -100,7 +100,7 @@
             </RelativeLayout>
 
             <GridView
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_above="@+id/action_layout"
                 android:id="@+id/ninePicGridView"
                 android:layout_width="match_parent"
