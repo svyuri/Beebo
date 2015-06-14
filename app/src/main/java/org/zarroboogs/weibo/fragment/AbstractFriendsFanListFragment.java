@@ -94,16 +94,6 @@ public abstract class AbstractFriendsFanListFragment extends AbstractUserListFra
 
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 
-        if (SettingUtils.isFollowingOrFanListFirstShow()) {
-            new AlertDialog.Builder(getActivity()).setTitle(R.string.tip).setMessage(R.string.following_and_fan_list_tip)
-                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    }).show();
-        }
-
     }
 
     protected abstract UserBean getCurrentUser();

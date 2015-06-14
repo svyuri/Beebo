@@ -337,12 +337,6 @@ public class SettingUtils {
         SettingHelper.setEditor(getContext(), BLACK_MAGIC, true);
     }
 
-    public static boolean isFollowingOrFanListFirstShow() {
-        boolean result = SettingHelper.getSharedPreferences(getContext(), "is_following_or_fan_list_first_show", true);
-        SettingHelper.setEditor(getContext(), "is_following_or_fan_list_first_show", false);
-        return result;
-    }
-
     public static boolean isClickToTopTipFirstShow() {
         boolean result = SettingHelper.getSharedPreferences(getContext(), CLICK_TO_TOP_TIP, true);
         SettingHelper.setEditor(getContext(), CLICK_TO_TOP_TIP, false);

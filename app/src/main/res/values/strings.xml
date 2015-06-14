@@ -304,7 +304,6 @@
     <string name="user_not_exists">用户不存在</string>
     <string name="network_error">网络有问题</string>
     <string name="fetching_user_info">获取用户信息…</string>
-    <string name="following_and_fan_list_tip">注意，不知道新浪是有意的限制或是无意的bug，第三方客户端无法查看到全部的关注和粉丝</string>
 
     <!-- serach -->
     <string name="search">搜索</string>
