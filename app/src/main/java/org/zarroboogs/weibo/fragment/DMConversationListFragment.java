@@ -1,6 +1,8 @@
 
 package org.zarroboogs.weibo.fragment;
 
+import org.zarroboogs.keyboardlayout.KeyboardRelativeLayout;
+import org.zarroboogs.keyboardlayout.OnKeyboardStateChangeListener;
 import org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker;
 import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
 import org.zarroboogs.util.net.WeiboException;
@@ -35,11 +37,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +69,9 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     private MaterialSwipeRefreshLayout mSwipeRefreshLayout;
 
-//    private ProgressBar dmProgressBar;
+    private KeyboardRelativeLayout mRootKeyBoardLayout;
+
+    private boolean isSmileClicked = false;
 
     private Comparator<DMBean> comparator = new Comparator<DMBean>() {
         @Override
@@ -147,19 +154,21 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dmconversationlistfragment_layout, container, false);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        //
         empty = (TextView) view.findViewById(R.id.empty);
         // dirty hack.....in other list, progressbar is used to indicate loading
         // local data; but in this list,
         // use a progressbar to indicate loading new data first time, maybe be
         // refactored at 0.50 version
-//        progressBar = new ProgressBar(getActivity());
-        mSwipeRefreshLayout = ViewUtility.findViewById(view,R.id.dmConversationSRL);
+        mSwipeRefreshLayout = ViewUtility.findViewById(view, R.id.dmConversationSRL);
 
-        mPullToRefreshListView = (ListView) view.findViewById(R.id.listView);
+        mSwipeRefreshLayout.setOnlyPullRefersh();
+
+        mPullToRefreshListView = ViewUtility.findViewById(view,R.id.listView);
 //        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
 
+        mRootKeyBoardLayout = ViewUtility.findViewById(view, R.id.root_layout);
 
         mSwipeRefreshLayout.setOnRefreshLoadMoreListener(new MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener() {
             @Override
@@ -173,26 +182,9 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
             }
         });
 
-//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                loadOldMsg(null);
-//            }
-//        });
-//        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-//            @Override
-//            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-//                loadOldMsg(null);
-//            }
-//
-//            @Override
-//            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-//                loadNewMsg();
-//            }
-//        });
-        getListView().setScrollingCacheEnabled(false);
-        getListView().setHeaderDividersEnabled(false);
-        getListView().setStackFromBottom(true);
+        mPullToRefreshListView.setScrollingCacheEnabled(false);
+        mPullToRefreshListView.setHeaderDividersEnabled(false);
+        mPullToRefreshListView.setStackFromBottom(true);
 
         dismissFooterView();
 
@@ -204,21 +196,49 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
             }
         });
 
+        smiley = (SmileyPicker) view.findViewById(R.id.smiley_picker);
+        smiley.setEditText(et);
+        mContainer = (LinearLayout) view.findViewById(R.id.container);
         ImageButton emoticon = (ImageButton) view.findViewById(R.id.emoticon);
+
         emoticon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (smiley.isShown()) {
-                    hideSmileyPicker(true);
+
+                isSmileClicked = true;
+                if (mRootKeyBoardLayout.getKeyBoardHelper().isKeyboardShow()) {
+
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mContainer.getLayoutParams();
+                    params.height = mContainer.getHeight();
+                    mContainer.requestLayout();
+
+                    mRootKeyBoardLayout.getKeyBoardHelper().hideKeyboard();
+
                 } else {
-                    showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(getActivity()));
+                    mRootKeyBoardLayout.getKeyBoardHelper().showKeyboard(et);
                 }
             }
         });
 
-        smiley = (SmileyPicker) view.findViewById(R.id.smiley_picker);
-        smiley.setEditText(et);
-        mContainer = (LinearLayout) view.findViewById(R.id.container);
+        mRootKeyBoardLayout.setOnKeyboardStateListener(new OnKeyboardStateChangeListener() {
+            @Override
+            public void onKeyBoardShow(int height) {
+
+                if (isSmileClicked){
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mContainer.getLayoutParams();
+                    params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+                    mContainer.requestLayout();
+                }
+            }
+
+            @Override
+            public void onKeyBoardHide() {
+                if (isSmileClicked){
+                    showViewWithAnim(smiley);
+                }
+            }
+        });
+
         et.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,6 +247,26 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
         });
 
         buildListAdapter();
+    }
+
+    private void showViewWithAnim(View view) {
+        smiley.setVisibility(View.VISIBLE);
+
+        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0);
+        animation.setDuration(150);
+//        animation.setFillAfter(true);
+
+        view.startAnimation(animation);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
+        View view = inflater.inflate(R.layout.dmconversationlistfragment_layout, container, false);
+
         return view;
     }
 
@@ -296,8 +336,8 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     @Override
     protected void buildListAdapter() {
-        timeLineAdapter = new DMConversationAdapter(this, getDataList().getItemList(), getListView());
-        getListView().setAdapter(timeLineAdapter);
+        timeLineAdapter = new DMConversationAdapter(this, getDataList().getItemList(), mPullToRefreshListView);
+        mPullToRefreshListView.setAdapter(timeLineAdapter);
     }
 
     @Override
@@ -308,7 +348,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
             getDataList().addNewData(newValue);
             Collections.sort(getDataList().getItemList(), comparator);
             getAdapter().notifyDataSetChanged();
-            getListView().setSelection(bean.getSize() - 1);
+            mPullToRefreshListView.setSelection(bean.getSize() - 1);
         }
 
     }

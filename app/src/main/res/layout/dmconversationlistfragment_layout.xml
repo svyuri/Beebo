@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.zarroboogs.keyboardlayout.KeyboardRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -7,18 +7,10 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker
-        android:id="@+id/smiley_picker"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone" />
-
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/smiley_picker"
         android:layout_weight="1.0"
         android:orientation="vertical">
 
@@ -61,12 +53,6 @@
                     android:visibility="visible" />
             </org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout>
 
-            <ProgressBar
-                android:id="@+id/listLoadMoreProgress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="visible" />
         </FrameLayout>
 
         <ImageView
@@ -107,4 +93,12 @@
         </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+    <org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker
+        android:layout_below="@id/container"
+        android:id="@+id/smiley_picker"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
+
+</org.zarroboogs.keyboardlayout.KeyboardRelativeLayout>

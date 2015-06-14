@@ -81,15 +81,9 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
 
     private boolean mCanLoadOldData = true;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.listview_layout, container, false);
-        buildLayout(inflater, view);
-        return view;
-    }
 
     protected void buildLayout(LayoutInflater inflater, View view) {
-        mTimeLineSwipeRefreshLayout = ViewUtility.findViewById(view,R.id.timeLineSRL);
+        mTimeLineSwipeRefreshLayout = ViewUtility.findViewById(view, R.id.timeLineSRL);
 
         mTimeLineSwipeRefreshLayout.setFooterView(R.layout.listview_footer);
 
@@ -122,30 +116,42 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
                 startActivity(intent);
             }
         });
-        
+
         mFab.setOnLongClickListener(new OnLongClickListener() {
-			
-			@Override
-			public boolean onLongClick(View v) {
-				// TODO Auto-generated method stub
-				Utility.stopListViewScrollingAndScrollToTop(getListView());
+
+            @Override
+            public boolean onLongClick(View v) {
+                // TODO Auto-generated method stub
+                Utility.stopListViewScrollingAndScrollToTop(getListView());
                 mTimeLineSwipeRefreshLayout.setRefreshing(true);
-				loadNewMsg();
-				return true;
-			}
-		});
+                loadNewMsg();
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.listview_layout, container, false);
+        buildLayout(inflater, view);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        mTimeLineSwipeRefreshLayout.setOnRefreshListener(onRefreshListener);
 
-        mTimeLineSwipeRefreshLayout.setOnRefreshLoadMoreListener(onRefreshListener);
+        if (mTimeLineSwipeRefreshLayout != null) {
+            //        mTimeLineSwipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+            mTimeLineSwipeRefreshLayout = ViewUtility.findViewById(view, R.id.timeLineSRL);
+
+            mTimeLineSwipeRefreshLayout.setOnRefreshLoadMoreListener(onRefreshListener);
 //        mPullToRefreshListView.setOnLastItemVisibleListener(listViewOnLastItemVisibleListener);
-        mPullToRefreshListView.setOnScrollListener(listViewOnScrollListener);
-        mPullToRefreshListView.setOnItemClickListener(listViewOnItemClickListener);
+            mPullToRefreshListView.setOnScrollListener(listViewOnScrollListener);
+            mPullToRefreshListView.setOnItemClickListener(listViewOnItemClickListener);
 //        mPullToRefreshListView.setOnPullEventListener(getPullEventListener());
+        }
+
         buildListAdapter();
         if (savedInstanceState != null) {
             savedCurrentLoadingMsgViewPositon = savedInstanceState.getInt("savedCurrentLoadingMsgViewPositon",
@@ -157,16 +163,16 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
                     .setSavedMiddleLoadingViewPosition(savedCurrentLoadingMsgViewPositon);
         }
     }
-    
+
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    
+
     public void showMenuOnToolBar(final Toolbar toolbar, final int menuRes) {
         mHandler.postDelayed(new Runnable() {
 
             @Override
             public void run() {
-            	toolbar.getMenu().clear();
-            	toolbar.inflateMenu(menuRes);
+                toolbar.getMenu().clear();
+                toolbar.inflateMenu(menuRes);
             }
         }, 200);
     }
@@ -176,9 +182,10 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     }
 
 
-    public MaterialSwipeRefreshLayout getSwipeRefreshLayout(){
-        return  this.mTimeLineSwipeRefreshLayout;
+    public MaterialSwipeRefreshLayout getSwipeRefreshLayout() {
+        return this.mTimeLineSwipeRefreshLayout;
     }
+
     public AutoScrollListView getListView() {
         return mPullToRefreshListView;
     }
@@ -286,7 +293,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         @Override
         public void onLoadMore() {
 
-            DevLog.printLog("TimeLineLoadMore ","loadMore");
+            DevLog.printLog("TimeLineLoadMore ", "loadMore");
             if (getActivity() == null) {
                 return;
             }
@@ -312,7 +319,6 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
 //            loadNewMsg();
 //        }
 //    };
-
 
 
     private AdapterView.OnItemClickListener listViewOnItemClickListener = new AdapterView.OnItemClickListener() {
@@ -592,8 +598,8 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     }
 
     private Loader<AsyncTaskLoaderResult<T>> createMiddleMsgLoader(int id, Bundle args, String middleBeginId,
-            String middleEndId, String middleEndTag,
-            int middlePosition) {
+                                                                   String middleEndId, String middleEndTag,
+                                                                   int middlePosition) {
         Loader<AsyncTaskLoaderResult<T>> loader = onCreateMiddleMsgLoader(id, args, middleBeginId, middleEndId,
                 middleEndTag, middlePosition);
         if (loader == null) {
@@ -615,8 +621,8 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
     }
 
     protected Loader<AsyncTaskLoaderResult<T>> onCreateMiddleMsgLoader(int id, Bundle args, String middleBeginId,
-            String middleEndId, String middleEndTag,
-            int middlePosition) {
+                                                                       String middleEndId, String middleEndTag,
+                                                                       int middlePosition) {
         return null;
     }
 
@@ -659,6 +665,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         }
 
         public static final boolean isDebug = false;
+
         @Override
         public void onLoadFinished(Loader<AsyncTaskLoaderResult<T>> loader, AsyncTaskLoaderResult<T> result) {
 
@@ -671,9 +678,9 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
                     mTimeLineSwipeRefreshLayout.setRefreshing(false);
                     refreshLayout(getDataList());
                     if (Utility.isAllNotNull(exception)) {
-                    	if (isDebug || !exception.getError().trim().equals("用户请求超过上限")) {
+                        if (isDebug || !exception.getError().trim().equals("用户请求超过上限")) {
                             newMsgTipBar.setError(exception.getError());
-                		}
+                        }
 
                         newMsgLoaderFailedCallback(exception);
                     } else {
