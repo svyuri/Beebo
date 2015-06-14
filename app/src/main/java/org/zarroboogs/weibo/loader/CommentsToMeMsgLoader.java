@@ -10,9 +10,7 @@ import org.zarroboogs.weibo.dao.MainCommentsTimeLineDao;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * User: qii Date: 13-4-18
- */
+
 public class CommentsToMeMsgLoader extends AbstractAsyncNetRequestTaskLoader<CommentListBean> {
 
     private static Lock lock = new ReentrantLock();
