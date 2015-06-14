@@ -137,7 +137,8 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
         mInjectJS.removeDocument("<a href=\"http://m.weibo.cn/reg/index?&vt=4&wm=3349&backURL=http%3A%2F%2Fm.weibo.cn\">注册帐号</a><a href=\"http://m.weibo.cn/setting/forgotpwd?vt=4\">忘记密码</a>");
 
         mInjectJS.removeDocument("<a href=\"https://passport.weibo.cn/signin/other?r=http%3A%2F%2Fm.weibo.cn\">第三方帐号</a>");
-
+        mInjectJS.removeDocument("<span style=\"margin:0 5px;color:#c8c8c8\">|</span>");
+        mInjectJS.removeDocument("<a id=\"logByAppAuth\" href=\"javascript:;\" weibo-data-onekey-param=\"sinaweibo://browser?url=http%3A%2F%2Fm.weibo.cn\" weibo-data-os-name=\"\">一键登录</a>");
         mInjectJS.removeDocument("使用其他方式登录");
         mInjectJS.injectUrl(SeniorUrl.SeniorUrl_SeniorLogin, new AssertLoader(this).loadJs("inject.js"), "gb2312");
         
