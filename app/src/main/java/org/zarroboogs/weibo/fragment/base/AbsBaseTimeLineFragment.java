@@ -97,7 +97,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         dismissFooterView();
         mFab = ViewUtility.findViewById(view, R.id.absTimeLineFab);
 
-        mFab.attachToListView(getListView());
+        mFab.attachToListView((AbsListView) ViewUtility.findViewById(view, R.id.listView));
 
         mFab.setOnClickListener(new OnClickListener() {
 

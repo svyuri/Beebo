@@ -5,8 +5,6 @@ import org.zarroboogs.keyboardlayout.KeyboardRelativeLayout;
 import org.zarroboogs.keyboardlayout.OnKeyboardStateChangeListener;
 import org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker;
 import org.zarroboogs.utils.Constants;
-import org.zarroboogs.utils.ImageUtility;
-import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.TextNumLimitWatcher;
@@ -15,14 +13,11 @@ import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.dialogfragment.ClearContentDialog;
 import org.zarroboogs.weibo.dialogfragment.SaveDraftDialog;
 import org.zarroboogs.weibo.support.lib.CheatSheet;
-import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -52,7 +47,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     protected String token;
 
     private Toolbar abstractWriteToolbar;
-    
+
     public RelativeLayout mCommentRoot;
     public RelativeLayout mRepostRoot;
 
@@ -70,15 +65,6 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     }
 
     protected abstract void send();
-
-    public void insertEmotion(String emotionChar) {
-        String ori = getEditTextView().getText().toString();
-        int index = getEditTextView().getSelectionStart();
-        StringBuilder stringBuilder = new StringBuilder(ori);
-        stringBuilder.insert(index, emotionChar);
-        getEditTextView().setText(stringBuilder.toString());
-        getEditTextView().setSelection(index + emotionChar.length());
-    }
 
     @Override
     protected void onDestroy() {
@@ -99,39 +85,18 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
 
         mCommentRoot = (RelativeLayout) findViewById(R.id.commentRoot);
         mRepostRoot = (RelativeLayout) findViewById(R.id.repostRoot);
-        
+
         abstractWriteToolbar = (Toolbar) findViewById(R.id.abstractWriteToolbar);
         setSupportActionBar(abstractWriteToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         abstractWriteToolbar.setNavigationOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				finish();
-			}
-		});
-        
-        // ActionBar actionBar = getActionBar();
-        // actionBar.setDisplayHomeAsUpEnabled(false);
-        // actionBar.setDisplayShowHomeEnabled(true);
-        // actionBar.setDisplayShowTitleEnabled(true);
-        // actionBar.setDisplayShowCustomEnabled(true);
 
-        int avatarWidth = getResources().getDimensionPixelSize(R.dimen.timeline_avatar_width);
-        int avatarHeight = getResources().getDimensionPixelSize(R.dimen.timeline_avatar_height);
-
-        Bitmap bitmap = ImageUtility.getWriteWeiboRoundedCornerPic(getCurrentAccountBean().getInfo().getAvatar_large(),
-                avatarWidth, avatarHeight,
-                FileLocationMethod.avatar_large);
-        if (bitmap == null) {
-            bitmap = ImageUtility.getWriteWeiboRoundedCornerPic(getCurrentAccountBean().getInfo().getAvatar_large(),
-                    avatarWidth, avatarHeight,
-                    FileLocationMethod.avatar_small);
-        }
-        if (bitmap != null) {
-            // actionBar.setIcon(new BitmapDrawable(getResources(), bitmap));
-        }
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                finish();
+            }
+        });
 
         token = getIntent().getStringExtra(Constants.TOKEN);
 
@@ -157,19 +122,13 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
         smiley = (SmileyPicker) findViewById(R.id.smiley_picker);
         smiley.setEditText(et);
         container = (RelativeLayout) findViewById(R.id.container);
-        et.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideSmileyPicker(true);
-            }
-        });
 
 
         mRootKeyboardLayout.setOnKeyboardStateListener(new OnKeyboardStateChangeListener() {
             @Override
             public void onKeyBoardShow(int height) {
-                if (isSmileClicked){
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)et.getLayoutParams();
+                if (isSmileClicked) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) et.getLayoutParams();
                     params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
                     container.requestLayout();
                 }
@@ -177,7 +136,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
 
             @Override
             public void onKeyBoardHide() {
-                if (isSmileClicked){
+                if (isSmileClicked) {
                     showViewWithAnim(smiley);
                 }
             }
@@ -195,58 +154,16 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
 
     }
 
-    private void showSmileyPicker(boolean showAnimation) {
-        lockContainerHeight(SmileyPickerUtility.getAppContentHeight(AbstractWriteActivity.this));
-//        this.smiley.show(AbstractWriteActivity.this, showAnimation);
-
-    }
-
-    public void hideSmileyPicker(boolean showKeyBoard) {
-        if (this.smiley.isShown()) {
-            if (showKeyBoard) {
-                // this time softkeyboard is hidden
-                RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams) this.container
-                        .getLayoutParams();
-                localLayoutParams.height = smiley.getTop();
-
-//                this.smiley.hide(AbstractWriteActivity.this);
-
-                SmileyPickerUtility.showKeyBoard(et);
-                et.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        unlockContainerHeightDelayed();
-                    }
-                }, 200L);
-            } else {
-//                this.smiley.hide(AbstractWriteActivity.this);
-                unlockContainerHeightDelayed();
-            }
-        }
-
-    }
-
-    private void lockContainerHeight(int paramInt) {
-        RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
-        localLayoutParams.height = paramInt;
-        // localLayoutParams.weight = 0.0F;
-    }
-
-    public void unlockContainerHeightDelayed() {
-
-        ((RelativeLayout.LayoutParams) AbstractWriteActivity.this.container.getLayoutParams()).height = RelativeLayout.LayoutParams.MATCH_PARENT;
-
-    }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-		if (id == R.id.menu_emoticon) {
+        if (id == R.id.menu_emoticon) {
             isSmileClicked = true;
 
             if (mRootKeyboardLayout.getKeyBoardHelper().isKeyboardShow()) {
 
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)container.getLayoutParams();
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) container.getLayoutParams();
                 params.height = container.getHeight();
                 container.requestLayout();
 
@@ -255,14 +172,14 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
             } else {
                 mRootKeyboardLayout.getKeyBoardHelper().showKeyboard(et);
             }
-		} else if (id == R.id.menu_send) {
-			send();
-		} else if (id == R.id.menu_topic) {
-			insertTopic();
-		} else if (id == R.id.menu_at) {
-			Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
-			startActivityForResult(intent, AT_USER);
-		}
+        } else if (id == R.id.menu_send) {
+            send();
+        } else if (id == R.id.menu_topic) {
+            insertTopic();
+        } else if (id == R.id.menu_at) {
+            Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
+            startActivityForResult(intent, AT_USER);
+        }
     }
 
     protected void insertTopic() {
@@ -278,9 +195,9 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     }
 
 
-    private void removeViewWithAnim(View view){
-        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 1);
+    private void removeViewWithAnim(View view) {
+        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1);
         animation.setDuration(200);
         animation.setFillAfter(true);
         animation.setAnimationListener(new Animation.AnimationListener() {
