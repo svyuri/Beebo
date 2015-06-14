@@ -1,6 +1,8 @@
 
 package org.zarroboogs.weibo.activity;
 
+import org.zarroboogs.keyboardlayout.KeyboardRelativeLayout;
+import org.zarroboogs.keyboardlayout.OnKeyboardStateChangeListener;
 import org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.ImageUtility;
@@ -14,6 +16,7 @@ import org.zarroboogs.weibo.dialogfragment.ClearContentDialog;
 import org.zarroboogs.weibo.dialogfragment.SaveDraftDialog;
 import org.zarroboogs.weibo.support.lib.CheatSheet;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +27,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -50,7 +55,10 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     
     public RelativeLayout mCommentRoot;
     public RelativeLayout mRepostRoot;
-    
+
+    public KeyboardRelativeLayout mRootKeyboardLayout;
+
+    private boolean isSmileClicked = false;
 
     protected EditText getEditTextView() {
         return et;
@@ -86,7 +94,9 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.abstractwriteactivity_layout);
-        
+
+        mRootKeyboardLayout = ViewUtility.findViewById(this, R.id.root_layout);
+
         mCommentRoot = (RelativeLayout) findViewById(R.id.commentRoot);
         mRepostRoot = (RelativeLayout) findViewById(R.id.repostRoot);
         
@@ -153,6 +163,36 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
                 hideSmileyPicker(true);
             }
         });
+
+
+        mRootKeyboardLayout.setOnKeyboardStateListener(new OnKeyboardStateChangeListener() {
+            @Override
+            public void onKeyBoardShow(int height) {
+                if (isSmileClicked){
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)et.getLayoutParams();
+                    params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+                    container.requestLayout();
+                }
+            }
+
+            @Override
+            public void onKeyBoardHide() {
+                if (isSmileClicked){
+                    showViewWithAnim(smiley);
+                }
+            }
+        });
+    }
+
+    private void showViewWithAnim(View view) {
+        smiley.setVisibility(View.VISIBLE);
+
+        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0);
+        animation.setDuration(150);
+
+        view.startAnimation(animation);
+
     }
 
     private void showSmileyPicker(boolean showAnimation) {
@@ -202,17 +242,19 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     public void onClick(View v) {
         int id = v.getId();
 		if (id == R.id.menu_emoticon) {
-			new Handler().post(new Runnable() {
+            isSmileClicked = true;
 
-			    @Override
-			    public void run() {
-			        if (smiley.isShown()) {
-			            hideSmileyPicker(true);
-			        } else {
-			            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(AbstractWriteActivity.this));
-			        }
-			    }
-			});
+            if (mRootKeyboardLayout.getKeyBoardHelper().isKeyboardShow()) {
+
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)container.getLayoutParams();
+                params.height = container.getHeight();
+                container.requestLayout();
+
+                mRootKeyboardLayout.getKeyBoardHelper().hideKeyboard();
+
+            } else {
+                mRootKeyboardLayout.getKeyBoardHelper().showKeyboard(et);
+            }
 		} else if (id == R.id.menu_send) {
 			send();
 		} else if (id == R.id.menu_topic) {
@@ -235,10 +277,41 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
         dialog.show(getFragmentManager(), "");
     }
 
+
+    private void removeViewWithAnim(View view){
+        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 1);
+        animation.setDuration(200);
+        animation.setFillAfter(true);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+//                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) container.getLayoutParams();
+                params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+                container.setLayoutParams(params);
+                smiley.setVisibility(View.GONE);
+                smiley.requestLayout();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.startAnimation(animation);
+
+    }
+
     @Override
     public void onBackPressed() {
         if (smiley.isShown()) {
-            hideSmileyPicker(false);
+            removeViewWithAnim(smiley);
         } else if (!TextUtils.isEmpty(et.getText().toString()) && canShowSaveDraftDialog()) {
             SaveDraftDialog dialog = new SaveDraftDialog();
             dialog.show(getFragmentManager(), "");

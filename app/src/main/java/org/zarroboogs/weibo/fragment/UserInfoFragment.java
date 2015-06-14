@@ -280,7 +280,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     	// TODO Auto-generated method stub
         super.onCreateOptionsMenu(menu, inflater);
 
-    	if (userBean.getId().equals(BeeboApplication.getInstance().getAccountBean().getUid())) {
+    	if (TextUtils.equals(userBean.getId(),BeeboApplication.getInstance().getAccountBean().getUid())) {
     		inflater.inflate(R.menu.actionbar_menu_newuserinfofragment_main_page, menu);
             MenuItem edit = menu.findItem(R.id.menu_edit);
             edit.setVisible(false);
