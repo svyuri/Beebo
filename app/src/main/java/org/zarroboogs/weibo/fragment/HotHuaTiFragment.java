@@ -82,6 +82,8 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 
         mSwipeRefreshLayout = ViewUtility.findViewById(swipeFrameLayout,R.id.hotWeiboSRL);
 
+        mSwipeRefreshLayout.noMore();
+
         listView = (ListView) swipeFrameLayout.findViewById(R.id.pullToFreshView);
 
 //        pullToRefreshListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
@@ -98,25 +100,6 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 
             }
         });
-
-//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
-//            }
-//        });
-
-//        pullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
-//
-//			@Override
-//			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-//				// TODO Auto-generated method stub
-//                loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
-//                refreshView.setRefreshing();
-//			}
-//
-//		});
-
 
         dismissFooterView();
 
@@ -141,7 +124,8 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				HotHuaTiCardGroup g = (HotHuaTiCardGroup) (adapter).getItem(position - 1);
+
+				HotHuaTiCardGroup g = (HotHuaTiCardGroup) (adapter).getItem(position);
                 Intent intent = new Intent(getActivity(), SearchTopicByNameActivity.class);
                 String str = g.getTitle_sub();
                 intent.putExtra("q", str.substring(1, str.length() - 1));
