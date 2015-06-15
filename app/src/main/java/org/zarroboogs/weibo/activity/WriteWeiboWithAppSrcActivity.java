@@ -74,8 +74,6 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
     private boolean isSmileClicked = false;
 
-    private ScrollView mEditPicScrollView;
-
     private TextView weiTextCountTV;
 
     private Toast mEmptyToast;
@@ -87,6 +85,8 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     private NinePicGriViewAdapter mNinePicAdapter;
 
     private KeyboardRelativeLayout keyboardLayout;
+
+    private RelativeLayout mContentRelativeLayout;
     
     public static Intent startBecauseSendFailed(Context context, AccountBean accountBean, String content, String picPath,
             GeoBean geoBean,
@@ -115,10 +115,10 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
             @Override
             public void onKeyBoardShow(int height) {
                 DevLog.printLog("keyboardLayout", "onKeyBoardShow: " + height);
-                if (isSmileClicked){
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mEditPicScrollView.getLayoutParams();
+                if (isSmileClicked) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mContentRelativeLayout.getLayoutParams();
                     params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
-                    mEditPicScrollView.requestLayout();
+                    mContentRelativeLayout.requestLayout();
 
                 }
                 mNinePicGridView.setVisibility(View.GONE);
@@ -127,7 +127,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
             @Override
             public void onKeyBoardHide() {
                 DevLog.printLog("keyboardLayout", "onKeyBoardHide");
-                if (isSmileClicked){
+                if (isSmileClicked) {
                     showViewWithAnim(mSmileyPicker);
                 }
                 mNinePicGridView.setVisibility(View.VISIBLE);
@@ -146,7 +146,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
         mEmptyToast = Toast.makeText(getApplicationContext(), R.string.text_is_empty, Toast.LENGTH_SHORT);
 
-        mEditPicScrollView = (ScrollView) findViewById(R.id.scrollview);
+        mContentRelativeLayout = ViewUtility.findViewById(this, R.id.contentRelativeLayout);
 
         weiTextCountTV = (TextView) findViewById(R.id.weiTextCountTV);
         
@@ -200,9 +200,9 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
                 if (keyboardLayout.getKeyBoardHelper().isKeyboardShow()) {
 
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mEditPicScrollView.getLayoutParams();
-                    params.height = mEditPicScrollView.getHeight();
-                    mEditPicScrollView.requestLayout();
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mContentRelativeLayout.getLayoutParams();
+                    params.height = mContentRelativeLayout.getHeight();
+                    mContentRelativeLayout.requestLayout();
 
                     keyboardLayout.getKeyBoardHelper().hideKeyboard();
 
@@ -367,9 +367,9 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
             @Override
             public void onAnimationEnd(Animation animation) {
 //                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mEditPicScrollView.getLayoutParams();
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mContentRelativeLayout.getLayoutParams();
                 params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
-                mEditPicScrollView.setLayoutParams(params);
+                mContentRelativeLayout.setLayoutParams(params);
                 mSmileyPicker.setVisibility(View.GONE);
                 mSmileyPicker.requestLayout();
             }
