@@ -296,9 +296,9 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
                 return;
             }
             getListView().clearChoices();
-            if (position - 1 < getList().getUsers().size()) {
+            if (position< getList().getUsers().size()) {
 
-                listViewItemClick(parent, view, position - 1, id);
+                listViewItemClick(parent, view, position, id);
             } else {
 
                 listViewFooterViewClick(view);
