@@ -81,7 +81,7 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
         RelativeLayout swipeFrameLayout = (RelativeLayout) inflater.inflate(R.layout.hotweibo_fragment_layout,container, false);
 
         mSwipeRefreshLayout = ViewUtility.findViewById(swipeFrameLayout,R.id.hotWeiboSRL);
-
+        mSwipeRefreshLayout.setEnableSount(SettingUtils.getEnableSound());
         mSwipeRefreshLayout.noMore();
 
         listView = (ListView) swipeFrameLayout.findViewById(R.id.pullToFreshView);

@@ -19,6 +19,7 @@ import org.zarroboogs.weibo.dao.SendDMDao;
 import org.zarroboogs.weibo.dialogfragment.QuickSendProgressFragment;
 import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.loader.DMConversationLoader;
+import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.AppConfig;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
@@ -162,7 +163,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
         // use a progressbar to indicate loading new data first time, maybe be
         // refactored at 0.50 version
         mSwipeRefreshLayout = ViewUtility.findViewById(view, R.id.dmConversationSRL);
-
+        mSwipeRefreshLayout.setEnableSount(SettingUtils.getEnableSound());
         mSwipeRefreshLayout.setOnlyPullRefersh();
 
         mPullToRefreshListView = ViewUtility.findViewById(view,R.id.listView);

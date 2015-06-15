@@ -313,7 +313,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
                 container, false);
 
         mSwipeRefreshLayout = ViewUtility.findViewById(swipeFrameLayout, R.id.browserWeiboMsgSRL);
-
+        mSwipeRefreshLayout.setEnableSount(SettingUtils.getEnableSound());
         mSwipeRefreshLayout.setOnlyLoadMore();
 
         listView = ViewUtility.findViewById(swipeFrameLayout, R.id.pullToFreshView);

@@ -15,6 +15,7 @@ import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.UserListBean;
 import org.zarroboogs.weibo.loader.SearchUserLoader;
+import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import java.util.List;
@@ -53,6 +54,7 @@ public class SearchUserFragment extends AbstractUserListFragment {
         super.onViewCreated(view, savedInstanceState);
         // getBaseToolbar().setVisibility(View.GONE);
         MaterialSwipeRefreshLayout materialSwipeRefreshLayout = ViewUtility.findViewById(view, R.id.userListSRL);
+        materialSwipeRefreshLayout.setEnableSount(SettingUtils.getEnableSound());
         materialSwipeRefreshLayout.noMore();
     }
 

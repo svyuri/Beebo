@@ -106,6 +106,7 @@ public class HotWeiboFragment extends BaseHotWeiboFragment {
             }
         });
 
+        getSwipeRefreshLayout().setEnableSount(SettingUtils.getEnableSound());
         getSwipeRefreshLayout().setOnRefreshLoadMoreListener(new MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener() {
             @Override
             public void onRefresh() {

@@ -119,12 +119,20 @@ public class SwipeRefreshLayout extends ViewGroup {
 
     private boolean mSoundPlayed = false;
 
+    private boolean mCanPlaySound = true;
+
     private void playFinishedSound() {
+        if (!mCanPlaySound){
+            return;
+        }
         mSoundPlayer.play(R.raw.refresh_finished);
         mSoundPlayed = false;
     }
 
     private void playStartSound() {
+        if (!mCanPlaySound){
+            return;
+        }
         if (!mSoundPlayed) {
             mSoundPlayer.play(R.raw.refresh_start);
             mSoundPlayed = true;
@@ -132,6 +140,9 @@ public class SwipeRefreshLayout extends ViewGroup {
 
     }
 
+    public void setEnableSount(boolean canPlay){
+        this.mCanPlaySound = canPlay;
+    }
     private Animation.AnimationListener mRefreshListener = new Animation.AnimationListener() {
         @Override
         public void onAnimationStart(Animation animation) {

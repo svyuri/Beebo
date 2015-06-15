@@ -10,6 +10,7 @@ import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
 import org.zarroboogs.weibo.bean.data.SearchStatusListBean;
 import org.zarroboogs.weibo.fragment.base.AbsTimeLineFragment;
 import org.zarroboogs.weibo.loader.SearchStatusLoader;
+import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import android.os.Bundle;
@@ -69,6 +70,7 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         MaterialSwipeRefreshLayout materialSwipeRefreshLayout = ViewUtility.findViewById(view, R.id.timeLineSRL);
+        materialSwipeRefreshLayout.setEnableSount(SettingUtils.getEnableSound());
         materialSwipeRefreshLayout.noMore();
     }
 

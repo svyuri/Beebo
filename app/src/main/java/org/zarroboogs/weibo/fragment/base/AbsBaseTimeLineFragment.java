@@ -84,7 +84,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
 
     protected void buildLayout(LayoutInflater inflater, View view) {
         mTimeLineSwipeRefreshLayout = ViewUtility.findViewById(view, R.id.timeLineSRL);
-
+        mTimeLineSwipeRefreshLayout.setEnableSount(SettingUtils.getEnableSound());
         mTimeLineSwipeRefreshLayout.setFooterView(R.layout.listview_footer);
 
         empty = ViewUtility.findViewById(view, R.id.empty);

@@ -89,6 +89,7 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
         empty = (TextView) view.findViewById(R.id.empty);
         mSwipeRefreshLayout = ViewUtility.findViewById(view,R.id.userListSRL);
 
+        mSwipeRefreshLayout.setEnableSount(SettingUtils.getEnableSound());
         pullToRefreshListView = (ListView) view.findViewById(R.id.listView);
 
 //        mSwipeRefreshLayout.setOnRefreshListener(userOnRefreshListener);
