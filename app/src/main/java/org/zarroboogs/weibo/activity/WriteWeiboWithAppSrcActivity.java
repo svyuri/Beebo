@@ -115,22 +115,26 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
             @Override
             public void onKeyBoardShow(int height) {
                 DevLog.printLog("keyboardLayout", "onKeyBoardShow: " + height);
+                mNinePicGridView.setVisibility(View.GONE);
                 if (isSmileClicked) {
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mContentRelativeLayout.getLayoutParams();
                     params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
                     mContentRelativeLayout.requestLayout();
-
                 }
-                mNinePicGridView.setVisibility(View.GONE);
+
             }
 
             @Override
             public void onKeyBoardHide() {
                 DevLog.printLog("keyboardLayout", "onKeyBoardHide");
+
                 if (isSmileClicked) {
+                    mNinePicGridView.setVisibility(View.GONE);
                     showViewWithAnim(mSmileyPicker);
+                }else {
+                    mNinePicGridView.setVisibility(View.VISIBLE);
                 }
-                mNinePicGridView.setVisibility(View.VISIBLE);
+
 
             }
         });
